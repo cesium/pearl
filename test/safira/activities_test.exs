@@ -1,13 +1,13 @@
-defmodule Safira.ActivitiesTest do
-  use Safira.DataCase
+defmodule Pearl.ActivitiesTest do
+  use Pearl.DataCase
 
-  alias Safira.Activities
-  alias Safira.Event
+  alias Pearl.Activities
+  alias Pearl.Event
 
   describe "activities" do
-    alias Safira.Activities.Activity
+    alias Pearl.Activities.Activity
 
-    import Safira.ActivitiesFixtures
+    import Pearl.ActivitiesFixtures
 
     @invalid_attrs %{
       date: nil,
@@ -102,9 +102,9 @@ defmodule Safira.ActivitiesTest do
   end
 
   describe "activity_categories" do
-    alias Safira.Activities.ActivityCategory
+    alias Pearl.Activities.ActivityCategory
 
-    import Safira.ActivitiesFixtures
+    import Pearl.ActivitiesFixtures
 
     @invalid_attrs %{name: nil}
 
@@ -166,9 +166,9 @@ defmodule Safira.ActivitiesTest do
   end
 
   describe "speakers" do
-    alias Safira.Activities.Speaker
+    alias Pearl.Activities.Speaker
 
-    import Safira.ActivitiesFixtures
+    import Pearl.ActivitiesFixtures
 
     @invalid_attrs %{name: nil, title: nil, company: nil, biography: nil, highlighted: nil}
 

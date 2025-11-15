@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
+  use PearlWeb, :live_component
 
-  alias Safira.Activities
-  alias Safira.Activities.Speaker
-  import SafiraWeb.Components.Forms
+  alias Pearl.Activities
+  alias Pearl.Activities.Speaker
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do
@@ -70,7 +70,7 @@ defmodule SafiraWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
                   <.label>
                     {gettext("Enrolments")}
                   </.label>
-                  <p class="safira-form-help-text">
+                  <p class="pearl-form-help-text">
                     {gettext("Enable enrolments to allow participants to sign up for this activity.")}
                   </p>
                   <.field

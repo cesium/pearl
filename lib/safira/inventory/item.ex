@@ -1,8 +1,8 @@
-defmodule Safira.Inventory.Item do
+defmodule Pearl.Inventory.Item do
   @moduledoc """
   Item present in an attendee's inventory.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @derive {
     Flop.Schema,
@@ -26,10 +26,10 @@ defmodule Safira.Inventory.Item do
     field :redeemed_at, :naive_datetime
     field :type, Ecto.Enum, values: [:product, :prize]
 
-    belongs_to :attendee, Safira.Accounts.Attendee
-    belongs_to :product, Safira.Store.Product
-    belongs_to :prize, Safira.Minigames.Prize
-    belongs_to :staff, Safira.Accounts.Staff
+    belongs_to :attendee, Pearl.Accounts.Attendee
+    belongs_to :product, Pearl.Store.Product
+    belongs_to :prize, Pearl.Minigames.Prize
+    belongs_to :staff, Pearl.Accounts.Staff
 
     timestamps(type: :utc_datetime)
   end

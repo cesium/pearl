@@ -1,12 +1,12 @@
-defmodule Safira.Workers.CheckBadgeConditions do
+defmodule Pearl.Workers.CheckBadgeConditions do
   @moduledoc """
   This worker checks if an attendee meets the conditions to redeem a badge.
   """
   use Oban.Worker, queue: :badge_conditions
 
-  alias Safira.Accounts
-  alias Safira.Contest
-  alias Safira.Contest.BadgeCondition
+  alias Pearl.Accounts
+  alias Pearl.Contest
+  alias Pearl.Contest.BadgeCondition
 
   @impl Oban.Worker
   def perform(%Oban.Job{args: %{"attendee_id" => attendee_id, "badge_id" => badge_id} = _args}) do

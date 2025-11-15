@@ -1,11 +1,11 @@
-defmodule SafiraWeb.App.CoinFlipLive.Components.Room do
+defmodule PearlWeb.App.CoinFlipLive.Components.Room do
   @moduledoc """
   Coin Flip room component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  import SafiraWeb.CoreComponents
-  import SafiraWeb.Components.Avatar
+  import PearlWeb.CoreComponents
+  import PearlWeb.Components.Avatar
 
   attr :room, :map, required: true
   attr :current_user, :map, required: true

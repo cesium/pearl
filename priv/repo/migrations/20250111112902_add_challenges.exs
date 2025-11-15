@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.AddChallenges do
+defmodule Pearl.Repo.Migrations.AddChallenges do
   use Ecto.Migration
 
   def change do

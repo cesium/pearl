@@ -1,10 +1,10 @@
-defmodule Safira.Accounts.Course do
+defmodule Pearl.Accounts.Course do
   @moduledoc """
   A course the user is enrolled in.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
-  alias Safira.Accounts.Attendee
+  alias Pearl.Accounts.Attendee
 
   @required_fields ~w(name)a
 

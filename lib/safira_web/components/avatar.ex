@@ -1,6 +1,6 @@
-defmodule SafiraWeb.Components.Avatar do
+defmodule PearlWeb.Components.Avatar do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   @colors ~w(blue green red yellow purple pink orange teal)a
 
@@ -40,7 +40,7 @@ defmodule SafiraWeb.Components.Avatar do
     ~H"""
     <span class={generate_avatar_classes(assigns)}>
       <%= if @src do %>
-        <img src={@src} class={"safira-avatar--#{@type} h-full w-full rounded-full"} />
+        <img src={@src} class={"pearl-avatar--#{@type} h-full w-full rounded-full"} />
       <% else %>
         <.void_avatar color={generate_avatar_color(@handle)} size={@size} />
       <% end %>
@@ -50,8 +50,8 @@ defmodule SafiraWeb.Components.Avatar do
 
   defp generate_avatar_classes(assigns) do
     [
-      "safira-avatar",
-      "safira-avatar--#{assigns.size}",
+      "pearl-avatar",
+      "pearl-avatar--#{assigns.size}",
       assigns.class
     ]
   end

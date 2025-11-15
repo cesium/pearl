@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Backoffice.ScheduleLive.CategoryLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.ScheduleLive.CategoryLive.FormComponent do
+  use PearlWeb, :live_component
 
-  alias Safira.Activities
-  import SafiraWeb.Components.Forms
+  alias Pearl.Activities
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

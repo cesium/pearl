@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Components.Sidebar do
+defmodule PearlWeb.Components.Sidebar do
   @moduledoc """
   Sidebar component for the application layout.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  import SafiraWeb.CoreComponents
-  import SafiraWeb.Components.Avatar
+  import PearlWeb.CoreComponents
+  import PearlWeb.Components.Avatar
   alias Phoenix.LiveView.JS
 
   attr :pages, :list, default: []

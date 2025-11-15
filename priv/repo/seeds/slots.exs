@@ -1,5 +1,5 @@
-defmodule Safira.Repo.Seeds.Slots do
-  alias Safira.Minigames
+defmodule Pearl.Repo.Seeds.Slots do
+  alias Pearl.Minigames
 
   def run do
     case Minigames.list_slots_paytables() do
@@ -144,4 +144,4 @@ defmodule Safira.Repo.Seeds.Slots do
   end
 end
 
-Safira.Repo.Seeds.Slots.run()
+Pearl.Repo.Seeds.Slots.run()

@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Components.Progress do
+defmodule PearlWeb.Components.Progress do
   @moduledoc """
   Progress bar component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :progress, :integer, required: true
 

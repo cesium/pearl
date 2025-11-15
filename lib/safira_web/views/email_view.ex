@@ -1,3 +1,3 @@
-defmodule SafiraWeb.EmailView do
-  use SafiraWeb, :view
+defmodule PearlWeb.EmailView do
+  use PearlWeb, :view
 end

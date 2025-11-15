@@ -1,9 +1,9 @@
-defmodule Safira.Minigames.SlotsPayline do
+defmodule Pearl.Minigames.SlotsPayline do
   @moduledoc """
   Schema for slots payline that defines the positions of the slots.
   Used to determine winning combinations and their payouts in the slots game.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(paytable_id)a
   @optional_fields ~w(position_0 position_1 position_2)a
@@ -12,7 +12,7 @@ defmodule Safira.Minigames.SlotsPayline do
     field :position_0, :integer
     field :position_1, :integer
     field :position_2, :integer
-    belongs_to :paytable, Safira.Minigames.SlotsPaytable
+    belongs_to :paytable, Pearl.Minigames.SlotsPaytable
 
     timestamps(type: :utc_datetime)
   end

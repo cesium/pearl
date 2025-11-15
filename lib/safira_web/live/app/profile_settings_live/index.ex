@@ -1,5 +1,5 @@
-defmodule SafiraWeb.App.ProfileSettingsLive do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.ProfileSettingsLive do
+  use PearlWeb, :app_view
 
   @impl true
   def render(assigns) do
@@ -11,7 +11,7 @@ defmodule SafiraWeb.App.ProfileSettingsLive do
       title_class="font-terminal uppercase"
     >
       <.live_component
-        module={SafiraWeb.UserAuth.Components.UserProfileSettings}
+        module={PearlWeb.UserAuth.Components.UserProfileSettings}
         id="attendee-user-profile-settings"
         user={@current_user}
       />

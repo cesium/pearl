@@ -1,4 +1,4 @@
-defmodule SafiraWeb.Components.Link do
+defmodule PearlWeb.Components.Link do
   @moduledoc """
   A component for rendering links.
   """

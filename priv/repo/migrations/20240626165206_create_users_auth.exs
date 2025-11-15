@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateUsersAuth do
+defmodule Pearl.Repo.Migrations.CreateUsersAuth do
   use Ecto.Migration
 
   def change do

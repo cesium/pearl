@@ -1,4 +1,4 @@
-defmodule SafiraWeb.Telemetry do
+defmodule PearlWeb.Telemetry do
   @moduledoc """
   Telemetry events and metrics for the application.
   """
@@ -55,23 +55,23 @@ defmodule SafiraWeb.Telemetry do
       ),
 
       # Database Metrics
-      summary("safira.repo.query.total_time",
+      summary("pearl.repo.query.total_time",
         unit: {:native, :millisecond},
         description: "The sum of the other measurements"
       ),
-      summary("safira.repo.query.decode_time",
+      summary("pearl.repo.query.decode_time",
         unit: {:native, :millisecond},
         description: "The time spent decoding the data received from the database"
       ),
-      summary("safira.repo.query.query_time",
+      summary("pearl.repo.query.query_time",
         unit: {:native, :millisecond},
         description: "The time spent executing the query"
       ),
-      summary("safira.repo.query.queue_time",
+      summary("pearl.repo.query.queue_time",
         unit: {:native, :millisecond},
         description: "The time spent waiting for a database connection"
       ),
-      summary("safira.repo.query.idle_time",
+      summary("pearl.repo.query.idle_time",
         unit: {:native, :millisecond},
         description:
           "The time the connection spent waiting before being checked out for the query"
@@ -89,7 +89,7 @@ defmodule SafiraWeb.Telemetry do
     [
       # A module, function and arguments to be invoked periodically.
       # This function must call :telemetry.execute/3 and a metric must be added above.
-      # {SafiraWeb, :count_users, []}
+      # {PearlWeb, :count_users, []}
     ]
   end
 end

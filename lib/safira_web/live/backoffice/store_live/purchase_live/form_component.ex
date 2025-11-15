@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Backoffice.PurchaseLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.PurchaseLive.FormComponent do
+  use PearlWeb, :live_component
 
-  alias Safira.Inventory
-  alias Safira.Store
+  alias Pearl.Inventory
+  alias Pearl.Store
 
   @impl true
   def render(assigns) do

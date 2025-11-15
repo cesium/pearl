@@ -1,6 +1,6 @@
-defmodule SafiraWeb.Components.Banner do
+defmodule PearlWeb.Components.Banner do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
   attr :text, :string, default: ""
   attr :end_time, :any, default: nil
 

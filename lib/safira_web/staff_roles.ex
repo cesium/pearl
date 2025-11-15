@@ -1,4 +1,4 @@
-defmodule SafiraWeb.StaffRoles do
+defmodule PearlWeb.StaffRoles do
   @moduledoc false
 
   def on_mount(scope, _params, _session, socket) do

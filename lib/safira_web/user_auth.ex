@@ -1,19 +1,19 @@
-defmodule SafiraWeb.UserAuth do
+defmodule PearlWeb.UserAuth do
   @moduledoc """
   User authentication handling.
   """
-  use SafiraWeb, :verified_routes
+  use PearlWeb, :verified_routes
 
   import Plug.Conn
   import Phoenix.Controller
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
   # the token expiry itself in UserToken.
   @max_age 60 * 60 * 24 * 60
-  @remember_me_cookie "_safira_web_user_remember_me"
+  @remember_me_cookie "_pearl_web_user_remember_me"
   @remember_me_options [sign: true, max_age: @max_age, same_site: "Lax"]
 
   # Redirect paths after login based on user type.
@@ -87,7 +87,7 @@ defmodule SafiraWeb.UserAuth do
     user_token && Accounts.delete_user_session_token(user_token)
 
     if live_socket_id = get_session(conn, :live_socket_id) do
-      SafiraWeb.Endpoint.broadcast(live_socket_id, "disconnect", %{})
+      PearlWeb.Endpoint.broadcast(live_socket_id, "disconnect", %{})
     end
 
     conn
@@ -143,16 +143,16 @@ defmodule SafiraWeb.UserAuth do
   Use the `on_mount` lifecycle macro in LiveViews to mount or authenticate
   the current_user:
 
-      defmodule SafiraWeb.PageLive do
-        use SafiraWeb, :live_view
+      defmodule PearlWeb.PageLive do
+        use PearlWeb, :live_view
 
-        on_mount {SafiraWeb.UserAuth, :mount_current_user}
+        on_mount {PearlWeb.UserAuth, :mount_current_user}
         ...
       end
 
   Or use the `live_session` of your router to invoke the on_mount callback:
 
-      live_session :authenticated, on_mount: [{SafiraWeb.UserAuth, :ensure_authenticated}] do
+      live_session :authenticated, on_mount: [{PearlWeb.UserAuth, :ensure_authenticated}] do
         live "/profile", ProfileLive, :index
       end
   """
@@ -205,7 +205,7 @@ defmodule SafiraWeb.UserAuth do
     current_user = socket.assigns.current_user
 
     if current_user && current_user.type == :staff do
-      SafiraWeb.Presence.add_presence(self(), current_user.id, current_user)
+      PearlWeb.Presence.add_presence(self(), current_user.id, current_user)
     end
   end
 

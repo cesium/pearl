@@ -1,13 +1,13 @@
-defmodule SafiraWeb.Landing.ChallengesLive.Index do
+defmodule PearlWeb.Landing.ChallengesLive.Index do
   @moduledoc false
 
-  use SafiraWeb, :landing_view
-  import SafiraWeb.Components.Markdown
+  use PearlWeb, :landing_view
+  import PearlWeb.Components.Markdown
 
-  on_mount {SafiraWeb.VerifyFeatureFlag, "challenges_enabled"}
+  on_mount {PearlWeb.VerifyFeatureFlag, "challenges_enabled"}
 
-  alias Safira.Challenges
-  alias SafiraWeb.Helpers
+  alias Pearl.Challenges
+  alias PearlWeb.Helpers
 
   @impl true
   def mount(_params, _session, socket) do

@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateFaqs do
+defmodule Pearl.Repo.Migrations.CreateFaqs do
   use Ecto.Migration
 
   def change do

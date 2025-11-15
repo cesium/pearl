@@ -1,11 +1,11 @@
-defmodule SafiraWeb.UserForgotPasswordLiveTest do
-  use SafiraWeb.ConnCase, async: true
+defmodule PearlWeb.UserForgotPasswordLiveTest do
+  use PearlWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Safira.AccountsFixtures
+  import Pearl.AccountsFixtures
 
-  alias Safira.Accounts
-  alias Safira.Repo
+  alias Pearl.Accounts
+  alias Pearl.Repo
 
   describe "Forgot password page" do
     test "renders email page", %{conn: conn} do

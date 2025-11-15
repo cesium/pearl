@@ -1,10 +1,10 @@
-defmodule Safira.Accounts.UserToken do
+defmodule Pearl.Accounts.UserToken do
   @moduledoc """
   User tokens for session management.
   """
   use Ecto.Schema
   import Ecto.Query
-  alias Safira.Accounts.UserToken
+  alias Pearl.Accounts.UserToken
 
   @hash_algorithm :sha256
   @rand_size 32
@@ -22,7 +22,7 @@ defmodule Safira.Accounts.UserToken do
     field :token, :binary
     field :context, :string
     field :sent_to, :string
-    belongs_to :user, Safira.Accounts.User
+    belongs_to :user, Pearl.Accounts.User
 
     timestamps(type: :utc_datetime, updated_at: false)
   end

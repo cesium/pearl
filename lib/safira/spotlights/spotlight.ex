@@ -1,15 +1,15 @@
-defmodule Safira.Spotlights.Spotlight do
+defmodule Pearl.Spotlights.Spotlight do
   @moduledoc """
   Spotlight schema.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(end company_id)a
 
   schema "spotlights" do
     field :end, :utc_datetime
 
-    belongs_to :company, Safira.Companies.Company
+    belongs_to :company, Pearl.Companies.Company
 
     timestamps(type: :utc_datetime)
   end

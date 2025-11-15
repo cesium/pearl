@@ -1,13 +1,13 @@
-defmodule Safira.ContestTest do
-  use Safira.DataCase
+defmodule Pearl.ContestTest do
+  use Pearl.DataCase
 
-  alias Safira.Contest
+  alias Pearl.Contest
 
   describe "badge_redeems" do
-    alias Safira.AccountsFixtures
-    alias Safira.Contest.BadgeRedeem
+    alias Pearl.AccountsFixtures
+    alias Pearl.Contest.BadgeRedeem
 
-    import Safira.ContestFixtures
+    import Pearl.ContestFixtures
 
     @invalid_attrs %{
       badge_id: nil,
@@ -71,9 +71,9 @@ defmodule Safira.ContestTest do
   end
 
   describe "badge_triggers" do
-    alias Safira.Contest.BadgeTrigger
+    alias Pearl.Contest.BadgeTrigger
 
-    import Safira.ContestFixtures
+    import Pearl.ContestFixtures
 
     @invalid_attrs %{event: nil}
 

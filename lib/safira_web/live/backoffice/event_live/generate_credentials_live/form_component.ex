@@ -1,7 +1,7 @@
-defmodule SafiraWeb.Backoffice.EventLive.GenerateCredentialsLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.EventLive.GenerateCredentialsLive.FormComponent do
+  use PearlWeb, :live_component
 
-  import SafiraWeb.Components.Forms
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

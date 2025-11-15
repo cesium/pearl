@@ -1,20 +1,20 @@
-defmodule Safira.Store do
+defmodule Pearl.Store do
   @moduledoc """
   The Store context.
   """
 
-  use Safira.Context
+  use Pearl.Context
 
   alias Ecto.Multi
 
-  alias Safira.Accounts.Attendee
-  alias Safira.Contest
-  alias Safira.Inventory
-  alias Safira.Inventory.Item
-  alias Safira.Store
-  alias Safira.Store.Product
+  alias Pearl.Accounts.Attendee
+  alias Pearl.Contest
+  alias Pearl.Inventory
+  alias Pearl.Inventory.Item
+  alias Pearl.Store
+  alias Pearl.Store.Product
 
-  @pubsub Safira.PubSub
+  @pubsub Pearl.PubSub
 
   @doc """
   Returns the list of products.

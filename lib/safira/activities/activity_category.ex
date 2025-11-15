@@ -1,8 +1,8 @@
-defmodule Safira.Activities.ActivityCategory do
+defmodule Pearl.Activities.ActivityCategory do
   @moduledoc """
   Categories for activities.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(name)a
 

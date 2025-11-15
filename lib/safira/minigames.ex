@@ -1,17 +1,17 @@
-defmodule Safira.Minigames do
+defmodule Pearl.Minigames do
   @moduledoc """
   The Minigames context.
   """
 
-  use Safira.Context
+  use Pearl.Context
 
   alias Ecto.Multi
 
-  alias Safira.{Accounts, Constants, Contest}
-  alias Safira.Accounts.Attendee
-  alias Safira.Inventory.Item
+  alias Pearl.{Accounts, Constants, Contest}
+  alias Pearl.Accounts.Attendee
+  alias Pearl.Inventory.Item
 
-  alias Safira.Minigames.{
+  alias Pearl.Minigames.{
     CoinFlipRoom,
     Prize,
     SlotsPayline,
@@ -21,7 +21,7 @@ defmodule Safira.Minigames do
     WheelSpin
   }
 
-  @pubsub Safira.PubSub
+  @pubsub Pearl.PubSub
 
   @doc """
   Returns the list of prizes.
@@ -1599,7 +1599,7 @@ defmodule Safira.Minigames do
     |> update_reel_order(reel_order["reel-0"], visibility[0], :reel_0_index)
     |> update_reel_order(reel_order["reel-1"], visibility[1], :reel_1_index)
     |> update_reel_order(reel_order["reel-2"], visibility[2], :reel_2_index)
-    |> Safira.Repo.transaction()
+    |> Pearl.Repo.transaction()
     |> handle_transaction_result()
   end
 

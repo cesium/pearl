@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Landing.Components.Schedule do
+defmodule PearlWeb.Landing.Components.Schedule do
   @moduledoc """
   Schedule component.
   """
-  use SafiraWeb, :live_component
+  use PearlWeb, :live_component
 
   alias Plug.Conn.Query
-  alias Safira.Activities
+  alias Pearl.Activities
 
   @impl true
   def mount(socket) do

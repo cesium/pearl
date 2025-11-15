@@ -1,4 +1,4 @@
-defmodule SafiraWeb.Helpers do
+defmodule PearlWeb.Helpers do
   @moduledoc """
   Helper functions for web views.
   """
@@ -18,7 +18,7 @@ defmodule SafiraWeb.Helpers do
 
     case URI.parse(url) do
       %URI{host: host, path: path} ->
-        if (host == app_host or Application.get_env(:safira, :build_env) == :dev) and
+        if (host == app_host or Application.get_env(:pearl, :build_env) == :dev) and
              not is_nil(path) do
           case extract_id_from_url_path(path) do
             :error -> {:error, "not a valid id"}
@@ -147,10 +147,10 @@ defmodule SafiraWeb.Helpers do
   end
 
   defp build_url do
-    if Application.get_env(:safira, :build_env) == :dev do
+    if Application.get_env(:pearl, :build_env) == :dev do
       "http://localhost:4000"
     else
-      "https://#{Application.fetch_env!(:safira, SafiraWeb.Endpoint)[:url][:host]}"
+      "https://#{Application.fetch_env!(:pearl, PearlWeb.Endpoint)[:url][:host]}"
     end
   end
 

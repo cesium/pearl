@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Backoffice.MinigamesLive.Simulator.Index do
+defmodule PearlWeb.Backoffice.MinigamesLive.Simulator.Index do
   @moduledoc false
-  use SafiraWeb, :live_component
+  use PearlWeb, :live_component
 
-  import SafiraWeb.App.WheelLive.Components.Wheel
-  import SafiraWeb.App.WheelLive.Components.ResultModal
+  import PearlWeb.App.WheelLive.Components.Wheel
+  import PearlWeb.App.WheelLive.Components.ResultModal
 
-  alias Safira.Minigames
+  alias Pearl.Minigames
 
   @impl true
   def render(assigns) do

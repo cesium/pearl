@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Backoffice.AttendeeLive.IneligibleLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.AttendeeLive.IneligibleLive.FormComponent do
+  use PearlWeb, :live_component
 
-  alias Safira.Accounts
-  import SafiraWeb.Components.Forms
+  alias Pearl.Accounts
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

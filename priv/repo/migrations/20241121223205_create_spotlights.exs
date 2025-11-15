@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateSpotlights do
+defmodule Pearl.Repo.Migrations.CreateSpotlights do
   use Ecto.Migration
 
   def change do

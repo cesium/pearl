@@ -1,9 +1,9 @@
-defmodule SafiraWeb.App.HomeLive.Index do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.HomeLive.Index do
+  use PearlWeb, :app_view
 
-  alias Safira.Contest
+  alias Pearl.Contest
 
-  import SafiraWeb.Components.Badge
+  import PearlWeb.Components.Badge
 
   @impl true
   def mount(_params, _session, socket) do

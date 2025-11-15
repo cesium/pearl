@@ -1,10 +1,10 @@
-defmodule Safira.CompaniesFixtures do
+defmodule Pearl.CompaniesFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Safira.Companies` context.
+  entities via the `Pearl.Companies` context.
   """
 
-  alias Safira.Companies.Company
+  alias Pearl.Companies.Company
 
   @doc """
   Generate a company.
@@ -16,7 +16,7 @@ defmodule Safira.CompaniesFixtures do
         "user" => %{
           "name" => "some name",
           "handle" => "handle",
-          "email" => "handle@seium.org",
+          "email" => "handle@eneiconf.pt",
           "password" => "password1234"
         },
         "name" => "some name",
@@ -24,7 +24,7 @@ defmodule Safira.CompaniesFixtures do
       })
 
     {:ok, %{user: _, company: company}} =
-      Safira.Companies.upsert_company_and_user(%Company{}, attrs)
+      Pearl.Companies.upsert_company_and_user(%Company{}, attrs)
 
     company
   end
@@ -39,7 +39,7 @@ defmodule Safira.CompaniesFixtures do
         name: "some name",
         priority: 42
       })
-      |> Safira.Companies.create_tier()
+      |> Pearl.Companies.create_tier()
 
     tier
   end

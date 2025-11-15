@@ -1,8 +1,8 @@
-defmodule SafiraWeb.UserSessionControllerTest do
-  use SafiraWeb.ConnCase, async: true
+defmodule PearlWeb.UserSessionControllerTest do
+  use PearlWeb.ConnCase, async: true
 
-  import Safira.AccountsFixtures
-  alias Safira.Constants
+  import Pearl.AccountsFixtures
+  alias Pearl.Constants
 
   setup do
     Constants.set("registrations_open", "true")
@@ -31,7 +31,7 @@ defmodule SafiraWeb.UserSessionControllerTest do
           }
         })
 
-      assert conn.resp_cookies["_safira_web_user_remember_me"]
+      assert conn.resp_cookies["_pearl_web_user_remember_me"]
       assert redirected_to(conn) == ~p"/app/"
     end
 

@@ -1,12 +1,12 @@
-defmodule Safira.MinigamesTest do
-  use Safira.DataCase
+defmodule Pearl.MinigamesTest do
+  use Pearl.DataCase
 
-  alias Safira.Minigames
+  alias Pearl.Minigames
 
   describe "prizes" do
-    alias Safira.Minigames.Prize
+    alias Pearl.Minigames.Prize
 
-    import Safira.MinigamesFixtures
+    import Pearl.MinigamesFixtures
 
     @invalid_attrs %{name: nil, stock: nil}
 
@@ -60,9 +60,9 @@ defmodule Safira.MinigamesTest do
   end
 
   describe "wheel_drops" do
-    alias Safira.Minigames.WheelDrop
+    alias Pearl.Minigames.WheelDrop
 
-    import Safira.MinigamesFixtures
+    import Pearl.MinigamesFixtures
 
     @invalid_attrs %{probability: nil, max_per_attendee: nil}
 
@@ -118,10 +118,10 @@ defmodule Safira.MinigamesTest do
   end
 
   describe "coin_flip_game" do
-    alias Safira.Accounts
-    alias Safira.Minigames.CoinFlipRoom
+    alias Pearl.Accounts
+    alias Pearl.Minigames.CoinFlipRoom
 
-    import Safira.AccountsFixtures
+    import Pearl.AccountsFixtures
 
     setup do
       # Set up test users and enable the game
@@ -248,9 +248,9 @@ defmodule Safira.MinigamesTest do
   end
 
   describe "slots_reel_icons" do
-    alias Safira.Minigames.SlotsReelIcon
+    alias Pearl.Minigames.SlotsReelIcon
 
-    import Safira.MinigamesFixtures
+    import Pearl.MinigamesFixtures
 
     @invalid_attrs %{image: nil, reel_0_index: nil, reel_1_index: nil, reel_2_index: nil}
 
@@ -338,9 +338,9 @@ defmodule Safira.MinigamesTest do
   end
 
   describe "slots_paytables" do
-    alias Safira.Minigames.SlotsPaytable
+    alias Pearl.Minigames.SlotsPaytable
 
-    import Safira.MinigamesFixtures
+    import Pearl.MinigamesFixtures
 
     @invalid_attrs %{
       multiplier: -3,
@@ -421,9 +421,9 @@ defmodule Safira.MinigamesTest do
   end
 
   describe "slots_paylines" do
-    alias Safira.Minigames.SlotsPayline
+    alias Pearl.Minigames.SlotsPayline
 
-    import Safira.MinigamesFixtures
+    import Pearl.MinigamesFixtures
 
     @invalid_attrs %{position_1: -1, position_0: -2, position_2: -3, probability: nil}
 

@@ -1,8 +1,8 @@
-defmodule SafiraWeb.App.WheelLive.Components.ResultModal do
+defmodule PearlWeb.App.WheelLive.Components.ResultModal do
   @moduledoc """
   Lucky wheel drop result modal component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :id, :string, required: true
   attr :drop_type, :atom, required: true

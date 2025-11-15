@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Backoffice.AttendeeLive.Index do
-  alias Safira.Accounts
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.AttendeeLive.Index do
+  alias Pearl.Accounts
+  use PearlWeb, :backoffice_view
 
-  import SafiraWeb.Components.Table
-  import SafiraWeb.Components.TableSearch
+  import PearlWeb.Components.Table
+  import PearlWeb.Components.TableSearch
 
-  on_mount {SafiraWeb.StaffRoles,
+  on_mount {PearlWeb.StaffRoles,
             index: %{"attendees" => ["show"]}, edit: %{"attendees" => ["edit"]}}
 
   @impl true

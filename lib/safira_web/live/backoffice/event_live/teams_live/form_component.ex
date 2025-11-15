@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
+  use PearlWeb, :live_component
 
-  alias Safira.Teams
-  import SafiraWeb.Components.Forms
+  alias Pearl.Teams
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

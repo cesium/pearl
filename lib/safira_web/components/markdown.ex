@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Components.Markdown do
+defmodule PearlWeb.Components.Markdown do
   @moduledoc """
   Markdown component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :content, :string, default: ""
   attr :class, :string, default: ""

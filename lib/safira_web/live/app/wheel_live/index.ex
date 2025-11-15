@@ -1,12 +1,12 @@
-defmodule SafiraWeb.App.WheelLive.Index do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.WheelLive.Index do
+  use PearlWeb, :app_view
 
-  import SafiraWeb.App.WheelLive.Components.LatestWins
-  import SafiraWeb.App.WheelLive.Components.Awards
-  import SafiraWeb.App.WheelLive.Components.ResultModal
-  import SafiraWeb.App.WheelLive.Components.Wheel
+  import PearlWeb.App.WheelLive.Components.LatestWins
+  import PearlWeb.App.WheelLive.Components.Awards
+  import PearlWeb.App.WheelLive.Components.ResultModal
+  import PearlWeb.App.WheelLive.Components.Wheel
 
-  alias Safira.{Contest, Minigames}
+  alias Pearl.{Contest, Minigames}
 
   @max_wins 6
 

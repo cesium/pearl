@@ -1,11 +1,11 @@
-defmodule SafiraWeb.App.SlotsLive.Components.PaytableModal do
+defmodule PearlWeb.App.SlotsLive.Components.PaytableModal do
   @moduledoc """
   Slots paytable modal component that shows winning combinations
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  alias Safira.Minigames
-  alias Safira.Uploaders.SlotsReelIcon
+  alias Pearl.Minigames
+  alias Pearl.Uploaders.SlotsReelIcon
 
   attr :id, :string, required: true
   attr :show, :boolean, default: false

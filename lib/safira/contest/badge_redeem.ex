@@ -1,11 +1,11 @@
-defmodule Safira.Contest.BadgeRedeem do
+defmodule Pearl.Contest.BadgeRedeem do
   @moduledoc """
   A redeem happens when a staff / company gives a badge to an attendee
   """
-  use Safira.Schema
+  use Pearl.Schema
 
-  alias Safira.Accounts.{Attendee, Staff}
-  alias Safira.Contest.Badge
+  alias Pearl.Accounts.{Attendee, Staff}
+  alias Pearl.Contest.Badge
 
   @required_fields ~w(badge_id attendee_id)a
   @optional_fields ~w(redeemed_by_id)a

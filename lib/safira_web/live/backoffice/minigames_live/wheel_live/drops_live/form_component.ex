@@ -1,13 +1,13 @@
-defmodule SafiraWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
+defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
   @moduledoc false
-  alias Safira.Minigames.WheelDrop
-  use SafiraWeb, :live_component
+  alias Pearl.Minigames.WheelDrop
+  use PearlWeb, :live_component
 
-  alias Safira.Contest
-  alias Safira.Minigames
-  alias Safira.Minigames.WheelDrop
+  alias Pearl.Contest
+  alias Pearl.Minigames
+  alias Pearl.Minigames.WheelDrop
 
-  import SafiraWeb.Components.Forms
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

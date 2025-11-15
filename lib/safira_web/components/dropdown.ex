@@ -1,12 +1,12 @@
-defmodule SafiraWeb.Components.Dropdown do
+defmodule PearlWeb.Components.Dropdown do
   @moduledoc """
   A dropdown component.
   """
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  alias SafiraWeb.Components.Link
-  import SafiraWeb.CoreComponents
+  alias PearlWeb.Components.Link
+  import PearlWeb.CoreComponents
 
   @transition_in_base "transition transform ease-out duration-100"
   @transition_in_start "transform opacity-0 scale-95"
@@ -57,7 +57,7 @@ defmodule SafiraWeb.Components.Dropdown do
       phx-click-away={hide_dropdown(@options_container_id)}
       phx-window-keydown={hide_dropdown(@options_container_id)}
       phx-key="Escape"
-      class={[@class, "safira-dropdown"]}
+      class={[@class, "pearl-dropdown"]}
     >
       <div>
         <button
@@ -73,7 +73,7 @@ defmodule SafiraWeb.Components.Dropdown do
 
           <%= if @label do %>
             {@label}
-            <.icon name="hero-chevron-down-solid" class="w-5 h-5 safira-dropdown__chevron" />
+            <.icon name="hero-chevron-down-solid" class="w-5 h-5 pearl-dropdown__chevron" />
           <% end %>
 
           <%= if @trigger_element do %>
@@ -81,7 +81,7 @@ defmodule SafiraWeb.Components.Dropdown do
           <% end %>
 
           <%= if !@label && @trigger_element == [] do %>
-            <.icon name="hero-ellipsis-vertical-solid" class="w-5 h-5 safira-dropdown__ellipsis" />
+            <.icon name="hero-ellipsis-vertical-solid" class="w-5 h-5 pearl-dropdown__ellipsis" />
           <% end %>
         </button>
       </div>
@@ -90,7 +90,7 @@ defmodule SafiraWeb.Components.Dropdown do
         class={[
           placement_class(@placement),
           @menu_items_wrapper_class,
-          "safira-dropdown__menu-items-wrapper"
+          "pearl-dropdown__menu-items-wrapper"
         ]}
         role="menu"
         id={@options_container_id}
@@ -122,7 +122,7 @@ defmodule SafiraWeb.Components.Dropdown do
     <Link.a
       link_type={@link_type}
       to={@to}
-      class={[@class, "safira-dropdown__menu-item", get_disabled_classes(@disabled)]}
+      class={[@class, "pearl-dropdown__menu-item", get_disabled_classes(@disabled)]}
       disabled={@disabled}
       role="menuitem"
       {@rest}
@@ -133,13 +133,13 @@ defmodule SafiraWeb.Components.Dropdown do
   end
 
   defp trigger_button_classes(nil, []),
-    do: "safira-dropdown__trigger-button--no-label"
+    do: "pearl-dropdown__trigger-button--no-label"
 
   defp trigger_button_classes(_label, []),
-    do: "safira-dropdown__trigger-button--with-label"
+    do: "pearl-dropdown__trigger-button--with-label"
 
   defp trigger_button_classes(_label, _trigger_element),
-    do: "safira-dropdown__trigger-button--with-label-and-trigger-element"
+    do: "pearl-dropdown__trigger-button--with-label-and-trigger-element"
 
   defp hide_dropdown(options_container_id) do
     JS.hide(
@@ -157,9 +157,9 @@ defmodule SafiraWeb.Components.Dropdown do
     )
   end
 
-  defp placement_class("left"), do: "safira-dropdown__menu-items-wrapper-placement--left"
-  defp placement_class("right"), do: "safira-dropdown__menu-items-wrapper-placement--right"
+  defp placement_class("left"), do: "pearl-dropdown__menu-items-wrapper-placement--left"
+  defp placement_class("right"), do: "pearl-dropdown__menu-items-wrapper-placement--right"
 
-  defp get_disabled_classes(true), do: "safira-dropdown__menu-item--disabled"
+  defp get_disabled_classes(true), do: "pearl-dropdown__menu-item--disabled"
   defp get_disabled_classes(false), do: ""
 end

@@ -1,16 +1,16 @@
-defmodule Safira.Companies do
+defmodule Pearl.Companies do
   @moduledoc """
   The Companies context.
   """
 
-  use Safira.Context
+  use Pearl.Context
 
-  alias Safira.Accounts
-  alias Safira.Accounts.User
-  alias Safira.Companies.{Company, Tier}
-  alias Safira.Contest
-  alias Safira.Spotlights.Spotlight
-  alias Safira.Uploaders
+  alias Pearl.Accounts
+  alias Pearl.Accounts.User
+  alias Pearl.Companies.{Company, Tier}
+  alias Pearl.Contest
+  alias Pearl.Spotlights.Spotlight
+  alias Pearl.Uploaders
 
   @doc """
   Returns the list of companies.

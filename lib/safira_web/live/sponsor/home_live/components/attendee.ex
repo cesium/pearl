@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Sponsor.HomeLive.Components.Attendee do
+defmodule PearlWeb.Sponsor.HomeLive.Components.Attendee do
   @moduledoc """
   Vault item component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  import SafiraWeb.Components.Avatar
+  import PearlWeb.Components.Avatar
 
   attr :id, :string, required: true
   attr :name, :string, required: true

@@ -1,6 +1,6 @@
-defmodule SafiraWeb.Landing.FAQLive.Components.FindUs do
+defmodule PearlWeb.Landing.FAQLive.Components.FindUs do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   @email "cesium@di.uminho.pt"
   @tel "+351 253 604 448"
@@ -14,12 +14,10 @@ defmodule SafiraWeb.Landing.FAQLive.Components.FindUs do
         </h2>
 
         <p class="mb-8 font-iregular">
-          {gettext(
-            "SEI is free for participants and is organized by volunteers from CeSIUM and from the university community."
-          )}
+          {gettext("ENEI is organized by volunteers from CeSIUM and from the university community.")}
         </p>
-        <.link href="https://whereis.uminho.pt/CG-02.html" target="_blank" class="mb-8 font-iregular">
-          {gettext("This year's event will take place at Pedagogic Complex 2, Gualtar Campus.")}
+        <.link href="https://forumbraga.com/" target="_blank" class="mb-8 font-iregular">
+          {gettext("This year's event will take place at Forum Braga.")}
         </.link>
         <p class="mb-2 font-ibold">
           Centro de Estudantes de Engenharia Informática
@@ -32,9 +30,6 @@ defmodule SafiraWeb.Landing.FAQLive.Components.FindUs do
             <li>Phone: {tel()}</li>
           </.link>
         </ul>
-      </div>
-      <div class="w-full select-none lg:w-3/5">
-        <img src={~p"/images/map/location.svg"} alt="" />
       </div>
     </section>
     """

@@ -1,8 +1,8 @@
-defmodule Safira.Store.Product do
+defmodule Pearl.Store.Product do
   @moduledoc """
   Store product.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(name description price stock max_per_user)a
   @optional_fields ~w(image)a

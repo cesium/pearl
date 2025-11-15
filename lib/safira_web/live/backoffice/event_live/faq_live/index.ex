@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Backoffice.EventLive.FaqLive.Index do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.EventLive.FaqLive.Index do
+  use PearlWeb, :live_component
 
-  alias Safira.Event
-  import SafiraWeb.Components.EnsurePermissions
+  alias Pearl.Event
+  import PearlWeb.Components.EnsurePermissions
 
   @impl true
   def render(assigns) do

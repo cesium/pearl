@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Backoffice.StaffLive.RoleLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.StaffLive.RoleLive.FormComponent do
+  use PearlWeb, :live_component
 
-  alias Safira.Roles
-  import SafiraWeb.Components.Forms
-  alias Safira.Accounts.Role
-  alias Safira.Accounts.Roles.Permissions
+  alias Pearl.Roles
+  import PearlWeb.Components.Forms
+  alias Pearl.Accounts.Role
+  alias Pearl.Accounts.Roles.Permissions
 
   @impl true
   def render(assigns) do

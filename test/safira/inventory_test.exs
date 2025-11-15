@@ -1,13 +1,13 @@
-defmodule Safira.InventoryTest do
-  use Safira.DataCase
+defmodule Pearl.InventoryTest do
+  use Pearl.DataCase
 
-  alias Safira.AccountsFixtures
-  alias Safira.Inventory
+  alias Pearl.AccountsFixtures
+  alias Pearl.Inventory
 
   describe "items" do
-    alias Safira.Inventory.Item
+    alias Pearl.Inventory.Item
 
-    import Safira.InventoryFixtures
+    import Pearl.InventoryFixtures
 
     @invalid_attrs %{type: nil}
 

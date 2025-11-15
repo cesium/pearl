@@ -1,13 +1,13 @@
-defmodule SafiraWeb.Sponsor.HomeLive.Index do
-  use SafiraWeb, :sponsor_view
+defmodule PearlWeb.Sponsor.HomeLive.Index do
+  use PearlWeb, :sponsor_view
 
-  alias Safira.Accounts
-  alias Safira.Contest
+  alias Pearl.Accounts
+  alias Pearl.Contest
 
-  import SafiraWeb.Sponsor.HomeLive.Components.Attendee
-  import SafiraWeb.Components.Forms
-  import SafiraWeb.Components.Table
-  import SafiraWeb.Components.TableSearch
+  import PearlWeb.Sponsor.HomeLive.Components.Attendee
+  import PearlWeb.Components.Forms
+  import PearlWeb.Components.Table
+  import PearlWeb.Components.TableSearch
 
   @limit 12
 

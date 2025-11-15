@@ -1,9 +1,9 @@
-defmodule SafiraWeb.App.LeaderboardLive.Index do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.LeaderboardLive.Index do
+  use PearlWeb, :app_view
 
-  alias Safira.{Contest, Event}
+  alias Pearl.{Contest, Event}
 
-  import SafiraWeb.App.LeaderboardLive.Components.{Leaderboard, DaySelector, Prizes}
+  import PearlWeb.App.LeaderboardLive.Components.{Leaderboard, DaySelector, Prizes}
 
   @limit 10
 

@@ -1,4 +1,4 @@
-defmodule Safira.Context do
+defmodule Pearl.Context do
   @moduledoc """
   A utility context providing common functions to all context modules.
   """
@@ -7,7 +7,7 @@ defmodule Safira.Context do
     quote do
       import Ecto.Query, warn: false
 
-      alias Safira.Repo
+      alias Pearl.Repo
 
       defp apply_filters(query, opts) do
         Enum.reduce(opts, query, fn

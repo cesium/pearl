@@ -1,10 +1,10 @@
-defmodule Safira.Teams do
+defmodule Pearl.Teams do
   @moduledoc """
   The Teams context.
   """
-  use Safira.Context
+  use Pearl.Context
 
-  alias Safira.Teams.Team
+  alias Pearl.Teams.Team
 
   @doc """
   Returns the list of teams.
@@ -107,7 +107,7 @@ defmodule Safira.Teams do
     (Repo.aggregate(from(t in Team), :max, :priority) || -1) + 1
   end
 
-  alias Safira.Teams.TeamMember
+  alias Pearl.Teams.TeamMember
 
   def update_team_member_foto(%TeamMember{} = member, attrs) do
     member

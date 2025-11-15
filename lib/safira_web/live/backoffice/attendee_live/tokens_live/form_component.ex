@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Backoffice.AttendeeLive.TokensLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.AttendeeLive.TokensLive.FormComponent do
+  use PearlWeb, :live_component
 
-  alias Safira.Accounts
-  alias Safira.Contest
-  import SafiraWeb.Components.Forms
+  alias Pearl.Accounts
+  alias Pearl.Contest
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

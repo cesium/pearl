@@ -1,6 +1,6 @@
-defmodule SafiraWeb.Components.Tabs do
+defmodule PearlWeb.Components.Tabs do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :class, :string, default: "", doc: "The class to apply to the tabs"
   attr :underline, :boolean, default: true, doc: "Whether to show a bottom border on the tabs"

@@ -1,7 +1,7 @@
-defmodule SafiraWeb.Backoffice.BadgeLive.ConditionLive.Index do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.Index do
+  use PearlWeb, :live_component
 
-  alias Safira.Contest
+  alias Pearl.Contest
 
   @impl true
   def render(assigns) do

@@ -1,12 +1,12 @@
-defmodule Safira.Activities.Enrolment do
+defmodule Pearl.Activities.Enrolment do
   @moduledoc """
   Enrollments for activities.
   """
 
-  use Safira.Schema
+  use Pearl.Schema
 
-  alias Safira.Accounts.Attendee
-  alias Safira.Activities.Activity
+  alias Pearl.Accounts.Attendee
+  alias Pearl.Activities.Activity
 
   @required_fields ~w(attendee_id activity_id)a
 

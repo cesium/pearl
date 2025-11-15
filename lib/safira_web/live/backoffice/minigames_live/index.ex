@@ -1,7 +1,7 @@
-defmodule SafiraWeb.Backoffice.MinigamesLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.MinigamesLive.Index do
+  use PearlWeb, :backoffice_view
 
-  on_mount {SafiraWeb.StaffRoles,
+  on_mount {PearlWeb.StaffRoles,
             index: %{"minigames" => ["show"]},
             simulate_wheel: %{"minigames" => ["simulate"]},
             edit_wheel_drops: %{"minigames" => ["edit"]},

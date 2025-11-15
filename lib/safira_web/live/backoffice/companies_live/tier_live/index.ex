@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Backoffice.CompanyLive.TierLive.Index do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.CompanyLive.TierLive.Index do
+  use PearlWeb, :live_component
 
-  alias Safira.Companies
-  import SafiraWeb.Components.EnsurePermissions
+  alias Pearl.Companies
+  import PearlWeb.Components.EnsurePermissions
 
   @impl true
   def render(assigns) do

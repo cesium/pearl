@@ -80,7 +80,7 @@
   on_cancel={JS.patch(~p"/dashboard/attendees/#{@attendee.id}")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.AttendeeLive.TokensLive.FormComponent}
+    module={PearlWeb.Backoffice.AttendeeLive.TokensLive.FormComponent}
     id={@attendee.id}
     current_user={@current_user}
     action={@live_action}
@@ -96,7 +96,7 @@
   on_cancel={JS.patch(~p"/dashboard/attendees/#{@attendee.id}")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.AttendeeLive.IneligibleLive.FormComponent}
+    module={PearlWeb.Backoffice.AttendeeLive.IneligibleLive.FormComponent}
     id={@attendee.id}
     current_user={@current_user}
     action={@live_action}
@@ -112,7 +112,7 @@
   on_cancel={JS.patch(~p"/dashboard/attendees/#{@attendee.id}")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.AttendeeLive.RedeemLive.Index}
+    module={PearlWeb.Backoffice.AttendeeLive.RedeemLive.Index}
     title="Badge redeems"
     id={@attendee.id}
     current_user={@current_user}

@@ -1,11 +1,11 @@
-defmodule Safira.Accounts.Credential do
+defmodule Pearl.Accounts.Credential do
   @moduledoc """
   Attendee's physical credentials.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   schema "credentials" do
-    belongs_to :attendee, Safira.Accounts.Attendee
+    belongs_to :attendee, Pearl.Accounts.Attendee
 
     timestamps(type: :utc_datetime)
   end

@@ -1,17 +1,17 @@
-defmodule SafiraWeb.Backoffice.StaffLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.StaffLive.Index do
+  use PearlWeb, :backoffice_view
 
   alias Phoenix.Socket.Broadcast
-  alias Safira.Accounts
-  alias SafiraWeb.Presence
+  alias Pearl.Accounts
+  alias PearlWeb.Presence
 
-  import SafiraWeb.Components.{Table, TableSearch}
+  import PearlWeb.Components.{Table, TableSearch}
 
-  alias Safira.Accounts.User
-  alias Safira.Repo
-  alias Safira.Roles
+  alias Pearl.Accounts.User
+  alias Pearl.Repo
+  alias Pearl.Roles
 
-  on_mount {SafiraWeb.StaffRoles,
+  on_mount {PearlWeb.StaffRoles,
             index: %{"staffs" => ["show"]},
             new: %{"staffs" => ["edit"]},
             edit: %{"staffs" => ["edit"]},

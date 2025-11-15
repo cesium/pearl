@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Backoffice.ScheduleLive.SpeakerLive.Index do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.Index do
+  use PearlWeb, :live_component
 
-  alias Safira.Activities
-  alias Safira.Uploaders
+  alias Pearl.Activities
+  alias Pearl.Uploaders
 
-  import SafiraWeb.Components.{EnsurePermissions, Table, TableSearch}
+  import PearlWeb.Components.{EnsurePermissions, Table, TableSearch}
 
   @impl true
   def render(assigns) do

@@ -76,7 +76,7 @@
   on_cancel={JS.patch(~p"/dashboard/staffs")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.StaffLive.FormComponent}
+    module={PearlWeb.Backoffice.StaffLive.FormComponent}
     id={@user.id || :new}
     title="Edit Staff"
     action={@live_action}
@@ -94,7 +94,7 @@
   on_cancel={JS.patch(~p"/dashboard/staffs")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.StaffLive.RoleLive.Index}
+    module={PearlWeb.Backoffice.StaffLive.RoleLive.Index}
     id="list-roles"
     title="Roles"
     action={@live_action}
@@ -109,7 +109,7 @@
   on_cancel={JS.patch(~p"/dashboard/staffs")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.StaffLive.RoleLive.FormComponent}
+    module={PearlWeb.Backoffice.StaffLive.RoleLive.FormComponent}
     id={@params["id"] || "new-role"}
     title="New Role"
     action={@live_action}

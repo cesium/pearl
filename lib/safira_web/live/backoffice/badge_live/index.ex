@@ -1,12 +1,12 @@
-defmodule SafiraWeb.Backoffice.BadgeLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.BadgeLive.Index do
+  use PearlWeb, :backoffice_view
 
-  import SafiraWeb.Components.{Badge, Table, TableSearch}
+  import PearlWeb.Components.{Badge, Table, TableSearch}
 
-  alias Safira.Contest
-  alias Safira.Contest.{Badge, BadgeCategory, BadgeCondition, BadgeTrigger}
+  alias Pearl.Contest
+  alias Pearl.Contest.{Badge, BadgeCategory, BadgeCondition, BadgeTrigger}
 
-  on_mount {SafiraWeb.StaffRoles,
+  on_mount {PearlWeb.StaffRoles,
             index: %{"badges" => ["show"]},
             categories: %{"badges" => ["show"]},
             categories_new: %{"badges" => ["edit"]},

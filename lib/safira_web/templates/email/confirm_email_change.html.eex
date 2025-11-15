@@ -46,7 +46,7 @@
               <div class="gmail-blend-difference">
                 <div class="gmail-blend-screen">
                   <img
-                    alt="SEI Logo"
+                    alt="ENEI Logo"
                     src=<%= "#{@phx_host}/images/email/sei-logo.png" %>
                     style="margin-left:auto;margin-right:auto;display:block;outline:none;border:none;text-decoration:none;filter:invert(0%)"
                   />
@@ -111,7 +111,7 @@
               style="font-size:16px;line-height:26px;margin:16px 0;padding:0 16px"
             >
               Best,<br /><span style="color:rgb(100,116,139)"
-                >SEI Team</span
+                >ENEI Team</span
               >
             </p>
             <hr

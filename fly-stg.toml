@@ -1,4 +1,4 @@
-app = "safira-stg"
+app = "pearl-stg"
 primary_region = "mad"
 kill_signal = "SIGTERM"
 
@@ -6,7 +6,7 @@ kill_signal = "SIGTERM"
   release_command = "/app/bin/migrate"
 
 [env]
-  PHX_HOST = "stg.seium.org"
+  PHX_HOST = "stg.eneiconf.pt"
   MIX_ENV = "prod"
   PORT = "8080"
 

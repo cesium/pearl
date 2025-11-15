@@ -1,9 +1,9 @@
-defmodule SafiraWeb.App.StoreLive.Index do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.StoreLive.Index do
+  use PearlWeb, :app_view
 
-  alias Safira.Store
+  alias Pearl.Store
 
-  import SafiraWeb.App.StoreLive.Components.ProductCard
+  import PearlWeb.App.StoreLive.Components.ProductCard
 
   @impl true
   def mount(_params, _session, socket) do

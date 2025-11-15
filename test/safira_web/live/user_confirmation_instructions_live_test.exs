@@ -1,11 +1,11 @@
-defmodule SafiraWeb.UserConfirmationInstructionsLiveTest do
-  use SafiraWeb.ConnCase, async: true
+defmodule PearlWeb.UserConfirmationInstructionsLiveTest do
+  use PearlWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Safira.AccountsFixtures
+  import Pearl.AccountsFixtures
 
-  alias Safira.Accounts
-  alias Safira.Repo
+  alias Pearl.Accounts
+  alias Pearl.Repo
 
   setup do
     %{user: user_fixture()}

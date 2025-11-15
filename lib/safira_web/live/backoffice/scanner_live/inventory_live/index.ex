@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Backoffice.ScannerLive.InventoryLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Index do
+  use PearlWeb, :backoffice_view
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
-  import SafiraWeb.Components.Tabs
+  import PearlWeb.Components.Tabs
 
   @impl true
   def render(assigns) do

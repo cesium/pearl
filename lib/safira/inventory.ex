@@ -1,13 +1,13 @@
-defmodule Safira.Inventory do
+defmodule Pearl.Inventory do
   @moduledoc """
   The Inventory context.
   """
-  use Safira.Context
+  use Pearl.Context
 
   import Ecto.Query, warn: false
-  alias Safira.Repo
+  alias Pearl.Repo
 
-  alias Safira.Inventory.Item
+  alias Pearl.Inventory.Item
 
   @doc """
   Returns the list of items.

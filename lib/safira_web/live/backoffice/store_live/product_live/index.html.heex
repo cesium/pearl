@@ -67,7 +67,7 @@
   on_cancel={JS.patch(~p"/dashboard/store/products")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.ProductLive.FormComponent}
+    module={PearlWeb.Backoffice.ProductLive.FormComponent}
     id={@product.id || :new}
     title={@page_title}
     action={@live_action}

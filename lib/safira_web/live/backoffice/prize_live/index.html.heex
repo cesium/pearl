@@ -60,7 +60,7 @@
   on_cancel={JS.patch(~p"/dashboard/minigames/prizes")}
 >
   <.live_component
-    module={SafiraWeb.PrizeLive.FormComponent}
+    module={PearlWeb.PrizeLive.FormComponent}
     id={@prize.id || :new}
     title={@page_title}
     action={@live_action}
@@ -76,7 +76,7 @@
   on_cancel={JS.patch(~p"/dashboard/minigames/prizes")}
 >
   <.live_component
-    module={SafiraWeb.PrizeLive.Daily.FormComponent}
+    module={PearlWeb.PrizeLive.Daily.FormComponent}
     id={:daily_new}
     title={@page_title}
     action={@live_action}

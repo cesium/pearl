@@ -1,7 +1,7 @@
-defmodule SafiraWeb.UserConfirmationLive do
-  use SafiraWeb, :landing_view
+defmodule PearlWeb.UserConfirmationLive do
+  use PearlWeb, :landing_view
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
   def render(%{live_action: :edit} = assigns) do
     ~H"""

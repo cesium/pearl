@@ -1,4 +1,4 @@
-defmodule SafiraWeb.ConnCase do
+defmodule PearlWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule SafiraWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use SafiraWeb.ConnCase, async: true`, although
+  by setting `use PearlWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -20,19 +20,19 @@ defmodule SafiraWeb.ConnCase do
   using do
     quote do
       # The default endpoint for testing
-      @endpoint SafiraWeb.Endpoint
+      @endpoint PearlWeb.Endpoint
 
-      use SafiraWeb, :verified_routes
+      use PearlWeb, :verified_routes
 
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import SafiraWeb.ConnCase
+      import PearlWeb.ConnCase
     end
   end
 
   setup tags do
-    Safira.DataCase.setup_sandbox(tags)
+    Pearl.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 
@@ -45,7 +45,7 @@ defmodule SafiraWeb.ConnCase do
   test context.
   """
   def register_and_log_in_user(%{conn: conn}) do
-    user = Safira.AccountsFixtures.user_fixture()
+    user = Pearl.AccountsFixtures.user_fixture()
     %{conn: log_in_user(conn, user), user: user}
   end
 
@@ -55,7 +55,7 @@ defmodule SafiraWeb.ConnCase do
   It returns an updated `conn`.
   """
   def log_in_user(conn, user) do
-    token = Safira.Accounts.generate_user_session_token(user)
+    token = Pearl.Accounts.generate_user_session_token(user)
 
     conn
     |> Phoenix.ConnTest.init_test_session(%{})

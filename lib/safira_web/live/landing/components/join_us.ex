@@ -1,6 +1,6 @@
-defmodule SafiraWeb.Landing.Components.JoinUs do
+defmodule PearlWeb.Landing.Components.JoinUs do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   def join_us(assigns) do
     ~H"""

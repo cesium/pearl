@@ -1,8 +1,8 @@
-defmodule SafiraWeb.App.WheelLive.Components.Awards do
+defmodule PearlWeb.App.WheelLive.Components.Awards do
   @moduledoc """
   Lucky wheel awards component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :entries, :list, default: []
 

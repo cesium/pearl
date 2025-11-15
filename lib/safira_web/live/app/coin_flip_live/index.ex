@@ -1,9 +1,9 @@
-defmodule SafiraWeb.App.CoinFlipLive.Index do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.CoinFlipLive.Index do
+  use PearlWeb, :app_view
 
-  import SafiraWeb.App.CoinFlipLive.Components.Room
+  import PearlWeb.App.CoinFlipLive.Components.Room
 
-  alias Safira.Minigames
+  alias Pearl.Minigames
 
   @impl true
   def mount(_params, _session, socket) do

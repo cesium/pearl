@@ -1,10 +1,10 @@
-defmodule SafiraWeb.UserRegistrationLive do
-  use SafiraWeb, :landing_view
+defmodule PearlWeb.UserRegistrationLive do
+  use PearlWeb, :landing_view
 
-  alias Safira.Accounts
-  alias Safira.Accounts.User
+  alias Pearl.Accounts
+  alias Pearl.Accounts.User
 
-  import SafiraWeb.Components.Button
+  import PearlWeb.Components.Button
 
   def mount(_params, _session, socket) do
     changeset = Accounts.change_user_registration(%User{})

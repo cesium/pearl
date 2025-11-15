@@ -1,8 +1,8 @@
-defmodule Safira.Minigames.Prize do
+defmodule Pearl.Minigames.Prize do
   @moduledoc """
   Prize used in minigame drops.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(name stock)a
   @optional_fields ~w(image)a

@@ -1,17 +1,17 @@
-defmodule Safira.Accounts.Staff do
+defmodule Pearl.Accounts.Staff do
   @moduledoc """
   An event staff.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
-  alias Safira.Accounts.User
+  alias Pearl.Accounts.User
 
   @required_fields ~w(user_id role_id)a
   @optional_fields ~w()a
 
   schema "staffs" do
     belongs_to :user, User
-    belongs_to :role, Safira.Accounts.Role
+    belongs_to :role, Pearl.Accounts.Role
 
     timestamps(type: :utc_datetime)
   end

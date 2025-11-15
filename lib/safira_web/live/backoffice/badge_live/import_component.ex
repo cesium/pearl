@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Backoffice.BadgeLive.ImportComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.BadgeLive.ImportComponent do
+  use PearlWeb, :live_component
 
   alias NimbleCSV.RFC4180, as: CSV
-  alias Safira.Contest
+  alias Pearl.Contest
 
-  import SafiraWeb.Components.Progress
+  import PearlWeb.Components.Progress
 
   @impl true
   def render(assigns) do

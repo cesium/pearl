@@ -1,12 +1,12 @@
-defmodule SafiraWeb.PrizeLive.Daily.FormComponent do
+defmodule PearlWeb.PrizeLive.Daily.FormComponent do
   @moduledoc false
-  use SafiraWeb, :live_component
+  use PearlWeb, :live_component
 
-  alias Safira.Contest
-  alias Safira.Contest.DailyPrize
-  alias Safira.Minigames
+  alias Pearl.Contest
+  alias Pearl.Contest.DailyPrize
+  alias Pearl.Minigames
 
-  import SafiraWeb.Components.Forms
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

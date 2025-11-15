@@ -1,4 +1,4 @@
-defmodule SafiraWeb.Components.Forms do
+defmodule PearlWeb.Components.Forms do
   @moduledoc """
   Collection of fields to be used in conjunction with the `form` component from Phoenix.
   """
@@ -116,7 +116,7 @@ defmodule SafiraWeb.Components.Forms do
 
     ~H"""
     <.field_wrapper errors={@errors} name={@name} class={@wrapper_class}>
-      <label class={["safira-checkbox-label", @label_class]}>
+      <label class={["pearl-checkbox-label", @label_class]}>
         <input type="hidden" name={@name} value="false" />
         <input
           type="checkbox"
@@ -125,10 +125,10 @@ defmodule SafiraWeb.Components.Forms do
           value="true"
           checked={@checked}
           required={@required}
-          class={["safira-checkbox", @class]}
+          class={["pearl-checkbox", @class]}
           {@rest}
         />
-        <div class={[@required && "safira-label--required"]}>
+        <div class={[@required && "pearl-label--required"]}>
           {@label}
         </div>
       </label>
@@ -149,7 +149,7 @@ defmodule SafiraWeb.Components.Forms do
       <select
         id={@id}
         name={@name}
-        class={["safira-select", @class]}
+        class={["pearl-select", @class]}
         required={@required}
         multiple={@multiple}
         {@rest}
@@ -174,7 +174,7 @@ defmodule SafiraWeb.Components.Forms do
       <textarea
         id={@id}
         name={@name}
-        class={["safira-text-input", @class]}
+        class={["pearl-text-input", @class]}
         rows={@rows}
         required={@required}
         {@rest}
@@ -192,9 +192,9 @@ defmodule SafiraWeb.Components.Forms do
 
     ~H"""
     <.field_wrapper errors={@errors} name={@name} class={@wrapper_class}>
-      <label class={["safira-switch-label", @label_class]}>
+      <label class={["pearl-switch-label", @label_class]}>
         <input type="hidden" name={@name} value="false" />
-        <label class="safira-switch">
+        <label class="pearl-switch">
           <input
             type="checkbox"
             id={@id}
@@ -206,8 +206,8 @@ defmodule SafiraWeb.Components.Forms do
             {@rest}
           />
 
-          <span class="safira-switch__fake-input"></span>
-          <span class="safira-switch__fake-input-bg"></span>
+          <span class="pearl-switch__fake-input"></span>
+          <span class="pearl-switch__fake-input-bg"></span>
         </label>
         <div>{@label}</div>
       </label>
@@ -241,22 +241,22 @@ defmodule SafiraWeb.Components.Forms do
 
       <input type="hidden" name={@name} value="" />
       <div class={[
-        "safira-checkbox-group",
-        @group_layout == "row" && "safira-checkbox-group--row",
-        @group_layout == "col" && "safira-checkbox-group--col",
+        "pearl-checkbox-group",
+        @group_layout == "row" && "pearl-checkbox-group--row",
+        @group_layout == "col" && "pearl-checkbox-group--col",
         @class
       ]}>
         <%= for {group_label, group_options} <- @options do %>
           <fieldset>
             <legend class="capitalize">{group_label}</legend>
             <%= for option <- group_options do %>
-              <label class="safira-checkbox-label">
+              <label class="pearl-checkbox-label">
                 <input
                   type="checkbox"
                   name={@name <> "[]"}
                   value={"#{option}"}
                   checked={to_string(option) in @checked}
-                  class="safira-checkbox"
+                  class="pearl-checkbox"
                   disabled={option in @disabled_options}
                   {@rest}
                 />
@@ -269,7 +269,7 @@ defmodule SafiraWeb.Components.Forms do
         <% end %>
 
         <%= if @empty_message && Enum.empty?(@options) do %>
-          <div class="safira-checkbox-group--empty-message">
+          <div class="pearl-checkbox-group--empty-message">
             {@empty_message}
           </div>
         <% end %>
@@ -291,14 +291,14 @@ defmodule SafiraWeb.Components.Forms do
       </.field_label>
 
       <div class={[
-        "safira-radio-group",
-        @group_layout == "row" && "safira-radio-group--row",
-        @group_layout == "col" && "safira-radio-group--col",
+        "pearl-radio-group",
+        @group_layout == "row" && "pearl-radio-group--row",
+        @group_layout == "col" && "pearl-radio-group--col",
         @class
       ]}>
         <input type="hidden" name={@name} value="" />
         <%= for {label, value} <- @options do %>
-          <label class="safira-radio-label">
+          <label class="pearl-radio-label">
             <input
               type="radio"
               name={@name}
@@ -306,7 +306,7 @@ defmodule SafiraWeb.Components.Forms do
               checked={
                 to_string(value) == to_string(@value) || to_string(value) == to_string(@checked)
               }
-              class="safira-radio"
+              class="pearl-radio"
               {@rest}
             />
             <div>
@@ -316,7 +316,7 @@ defmodule SafiraWeb.Components.Forms do
         <% end %>
 
         <%= if @empty_message && Enum.empty?(@options) do %>
-          <div class="safira-radio-group--empty-message">
+          <div class="pearl-radio-group--empty-message">
             {@empty_message}
           </div>
         <% end %>
@@ -379,9 +379,9 @@ defmodule SafiraWeb.Components.Forms do
       phx-feedback-for={@name}
       {@rest}
       class={[
-        "safira-form-field-wrapper",
+        "pearl-form-field-wrapper",
         @class,
-        @errors != [] && "safira-form-field-wrapper--error"
+        @errors != [] && "pearl-form-field-wrapper--error"
       ]}
     >
       {render_slot(@inner_block)}
@@ -397,7 +397,7 @@ defmodule SafiraWeb.Components.Forms do
 
   def field_label(assigns) do
     ~H"""
-    <label for={@for} class={["safira-label", @class, @required && "safira-label--required"]} {@rest}>
+    <label for={@for} class={["pearl-label", @class, @required && "pearl-label--required"]} {@rest}>
       {render_slot(@inner_block)}
     </label>
     """
@@ -407,7 +407,7 @@ defmodule SafiraWeb.Components.Forms do
 
   defp field_error(assigns) do
     ~H"""
-    <p class="safira-form-field-error">
+    <p class="pearl-form-field-error">
       {render_slot(@inner_block)}
     </p>
     """
@@ -422,7 +422,7 @@ defmodule SafiraWeb.Components.Forms do
     ~H"""
     <div
       :if={render_slot(@inner_block) || @help_text}
-      class={["safira-form-help-text", @class]}
+      class={["pearl-form-help-text", @class]}
       {@rest}
     >
       {render_slot(@inner_block) || @help_text}
@@ -430,18 +430,18 @@ defmodule SafiraWeb.Components.Forms do
     """
   end
 
-  defp get_class_for_type("radio"), do: "safira-radio"
-  defp get_class_for_type("checkbox"), do: "safira-checkbox"
-  defp get_class_for_type("color"), do: "safira-color-input"
-  defp get_class_for_type("file"), do: "safira-file-input"
-  defp get_class_for_type("range"), do: "safira-range-input"
-  defp get_class_for_type(_), do: "safira-text-input"
+  defp get_class_for_type("radio"), do: "pearl-radio"
+  defp get_class_for_type("checkbox"), do: "pearl-checkbox"
+  defp get_class_for_type("color"), do: "pearl-color-input"
+  defp get_class_for_type("file"), do: "pearl-file-input"
+  defp get_class_for_type("range"), do: "pearl-range-input"
+  defp get_class_for_type(_), do: "pearl-text-input"
 
   defp translate_error({msg, opts}) do
     if count = opts[:count] do
-      Gettext.dngettext(SafiraWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(PearlWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(SafiraWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(PearlWeb.Gettext, "errors", msg, opts)
     end
   end
 
@@ -503,13 +503,13 @@ defmodule SafiraWeb.Components.Forms do
         field={@field}
         phx-target={@target}
         container_class={"#{@wrapper_class}"}
-        text_input_class="safira-text-input"
-        dropdown_class="safira-multiselect-dropdown"
-        option_class="safira-multiselect-dropdown-option"
-        selected_option_class="safira-multiselect-dropdown-option-selected"
-        tags_container_class="safira-multiselect-dropdown-tags-container"
-        tag_class="safira-multiselect-dropdown-tag"
-        clear_tag_button_class="safira-multiselect-dropdown-tag-remove"
+        text_input_class="pearl-text-input"
+        dropdown_class="pearl-multiselect-dropdown"
+        option_class="pearl-multiselect-dropdown-option"
+        selected_option_class="pearl-multiselect-dropdown-option-selected"
+        tags_container_class="pearl-multiselect-dropdown-tags-container"
+        tag_class="pearl-multiselect-dropdown-tag"
+        clear_tag_button_class="pearl-multiselect-dropdown-tag-remove"
         {@rest}
       />
 

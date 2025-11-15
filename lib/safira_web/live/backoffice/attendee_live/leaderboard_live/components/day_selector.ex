@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Backoffice.LeaderboardLive.Components.DaySelector do
+defmodule PearlWeb.Backoffice.LeaderboardLive.Components.DaySelector do
   @moduledoc """
   Leaderboard component
   """
 
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :day, :string, required: true
   attr :on_left, :any, required: true

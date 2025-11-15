@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Landing.Components.Footer do
+defmodule PearlWeb.Landing.Components.Footer do
   @moduledoc """
   Footer component.
   """
-  use SafiraWeb, :component
-  import SafiraWeb.Landing.Components.Socials
+  use PearlWeb, :component
+  import PearlWeb.Landing.Components.Socials
 
-  alias Safira.Event
+  alias Pearl.Event
 
   slot :tip, required: false
 
@@ -14,7 +14,7 @@ defmodule SafiraWeb.Landing.Components.Footer do
     <footer class="xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
       <div class="flex flex-col justify-between gap-16 py-10 lg:flex-row items-center">
         <div class="flex select-none items-start justify-center lg:justify-start">
-          <img src="/images/sei-logo.svg" width={100} height={100} alt="SEI Logo" />
+          <img src="/images/sei-logo.svg" width={100} height={100} alt="ENEI Logo" />
           <p class="pl-6 text-white font-semibold lg:flex-1">
             Semana da <br /> Engenharia <br /> Informática
           </p>
@@ -61,12 +61,12 @@ defmodule SafiraWeb.Landing.Components.Footer do
     [
       %{
         title: "Previous Edition",
-        url: "https://2024.seium.org/",
-        enabled: true
+        url: "https://2025.eneiconf.pt/",
+        enabled: false
       },
       %{
         title: "Report a Problem",
-        url: "https://cesium.link/f/safira-bugs",
+        url: "https://cesium.link/f/pearl-bugs",
         enabled: true
       },
       %{

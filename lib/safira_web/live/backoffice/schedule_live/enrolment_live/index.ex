@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Backoffice.ScheduleLive.EnrolmentLive.Index do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.Index do
+  use PearlWeb, :live_component
 
-  alias Safira.Accounts
-  alias Safira.Activities
+  alias Pearl.Accounts
+  alias Pearl.Activities
 
-  import SafiraWeb.Components.{EnsurePermissions, Table, TableSearch}
+  import PearlWeb.Components.{EnsurePermissions, Table, TableSearch}
 
   @impl true
   def render(assigns) do

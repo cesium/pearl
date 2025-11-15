@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Backoffice.EventLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.EventLive.Index do
+  use PearlWeb, :backoffice_view
 
-  alias Safira.Event
-  alias Safira.Event.Faq
-  alias Safira.Teams
+  alias Pearl.Event
+  alias Pearl.Event.Faq
+  alias Pearl.Teams
 
-  on_mount {SafiraWeb.StaffRoles,
+  on_mount {PearlWeb.StaffRoles,
             show: %{"event" => ["show"]},
             edit: %{"event" => ["edit"]},
             faqs_edit: %{"event" => ["edit_faqs"]},

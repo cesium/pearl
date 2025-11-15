@@ -1,13 +1,13 @@
-defmodule SafiraWeb.Presence do
+defmodule PearlWeb.Presence do
   @moduledoc """
-  Wrapper for `Phoenix.Presence` to use in Safira.
+  Wrapper for `Phoenix.Presence` to use in Pearl.
   """
-  use Phoenix.Presence, otp_app: :safira, pubsub_server: Safira.PubSub
+  use Phoenix.Presence, otp_app: :pearl, pubsub_server: Pearl.PubSub
 
   alias Phoenix.PubSub
 
-  @topic "presence:safira"
-  @pubsub Safira.PubSub
+  @topic "presence:pearl"
+  @pubsub Pearl.PubSub
 
   def list_presences, do: list(@topic)
 

@@ -1,12 +1,12 @@
-defmodule Safira.StoreTest do
-  use Safira.DataCase
+defmodule Pearl.StoreTest do
+  use Pearl.DataCase
 
-  alias Safira.Store
+  alias Pearl.Store
 
   describe "products" do
-    alias Safira.Store.Product
+    alias Pearl.Store.Product
 
-    import Safira.StoreFixtures
+    import Pearl.StoreFixtures
 
     @invalid_attrs %{name: nil, description: nil, price: nil, stock: nil, max_per_user: nil}
 

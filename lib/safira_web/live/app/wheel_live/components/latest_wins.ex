@@ -1,8 +1,8 @@
-defmodule SafiraWeb.App.WheelLive.Components.LatestWins do
+defmodule PearlWeb.App.WheelLive.Components.LatestWins do
   @moduledoc """
   Lucky wheel latest wins component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :entries, :list, default: []
 

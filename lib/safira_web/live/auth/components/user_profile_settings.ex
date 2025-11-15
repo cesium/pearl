@@ -1,20 +1,20 @@
-defmodule SafiraWeb.UserAuth.Components.UserProfileSettings do
+defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
   @moduledoc """
   Component responsible for the user profile settings (change name, handle, password, email, etc.)
   Can be used in the backoffice or in the app.
   """
 
-  use SafiraWeb, :live_component
+  use PearlWeb, :live_component
 
-  alias Safira.Accounts
-  alias Safira.Uploaders.UserPicture
+  alias Pearl.Accounts
+  alias Pearl.Uploaders.UserPicture
 
-  import SafiraWeb.Components.Avatar
-  import SafiraWeb.Components.Forms
-  import SafiraWeb.Components.Button
-  import SafiraWeb.Components.ImageUploader
+  import PearlWeb.Components.Avatar
+  import PearlWeb.Components.Forms
+  import PearlWeb.Components.Button
+  import PearlWeb.Components.ImageUploader
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
   @impl true
   def update(assigns, socket) do

@@ -1,8 +1,8 @@
-defmodule Safira.Minigames.SlotsReelIcon do
+defmodule Pearl.Minigames.SlotsReelIcon do
   @moduledoc """
   Slots reel icon.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   import Ecto.Changeset
 

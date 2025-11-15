@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Backoffice.SpotlightLive.Confirm do
+defmodule PearlWeb.Backoffice.SpotlightLive.Confirm do
   @moduledoc """
   A LiveComponent for managing the spotlight configuration in the backoffice.
   """
-  use SafiraWeb, :live_component
+  use PearlWeb, :live_component
 
-  import Safira.Companies
-  alias Safira.Spotlights
+  import Pearl.Companies
+  alias Pearl.Spotlights
 
   @impl true
   def render(assigns) do

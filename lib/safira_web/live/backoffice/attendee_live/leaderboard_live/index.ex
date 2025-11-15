@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Backoffice.AttendeeLive.LeaderboardLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.AttendeeLive.LeaderboardLive.Index do
+  use PearlWeb, :backoffice_view
 
-  alias Safira.{Contest, Event}
-  import SafiraWeb.Backoffice.LeaderboardLive.Components.{Leaderboard, DaySelector}
+  alias Pearl.{Contest, Event}
+  import PearlWeb.Backoffice.LeaderboardLive.Components.{Leaderboard, DaySelector}
 
-  on_mount {SafiraWeb.StaffRoles, index: %{"attendees" => ["show_leaderboard"]}}
+  on_mount {PearlWeb.StaffRoles, index: %{"attendees" => ["show_leaderboard"]}}
 
   @limit 30
 

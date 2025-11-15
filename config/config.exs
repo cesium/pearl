@@ -7,14 +7,14 @@
 # General application configuration
 import Config
 
-config :safira,
-  ecto_repos: [Safira.Repo],
+config :pearl,
+  ecto_repos: [Pearl.Repo],
   generators: [timestamp_type: :utc_datetime],
   build_env: Mix.env()
 
 # Flop configuration
 config :flop,
-  repo: Safira.Repo
+  repo: Pearl.Repo
 
 # Waffle configuration
 config :waffle,
@@ -23,14 +23,14 @@ config :waffle,
   asset_host: {:system, "ASSET_HOST"}
 
 # Configures the endpoint
-config :safira, SafiraWeb.Endpoint,
+config :pearl, PearlWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: SafiraWeb.ErrorHTML, json: SafiraWeb.ErrorJSON],
-    layout: {SafiraWeb.Layouts, :root}
+    formats: [html: PearlWeb.ErrorHTML, json: PearlWeb.ErrorJSON],
+    layout: {PearlWeb.Layouts, :root}
   ],
-  pubsub_server: Safira.PubSub,
+  pubsub_server: Pearl.PubSub,
   live_view: [signing_salt: "TzWGKiXG"]
 
 # Configures the mailer
@@ -40,12 +40,12 @@ config :safira, SafiraWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :safira, Safira.Mailer, adapter: Swoosh.Adapters.Local
+config :pearl, Pearl.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  safira: [
+  pearl: [
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
@@ -55,7 +55,7 @@ config :esbuild,
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "4.1.12",
-  safira: [
+  pearl: [
     args: ~w(
       --input=assets/css/app.css
       --output=priv/static/assets/app.css
@@ -72,9 +72,9 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 # Configure oban job processing
-config :safira, Oban,
+config :pearl, Oban,
   engine: Oban.Engines.Basic,
-  repo: Safira.Repo,
+  repo: Pearl.Repo,
   queues: [
     badge_conditions: 10,
     badge_triggers: 10

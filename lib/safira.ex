@@ -1,6 +1,6 @@
-defmodule Safira do
+defmodule Pearl do
   @moduledoc """
-  Safira keeps the contexts that define your domain
+  Pearl keeps the contexts that define your domain
   and business logic.
 
   Contexts are also responsible for managing your data, regardless

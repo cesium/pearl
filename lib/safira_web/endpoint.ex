@@ -1,12 +1,12 @@
-defmodule SafiraWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :safira
+defmodule PearlWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :pearl
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_safira_key",
+    key: "_pearl_key",
     signing_salt: "24HoQyQL",
     same_site: "Lax"
   ]
@@ -21,9 +21,9 @@ defmodule SafiraWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :safira,
+    from: :pearl,
     gzip: false,
-    only: SafiraWeb.static_paths()
+    only: PearlWeb.static_paths()
 
   # Serve uploads from the "uploads" directory in development
   if Mix.env() == :dev do
@@ -39,7 +39,7 @@ defmodule SafiraWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :safira
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :pearl
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -57,5 +57,5 @@ defmodule SafiraWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug SafiraWeb.Router
+  plug PearlWeb.Router
 end

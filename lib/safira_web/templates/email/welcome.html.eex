@@ -24,7 +24,7 @@
   <div
     style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0"
   >
-    🎉 You&#x27;re registered for SEI&#x27;25! Here&#x27;s what you need to
+    🎉 You&#x27;re registered for ENEI&#x27;25! Here&#x27;s what you need to
     know.
     <div>
        ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿
@@ -52,7 +52,7 @@
               <div class="gmail-blend-difference">
                 <div class="gmail-blend-screen">
                   <img
-                    alt="SEI Logo"
+                    alt="ENEI Logo"
                     src=<%= "#{@phx_host}/images/email/sei-logo.png" %>
                     style="margin-left:auto;margin-right:auto;display:block;outline:none;border:none;text-decoration:none;filter:invert(0%)"
                   />
@@ -64,7 +64,7 @@
             >
               Congratulations
               <!-- --><%= @user_name %><!-- -->!<br />You are going to
-              SEI&#x27;25
+              ENEI&#x27;25
             </p>
             <div style="width:100%">
               <img
@@ -78,13 +78,13 @@
             >
               Get ready to explore cutting-edge insights and connect with the
               industry titans. We&#x27;re looking forward to meeting you at
-              SEI&#x27;25! 🤖
+              ENEI&#x27;25! 🤖
             </p>
             <p
               style="font-size:16px;line-height:26px;margin:16px 0;padding:0 16px"
             >
               See you soon,<br /><span style="color:rgb(100,116,139)"
-                >SEI Team</span
+                >ENEI Team</span
               >
             </p>
           </td>

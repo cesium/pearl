@@ -1,11 +1,11 @@
-defmodule Safira.Challenges.Challenge do
+defmodule Pearl.Challenges.Challenge do
   @moduledoc """
   Challenges attendees participate in to gain prizes
   """
 
-  use Safira.Schema
+  use Pearl.Schema
 
-  alias Safira.Challenges.ChallengePrize
+  alias Pearl.Challenges.ChallengePrize
 
   @required_fields ~w(name description type)a
   @optional_fields ~w(display_priority date)a

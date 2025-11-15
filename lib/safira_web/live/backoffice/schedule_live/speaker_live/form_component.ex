@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
-  alias Safira.Activities
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
+  alias Pearl.Activities
+  use PearlWeb, :live_component
 
-  alias Safira.Uploaders.Speaker
+  alias Pearl.Uploaders.Speaker
 
-  import SafiraWeb.Components.{Forms, ImageUploader}
+  import PearlWeb.Components.{Forms, ImageUploader}
 
   @impl true
   def render(assigns) do

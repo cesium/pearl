@@ -1,15 +1,15 @@
-defmodule Safira.Minigames.WheelSpin do
+defmodule Pearl.Minigames.WheelSpin do
   @moduledoc """
   Lucky wheel minigame spin result
   """
 
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(attendee_id drop_id)a
 
   schema "wheel_spins" do
-    belongs_to :attendee, Safira.Accounts.Attendee
-    belongs_to :drop, Safira.Minigames.WheelDrop
+    belongs_to :attendee, Pearl.Accounts.Attendee
+    belongs_to :drop, Pearl.Minigames.WheelDrop
 
     timestamps(type: :utc_datetime)
   end

@@ -1,9 +1,9 @@
-defmodule Safira.Contest.BadgeTrigger do
+defmodule Pearl.Contest.BadgeTrigger do
   @moduledoc """
   Attendee actions trigger badge redeems.
   """
-  use Safira.Schema
-  alias Safira.Contest.Badge
+  use Pearl.Schema
+  alias Pearl.Contest.Badge
 
   @required_fields ~w(event badge_id)a
   @events ~w(upload_cv_event play_slots_event play_coin_flip_event play_wheel_event redeem_spotlighted_badge_event link_credential_event)a

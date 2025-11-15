@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Landing.Components.Socials do
+defmodule PearlWeb.Landing.Components.Socials do
   @moduledoc """
   Event socials component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   def socials(assigns) do
     ~H"""
@@ -24,15 +24,15 @@ defmodule SafiraWeb.Landing.Components.Socials do
     [
       %{
         icon: "fa-brand-instagram",
-        url: "https://instagram.com/sei.uminho"
+        url: "https://instagram.com/eneiconf"
       },
       %{
         icon: "fa-brand-linkedin-in",
-        url: "https://linkedin.com/company/sei-cesium"
+        url: "https://linkedin.com/company/eneiconf"
       },
       %{
         icon: "fa-brand-github",
-        url: "https://github.com/cesium/safira"
+        url: "https://github.com/cesium/pearl"
       },
       %{
         icon: "fa-brand-x-twitter",
@@ -40,15 +40,11 @@ defmodule SafiraWeb.Landing.Components.Socials do
       },
       %{
         icon: "fa-brand-facebook",
-        url: "https://facebook.com/SEI.UMinho"
-      },
-      %{
-        icon: "fa-brand-discord",
-        url: "https://discord.gg/stUtCjsnHx"
+        url: "https://facebook.com/eneiconf"
       },
       %{
         icon: "hero-envelope-solid",
-        url: "mailto:geral@seium.org"
+        url: "mailto:geral@eneiconf.pt"
       }
     ]
   end

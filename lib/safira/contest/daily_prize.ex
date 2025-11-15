@@ -1,15 +1,15 @@
-defmodule Safira.Contest.DailyPrize do
+defmodule Pearl.Contest.DailyPrize do
   @moduledoc """
   General prizes, that can be won by having more badges and tokens at the end
   of a day or of the whole event
   """
 
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(prize_id date place)a
 
   schema "daily_prizes" do
-    belongs_to :prize, Safira.Minigames.Prize
+    belongs_to :prize, Pearl.Minigames.Prize
     field :date, :date
     field :place, :integer
 

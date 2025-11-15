@@ -1,8 +1,8 @@
-defmodule Safira.Accounts.Attendee do
+defmodule Pearl.Accounts.Attendee do
   @moduledoc """
   An event attendee.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(user_id)a
   @optional_fields ~w(tokens entries course_id ineligible)a
@@ -12,10 +12,10 @@ defmodule Safira.Accounts.Attendee do
     field :entries, :integer, default: 0
     field :ineligible, :boolean, default: false
 
-    belongs_to :course, Safira.Accounts.Course
-    belongs_to :user, Safira.Accounts.User
+    belongs_to :course, Pearl.Accounts.Course
+    belongs_to :user, Pearl.Accounts.User
 
-    has_many :enrolments, Safira.Activities.Enrolment
+    has_many :enrolments, Pearl.Activities.Enrolment
 
     timestamps(type: :utc_datetime)
   end

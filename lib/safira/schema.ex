@@ -1,4 +1,4 @@
-defmodule Safira.Schema do
+defmodule Pearl.Schema do
   @moduledoc """
   Base schema module.
   """
@@ -9,7 +9,7 @@ defmodule Safira.Schema do
 
       import Ecto.Changeset
 
-      alias Safira.Uploaders
+      alias Pearl.Uploaders
 
       @primary_key {:id, :binary_id, autogenerate: true}
       @foreign_key_type :binary_id

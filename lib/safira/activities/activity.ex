@@ -1,10 +1,10 @@
-defmodule Safira.Activities.Activity do
+defmodule Pearl.Activities.Activity do
   @moduledoc """
   Activities scheduled for the event.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
-  alias Safira.Event
+  alias Pearl.Event
 
   @required_fields ~w(title date time_start time_end)a
   @optional_fields ~w(description category_id location has_enrolments max_enrolments enrolment_count)a
@@ -36,13 +36,13 @@ defmodule Safira.Activities.Activity do
     field :max_enrolments, :integer, default: 0
     field :enrolment_count, :integer, default: 0
 
-    belongs_to :category, Safira.Activities.ActivityCategory
+    belongs_to :category, Pearl.Activities.ActivityCategory
 
-    many_to_many :speakers, Safira.Activities.Speaker,
+    many_to_many :speakers, Pearl.Activities.Speaker,
       join_through: "activities_speakers",
       on_replace: :delete
 
-    has_many :enrolments, Safira.Activities.Enrolment
+    has_many :enrolments, Pearl.Activities.Enrolment
 
     timestamps(type: :utc_datetime)
   end

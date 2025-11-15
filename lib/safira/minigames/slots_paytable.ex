@@ -1,9 +1,9 @@
-defmodule Safira.Minigames.SlotsPaytable do
+defmodule Pearl.Minigames.SlotsPaytable do
   @moduledoc """
   Schema for slots paytable that defines multipliers and their probabilities.
   Used to determine winning combinations and their payouts in the slots game.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(multiplier probability)a
 

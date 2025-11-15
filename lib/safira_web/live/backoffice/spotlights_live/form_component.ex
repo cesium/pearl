@@ -1,12 +1,12 @@
-defmodule SafiraWeb.Backoffice.SpotlightLive.FormComponent do
+defmodule PearlWeb.Backoffice.SpotlightLive.FormComponent do
   @moduledoc """
   A LiveComponent for managing the spotlight configuration in the backoffice.
   """
-  use SafiraWeb, :live_component
+  use PearlWeb, :live_component
 
-  alias Safira.Spotlights
+  alias Pearl.Spotlights
 
-  import SafiraWeb.Components.Forms
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

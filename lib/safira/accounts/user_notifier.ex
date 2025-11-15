@@ -1,12 +1,12 @@
-defmodule Safira.Accounts.UserNotifier do
+defmodule Pearl.Accounts.UserNotifier do
   @moduledoc """
   User email notifications.
   """
   import Swoosh.Email
 
-  alias Safira.Mailer
+  alias Pearl.Mailer
 
-  use Phoenix.Swoosh, view: SafiraWeb.EmailView
+  use Phoenix.Swoosh, view: PearlWeb.EmailView
 
   defp base_html_email(recipient, subject) do
     sender = {Mailer.get_sender_name(), Mailer.get_sender_address()}
@@ -62,7 +62,7 @@ defmodule Safira.Accounts.UserNotifier do
   """
   def deliver_welcome_email(user) do
     email =
-      base_html_email(user.email, "Welcome to SEI")
+      base_html_email(user.email, "Welcome to ENEI")
       |> assign(:user_name, user.name)
       |> render_body("welcome.html")
 

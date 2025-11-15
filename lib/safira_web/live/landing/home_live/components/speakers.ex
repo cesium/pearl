@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Landing.HomeLive.Components.Speakers do
+defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  import SafiraWeb.Components.Button
-  import SafiraWeb.Landing.Components.Speaker
+  import PearlWeb.Components.Button
+  import PearlWeb.Landing.Components.Speaker
 
   attr :speakers, :list, required: true
 

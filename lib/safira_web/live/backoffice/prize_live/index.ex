@@ -1,13 +1,13 @@
-defmodule SafiraWeb.Backoffice.PrizeLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.PrizeLive.Index do
+  use PearlWeb, :backoffice_view
 
-  alias Safira.Minigames
-  alias Safira.Minigames.Prize
+  alias Pearl.Minigames
+  alias Pearl.Minigames.Prize
 
-  import SafiraWeb.Components.Table
-  import SafiraWeb.Components.TableSearch
+  import PearlWeb.Components.Table
+  import PearlWeb.Components.TableSearch
 
-  on_mount {SafiraWeb.StaffRoles,
+  on_mount {PearlWeb.StaffRoles,
             index: %{"minigames" => ["show"]}, new: %{"minigames" => ["edit"]}}
 
   @impl true

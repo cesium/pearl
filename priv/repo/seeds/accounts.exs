@@ -1,10 +1,10 @@
-defmodule Safira.Repo.Seeds.Accounts do
-  alias Safira.Accounts
-  alias Safira.Accounts.{Attendee, User}
-  alias Safira.Contest.DailyTokens
-  alias Safira.Event
-  alias Safira.Repo
-  alias Safira.Roles
+defmodule Pearl.Repo.Seeds.Accounts do
+  alias Pearl.Accounts
+  alias Pearl.Accounts.{Attendee, User}
+  alias Pearl.Contest.DailyTokens
+  alias Pearl.Event
+  alias Pearl.Repo
+  alias Pearl.Roles
 
   @names File.read!("priv/fake/names.txt") |> String.split("\n")
 
@@ -39,7 +39,7 @@ defmodule Safira.Repo.Seeds.Accounts do
     courses = Accounts.list_courses()
 
     for {name, i} <- Enum.with_index(names) do
-      email = "attendee#{i}@seium.org"
+      email = "attendee#{i}@eneiconf.pt"
       handle = name |> String.downcase() |> String.replace(~r/\s/, "_")
 
       attrs = %{
@@ -77,7 +77,7 @@ defmodule Safira.Repo.Seeds.Accounts do
     roles = Roles.list_roles()
 
     for {name, i} <- Enum.with_index(names) do
-      email = "staff#{i}@seium.org"
+      email = "staff#{i}@eneiconf.pt"
       handle = name |> String.downcase() |> String.replace(~r/\s/, "_")
 
       user = %{
@@ -106,4 +106,4 @@ defmodule Safira.Repo.Seeds.Accounts do
   end
 end
 
-Safira.Repo.Seeds.Accounts.run()
+Pearl.Repo.Seeds.Accounts.run()

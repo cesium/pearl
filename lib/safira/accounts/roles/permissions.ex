@@ -1,4 +1,4 @@
-defmodule Safira.Accounts.Roles.Permissions do
+defmodule Pearl.Accounts.Roles.Permissions do
   @moduledoc """
   Backoffice permissions.
   """

@@ -1,10 +1,10 @@
-defmodule Safira.Uploaders.Badge do
+defmodule Pearl.Uploaders.Badge do
   @moduledoc """
   Badge image uploader.
   """
-  use Safira.Uploader
+  use Pearl.Uploader
 
-  alias Safira.Contest.Badge
+  alias Pearl.Contest.Badge
 
   @versions [:original]
   @extension_whitelist ~w(.svg .png)

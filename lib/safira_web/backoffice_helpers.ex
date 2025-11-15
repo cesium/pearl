@@ -1,4 +1,4 @@
-defmodule SafiraWeb.BackofficeHelpers do
+defmodule PearlWeb.BackofficeHelpers do
   @moduledoc """
   Helper functions for backoffice live views.
   """

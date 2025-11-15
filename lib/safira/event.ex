@@ -1,13 +1,13 @@
-defmodule Safira.Event do
+defmodule Pearl.Event do
   @moduledoc """
   The event context.
   """
-  use Safira.Context
+  use Pearl.Context
 
-  alias Safira.Constants
-  alias Safira.Event.Faq
+  alias Pearl.Constants
+  alias Pearl.Event.Faq
 
-  @pubsub Safira.PubSub
+  @pubsub Pearl.PubSub
 
   @doc """
   Returns whether the registrations for the event are open
@@ -319,7 +319,7 @@ defmodule Safira.Event do
 
   ## Examples
 
-      iex> create_faq(%{question: "Is SEI free?", answer: "Yes! SEI is completly free."})
+      iex> create_faq(%{question: "Is ENEI free?", answer: "Yes! ENEI is completly free."})
       {:ok, %Faq{}}
   """
   def create_faq(attrs \\ %{}) do
@@ -333,7 +333,7 @@ defmodule Safira.Event do
 
   ## Examples
 
-      iex> update_faq(faq, %{question: "Is SEI free?", answer: "Yes! SEI is completly free."})
+      iex> update_faq(faq, %{question: "Is ENEI free?", answer: "Yes! ENEI is completly free."})
       {:ok, %Faq{}}
   """
   def update_faq(%Faq{} = faq, attrs) do

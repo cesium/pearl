@@ -1,12 +1,12 @@
-defmodule SafiraWeb.Components.Table do
+defmodule PearlWeb.Components.Table do
   @moduledoc """
   Table component for displaying data in a tabular format.
   """
   use Phoenix.Component
 
   alias Plug.Conn.Query
-  use Gettext, backend: SafiraWeb.Gettext
-  import SafiraWeb.CoreComponents
+  use Gettext, backend: PearlWeb.Gettext
+  import PearlWeb.CoreComponents
 
   attr :id, :string, required: true
   attr :items, :list, required: true

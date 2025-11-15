@@ -1,8 +1,8 @@
-defmodule SafiraWeb.App.StoreLive.Components.ProductCard do
+defmodule PearlWeb.App.StoreLive.Components.ProductCard do
   @moduledoc """
   Product card component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :id, :string, required: true
   attr :data, :map, required: true

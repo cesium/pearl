@@ -92,7 +92,7 @@
   on_cancel={JS.navigate(~p"/dashboard/schedule/activities")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent}
+    module={PearlWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent}
     id={@activity.id || :new}
     title={@page_title}
     current_user={@current_user}
@@ -110,7 +110,7 @@
   on_cancel={JS.navigate(~p"/dashboard/schedule/activities")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.ScheduleLive.EnrolmentLive.Index}
+    module={PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.Index}
     id="enrolments-component"
     title={@page_title}
     current_user={@current_user}
@@ -130,7 +130,7 @@
   on_cancel={JS.navigate(~p"/dashboard/schedule/activities/#{@activity.id}/enrolments")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.ScheduleLive.EnrolmentLive.FormComponent}
+    module={PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.FormComponent}
     id="enrolments-new"
     title={@page_title}
     current_user={@current_user}
@@ -148,7 +148,7 @@
   on_cancel={JS.patch(~p"/dashboard/schedule/activities")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.ScheduleLive.SpeakerLive.Index}
+    module={PearlWeb.Backoffice.ScheduleLive.SpeakerLive.Index}
     id="speakers"
     title={@page_title}
     current_user={@current_user}
@@ -167,7 +167,7 @@
   on_cancel={JS.navigate(~p"/dashboard/schedule/activities/speakers")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent}
+    module={PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent}
     id={@speaker.id || :new}
     title={@page_title}
     current_user={@current_user}
@@ -184,7 +184,7 @@
   on_cancel={JS.patch(~p"/dashboard/schedule/activities")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.ScheduleLive.CategoryLive.Index}
+    module={PearlWeb.Backoffice.ScheduleLive.CategoryLive.Index}
     id="categories"
     title={@page_title}
     current_user={@current_user}
@@ -200,7 +200,7 @@
   on_cancel={JS.navigate(~p"/dashboard/schedule/activities/categories")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.ScheduleLive.CategoryLive.FormComponent}
+    module={PearlWeb.Backoffice.ScheduleLive.CategoryLive.FormComponent}
     id={@category.id || :new}
     title={@page_title}
     current_user={@current_user}
@@ -217,7 +217,7 @@
   on_cancel={JS.patch(~p"/dashboard/schedule/activities")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.ScheduleLive.FormComponent}
+    module={PearlWeb.Backoffice.ScheduleLive.FormComponent}
     id="schedule-config"
     title={@page_title}
     current_user={@current_user}

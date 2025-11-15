@@ -4,8 +4,8 @@
       :if={Map.get(assigns, :event_started, true)}
       current_user={@current_user}
       pages={
-        if Safira.Accounts.attendee_has_credential?(@current_user.attendee.id) do
-          SafiraWeb.Config.app_pages(!@current_user.attendee.ineligible)
+        if Pearl.Accounts.attendee_has_credential?(@current_user.attendee.id) do
+          PearlWeb.Config.app_pages(!@current_user.attendee.ineligible)
         else
           []
         end

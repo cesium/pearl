@@ -1,15 +1,15 @@
-defmodule SafiraWeb.Router do
-  use SafiraWeb, :router
+defmodule PearlWeb.Router do
+  use PearlWeb, :router
 
-  import SafiraWeb.UserAuth
-  import SafiraWeb.UserRoles
-  import SafiraWeb.EventRoles
+  import PearlWeb.UserAuth
+  import PearlWeb.UserRoles
+  import PearlWeb.EventRoles
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, html: {SafiraWeb.Layouts, :root}
+    plug :put_root_layout, html: {PearlWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
@@ -20,10 +20,10 @@ defmodule SafiraWeb.Router do
   end
 
   # Landing
-  scope "/", SafiraWeb.Landing do
+  scope "/", PearlWeb.Landing do
     pipe_through :browser
 
-    live_session :default, on_mount: [{SafiraWeb.UserAuth, :mount_current_user}] do
+    live_session :default, on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
       live "/", HomeLive.Index, :index
       live "/faqs", FAQLive.Index, :index
       live "/team", TeamLive.Index, :index
@@ -34,12 +34,12 @@ defmodule SafiraWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", SafiraWeb do
+  # scope "/api", PearlWeb do
   #   pipe_through :api
   # end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
-  if Application.compile_env(:safira, :dev_routes) do
+  if Application.compile_env(:pearl, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
     # it behind authentication and allow only admins to access it.
     # If your application does not have an admins-only section yet,
@@ -50,20 +50,20 @@ defmodule SafiraWeb.Router do
     scope "/dev" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: SafiraWeb.Telemetry
+      live_dashboard "/dashboard", metrics: PearlWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
 
   ## Authentication routes
 
-  scope "/", SafiraWeb do
+  scope "/", PearlWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
     post "/users/log_in", UserSessionController, :create
 
     live_session :redirect_if_user_is_authenticated,
-      on_mount: [{SafiraWeb.UserAuth, :redirect_if_user_is_authenticated}] do
+      on_mount: [{PearlWeb.UserAuth, :redirect_if_user_is_authenticated}] do
       live "/users/log_in", UserLoginLive, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
 
@@ -73,13 +73,13 @@ defmodule SafiraWeb.Router do
     end
   end
 
-  scope "/", SafiraWeb do
+  scope "/", PearlWeb do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,
       on_mount: [
-        {SafiraWeb.UserAuth, :ensure_authenticated},
-        {SafiraWeb.Spotlight, :fetch_current_spotlight}
+        {PearlWeb.UserAuth, :ensure_authenticated},
+        {PearlWeb.Spotlight, :fetch_current_spotlight}
       ] do
       live "/users/confirmation_pending", ConfirmationPendingLive, :index
 
@@ -357,7 +357,7 @@ defmodule SafiraWeb.Router do
     end
   end
 
-  scope "/", SafiraWeb do
+  scope "/", PearlWeb do
     pipe_through [:browser]
 
     delete "/users/log_out", UserSessionController, :delete
@@ -365,7 +365,7 @@ defmodule SafiraWeb.Router do
     live "/users/reset_password/:token", UserResetPasswordLive, :edit
 
     live_session :current_user,
-      on_mount: [{SafiraWeb.UserAuth, :mount_current_user}] do
+      on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end

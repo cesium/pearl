@@ -1,6 +1,6 @@
-defmodule SafiraWeb.Landing.Components.Sparkles do
+defmodule PearlWeb.Landing.Components.Sparkles do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   def sparkles(assigns) do
     ~H"""

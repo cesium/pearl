@@ -1,16 +1,16 @@
-defmodule Safira.Spotlights do
+defmodule Pearl.Spotlights do
   @moduledoc """
   The `Spotlights` module provides functions for managing spotlights.
   """
 
-  use Safira.Context
+  use Pearl.Context
 
   alias Ecto.Multi
-  alias Safira.Companies
-  alias Safira.Constants
-  alias Safira.Spotlights.Spotlight
+  alias Pearl.Companies
+  alias Pearl.Constants
+  alias Pearl.Spotlights.Spotlight
 
-  @pubsub Safira.PubSub
+  @pubsub Pearl.PubSub
 
   @doc """
   Creates a new spotlight for the given company.
@@ -236,7 +236,7 @@ defmodule Safira.Spotlights do
 
   ## Examples
 
-    iex> Safira.Spotlights.subscribe_to_spotlight_event()
+    iex> Pearl.Spotlights.subscribe_to_spotlight_event()
     :ok
   """
   def subscribe_to_spotlight_event do

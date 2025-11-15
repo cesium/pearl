@@ -1,11 +1,11 @@
-defmodule SafiraWeb.EventRoles do
+defmodule PearlWeb.EventRoles do
   @moduledoc false
-  use SafiraWeb, :verified_routes
+  use PearlWeb, :verified_routes
 
   import Plug.Conn
   import Phoenix.Controller
 
-  alias Safira.Event
+  alias Pearl.Event
 
   @doc """
   Used to check if registrations have opened, so users can register / log in

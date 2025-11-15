@@ -1,7 +1,7 @@
-defmodule SafiraWeb.VerifyFeatureFlag do
+defmodule PearlWeb.VerifyFeatureFlag do
   @moduledoc false
 
-  alias Safira.Event
+  alias Pearl.Event
 
   def on_mount(scope, _params, _session, socket) do
     enabled = Event.get_feature_flag!(scope)

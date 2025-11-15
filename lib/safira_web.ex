@@ -1,12 +1,12 @@
-defmodule SafiraWeb do
+defmodule PearlWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, components, channels, and so on.
 
   This can be used in your application as:
 
-      use SafiraWeb, :controller
-      use SafiraWeb, :html
+      use PearlWeb, :controller
+      use PearlWeb, :html
 
   The definitions below will be executed for every controller,
   component, etc, so keep them short and clean, focused
@@ -40,10 +40,10 @@ defmodule SafiraWeb do
     quote do
       use Phoenix.Controller,
         formats: [:html, :json],
-        layouts: [html: SafiraWeb.Layouts]
+        layouts: [html: PearlWeb.Layouts]
 
       import Plug.Conn
-      use Gettext, backend: SafiraWeb.Gettext
+      use Gettext, backend: PearlWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -52,8 +52,8 @@ defmodule SafiraWeb do
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/safira_web/templates",
-        namespace: SafiraWeb
+        root: "lib/pearl_web/templates",
+        namespace: PearlWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -67,7 +67,7 @@ defmodule SafiraWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {SafiraWeb.Layouts, :default}
+        layout: {PearlWeb.Layouts, :default}
 
       unquote(html_helpers())
     end
@@ -76,10 +76,10 @@ defmodule SafiraWeb do
   def app_view do
     quote do
       use Phoenix.LiveView,
-        layout: {SafiraWeb.Layouts, :app}
+        layout: {PearlWeb.Layouts, :app}
 
-      import SafiraWeb.Components.Avatar
-      import SafiraWeb.Components.Button
+      import PearlWeb.Components.Avatar
+      import PearlWeb.Components.Button
 
       unquote(html_helpers())
     end
@@ -88,9 +88,9 @@ defmodule SafiraWeb do
   def sponsor_view do
     quote do
       use Phoenix.LiveView,
-        layout: {SafiraWeb.Layouts, :sponsor}
+        layout: {PearlWeb.Layouts, :sponsor}
 
-      import SafiraWeb.Components.Button
+      import PearlWeb.Components.Button
 
       unquote(html_helpers())
     end
@@ -99,11 +99,11 @@ defmodule SafiraWeb do
   def backoffice_view do
     quote do
       use Phoenix.LiveView,
-        layout: {SafiraWeb.Layouts, :backoffice}
+        layout: {PearlWeb.Layouts, :backoffice}
 
-      import SafiraWeb.Components.Avatar
-      import SafiraWeb.Components.EnsurePermissions
-      import SafiraWeb.BackofficeHelpers
+      import PearlWeb.Components.Avatar
+      import PearlWeb.Components.EnsurePermissions
+      import PearlWeb.BackofficeHelpers
 
       unquote(html_helpers())
     end
@@ -112,7 +112,7 @@ defmodule SafiraWeb do
   def landing_view do
     quote do
       use Phoenix.LiveView,
-        layout: {SafiraWeb.Layouts, :landing}
+        layout: {PearlWeb.Layouts, :landing}
 
       unquote(html_helpers())
     end
@@ -121,7 +121,7 @@ defmodule SafiraWeb do
   def live_component do
     quote do
       use Phoenix.LiveComponent
-      import SafiraWeb.Components.Avatar
+      import PearlWeb.Components.Avatar
       unquote(html_helpers())
     end
   end
@@ -152,11 +152,11 @@ defmodule SafiraWeb do
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components and translation
-      import SafiraWeb.CoreComponents
-      import SafiraWeb.Components.Page
-      use Gettext, backend: SafiraWeb.Gettext
+      import PearlWeb.CoreComponents
+      import PearlWeb.Components.Page
+      use Gettext, backend: PearlWeb.Gettext
 
-      import SafiraWeb.Helpers
+      import PearlWeb.Helpers
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
@@ -164,16 +164,16 @@ defmodule SafiraWeb do
       # Routes generation with the ~p sigil
       unquote(verified_routes())
 
-      alias Safira.Uploaders
+      alias Pearl.Uploaders
     end
   end
 
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,
-        endpoint: SafiraWeb.Endpoint,
-        router: SafiraWeb.Router,
-        statics: SafiraWeb.static_paths()
+        endpoint: PearlWeb.Endpoint,
+        router: PearlWeb.Router,
+        statics: PearlWeb.static_paths()
     end
   end
 

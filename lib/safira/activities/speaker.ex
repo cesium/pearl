@@ -1,10 +1,10 @@
-defmodule Safira.Activities.Speaker do
+defmodule Pearl.Activities.Speaker do
   @moduledoc """
   Speakers participate in the event's activities.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
-  alias Safira.Activities
+  alias Pearl.Activities
 
   @required_fields ~w(name company title)a
   @optional_fields ~w(biography highlighted)a
@@ -46,11 +46,11 @@ defmodule Safira.Activities.Speaker do
   end
 end
 
-defmodule Safira.Activities.Speaker.Socials do
+defmodule Pearl.Activities.Speaker.Socials do
   @moduledoc """
   Social media handles for speakers.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   embedded_schema do
     field :github, :string

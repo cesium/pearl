@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Backoffice.BadgeLive.CategoryLive.Index do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.BadgeLive.CategoryLive.Index do
+  use PearlWeb, :live_component
 
-  alias Safira.Contest
-  import SafiraWeb.Components.EnsurePermissions
+  alias Pearl.Contest
+  import PearlWeb.Components.EnsurePermissions
 
   @impl true
   def render(assigns) do

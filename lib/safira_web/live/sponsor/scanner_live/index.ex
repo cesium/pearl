@@ -1,7 +1,7 @@
-defmodule SafiraWeb.Sponsor.ScannerLive.Index do
-  use SafiraWeb, :sponsor_view
+defmodule PearlWeb.Sponsor.ScannerLive.Index do
+  use PearlWeb, :sponsor_view
 
-  alias Safira.{Accounts, Contest}
+  alias Pearl.{Accounts, Contest}
 
   @impl true
   def render(assigns) do

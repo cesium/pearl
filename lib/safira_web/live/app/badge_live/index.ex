@@ -1,8 +1,8 @@
-defmodule SafiraWeb.App.BadgeLive.Index do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.BadgeLive.Index do
+  use PearlWeb, :app_view
 
-  alias Safira.Contest
-  import SafiraWeb.Components.Badge
+  alias Pearl.Contest
+  import PearlWeb.Components.Badge
 
   @impl true
   def mount(_params, _session, socket) do

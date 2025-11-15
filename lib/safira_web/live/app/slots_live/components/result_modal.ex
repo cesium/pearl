@@ -1,8 +1,8 @@
-defmodule SafiraWeb.App.SlotsLive.Components.ResultModal do
+defmodule PearlWeb.App.SlotsLive.Components.ResultModal do
   @moduledoc """
   Slots result modal component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :id, :string, required: true
   attr :multiplier, :integer, required: true

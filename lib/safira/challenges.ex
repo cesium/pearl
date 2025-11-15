@@ -1,11 +1,11 @@
-defmodule Safira.Challenges do
+defmodule Pearl.Challenges do
   @moduledoc """
   The Challenges context
   """
 
-  use Safira.Context
+  use Pearl.Context
 
-  alias Safira.Challenges.{Challenge, ChallengePrize}
+  alias Pearl.Challenges.{Challenge, ChallengePrize}
 
   @doc """
   Returns the list of challenges.

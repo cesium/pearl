@@ -1,8 +1,8 @@
-defmodule Safira.Contest.BadgeCategory do
+defmodule Pearl.Contest.BadgeCategory do
   @moduledoc """
   Categorizes badges.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(name color hidden)a
   @colors ~w(gray red orange amber yellow lime green emerald teal cyan sky blue indigo violet purple fuchsia pink rose)a
@@ -12,7 +12,7 @@ defmodule Safira.Contest.BadgeCategory do
     field :color, Ecto.Enum, values: @colors
     field :hidden, :boolean, default: false
 
-    has_many :badges, Safira.Contest.Badge, foreign_key: :category_id
+    has_many :badges, Pearl.Contest.Badge, foreign_key: :category_id
 
     timestamps(type: :utc_datetime)
   end

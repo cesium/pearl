@@ -1,10 +1,10 @@
-defmodule Safira.Uploaders.Product do
+defmodule Pearl.Uploaders.Product do
   @moduledoc """
   Product image uploader.
   """
-  use Safira.Uploader
+  use Pearl.Uploader
 
-  alias Safira.Store.Product
+  alias Pearl.Store.Product
 
   @versions [:original]
   @extension_whitelist ~w(.jpg .jpeg .png .svg)

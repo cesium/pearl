@@ -1,10 +1,10 @@
-defmodule SafiraWeb.UserRegistrationLiveTest do
-  use SafiraWeb.ConnCase, async: true
+defmodule PearlWeb.UserRegistrationLiveTest do
+  use PearlWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Safira.AccountsFixtures
+  import Pearl.AccountsFixtures
 
-  alias Safira.Constants
+  alias Pearl.Constants
 
   setup do
     Constants.set("registrations_open", "true")

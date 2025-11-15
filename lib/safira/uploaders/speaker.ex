@@ -1,10 +1,10 @@
-defmodule Safira.Uploaders.Speaker do
+defmodule Pearl.Uploaders.Speaker do
   @moduledoc """
   Speaker image uploader.
   """
-  use Safira.Uploader
+  use Pearl.Uploader
 
-  alias Safira.Activities.Speaker
+  alias Pearl.Activities.Speaker
 
   @versions [:original]
   @extension_whitelist ~w(.jpg .jpeg .png)

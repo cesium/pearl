@@ -1,11 +1,11 @@
-defmodule SafiraWeb.App.SlotsLive.Index do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.SlotsLive.Index do
+  use PearlWeb, :app_view
 
-  import SafiraWeb.App.SlotsLive.Components.ResultModal
-  import SafiraWeb.App.SlotsLive.Components.Machine
-  import SafiraWeb.App.SlotsLive.Components.PaytableModal
+  import PearlWeb.App.SlotsLive.Components.ResultModal
+  import PearlWeb.App.SlotsLive.Components.Machine
+  import PearlWeb.App.SlotsLive.Components.PaytableModal
 
-  alias Safira.Minigames
+  alias Pearl.Minigames
 
   @impl true
   def mount(_params, _session, socket) do

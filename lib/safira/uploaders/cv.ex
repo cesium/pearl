@@ -1,11 +1,11 @@
-defmodule Safira.Uploaders.CV do
+defmodule Pearl.Uploaders.CV do
   @moduledoc """
   Attendee Curriculum Vitae uploader.
   """
 
-  use Safira.Uploader
+  use Pearl.Uploader
 
-  alias Safira.Accounts.User
+  alias Pearl.Accounts.User
 
   @versions [:original]
   @extension_whitelist ~w(.pdf)

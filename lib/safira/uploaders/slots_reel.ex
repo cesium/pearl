@@ -1,10 +1,10 @@
-defmodule Safira.Uploaders.SlotsReelIcon do
+defmodule Pearl.Uploaders.SlotsReelIcon do
   @moduledoc """
   Slots reel image uploader.
   """
-  use Safira.Uploader
+  use Pearl.Uploader
 
-  alias Safira.Minigames.SlotsReelIcon
+  alias Pearl.Minigames.SlotsReelIcon
 
   @versions [:original]
   @extension_whitelist ~w(.svg)

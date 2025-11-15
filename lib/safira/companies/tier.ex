@@ -1,8 +1,8 @@
-defmodule Safira.Companies.Tier do
+defmodule Pearl.Companies.Tier do
   @moduledoc """
   Sponsor tiers for companies.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(name priority)a
   @optional_fields ~w(full_cv_access)a
@@ -16,7 +16,7 @@ defmodule Safira.Companies.Tier do
     field :max_spotlights, :integer, default: 1
     field :full_cv_access, :boolean, default: false
 
-    has_many :companies, Safira.Companies.Company, foreign_key: :tier_id
+    has_many :companies, Pearl.Companies.Company, foreign_key: :tier_id
 
     timestamps(type: :utc_datetime)
   end

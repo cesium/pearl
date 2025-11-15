@@ -1,10 +1,10 @@
-defmodule Safira.Contest.Badge do
+defmodule Pearl.Contest.Badge do
   @moduledoc """
   Event badge.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
-  alias Safira.Companies
+  alias Pearl.Companies
 
   @required_fields ~w(name description begin end tokens entries category_id)a
   @optional_fields ~w(image counts_for_day givable is_checkpoint)a
@@ -26,7 +26,7 @@ defmodule Safira.Contest.Badge do
     field :givable, :boolean, default: true
     field :is_checkpoint, :boolean, default: false
 
-    belongs_to :category, Safira.Contest.BadgeCategory
+    belongs_to :category, Pearl.Contest.BadgeCategory
     has_one :company, Companies.Company
 
     timestamps(type: :utc_datetime)

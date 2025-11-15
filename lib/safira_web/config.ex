@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Config do
+defmodule PearlWeb.Config do
   @moduledoc """
   Web configuration for the app.
   """
 
-  alias Safira.Event
+  alias Pearl.Event
 
   def landing_pages do
     enabled_flags = Event.get_active_feature_flags!()

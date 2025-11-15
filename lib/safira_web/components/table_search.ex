@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Components.TableSearch do
+defmodule PearlWeb.Components.TableSearch do
   @moduledoc """
   Reusable table search component.
   """
   use Phoenix.Component
-  use Gettext, backend: SafiraWeb.Gettext
+  use Gettext, backend: PearlWeb.Gettext
 
   attr :id, :string, required: true
   attr :params, :map, required: true
@@ -16,7 +16,7 @@ defmodule SafiraWeb.Components.TableSearch do
     ~H"""
     <.live_component
       id={@id}
-      module={SafiraWeb.Components.TableSearchLiveComponent}
+      module={PearlWeb.Components.TableSearchLiveComponent}
       params={@params}
       field={@field}
       path={@path}
@@ -27,14 +27,14 @@ defmodule SafiraWeb.Components.TableSearch do
   end
 end
 
-defmodule SafiraWeb.Components.TableSearchLiveComponent do
+defmodule PearlWeb.Components.TableSearchLiveComponent do
   @moduledoc """
   Live component for the TableSearch component.
   """
   use Phoenix.LiveComponent
 
   alias Plug.Conn.Query
-  import SafiraWeb.CoreComponents
+  import PearlWeb.CoreComponents
 
   @impl true
   def render(assigns) do

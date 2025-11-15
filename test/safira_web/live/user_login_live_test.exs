@@ -1,10 +1,10 @@
-defmodule SafiraWeb.UserLoginLiveTest do
-  use SafiraWeb.ConnCase, async: true
+defmodule PearlWeb.UserLoginLiveTest do
+  use PearlWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Safira.AccountsFixtures
+  import Pearl.AccountsFixtures
 
-  alias Safira.Event
+  alias Pearl.Event
 
   describe "Log in page" do
     test "redirects if already logged in", %{conn: conn} do

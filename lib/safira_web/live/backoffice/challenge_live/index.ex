@@ -1,17 +1,17 @@
-defmodule SafiraWeb.Backoffice.ChallengeLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.ChallengeLive.Index do
+  use PearlWeb, :backoffice_view
 
-  alias Safira.Challenges
-  alias Safira.Challenges.Challenge
+  alias Pearl.Challenges
+  alias Pearl.Challenges.Challenge
 
-  alias Safira.Minigames
+  alias Pearl.Minigames
 
-  alias SafiraWeb.Helpers
+  alias PearlWeb.Helpers
 
-  import SafiraWeb.Components.Table
-  import SafiraWeb.Components.TableSearch
+  import PearlWeb.Components.Table
+  import PearlWeb.Components.TableSearch
 
-  on_mount {SafiraWeb.StaffRoles,
+  on_mount {PearlWeb.StaffRoles,
             index: %{"challenges" => ["show"]},
             new: %{"challenges" => ["edit"]},
             edit: %{"challenges" => ["edit"]}}

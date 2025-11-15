@@ -1,7 +1,7 @@
-defmodule Safira.SpotlightsTest do
-  use Safira.DataCase
+defmodule Pearl.SpotlightsTest do
+  use Pearl.DataCase
 
-  alias Safira.{Constants, Spotlights}
+  alias Pearl.{Constants, Spotlights}
 
   setup do
     Constants.set("spotlight_duration", 1)
@@ -9,9 +9,9 @@ defmodule Safira.SpotlightsTest do
   end
 
   describe "spotlights" do
-    alias Safira.Spotlights.Spotlight
+    alias Pearl.Spotlights.Spotlight
 
-    import Safira.SpotlightsFixtures
+    import Pearl.SpotlightsFixtures
 
     @invalid_attrs %{end: nil, company_id: nil}
 

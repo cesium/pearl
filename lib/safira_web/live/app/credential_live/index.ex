@@ -1,7 +1,7 @@
-defmodule SafiraWeb.App.CredentialLive.Index do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.CredentialLive.Index do
+  use PearlWeb, :app_view
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
   @impl true
   def mount(_params, _session, socket) do

@@ -1,12 +1,12 @@
-defmodule SafiraWeb.Backoffice.MinigamesLive.ReelIcons.FormComponent do
+defmodule PearlWeb.Backoffice.MinigamesLive.ReelIcons.FormComponent do
   @moduledoc false
-  alias Safira.Minigames.SlotsReelIcon
-  use SafiraWeb, :live_component
+  alias Pearl.Minigames.SlotsReelIcon
+  use PearlWeb, :live_component
 
-  import SafiraWeb.Components.Forms
-  import SafiraWeb.Components.ImageUploader
+  import PearlWeb.Components.Forms
+  import PearlWeb.Components.ImageUploader
 
-  alias Safira.Minigames
+  alias Pearl.Minigames
 
   def render(assigns) do
     ~H"""

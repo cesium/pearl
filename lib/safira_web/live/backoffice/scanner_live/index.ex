@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Backoffice.ScannerLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.ScannerLive.Index do
+  use PearlWeb, :backoffice_view
 
-  alias Safira.Contest
+  alias Pearl.Contest
 
-  import SafiraWeb.Components.{Badge, Table, TableSearch, Tabs}
+  import PearlWeb.Components.{Badge, Table, TableSearch, Tabs}
 
   @impl true
   def mount(_params, _session, socket) do

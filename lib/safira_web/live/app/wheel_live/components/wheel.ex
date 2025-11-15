@@ -1,8 +1,8 @@
-defmodule SafiraWeb.App.WheelLive.Components.Wheel do
+defmodule PearlWeb.App.WheelLive.Components.Wheel do
   @moduledoc """
   Lucky wheel component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :slices, :integer, default: 10
 

@@ -1,11 +1,11 @@
-defmodule SafiraWeb.PrizeLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.PrizeLive.FormComponent do
+  use PearlWeb, :live_component
 
-  alias Safira.Minigames
-  alias Safira.Uploaders.Prize
+  alias Pearl.Minigames
+  alias Pearl.Uploaders.Prize
 
-  import SafiraWeb.Components.ImageUploader
-  import SafiraWeb.Components.Forms
+  import PearlWeb.Components.ImageUploader
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

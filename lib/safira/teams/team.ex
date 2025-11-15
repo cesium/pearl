@@ -1,15 +1,15 @@
-defmodule Safira.Teams.Team do
+defmodule Pearl.Teams.Team do
   @moduledoc """
   Team schema.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(name priority)a
 
   schema "teams" do
     field :name, :string
     field :priority, :integer
-    has_many :team_members, Safira.Teams.TeamMember
+    has_many :team_members, Pearl.Teams.TeamMember
 
     timestamps(type: :utc_datetime)
   end

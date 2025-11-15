@@ -2,9 +2,9 @@
   <div class="relative h-dvh flex overflow-hidden">
     <.sidebar
       current_user={@current_user}
-      pages={SafiraWeb.Config.backoffice_pages(@current_user)}
+      pages={PearlWeb.Config.backoffice_pages(@current_user)}
       current_page={Map.get(assigns, :current_page, nil)}
-      logo_images={%{light: "/images/safira-light.svg", dark: "/images/safira-dark.svg"}}
+      logo_images={%{light: "/images/pearl-light.svg", dark: "/images/pearl-dark.svg"}}
       background="bg-light dark:bg-dark"
       border="border-lightShade dark:border-darkShade"
       logo_padding="px-8 pt-8 pb-4"

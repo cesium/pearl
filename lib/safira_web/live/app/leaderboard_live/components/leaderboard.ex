@@ -1,11 +1,11 @@
-defmodule SafiraWeb.App.LeaderboardLive.Components.Leaderboard do
+defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
   @moduledoc """
   Leaderboard component
   """
 
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  import SafiraWeb.Components.Avatar
+  import PearlWeb.Components.Avatar
 
   attr :entries, :list, required: true
   attr :user_position, :any, required: true

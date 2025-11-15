@@ -1,14 +1,14 @@
-defmodule Safira.Contest do
+defmodule Pearl.Contest do
   @moduledoc """
   The Contest context.
   """
-  use Safira.Context
+  use Pearl.Context
 
   alias Ecto.Multi
-  alias Safira.Accounts.{Attendee, User}
-  alias Safira.{Companies, Spotlights, Workers}
+  alias Pearl.Accounts.{Attendee, User}
+  alias Pearl.{Companies, Spotlights, Workers}
 
-  alias Safira.Contest.{
+  alias Pearl.Contest.{
     Badge,
     BadgeCategory,
     BadgeCondition,
@@ -18,7 +18,7 @@ defmodule Safira.Contest do
     DailyTokens
   }
 
-  @pubsub Safira.PubSub
+  @pubsub Pearl.PubSub
 
   @doc """
   Gets a single badge.
@@ -753,8 +753,8 @@ defmodule Safira.Contest do
 
   defp presentation_query(query) do
     query
-    |> join(:inner, [dt, rd], at in Safira.Accounts.Attendee, on: at.id == rd.attendee_id)
-    |> join(:inner, [dt, rd, at], u in Safira.Accounts.User, on: u.id == at.user_id)
+    |> join(:inner, [dt, rd], at in Pearl.Accounts.Attendee, on: at.id == rd.attendee_id)
+    |> join(:inner, [dt, rd, at], u in Pearl.Accounts.User, on: u.id == at.user_id)
     |> where([dt, rd, at, u], not at.ineligible)
     |> select([dt, rd, at, u], %{
       attendee_id: at.id,

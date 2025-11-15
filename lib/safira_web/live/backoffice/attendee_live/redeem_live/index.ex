@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Backoffice.AttendeeLive.RedeemLive.Index do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.AttendeeLive.RedeemLive.Index do
+  use PearlWeb, :live_component
 
-  alias Safira.Contest
+  alias Pearl.Contest
 
-  import SafiraWeb.Components.{Badge, Table, TableSearch}
+  import PearlWeb.Components.{Badge, Table, TableSearch}
 
-  on_mount {SafiraWeb.StaffRoles, index: %{"badges" => ["revoke"]}}
+  on_mount {PearlWeb.StaffRoles, index: %{"badges" => ["revoke"]}}
 
   @limit 5
 

@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Landing.HomeLive.Components.Pitch do
+defmodule PearlWeb.Landing.HomeLive.Components.Pitch do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  # import SafiraWeb.Components.Button
+  # import PearlWeb.Components.Button
 
   def pitch(assigns) do
     ~H"""

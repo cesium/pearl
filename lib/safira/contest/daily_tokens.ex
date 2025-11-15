@@ -1,8 +1,8 @@
-defmodule Safira.Contest.DailyTokens do
+defmodule Pearl.Contest.DailyTokens do
   @moduledoc """
   Daily tokens schema.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(date tokens attendee_id)a
 
@@ -10,7 +10,7 @@ defmodule Safira.Contest.DailyTokens do
     field :date, :date
     field :tokens, :integer
 
-    belongs_to :attendee, Safira.Accounts.Attendee
+    belongs_to :attendee, Pearl.Accounts.Attendee
 
     timestamps()
   end

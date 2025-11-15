@@ -1,12 +1,12 @@
-defmodule Safira.TeamsTest do
-  use Safira.DataCase
+defmodule Pearl.TeamsTest do
+  use Pearl.DataCase
 
-  alias Safira.Teams
+  alias Pearl.Teams
 
   describe "teams" do
-    alias Safira.Teams.Team
+    alias Pearl.Teams.Team
 
-    import Safira.TeamsFixtures
+    import Pearl.TeamsFixtures
 
     @invalid_attrs %{name: nil, priority: nil}
     test "list_teams/0 returns all teams" do
@@ -57,9 +57,9 @@ defmodule Safira.TeamsTest do
   end
 
   describe "team_members" do
-    alias Safira.Teams.TeamMember
+    alias Pearl.Teams.TeamMember
 
-    import Safira.TeamsFixtures
+    import Pearl.TeamsFixtures
 
     @invalid_attrs %{name: nil}
 

@@ -1,4 +1,4 @@
-defmodule Safira.Uploader do
+defmodule Pearl.Uploader do
   @moduledoc """
   Base uploader module.
   """

@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.AddDailyPrizes do
+defmodule Pearl.Repo.Migrations.AddDailyPrizes do
   use Ecto.Migration
 
   def change do

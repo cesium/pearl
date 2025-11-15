@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Landing.HomeLive.Components.Hero do
+defmodule PearlWeb.Landing.HomeLive.Components.Hero do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  import SafiraWeb.Landing.Components.{JoinUs, Socials}
+  import PearlWeb.Landing.Components.{JoinUs, Socials}
 
   attr :event_start_date, Date, required: true
   attr :event_end_date, Date, required: true
@@ -47,8 +47,8 @@ defmodule SafiraWeb.Landing.HomeLive.Components.Hero do
       </h5>
       <h1 class="font-terminal uppercase relative z-20 text-white text-5xl xs:text-5xl sm:text-6xl w-full md:text-7xl lg:text-8xl 2xl:w-5/6 2xl:text-8xl 2xl:leading-[5rem]">
         <span class="relative z-20">
-          The software engineering week is back, let's just
-          <span class="underline decoration-8 underline-offset-8">SEI</span>
+          The National Meeting of Software Engineering Students is back, let's just
+          <span class="underline decoration-8 underline-offset-8">ENEI</span>
           that.
         </span>
       </h1>

@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Backoffice.SpotlightLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.SpotlightLive.Index do
+  use PearlWeb, :backoffice_view
 
-  alias Safira.Companies
-  alias Safira.Spotlights
+  alias Pearl.Companies
+  alias Pearl.Spotlights
 
   @impl true
   def mount(_params, _session, socket) do
@@ -63,7 +63,7 @@ defmodule SafiraWeb.Backoffice.SpotlightLive.Index do
   end
 
   defp apply_action(socket, :confirm, %{"id" => company_id}) do
-    duration = Safira.Spotlights.get_spotlight_duration()
+    duration = Pearl.Spotlights.get_spotlight_duration()
 
     socket
     |> assign(:page_title, "Confirm Spotlight")

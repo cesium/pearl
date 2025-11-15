@@ -1,9 +1,9 @@
-defmodule SafiraWeb.App.LeaderboardLive.Components.Prizes do
+defmodule PearlWeb.App.LeaderboardLive.Components.Prizes do
   @moduledoc """
   Prizes component
   """
 
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :prizes, :list, required: true
 

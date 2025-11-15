@@ -1,4 +1,4 @@
-defmodule SafiraWeb.CoreComponents do
+defmodule PearlWeb.CoreComponents do
   @moduledoc """
   Provides core UI components.
 
@@ -19,7 +19,7 @@ defmodule SafiraWeb.CoreComponents do
   alias Phoenix.HTML.Form
   alias Phoenix.LiveView.JS
 
-  use Gettext, backend: SafiraWeb.Gettext
+  use Gettext, backend: PearlWeb.Gettext
 
   @doc """
   Renders a modal.
@@ -618,9 +618,9 @@ defmodule SafiraWeb.CoreComponents do
     # with our gettext backend as first argument. Translations are
     # available in the errors.po file (as we use the "errors" domain).
     if count = opts[:count] do
-      Gettext.dngettext(SafiraWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(PearlWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(SafiraWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(PearlWeb.Gettext, "errors", msg, opts)
     end
   end
 

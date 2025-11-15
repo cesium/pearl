@@ -1,8 +1,8 @@
-defmodule Safira.Contest.BadgeCondition do
+defmodule Pearl.Contest.BadgeCondition do
   @moduledoc """
   Condition for badge automatic redeem.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(badge_id)a
   @optional_fields ~w(amount_needed category_id begin end)a
@@ -12,8 +12,8 @@ defmodule Safira.Contest.BadgeCondition do
     field :begin, :utc_datetime
     field :end, :utc_datetime
 
-    belongs_to :category, Safira.Contest.BadgeCategory
-    belongs_to :badge, Safira.Contest.Badge
+    belongs_to :category, Pearl.Contest.BadgeCategory
+    belongs_to :badge, Pearl.Contest.Badge
 
     timestamps(type: :utc_datetime)
   end

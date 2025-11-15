@@ -1,3 +1,3 @@
-defmodule SafiraWeb.PageControllerTest do
-  use SafiraWeb.ConnCase
+defmodule PearlWeb.PageControllerTest do
+  use PearlWeb.ConnCase
 end

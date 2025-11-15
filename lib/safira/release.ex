@@ -1,11 +1,11 @@
-defmodule Safira.Release do
+defmodule Pearl.Release do
   @moduledoc """
   Used for executing DB release tasks when run in production without Mix
   installed.
   """
-  @app :safira
+  @app :pearl
 
-  alias Safira.Accounts.Roles.Permissions
+  alias Pearl.Accounts.Roles.Permissions
 
   def migrate do
     load_app()
@@ -31,17 +31,17 @@ defmodule Safira.Release do
     permissions = Permissions.all()
 
     role =
-      Safira.Roles.get_role_by_name(role)
+      Pearl.Roles.get_role_by_name(role)
       |> case do
         r when r == nil ->
-          Safira.Roles.create_role(%{name: role, permissions: permissions}) |> elem(1)
+          Pearl.Roles.create_role(%{name: role, permissions: permissions}) |> elem(1)
 
         r ->
           r
       end
 
     # Create user
-    Safira.Accounts.register_staff_user(%{
+    Pearl.Accounts.register_staff_user(%{
       name: name,
       email: email,
       password: password,

@@ -1,9 +1,9 @@
-defmodule SafiraWeb.App.WaitingLive.Index do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.WaitingLive.Index do
+  use PearlWeb, :app_view
 
-  alias Safira.Event
+  alias Pearl.Event
 
-  import SafiraWeb.Landing.Components.Sparkles
+  import PearlWeb.Landing.Components.Sparkles
 
   @impl true
   def render(assigns) do

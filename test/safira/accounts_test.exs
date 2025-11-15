@@ -1,10 +1,10 @@
-defmodule Safira.AccountsTest do
-  use Safira.DataCase
+defmodule Pearl.AccountsTest do
+  use Pearl.DataCase
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
-  import Safira.AccountsFixtures
-  alias Safira.Accounts.{User, UserToken}
+  import Pearl.AccountsFixtures
+  alias Pearl.Accounts.{User, UserToken}
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do
@@ -549,9 +549,9 @@ defmodule Safira.AccountsTest do
   end
 
   describe "credentials" do
-    alias Safira.Accounts.Credential
+    alias Pearl.Accounts.Credential
 
-    import Safira.AccountsFixtures
+    import Pearl.AccountsFixtures
 
     test "list_credentials/0 returns all credentials" do
       credential = credential_fixture()

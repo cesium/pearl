@@ -1,10 +1,10 @@
-defmodule SafiraWeb.UserUpdateEmailConfirmation do
+defmodule PearlWeb.UserUpdateEmailConfirmation do
   @moduledoc """
   A live view where the new email is confirmed an updated, over the token passed in the URL.
   """
-  use SafiraWeb, :live_view
+  use PearlWeb, :live_view
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
   def mount(%{"token" => token}, _session, socket) do
     user = socket.assigns.current_user

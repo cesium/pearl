@@ -1,14 +1,14 @@
-defmodule SafiraWeb.Backoffice.PurchaseLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.PurchaseLive.Index do
+  use PearlWeb, :backoffice_view
 
-  alias Safira.Inventory
-  alias Safira.Store
+  alias Pearl.Inventory
+  alias Pearl.Store
 
-  import SafiraWeb.Helpers
-  import SafiraWeb.Components.Table
-  import SafiraWeb.Components.TableSearch
+  import PearlWeb.Helpers
+  import PearlWeb.Components.Table
+  import PearlWeb.Components.TableSearch
 
-  on_mount {SafiraWeb.StaffRoles,
+  on_mount {PearlWeb.StaffRoles,
             show: %{"purchases" => ["show"]},
             redeem: %{"purchases" => ["redeem"]},
             refund: %{"purchases" => ["refund"]}}

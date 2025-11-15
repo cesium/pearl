@@ -1,6 +1,6 @@
-defmodule SafiraWeb.Landing.HomeLive.Components.Partners do
+defmodule PearlWeb.Landing.HomeLive.Components.Partners do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   def partners(assigns) do
     ~H"""

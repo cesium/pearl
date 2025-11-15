@@ -1,5 +1,5 @@
-defmodule SafiraWeb.Backoffice.ProfileSettingsLive do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.ProfileSettingsLive do
+  use PearlWeb, :backoffice_view
 
   @impl true
   def render(assigns) do
@@ -7,12 +7,12 @@ defmodule SafiraWeb.Backoffice.ProfileSettingsLive do
     <.page title="Profile Settings" subtitle="Manage your profile settings" size={:xl}>
       <div class="flex flex-col sm:w-fit sm:mx-auto">
         <.live_component
-          module={SafiraWeb.UserAuth.Components.UserProfileSettings}
+          module={PearlWeb.UserAuth.Components.UserProfileSettings}
           id="attendee-user-profile-settings"
           user={@current_user}
         />
         <.live_component
-          module={SafiraWeb.Components.CVUpload}
+          module={PearlWeb.Components.CVUpload}
           id={@current_user.id || :new}
           current_user={@current_user}
           action={@live_action}

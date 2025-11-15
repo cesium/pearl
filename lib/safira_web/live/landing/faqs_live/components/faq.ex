@@ -1,6 +1,6 @@
-defmodule SafiraWeb.Landing.FAQLive.Components.Faq do
+defmodule PearlWeb.Landing.FAQLive.Components.Faq do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :id, :string, required: true
   attr :question, :string, required: true

@@ -1,4 +1,4 @@
-defmodule Safira.Application do
+defmodule Pearl.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -8,24 +8,24 @@ defmodule Safira.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      SafiraWeb.Telemetry,
-      Safira.Repo,
-      {DNSCluster, query: Application.get_env(:safira, :dns_cluster_query) || :ignore},
+      PearlWeb.Telemetry,
+      Pearl.Repo,
+      {DNSCluster, query: Application.get_env(:pearl, :dns_cluster_query) || :ignore},
       # Start the PubSub system
-      {Phoenix.PubSub, name: Safira.PubSub},
+      {Phoenix.PubSub, name: Pearl.PubSub},
       # Start the Finch HTTP client for sending emails
-      {Finch, name: Safira.Finch},
+      {Finch, name: Pearl.Finch},
       # Start the Presence system
-      SafiraWeb.Presence,
+      PearlWeb.Presence,
       # Start the Oban queue
-      {Oban, Application.fetch_env!(:safira, Oban)},
-      # Start Safira web server
-      SafiraWeb.Endpoint
+      {Oban, Application.fetch_env!(:pearl, Oban)},
+      # Start Pearl web server
+      PearlWeb.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Safira.Supervisor]
+    opts = [strategy: :one_for_one, name: Pearl.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -33,7 +33,7 @@ defmodule Safira.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    SafiraWeb.Endpoint.config_change(changed, removed)
+    PearlWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

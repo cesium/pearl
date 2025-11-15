@@ -1,9 +1,9 @@
-defmodule SafiraWeb.ChallengeLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.ChallengeLive.FormComponent do
+  use PearlWeb, :live_component
 
-  alias Safira.Challenges
-  alias Safira.Challenges.Challenge
-  import SafiraWeb.Components.Forms
+  alias Pearl.Challenges
+  alias Pearl.Challenges.Challenge
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Components.Page do
+defmodule PearlWeb.Components.Page do
   @moduledoc """
   Page layout component.
   """
   use Phoenix.Component
 
-  import SafiraWeb.CoreComponents
+  import PearlWeb.CoreComponents
 
   attr :title, :string, default: ""
   attr :subtitle, :string, default: ""

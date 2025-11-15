@@ -1,8 +1,8 @@
-defmodule Safira.Event.Faq do
+defmodule Pearl.Event.Faq do
   @moduledoc """
   A frequently asked question.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(answer question)a
 

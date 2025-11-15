@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Teamcomponent do
+defmodule PearlWeb.Teamcomponent do
   @moduledoc """
   Team component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :team_name, :string, required: true
   attr :members, :list, required: true

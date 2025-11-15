@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Landing.HomeLive.Components.Sponsors do
+defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  alias Safira.Uploaders
+  alias Pearl.Uploaders
 
   def sponsors(assigns) do
     ~H"""

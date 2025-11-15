@@ -1,7 +1,7 @@
-defmodule SafiraWeb.Live.Backoffice.EventLive.TeamsLive.Index do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.Index do
+  use PearlWeb, :live_component
 
-  alias Safira.Teams
+  alias Pearl.Teams
 
   @impl true
   def render(assigns) do

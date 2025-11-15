@@ -1,10 +1,10 @@
-defmodule Safira.Workers.RunBadgeTriggers do
+defmodule Pearl.Workers.RunBadgeTriggers do
   @moduledoc """
   This worker gets called when an attendee triggers an event that might award them a badge.
   """
   use Oban.Worker, queue: :badge_triggers
 
-  alias Safira.{Accounts, Contest}
+  alias Pearl.{Accounts, Contest}
 
   @impl Oban.Worker
   def perform(%Oban.Job{args: %{"attendee_id" => attendee_id, "event" => event} = _args}) do

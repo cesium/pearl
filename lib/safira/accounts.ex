@@ -1,13 +1,13 @@
-defmodule Safira.Accounts do
+defmodule Pearl.Accounts do
   @moduledoc """
   The Accounts context.
   """
 
-  use Safira.Context
+  use Pearl.Context
 
-  alias Safira.Accounts.{Attendee, Course, Credential, Staff, User, UserNotifier, UserToken}
-  alias Safira.Companies.Company
-  alias Safira.Contest
+  alias Pearl.Accounts.{Attendee, Course, Credential, Staff, User, UserNotifier, UserToken}
+  alias Pearl.Companies.Company
+  alias Pearl.Contest
 
   ## Database getters
 

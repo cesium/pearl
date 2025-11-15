@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Backoffice.ScheduleLive.FormComponent do
+defmodule PearlWeb.Backoffice.ScheduleLive.FormComponent do
   @moduledoc false
-  use SafiraWeb, :live_component
+  use PearlWeb, :live_component
 
-  import SafiraWeb.Components.Forms
+  import PearlWeb.Components.Forms
 
   alias Ecto.Changeset
-  alias Safira.Event
+  alias Pearl.Event
 
   def render(assigns) do
     ~H"""

@@ -1,7 +1,7 @@
-defmodule SafiraWeb.App.StoreLive.Show do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.StoreLive.Show do
+  use PearlWeb, :app_view
 
-  alias Safira.{Accounts, Store}
+  alias Pearl.{Accounts, Store}
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do

@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Landing.FAQLive.Index do
-  use SafiraWeb, :landing_view
+defmodule PearlWeb.Landing.FAQLive.Index do
+  use PearlWeb, :landing_view
 
-  alias Safira.Event
-  import SafiraWeb.Landing.FAQLive.Components.{Faq, FindUs}
+  alias Pearl.Event
+  import PearlWeb.Landing.FAQLive.Components.{Faq, FindUs}
 
-  on_mount {SafiraWeb.VerifyFeatureFlag, "faqs_enabled"}
+  on_mount {PearlWeb.VerifyFeatureFlag, "faqs_enabled"}
 
   @impl true
   def mount(_params, _session, socket) do

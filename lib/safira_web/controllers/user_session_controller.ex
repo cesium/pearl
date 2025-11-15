@@ -1,8 +1,8 @@
-defmodule SafiraWeb.UserSessionController do
-  use SafiraWeb, :controller
+defmodule PearlWeb.UserSessionController do
+  use PearlWeb, :controller
 
-  alias Safira.Accounts
-  alias SafiraWeb.UserAuth
+  alias Pearl.Accounts
+  alias PearlWeb.UserAuth
 
   def new(conn, %{"user" => user_params}) do
     case Accounts.register_attendee_user(user_params) do
@@ -70,9 +70,9 @@ defmodule SafiraWeb.UserSessionController do
   end
 
   defp process_action(conn, "enrol", id, user, return_to, _info) do
-    attendee = Safira.Accounts.get_user_attendee(user.id)
+    attendee = Pearl.Accounts.get_user_attendee(user.id)
 
-    case Safira.Activities.enrol(attendee.id, id) do
+    case Pearl.Activities.enrol(attendee.id, id) do
       {:ok, _} ->
         put_flash(conn, :info, "Successfully enrolled")
         |> put_session(:user_return_to, return_to)

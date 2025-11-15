@@ -1,7 +1,7 @@
-defmodule SafiraWeb.Backoffice.StaffLive.RoleLive.Index do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.StaffLive.RoleLive.Index do
+  use PearlWeb, :live_component
 
-  alias Safira.Roles
+  alias Pearl.Roles
 
   @impl true
   def render(assigns) do

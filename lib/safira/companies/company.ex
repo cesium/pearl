@@ -1,10 +1,10 @@
-defmodule Safira.Companies.Company do
+defmodule Pearl.Companies.Company do
   @moduledoc """
   Companies present at the event.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
-  alias Safira.Accounts.User
+  alias Pearl.Accounts.User
 
   @derive {
     Flop.Schema,
@@ -30,11 +30,11 @@ defmodule Safira.Companies.Company do
     field :logo, Uploaders.Company.Type
 
     belongs_to :user, User
-    belongs_to :badge, Safira.Contest.Badge
-    belongs_to :tier, Safira.Companies.Tier
+    belongs_to :badge, Pearl.Contest.Badge
+    belongs_to :tier, Pearl.Companies.Tier
 
     timestamps(type: :utc_datetime)
-    has_many :spotlights, Safira.Spotlights.Spotlight
+    has_many :spotlights, Pearl.Spotlights.Spotlight
   end
 
   @doc false
@@ -48,7 +48,7 @@ defmodule Safira.Companies.Company do
     |> cast_assoc(:badge)
     |> cast_assoc(:tier)
     |> validate_url(:url)
-    |> unsafe_validate_unique(:badge_id, Safira.Repo)
+    |> unsafe_validate_unique(:badge_id, Pearl.Repo)
   end
 
   @doc false

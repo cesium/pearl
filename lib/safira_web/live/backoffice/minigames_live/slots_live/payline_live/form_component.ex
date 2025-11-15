@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent do
+defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent do
   @moduledoc false
-  alias Safira.Minigames.SlotsPayline
-  use SafiraWeb, :live_component
+  alias Pearl.Minigames.SlotsPayline
+  use PearlWeb, :live_component
 
-  alias Safira.Minigames
+  alias Pearl.Minigames
 
-  import SafiraWeb.Components.Forms
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

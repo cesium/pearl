@@ -1,9 +1,9 @@
-defmodule SafiraWeb.App.VaultLive.Index do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.VaultLive.Index do
+  use PearlWeb, :app_view
 
-  import SafiraWeb.App.VaultLive.Components.Item
+  import PearlWeb.App.VaultLive.Components.Item
 
-  alias Safira.Inventory
+  alias Pearl.Inventory
 
   @impl true
   def mount(_params, _session, socket) do

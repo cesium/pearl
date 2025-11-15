@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Backoffice.SpotlightLive.New do
+defmodule PearlWeb.Backoffice.SpotlightLive.New do
   @moduledoc """
   A LiveComponent for managing the spotlight configuration in the backoffice.
   """
-  use SafiraWeb, :live_component
+  use PearlWeb, :live_component
 
-  import SafiraWeb.Components.Forms
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do
@@ -44,7 +44,7 @@ defmodule SafiraWeb.Backoffice.SpotlightLive.New do
 
   defp options(companies) do
     companies
-    |> Enum.filter(&Safira.Companies.can_create_spotlight?(&1.id))
+    |> Enum.filter(&Pearl.Companies.can_create_spotlight?(&1.id))
     |> Enum.map(&{&1.name, &1.id})
   end
 

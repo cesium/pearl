@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Landing.SpeakersLive.Components.Speakers do
+defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
   @moduledoc """
   Speakers component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   alias Plug.Conn.Query
-  alias Safira.Activities
+  alias Pearl.Activities
 
   attr :event_start_date, Date, required: true
   attr :event_end_date, Date, required: true

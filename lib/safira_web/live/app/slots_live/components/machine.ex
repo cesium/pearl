@@ -1,11 +1,11 @@
-defmodule SafiraWeb.App.SlotsLive.Components.Machine do
+defmodule PearlWeb.App.SlotsLive.Components.Machine do
   @moduledoc """
   Slots machine component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  alias Safira.Minigames
-  alias Safira.Uploaders.SlotsReelIcon
+  alias Pearl.Minigames
+  alias Pearl.Uploaders.SlotsReelIcon
 
   def machine(assigns) do
     reels = Minigames.list_slots_reel_icons()

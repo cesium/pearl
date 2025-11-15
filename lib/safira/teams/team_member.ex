@@ -1,15 +1,15 @@
-defmodule Safira.Teams.TeamMember do
+defmodule Pearl.Teams.TeamMember do
   @moduledoc """
   Team member schema.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(name team_id)a
   @optional_fields ~w(url)a
 
   schema "team_members" do
     field :name, :string
-    belongs_to :team, Safira.Teams.Team
+    belongs_to :team, Pearl.Teams.Team
     field :url, :string
     field :image, Uploaders.Member.Type
 

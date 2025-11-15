@@ -1,13 +1,13 @@
-defmodule SafiraWeb.Backoffice.ScheduleLive.Index do
-  alias Safira.Activities.Speaker
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.ScheduleLive.Index do
+  alias Pearl.Activities.Speaker
+  use PearlWeb, :backoffice_view
 
-  import SafiraWeb.Components.{Table, TableSearch}
+  import PearlWeb.Components.{Table, TableSearch}
 
-  alias Safira.Activities
-  alias Safira.Activities.{Activity, ActivityCategory, Enrolment, Speaker}
+  alias Pearl.Activities
+  alias Pearl.Activities.{Activity, ActivityCategory, Enrolment, Speaker}
 
-  on_mount {SafiraWeb.StaffRoles, index: %{"schedule" => ["show"]}}
+  on_mount {PearlWeb.StaffRoles, index: %{"schedule" => ["show"]}}
 
   @impl true
   def mount(_params, _session, socket) do

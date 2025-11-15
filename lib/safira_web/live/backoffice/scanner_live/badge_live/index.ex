@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Backoffice.ScannerLive.BadgeLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.ScannerLive.BadgeLive.Index do
+  use PearlWeb, :backoffice_view
 
-  alias Safira.{Accounts, Contest}
+  alias Pearl.{Accounts, Contest}
 
-  import SafiraWeb.Components.Tabs
+  import PearlWeb.Components.Tabs
 
   @impl true
   def render(assigns) do

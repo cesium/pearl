@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Landing.HomeLive.Index do
-  alias Safira.Companies
-  use SafiraWeb, :landing_view
+defmodule PearlWeb.Landing.HomeLive.Index do
+  alias Pearl.Companies
+  use PearlWeb, :landing_view
 
-  import SafiraWeb.Landing.HomeLive.Components.{Hero, Partners, Pitch, Sponsors, Speakers}
+  import PearlWeb.Landing.HomeLive.Components.{Hero, Partners, Pitch, Sponsors, Speakers}
 
-  alias Safira.{Activities, Event}
+  alias Pearl.{Activities, Event}
 
   @impl true
   def mount(_params, _session, socket) do

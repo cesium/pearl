@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Components.Button do
+defmodule PearlWeb.Components.Button do
   @moduledoc """
   Button component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  import SafiraWeb.CoreComponents
+  import PearlWeb.CoreComponents
 
   attr :title, :string, default: ""
   attr :subtitle, :string, default: ""

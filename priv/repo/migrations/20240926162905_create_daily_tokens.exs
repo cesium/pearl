@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateDailyTokens do
+defmodule Pearl.Repo.Migrations.CreateDailyTokens do
   use Ecto.Migration
 
   def change do

@@ -1,9 +1,9 @@
-defmodule Safira.MixProject do
+defmodule Pearl.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :safira,
+      app: :pearl,
       version: "0.1.0",
       elixir: "~> 1.19.1",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule Safira.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Safira.Application, []},
+      mod: {Pearl.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -126,10 +126,10 @@ defmodule Safira.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind safira", "esbuild safira"],
+      "assets.build": ["tailwind pearl", "esbuild pearl"],
       "assets.deploy": [
-        "tailwind safira --minify",
-        "esbuild safira --minify",
+        "tailwind pearl --minify",
+        "esbuild pearl --minify",
         "phx.digest"
       ],
       lint: ["credo --all --strict"]

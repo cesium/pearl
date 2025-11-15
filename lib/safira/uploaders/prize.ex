@@ -1,10 +1,10 @@
-defmodule Safira.Uploaders.Prize do
+defmodule Pearl.Uploaders.Prize do
   @moduledoc """
   Prize image uploader.
   """
-  use Safira.Uploader
+  use Pearl.Uploader
 
-  alias Safira.Minigames.Prize
+  alias Pearl.Minigames.Prize
 
   @versions [:original]
   @extension_whitelist ~w(.jpg .jpeg .png .svg)

@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Backoffice.ProductLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.ProductLive.FormComponent do
+  use PearlWeb, :live_component
 
-  alias Safira.Store
-  alias Safira.Uploaders.Product
+  alias Pearl.Store
+  alias Pearl.Uploaders.Product
 
-  import SafiraWeb.Components.{Forms, ImageUploader}
+  import PearlWeb.Components.{Forms, ImageUploader}
 
   @impl true
   def render(assigns) do

@@ -1,10 +1,10 @@
-defmodule SafiraWeb.App.UserLive.Show do
-  use SafiraWeb, :app_view
+defmodule PearlWeb.App.UserLive.Show do
+  use PearlWeb, :app_view
 
-  alias Safira.Accounts
-  alias Safira.Contest
+  alias Pearl.Accounts
+  alias Pearl.Contest
 
-  import SafiraWeb.Components.Badge
+  import PearlWeb.Components.Badge
 
   @impl true
   def mount(_params, _session, socket) do

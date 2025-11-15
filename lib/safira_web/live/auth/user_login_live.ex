@@ -1,9 +1,9 @@
-defmodule SafiraWeb.UserLoginLive do
-  use SafiraWeb, :landing_view
+defmodule PearlWeb.UserLoginLive do
+  use PearlWeb, :landing_view
 
-  alias Safira.Event
+  alias Pearl.Event
 
-  import SafiraWeb.Components.Button
+  import PearlWeb.Components.Button
 
   def render(assigns) do
     ~H"""

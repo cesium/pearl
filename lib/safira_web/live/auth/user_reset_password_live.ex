@@ -1,9 +1,9 @@
-defmodule SafiraWeb.UserResetPasswordLive do
-  use SafiraWeb, :landing_view
+defmodule PearlWeb.UserResetPasswordLive do
+  use PearlWeb, :landing_view
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
-  import SafiraWeb.Components.Button
+  import PearlWeb.Components.Button
 
   def render(assigns) do
     ~H"""

@@ -1,9 +1,9 @@
-defmodule SafiraWeb.ConfirmationPendingLive do
-  use SafiraWeb, :landing_view
+defmodule PearlWeb.ConfirmationPendingLive do
+  use PearlWeb, :landing_view
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
-  import SafiraWeb.Components.Button
+  import PearlWeb.Components.Button
 
   @delay_between_emails 30
 
@@ -40,7 +40,7 @@ defmodule SafiraWeb.ConfirmationPendingLive do
         />
       </div>
       <p class="text-sm sm:text-md text-center mt-8 opacity-80 px-4">
-        {gettext("Need help? Contact us at geral@seium.org.")}
+        {gettext("Need help? Contact us at geral@eneiconf.pt.")}
       </p>
     </div>
     """

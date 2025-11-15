@@ -1,7 +1,7 @@
-defmodule SafiraWeb.Backoffice.ScannerLive.EnrolmentLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.ScannerLive.EnrolmentLive.Index do
+  use PearlWeb, :backoffice_view
 
-  alias Safira.{Accounts, Activities}
+  alias Pearl.{Accounts, Activities}
 
   @impl true
   def render(assigns) do

@@ -1,8 +1,8 @@
-defmodule SafiraWeb.App.VaultLive.Components.Item do
+defmodule PearlWeb.App.VaultLive.Components.Item do
   @moduledoc """
   Vault item component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :id, :string, required: true
   attr :name, :string, required: true

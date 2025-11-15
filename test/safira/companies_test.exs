@@ -1,13 +1,13 @@
-defmodule Safira.CompaniesTest do
-  use Safira.DataCase
+defmodule Pearl.CompaniesTest do
+  use Pearl.DataCase
 
-  alias Safira.Companies
+  alias Pearl.Companies
 
   describe "companies" do
-    alias Safira.Companies.Company
+    alias Pearl.Companies.Company
 
-    import Safira.AccountsFixtures
-    import Safira.CompaniesFixtures
+    import Pearl.AccountsFixtures
+    import Pearl.CompaniesFixtures
 
     @invalid_attrs %{name: nil}
 
@@ -25,7 +25,7 @@ defmodule Safira.CompaniesTest do
       valid_attrs = %{
         name: "some name",
         handle: "handle",
-        email: "email@seium.org",
+        email: "email@eneiconf.pt",
         password: "password1234",
         user_id: user_fixture().id,
         tier_id: tier_fixture().id
@@ -66,9 +66,9 @@ defmodule Safira.CompaniesTest do
   end
 
   describe "tiers" do
-    alias Safira.Companies.Tier
+    alias Pearl.Companies.Tier
 
-    import Safira.CompaniesFixtures
+    import Pearl.CompaniesFixtures
 
     @invalid_attrs %{name: nil, priority: nil}
 

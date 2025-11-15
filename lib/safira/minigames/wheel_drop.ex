@@ -1,8 +1,8 @@
-defmodule Safira.Minigames.WheelDrop do
+defmodule Pearl.Minigames.WheelDrop do
   @moduledoc """
   Lucky wheel minigame drop.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(probability max_per_attendee)a
   @optional_fields ~w(prize_id badge_id tokens entries)a
@@ -13,8 +13,8 @@ defmodule Safira.Minigames.WheelDrop do
     field :tokens, :integer, default: 0
     field :entries, :integer, default: 0
 
-    belongs_to :prize, Safira.Minigames.Prize
-    belongs_to :badge, Safira.Contest.Badge
+    belongs_to :prize, Pearl.Minigames.Prize
+    belongs_to :badge, Pearl.Contest.Badge
 
     timestamps(type: :utc_datetime)
   end

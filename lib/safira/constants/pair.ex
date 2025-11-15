@@ -1,4 +1,4 @@
-defmodule Safira.Constants.Pair do
+defmodule Pearl.Constants.Pair do
   @moduledoc """
   Constants pair schema.
   """

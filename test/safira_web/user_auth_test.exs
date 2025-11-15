@@ -1,17 +1,17 @@
-defmodule SafiraWeb.UserAuthTest do
-  use SafiraWeb.ConnCase, async: true
+defmodule PearlWeb.UserAuthTest do
+  use PearlWeb.ConnCase, async: true
 
   alias Phoenix.LiveView
-  alias Safira.Accounts
-  alias SafiraWeb.UserAuth
-  import Safira.AccountsFixtures
+  alias Pearl.Accounts
+  alias PearlWeb.UserAuth
+  import Pearl.AccountsFixtures
 
-  @remember_me_cookie "_safira_web_user_remember_me"
+  @remember_me_cookie "_pearl_web_user_remember_me"
 
   setup %{conn: conn} do
     conn =
       conn
-      |> Map.replace!(:secret_key_base, SafiraWeb.Endpoint.config(:secret_key_base))
+      |> Map.replace!(:secret_key_base, PearlWeb.Endpoint.config(:secret_key_base))
       |> init_test_session(%{})
 
     %{user: user_fixture(), conn: conn}
@@ -66,7 +66,7 @@ defmodule SafiraWeb.UserAuthTest do
 
     test "broadcasts to the given live_socket_id", %{conn: conn} do
       live_socket_id = "users_sessions:abcdef-token"
-      SafiraWeb.Endpoint.subscribe(live_socket_id)
+      PearlWeb.Endpoint.subscribe(live_socket_id)
 
       conn
       |> put_session(:live_socket_id, live_socket_id)
@@ -164,7 +164,7 @@ defmodule SafiraWeb.UserAuthTest do
       session = conn |> put_session(:user_token, user_token) |> get_session()
 
       socket = %LiveView.Socket{
-        endpoint: SafiraWeb.Endpoint,
+        endpoint: PearlWeb.Endpoint,
         assigns: %{__changed__: %{}, flash: %{}}
       }
 
@@ -176,7 +176,7 @@ defmodule SafiraWeb.UserAuthTest do
       session = conn |> get_session()
 
       socket = %LiveView.Socket{
-        endpoint: SafiraWeb.Endpoint,
+        endpoint: PearlWeb.Endpoint,
         assigns: %{__changed__: %{}, flash: %{}}
       }
 

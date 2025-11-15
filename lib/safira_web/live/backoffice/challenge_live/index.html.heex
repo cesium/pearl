@@ -61,7 +61,7 @@
   on_cancel={JS.patch(~p"/dashboard/minigames/challenges")}
 >
   <.live_component
-    module={SafiraWeb.ChallengeLive.FormComponent}
+    module={PearlWeb.ChallengeLive.FormComponent}
     id={@challenge.id || :new}
     title={@page_title}
     action={@live_action}

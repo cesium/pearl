@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Landing.Components.Navbar do
+defmodule PearlWeb.Landing.Components.Navbar do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  import SafiraWeb.Components.{Avatar, Dropdown}
-  import SafiraWeb.Landing.Components.JoinUs
+  import PearlWeb.Components.{Avatar, Dropdown}
+  import PearlWeb.Landing.Components.JoinUs
 
   attr :pages, :list, default: []
   attr :registrations_open?, :boolean, default: false
@@ -21,7 +21,7 @@ defmodule SafiraWeb.Landing.Components.Navbar do
                   <img
                     src="/images/sei-logo.svg"
                     width={50}
-                    alt="SEI Logo"
+                    alt="ENEI Logo"
                     class="cursor-pointer transition-colors duration-75 ease-in hover:text-accent h-full"
                   />
                 </div>

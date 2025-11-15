@@ -1,11 +1,11 @@
-defmodule Safira.Constants do
+defmodule Pearl.Constants do
   @moduledoc """
-  Constant key value pairs used in the Safira application.
+  Constant key value pairs used in the Pearl application.
   """
 
-  use Safira.Context
+  use Pearl.Context
 
-  alias Safira.Constants.Pair
+  alias Pearl.Constants.Pair
 
   @doc """
   Get a value by key.

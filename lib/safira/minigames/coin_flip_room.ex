@@ -1,15 +1,15 @@
-defmodule Safira.Minigames.CoinFlipRoom do
+defmodule Pearl.Minigames.CoinFlipRoom do
   @moduledoc """
   Coin flip minigame room.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
   @required_fields ~w(bet player1_id)a
   @optional_fields ~w(player2_id finished result)a
 
   schema "coin_flip_rooms" do
-    belongs_to :player1, Safira.Accounts.Attendee
-    belongs_to :player2, Safira.Accounts.Attendee
+    belongs_to :player1, Pearl.Accounts.Attendee
+    belongs_to :player2, Pearl.Accounts.Attendee
     field :bet, :integer
     field :finished, :boolean, default: false
     field :result, :string

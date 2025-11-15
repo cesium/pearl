@@ -1,12 +1,12 @@
-defmodule SafiraWeb.Backoffice.CompanyLive.Index do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.CompanyLive.Index do
+  use PearlWeb, :backoffice_view
 
-  import SafiraWeb.Components.{Table, TableSearch}
+  import PearlWeb.Components.{Table, TableSearch}
 
-  alias Safira.{Companies, Contest}
-  alias Safira.Companies.{Company, Tier}
+  alias Pearl.{Companies, Contest}
+  alias Pearl.Companies.{Company, Tier}
 
-  on_mount {SafiraWeb.StaffRoles, index: %{"companies" => ["edit"]}}
+  on_mount {PearlWeb.StaffRoles, index: %{"companies" => ["edit"]}}
 
   @impl true
   def mount(_params, _session, socket) do

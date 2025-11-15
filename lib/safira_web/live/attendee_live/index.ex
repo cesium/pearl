@@ -1,7 +1,7 @@
-defmodule SafiraWeb.AttendeeLive.Index do
-  use SafiraWeb, :live_view
+defmodule PearlWeb.AttendeeLive.Index do
+  use PearlWeb, :live_view
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
   @impl true
   def mount(_params, _session, socket) do

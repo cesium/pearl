@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Components.ImageUploader do
+defmodule PearlWeb.Components.ImageUploader do
   @moduledoc """
   Image uploader component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :upload, :any, required: true
   attr :class, :string, default: ""

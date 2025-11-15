@@ -1,10 +1,10 @@
-defmodule SafiraWeb.Landing.Components.Speaker do
+defmodule PearlWeb.Landing.Components.Speaker do
   @moduledoc """
   Speaker component.
   """
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  alias Safira.Activities.Speaker
+  alias Pearl.Activities.Speaker
 
   attr :speaker, Speaker, required: true
 

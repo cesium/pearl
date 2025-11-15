@@ -1,14 +1,14 @@
-defmodule SafiraWeb.Components.CVUpload do
+defmodule PearlWeb.Components.CVUpload do
   @moduledoc """
   Attendee Curriculum Vitae upload component.
   """
-  use SafiraWeb, :live_component
+  use PearlWeb, :live_component
 
-  alias Safira.Accounts
-  alias Safira.Uploaders.CV
+  alias Pearl.Accounts
+  alias Pearl.Uploaders.CV
 
-  import SafiraWeb.Components.ImageUploader
-  import SafiraWeb.Components.Button
+  import PearlWeb.Components.ImageUploader
+  import PearlWeb.Components.Button
 
   attr :in_app, :boolean, default: false
 

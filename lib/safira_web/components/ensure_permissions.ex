@@ -1,6 +1,6 @@
-defmodule SafiraWeb.Components.EnsurePermissions do
+defmodule PearlWeb.Components.EnsurePermissions do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
   attr :user, :map, required: true, doc: "The current user."
   attr :permissions, :map, required: true, doc: "The permissions required to render the content."

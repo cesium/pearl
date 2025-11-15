@@ -1,12 +1,12 @@
-defmodule Safira.Activities do
+defmodule Pearl.Activities do
   @moduledoc """
   The Activities context.
   """
 
-  use Safira.Context
+  use Pearl.Context
 
-  alias Safira.Accounts.{Attendee, User}
-  alias Safira.Activities.{Activity, ActivityCategory, Enrolment, Speaker}
+  alias Pearl.Accounts.{Attendee, User}
+  alias Pearl.Activities.{Activity, ActivityCategory, Enrolment, Speaker}
 
   @doc """
   Returns the list of activities.

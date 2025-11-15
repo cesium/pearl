@@ -1,11 +1,11 @@
-defmodule SafiraWeb.DownloadController do
-  use SafiraWeb, :controller
+defmodule PearlWeb.DownloadController do
+  use PearlWeb, :controller
 
   alias NimbleCSV.RFC4180, as: CSV
 
-  alias Safira.Accounts
-  alias Safira.Companies
-  alias Safira.Contest
+  alias Pearl.Accounts
+  alias Pearl.Companies
+  alias Pearl.Contest
 
   def generate_credentials(conn, %{"count" => count}) do
     {count_int, ""} = Integer.parse(count)
@@ -97,7 +97,7 @@ defmodule SafiraWeb.DownloadController do
 
   defp read_cv_content(cv_path) do
     if String.starts_with?(cv_path, "/") do
-      full_path = Path.join(:code.priv_dir(:safira), cv_path)
+      full_path = Path.join(:code.priv_dir(:pearl), cv_path)
 
       if File.exists?(full_path) do
         {:ok, File.read!(full_path)}

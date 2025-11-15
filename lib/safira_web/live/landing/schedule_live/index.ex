@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Landing.ScheduleLive.Index do
-  use SafiraWeb, :landing_view
+defmodule PearlWeb.Landing.ScheduleLive.Index do
+  use PearlWeb, :landing_view
 
-  alias Safira.Event
+  alias Pearl.Event
 
-  on_mount {SafiraWeb.VerifyFeatureFlag, "schedule_enabled"}
+  on_mount {PearlWeb.VerifyFeatureFlag, "schedule_enabled"}
 
   @impl true
   def mount(_params, _session, socket) do

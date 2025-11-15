@@ -1,10 +1,10 @@
-defmodule Safira.Uploaders.Member do
+defmodule Pearl.Uploaders.Member do
   @moduledoc """
   Member image uploader.
   """
-  use Safira.Uploader
+  use Pearl.Uploader
 
-  alias Safira.Teams.TeamMember
+  alias Pearl.Teams.TeamMember
 
   @versions [:original]
   @extension_whitelist ~w(.jpg .jpeg .png)

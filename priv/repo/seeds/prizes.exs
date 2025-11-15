@@ -1,5 +1,5 @@
-defmodule Safira.Repo.Seeds.Prizes do
-  alias Safira.{Contest, Event, Minigames, Repo}
+defmodule Pearl.Repo.Seeds.Prizes do
+  alias Pearl.{Contest, Event, Minigames, Repo}
 
   @prizes File.read!("priv/fake/prizes.txt") |> String.split("\n")
 
@@ -66,4 +66,4 @@ defmodule Safira.Repo.Seeds.Prizes do
     end
   end
 
-Safira.Repo.Seeds.Prizes.run()
+Pearl.Repo.Seeds.Prizes.run()

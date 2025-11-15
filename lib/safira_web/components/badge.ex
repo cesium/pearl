@@ -1,8 +1,8 @@
-defmodule SafiraWeb.Components.Badge do
+defmodule PearlWeb.Components.Badge do
   @moduledoc false
-  use SafiraWeb, :component
+  use PearlWeb, :component
 
-  alias Safira.Contest
+  alias Pearl.Contest
 
   attr :id, :string, required: true
   attr :badge, Contest.Badge, required: true

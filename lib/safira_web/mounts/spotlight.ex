@@ -1,14 +1,14 @@
-defmodule SafiraWeb.Spotlight do
+defmodule PearlWeb.Spotlight do
   @moduledoc """
     This module is for Spotlight
   """
-  use SafiraWeb, :verified_routes
+  use PearlWeb, :verified_routes
 
   import Phoenix.LiveView
   use Phoenix.Component
 
-  alias Safira.Spotlights
-  alias Safira.Spotlights.Spotlight
+  alias Pearl.Spotlights
+  alias Pearl.Spotlights.Spotlight
 
   def on_mount(:fetch_current_spotlight, _params, _session, socket) do
     if connected?(socket) do

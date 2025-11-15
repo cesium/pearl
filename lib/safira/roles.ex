@@ -1,10 +1,10 @@
-defmodule Safira.Roles do
+defmodule Pearl.Roles do
   @moduledoc """
     The Roles context.
   """
 
-  use Safira.Context
-  alias Safira.Accounts.Role
+  use Pearl.Context
+  alias Pearl.Accounts.Role
 
   @doc """
     Returns the list of roles.

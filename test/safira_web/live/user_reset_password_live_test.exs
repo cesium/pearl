@@ -1,10 +1,10 @@
-defmodule SafiraWeb.UserResetPasswordLiveTest do
-  use SafiraWeb.ConnCase, async: true
+defmodule PearlWeb.UserResetPasswordLiveTest do
+  use PearlWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Safira.AccountsFixtures
+  import Pearl.AccountsFixtures
 
-  alias Safira.{Accounts, Event}
+  alias Pearl.{Accounts, Event}
 
   setup do
     user = user_fixture()

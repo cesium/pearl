@@ -1,3 +1,3 @@
-defmodule SafiraWeb.PageController do
-  use SafiraWeb, :controller
+defmodule PearlWeb.PageController do
+  use PearlWeb, :controller
 end

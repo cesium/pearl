@@ -1,12 +1,12 @@
-defmodule Safira.Accounts.User do
+defmodule Pearl.Accounts.User do
   @moduledoc """
   Application user.
   """
-  use Safira.Schema
+  use Pearl.Schema
 
-  alias Safira.Accounts.Attendee
-  alias Safira.Accounts.Staff
-  alias Safira.Companies.Company
+  alias Pearl.Accounts.Attendee
+  alias Pearl.Accounts.Staff
+  alias Pearl.Companies.Company
 
   @required_fields ~w(name email handle password type)a
   @optional_fields ~w(confirmed_at allows_marketing)a
@@ -36,7 +36,7 @@ defmodule Safira.Accounts.User do
     field :name, :string
     field :email, :string
     field :handle, :string
-    field :picture, Safira.Uploaders.UserPicture.Type
+    field :picture, Pearl.Uploaders.UserPicture.Type
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
@@ -146,7 +146,7 @@ defmodule Safira.Accounts.User do
     |> validate_format(:handle, ~r/^[a-z0-9_]+$/,
       message: "can only contain lowercase letters, numbers, and underscores"
     )
-    |> unsafe_validate_unique(:handle, Safira.Repo)
+    |> unsafe_validate_unique(:handle, Pearl.Repo)
     |> unique_constraint(:handle)
   end
 
@@ -170,7 +170,7 @@ defmodule Safira.Accounts.User do
   defp maybe_validate_unique_email(changeset, opts) do
     if Keyword.get(opts, :validate_email, true) do
       changeset
-      |> unsafe_validate_unique(:email, Safira.Repo)
+      |> unsafe_validate_unique(:email, Pearl.Repo)
       |> unique_constraint(:email)
     else
       changeset
@@ -242,7 +242,7 @@ defmodule Safira.Accounts.User do
   If there is no user or the user doesn't have a password, we call
   `Bcrypt.no_user_verify/0` to avoid timing attacks.
   """
-  def valid_password?(%Safira.Accounts.User{hashed_password: hashed_password}, password)
+  def valid_password?(%Pearl.Accounts.User{hashed_password: hashed_password}, password)
       when is_binary(hashed_password) and byte_size(password) > 0 do
     Bcrypt.verify_pass(password, hashed_password)
   end

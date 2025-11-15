@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Landing.SpeakersLive.Index do
-  use SafiraWeb, :landing_view
+defmodule PearlWeb.Landing.SpeakersLive.Index do
+  use PearlWeb, :landing_view
 
-  import SafiraWeb.Landing.SpeakersLive.Components.Speakers
+  import PearlWeb.Landing.SpeakersLive.Components.Speakers
 
-  alias Safira.Event
+  alias Pearl.Event
 
-  on_mount {SafiraWeb.VerifyFeatureFlag, "speakers_enabled"}
+  on_mount {PearlWeb.VerifyFeatureFlag, "speakers_enabled"}
 
   @impl true
   def mount(_params, _session, socket) do

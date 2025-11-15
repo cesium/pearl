@@ -56,7 +56,7 @@
   on_cancel={JS.patch(~p"/dashboard/companies")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.CompanyLive.FormComponent}
+    module={PearlWeb.Backoffice.CompanyLive.FormComponent}
     id={@company.id || :new}
     title={@page_title}
     current_user={@current_user}
@@ -75,7 +75,7 @@
   on_cancel={JS.patch(~p"/dashboard/companies")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.CompanyLive.TierLive.Index}
+    module={PearlWeb.Backoffice.CompanyLive.TierLive.Index}
     id="list-tiers"
     title={@page_title}
     current_user={@current_user}
@@ -91,7 +91,7 @@
   on_cancel={JS.navigate(~p"/dashboard/companies/tiers")}
 >
   <.live_component
-    module={SafiraWeb.Backoffice.CompanyLive.TierLive.FormComponent}
+    module={PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent}
     id={@tier.id || :new}
     title={@page_title}
     current_user={@current_user}

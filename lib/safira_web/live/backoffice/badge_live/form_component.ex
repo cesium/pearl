@@ -1,11 +1,11 @@
-defmodule SafiraWeb.Backoffice.BadgeLive.FormComponent do
-  use SafiraWeb, :live_component
+defmodule PearlWeb.Backoffice.BadgeLive.FormComponent do
+  use PearlWeb, :live_component
 
-  alias Safira.Contest
-  alias Safira.Uploaders.Badge
+  alias Pearl.Contest
+  alias Pearl.Uploaders.Badge
 
-  import SafiraWeb.Components.ImageUploader
-  import SafiraWeb.Components.Forms
+  import PearlWeb.Components.ImageUploader
+  import PearlWeb.Components.Forms
 
   @impl true
   def render(assigns) do

@@ -1,15 +1,15 @@
-defmodule SafiraWeb.UserRoles do
+defmodule PearlWeb.UserRoles do
   @moduledoc """
   Plugs for user type verification.
   """
-  use SafiraWeb, :verified_routes
+  use PearlWeb, :verified_routes
 
-  use Gettext, backend: SafiraWeb.Gettext
+  use Gettext, backend: PearlWeb.Gettext
 
   import Plug.Conn
   import Phoenix.Controller
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
   def require_confirmed_user(conn, _opts) do
     if is_nil(conn.assigns.current_user.confirmed_at) do

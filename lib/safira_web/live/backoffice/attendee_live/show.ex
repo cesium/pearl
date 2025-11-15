@@ -1,9 +1,9 @@
-defmodule SafiraWeb.Backoffice.AttendeeLive.Show do
-  use SafiraWeb, :backoffice_view
+defmodule PearlWeb.Backoffice.AttendeeLive.Show do
+  use PearlWeb, :backoffice_view
 
-  alias Safira.Accounts
+  alias Pearl.Accounts
 
-  on_mount {SafiraWeb.StaffRoles,
+  on_mount {PearlWeb.StaffRoles,
             show: %{"attendees" => ["show"]}, edit: %{"attendees" => ["edit"]}}
 
   def mount(_params, _session, socket) do

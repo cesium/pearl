@@ -1,9 +1,9 @@
 defmodule PearlWeb.Backoffice.StaffLive.Index do
   use PearlWeb, :backoffice_view
 
-  alias Phoenix.Socket.Broadcast
   alias Pearl.Accounts
   alias PearlWeb.Presence
+  alias Phoenix.Socket.Broadcast
 
   import PearlWeb.Components.{Table, TableSearch}
 

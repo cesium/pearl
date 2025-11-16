@@ -1,10 +1,10 @@
 defmodule PearlWeb.UserAuthTest do
   use PearlWeb.ConnCase, async: true
 
-  alias Phoenix.LiveView
   alias Pearl.Accounts
   alias PearlWeb.UserAuth
   import Pearl.AccountsFixtures
+  alias Phoenix.LiveView
 
   @remember_me_cookie "_pearl_web_user_remember_me"
 

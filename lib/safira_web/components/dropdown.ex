@@ -4,9 +4,9 @@ defmodule PearlWeb.Components.Dropdown do
   """
   use Phoenix.Component
 
-  alias Phoenix.LiveView.JS
   alias PearlWeb.Components.Link
   import PearlWeb.CoreComponents
+  alias Phoenix.LiveView.JS
 
   @transition_in_base "transition transform ease-out duration-100"
   @transition_in_start "transform opacity-0 scale-95"

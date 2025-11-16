@@ -4,8 +4,8 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
   """
   use PearlWeb, :component
 
-  alias Plug.Conn.Query
   alias Pearl.Activities
+  alias Plug.Conn.Query
 
   attr :event_start_date, Date, required: true
   attr :event_end_date, Date, required: true

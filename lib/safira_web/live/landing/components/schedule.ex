@@ -4,8 +4,8 @@ defmodule PearlWeb.Landing.Components.Schedule do
   """
   use PearlWeb, :live_component
 
-  alias Plug.Conn.Query
   alias Pearl.Activities
+  alias Plug.Conn.Query
 
   @impl true
   def mount(socket) do

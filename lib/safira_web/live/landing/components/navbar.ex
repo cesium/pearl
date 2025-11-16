@@ -19,8 +19,8 @@ defmodule PearlWeb.Landing.Components.Navbar do
               <.link href="/">
                 <div class="block select-none h-full">
                   <img
-                    src="/images/sei-logo.svg"
-                    width={50}
+                    src="/images/enei-logo.svg"
+                    width={125}
                     alt="ENEI Logo"
                     class="cursor-pointer transition-colors duration-75 ease-in hover:text-accent h-full"
                   />

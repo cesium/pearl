@@ -14,10 +14,7 @@ defmodule PearlWeb.Landing.Components.Footer do
     <footer class="xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
       <div class="flex flex-col justify-between gap-16 py-10 lg:flex-row items-center">
         <div class="flex select-none items-start justify-center lg:justify-start">
-          <img src="/images/sei-logo.svg" width={100} height={100} alt="ENEI Logo" />
-          <p class="pl-6 text-white font-semibold lg:flex-1">
-            Semana da <br /> Engenharia <br /> Informática
-          </p>
+          <img src="/images/enei-logo.svg" width={150} height={150} alt="ENEI Logo" />
         </div>
         <div class="flex-2">
           <div class="grid lg:grid-flow-col lg:auto-rows-max gap-8 grid-cols-1 lg:grid-rows-2 select-none justify-items-center whitespace-nowrap font-iregular text-sm text-white">

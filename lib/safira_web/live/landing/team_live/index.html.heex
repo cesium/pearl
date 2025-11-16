@@ -22,7 +22,7 @@
       <%= for {team, index} <- Enum.with_index(Enum.sort_by(@teams, & &1.priority)) do %>
         <%= if index == 3 do %>
           <div class="hidden lg:flex items-center justify-center my-8">
-            <img src="/images/sei-logo.svg" class="w-1/2" />
+            <img src="/images/enei-logo.svg" class="w-1/2" />
           </div>
         <% end %>
         <.team team_name={team.name} members={team.team_members} />

@@ -1,9 +1,9 @@
-defmodule Safira.Repo.Seeds.Activities do
-  alias Safira.Repo
+defmodule Pearl.Repo.Seeds.Activities do
+  alias Pearl.Repo
 
-  alias Safira.Activities
-  alias Safira.Activities.{Activity, ActivityCategory, Speaker}
-  alias Safira.Event
+  alias Pearl.Activities
+  alias Pearl.Activities.{Activity, ActivityCategory, Speaker}
+  alias Pearl.Event
 
   def run do
     seed_event_schedule_config()
@@ -322,4 +322,4 @@ defmodule Safira.Repo.Seeds.Activities do
   end
 end
 
-Safira.Repo.Seeds.Activities.run()
+Pearl.Repo.Seeds.Activities.run()

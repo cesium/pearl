@@ -1,0 +1,53 @@
+<div class="font-iregular">
+  <div class="relative h-dvh flex overflow-hidden">
+    <.app_sidebar
+      :if={Map.get(assigns, :event_started, true)}
+      current_user={@current_user}
+      pages={
+        if Pearl.Accounts.attendee_has_credential?(@current_user.attendee.id) do
+          PearlWeb.Config.app_pages(!@current_user.attendee.ineligible)
+        else
+          []
+        end
+      }
+      current_page={Map.get(assigns, :current_page, nil)}
+      border="border-light/10"
+      logo_images={%{light: "/images/enei-logo.svg", dark: "/images/enei-logo.svg"}}
+      logo_url={~p"/"}
+      user_dropdown_name_color="text-light"
+      user_dropdown_handle_color="text-light/60"
+      user_dropdown_icon_color="text-lightShade"
+      link_active_class="bg-light text-primary"
+      link_inactive_class="hover:bg-primary-500/10 text-light"
+    />
+    <div class="flex flex-col flex-1 overflow-hidden">
+      <.banner
+        :if={@current_spotlight}
+        text={
+          gettext("%{company_name} is on spotlight!",
+            company_name: @current_spotlight.company.name
+          )
+        }
+        end_time={@current_spotlight.end}
+      />
+      <div
+        :if={Map.get(assigns, :event_started, true)}
+        class="flex justify-end lg:hidden px-4 sm:px-6 py-2"
+      >
+        <button
+          class="sidebar-toggle flex items-center justify-center w-16 text-light"
+          aria-expanded="false"
+          phx-click={show_mobile_sidebar()}
+        >
+          <.icon class="w-8 h-8" name="hero-bars-3" />
+        </button>
+      </div>
+      <main class="text-light flex-1 relative z-0 overflow-y-auto focus:outline-none font-iregular">
+        <div class="px-6 sm:px-6 lg:px-8 py-8">
+          <.flash_group flash={@flash} />
+          {@inner_content}
+        </div>
+      </main>
+    </div>
+  </div>
+</div>

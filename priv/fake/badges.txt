@@ -28,7 +28,7 @@ Jantar Empresarial - participação;Sê convidado e vem ao Jantar Empresarial co
 Concurso de Fotografia - 1º lugar;Sê o vencedor do Concurso de Fotografia
 24 empresas;Fala com 24 empresas
 Talk Retail Consult;Participa na talk 'Multicloud: uma quebra de paradigma com desafios e oportunidades'
-Lovely;Tira uma foto romântica na SEI e reclama o badge na Acreditação
+Lovely;Tira uma foto romântica na ENEI e reclama o badge na Acreditação
 First come, first served;Sê um dos 15 primeiros a fazer o check-in na Acreditação
 Coffee Break 1;Participa no Coffee Break
 Coffee Break 2;Participa no Coffee Break
@@ -43,7 +43,7 @@ Survival Guided;Estás a ler o Survival Guide, levanta o teu badge na Acreditaç
 10 empresas;Fala com 10 empresas
 15 empresas;Fala com 15 empresas
 20 empresas;Fala com 20 empresas
-Early Bird;Sê uma das primeiras 30 inscrições na SEI
+Early Bird;Sê uma das primeiras 30 inscrições na ENEI
 Sessão de Abertura;Participa na Sessão de Abertura
 Acreditação;Faz o check-in no balcão do CP2
 Dia 2;Participa no evento no dia 15 de fevereiro
@@ -55,15 +55,15 @@ wow.;Recebe 50 badges
 Gotta catch them all;Recebe 100 badges
 Talk Aficionado;Participa em todas as talks e tertúlias
 Workshop Enthusiast;Participa em 3 workshops
-SEI Lover;Dá like em todos os posts do Instagram e Facebook da SEI
-Influencer;Partilha uma foto da SEI no Instagram (identifica a conta da SEI) ou no twitter (identifica a conta do CeSIUM)
+ENEI Lover;Dá like em todos os posts do Instagram e Facebook da ENEI
+Influencer;Partilha uma foto da ENEI no Instagram (identifica a conta da ENEI) ou no twitter (identifica a conta do CeSIUM)
 Shopaholic;Compra um artigo de merch da loja do CeSIUM (store.cesium.di.uminho.pt)
 Let me Take a #Selfie;Tira uma foto com a mascote
-Parede;Tira uma foto na parede da SEI
+Parede;Tira uma foto na parede da ENEI
 Solidarium;Doa um bem na Acreditação
 All the gold;Obtém todos os badges de empresas Gold + Exclusive
 Dripium;Apresenta-te na Acreditação a utilizar merch do CeSIUM
-Bug Catcher;Encontra um bug no site da SEI, reporta-o no formulário destinado para tal e apresenta-o na Acreditação.
+Bug Catcher;Encontra um bug no site da ENEI, reporta-o no formulário destinado para tal e apresenta-o na Acreditação.
 Tertúlia Women in Tech;Participa na tertúia Women in Tech
 Talk Periférico ao Vivo - Paulo Dimas;Participa no Periférico ao Vivo
 Tertúlia Arquivo Confidencial;Participa na tertúlia 'Arquivo Confidencial’'
@@ -86,7 +86,7 @@ Talk Accenture;Participa na talk 'DevOps Talks’'
 Talk Subvisual;Participa na talk 'Competitive Coding Strategies'
 Inquisitor 1;Faz uma pergunta numa talk ou num pitch - Nível 1
 Inquisitor 2;Faz uma pergunta numa talk ou num pitch - Nível 2
-Rabbit Hole;Encontra a route secreta do site da SEI e apresenta-a na Acreditação
+Rabbit Hole;Encontra a route secreta do site da ENEI e apresenta-a na Acreditação
 Inquisitor 5;Faz uma pergunta numa talk ou num pitch - Nível 5
 Speaker - António Murta;Fala com o orador no final da talk
 Speaker - Michael Matias;Fala com o orador no final da talk
@@ -101,7 +101,7 @@ Speaker - Miguel Palhas;Fala com o orador no final da talk
 Subvisual Meetup - participação;Assiste às apresentações da Subvisual Meetup
 Concurso de Programação - Participação;Participa no Concurso de Programação
 Concurso de Programação - 1.º lugar;Sê o vencedor do Concurso de Programação
-Curriculum Vitae;Envia o teu CV na Web App da SEI e reclama o badge na Acreditação
+Curriculum Vitae;Envia o teu CV na Web App da ENEI e reclama o badge na Acreditação
 Concurso de Fotografia;Participa no desafio de fotografia no Instagram
 Lucky Bastard 1;Joga na 'Spin the Wheel' para te habilitares a receber este badge
 Lucky Bastard 2;Joga na 'Spin the Wheel' para te habilitares a receber este badge
@@ -119,7 +119,7 @@ Workshop Glintt;Participa no Workshop ‘From Zero to Hero : how to build a prod
 Workshop Checkmarx;Participa no Workshop 'The role of AI in assisting Application Development and Security' | Checkmarx
 Workshop Fujitsu;Participa no Workshop ‘How to improve your CV, Application Development and Digital Transformation and Tech Quiz’ | Fujitsu
 Workshop Subvisual;Participa no ‘Introduction to Mobile Web3 development with React Native’ | Subvisual
-Easter Egg #1;Encontra um easter egg no site da SEI
+Easter Egg #1;Encontra um easter egg no site da ENEI
 Easter Egg #2;Encontra um easter egg
 Attention Span;Participa em 2 dias do evento
 Curious George;Participa em todos os pitches
@@ -128,8 +128,8 @@ Speaker - Inês Xavier;Fala com o orador no final da talk
 Speaker - Paulo Gomes;Fala com o orador no final da talk
 Lucky Bastard 5;Joga na 'Spin the Wheel' para te habilitares a receber este badge
 Workshop Yari Labs;Participa no Workshop 'Blockchain 101: Assets Digitais - Tokens, NFTs e Smart-Contracts' | Yari Labs
-CeSIUM na SEI;Visita o stand do CeSIUM
-CoderDojo na SEI;Visita o stand do CoderDojo
+CeSIUM na ENEI;Visita o stand do CeSIUM
+CoderDojo na ENEI;Visita o stand do CoderDojo
 Rick Rolled;Faz scan do QR code da credencial da Staff
 Where's Wally;Encontra o cubo do CeSIUM escondido, tira foto e mostra-a na Acreditação
 Speaker - Sara Vieira;Fala com o orador no final da talk

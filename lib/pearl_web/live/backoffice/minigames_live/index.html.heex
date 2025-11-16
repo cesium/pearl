@@ -1,0 +1,158 @@
+<.page title="Minigames">
+  <div class="grid sm:grid-cols-3 py-8 gap-5 sm:gap-10">
+    <.ensure_permissions user={@current_user} permissions={%{"minigames" => ["edit"]}}>
+      <.link
+        patch={~p"/dashboard/minigames/wheel"}
+        class="flex flex-col items-center w-full text-2xl gap-4 font-semibold py-8 rounded-2xl dark:bg-darkShade/10 dark:hover:bg-darkShade/20 bg-lightShade/30 hover:bg-lightShade/40 transition-colors"
+      >
+        {gettext("Lucky Wheel")}
+        <img src={~p"/images/icons/wheel.svg"} class="size-16 sm:size-24 dark:invert" />
+      </.link>
+    </.ensure_permissions>
+
+    <.ensure_permissions user={@current_user} permissions={%{"minigames" => ["edit"]}}>
+      <.link
+        patch={~p"/dashboard/minigames/coin_flip"}
+        class="flex flex-col items-center w-full text-2xl gap-4 font-semibold py-8 rounded-2xl dark:bg-darkShade/10 dark:hover:bg-darkShade/20 bg-lightShade/30 hover:bg-lightShade/40 transition-colors"
+      >
+        {gettext("Coin Flip")}
+        <img src={~p"/images/icons/coin-flip.svg"} class="size-16 sm:size-24 dark:invert" />
+      </.link>
+    </.ensure_permissions>
+
+    <.ensure_permissions user={@current_user} permissions={%{"minigames" => ["edit"]}}>
+      <.link
+        patch={~p"/dashboard/minigames/slots"}
+        class="flex flex-col items-center w-full text-2xl gap-4 font-semibold py-8 rounded-2xl dark:bg-darkShade/10 dark:hover:bg-darkShade/20 bg-lightShade/30 hover:bg-lightShade/40 transition-colors"
+      >
+        {gettext("Slots")}
+        <img src={~p"/images/icons/slots.svg"} class="size-16 sm:size-24 dark:invert" />
+      </.link>
+    </.ensure_permissions>
+  </div>
+</.page>
+
+<.modal
+  :if={@live_action in [:edit_wheel]}
+  id="wheel-config-modal"
+  wrapper_class="p-3"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/")}
+>
+  <.live_component
+    id="wheel-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.Wheel.FormComponent}
+    patch={~p"/dashboard/minigames/"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:edit_coin_flip]}
+  id="coin-flip-config-modal"
+  wrapper_class="p-3"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/")}
+>
+  <.live_component
+    id="coin-flip-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.CoinFlip.FormComponent}
+    patch={~p"/dashboard/minigames/"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:edit_slots]}
+  id="coin-flip-config-modal"
+  wrapper_class="p-3"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/")}
+>
+  <.live_component
+    id="slots-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.Slots.FormComponent}
+    patch={~p"/dashboard/minigames/"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:edit_wheel_drops]}
+  id="wheel-drops-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/wheel/")}
+>
+  <.live_component
+    id="wheel-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent}
+    patch={~p"/dashboard/minigames/wheel/"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:simulate_wheel]}
+  id="wheel-simulate-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/slots")}
+>
+  <.live_component
+    id="wheel-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.Simulator.Index}
+    current_user={@current_user}
+    patch={~p"/dashboard/minigames/slots"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:edit_slots_reel_icons_icons]}
+  id="wheel-simulate-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/slots")}
+>
+  <.live_component
+    id="wheel-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.ReelIcons.FormComponent}
+    current_user={@current_user}
+    patch={~p"/dashboard/minigames/slots"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:edit_slots_reel_icons_position]}
+  id="wheel-simulate-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/slots")}
+>
+  <.live_component
+    id="wheel-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.ReelsPosition.FormComponent}
+    current_user={@current_user}
+    patch={~p"/dashboard/minigames/slots"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:edit_slots_paytable]}
+  id="wheel-simulate-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/slots")}
+>
+  <.live_component
+    id="wheel-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.SlotsPaytable.FormComponent}
+    current_user={@current_user}
+    patch={~p"/dashboard/minigames/slots"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:edit_slots_payline]}
+  id="wheel-simulate-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/slots")}
+>
+  <.live_component
+    id="wheel-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent}
+    current_user={@current_user}
+    patch={~p"/dashboard/minigames/slots"}
+  />
+</.modal>

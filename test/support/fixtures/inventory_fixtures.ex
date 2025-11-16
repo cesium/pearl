@@ -1,10 +1,10 @@
-defmodule Safira.InventoryFixtures do
+defmodule Pearl.InventoryFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Safira.Inventory` context.
+  entities via the `Pearl.Inventory` context.
   """
 
-  alias Safira.AccountsFixtures
+  alias Pearl.AccountsFixtures
 
   @doc """
   Generate an item.
@@ -18,7 +18,7 @@ defmodule Safira.InventoryFixtures do
         redeemed_at: ~N[2024-09-15 21:18:00],
         attendee_id: AccountsFixtures.attendee_fixture().id
       })
-      |> Safira.Inventory.create_item()
+      |> Pearl.Inventory.create_item()
 
     item
   end

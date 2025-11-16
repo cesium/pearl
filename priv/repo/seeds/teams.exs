@@ -1,6 +1,6 @@
-defmodule Safira.Repo.Seeds.Teams do
-  alias Safira.{Repo, Teams}
-  alias Safira.Teams.Team
+defmodule Pearl.Repo.Seeds.Teams do
+  alias Pearl.{Repo, Teams}
+  alias Pearl.Teams.Team
 
   @teams [
     {"Main Organization", ["Alice", "Bob"]},
@@ -57,4 +57,4 @@ defmodule Safira.Repo.Seeds.Teams do
   end
 end
 
-Safira.Repo.Seeds.Teams.run()
+Pearl.Repo.Seeds.Teams.run()

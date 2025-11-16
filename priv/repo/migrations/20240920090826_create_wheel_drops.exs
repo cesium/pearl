@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateWheelDrops do
+defmodule Pearl.Repo.Migrations.CreateWheelDrops do
   use Ecto.Migration
 
   def change do

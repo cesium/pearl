@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateMinigames do
+defmodule Pearl.Repo.Migrations.CreateMinigames do
   use Ecto.Migration
 
   def change do

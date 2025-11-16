@@ -12,17 +12,17 @@ import Config
 # If you use `mix release`, you need to explicitly enable the server
 # by passing the PHX_SERVER=true when you start it:
 #
-#     PHX_SERVER=true bin/safira start
+#     PHX_SERVER=true bin/pearl start
 #
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
 if System.get_env("PHX_SERVER") do
-  config :safira, SafiraWeb.Endpoint, server: true
+  config :pearl, PearlWeb.Endpoint, server: true
 end
 
-config :safira,
-  from_email_name: System.get_env("FROM_EMAIL_NAME") || "SEI",
-  from_email_address: System.get_env("FROM_EMAIL_ADDRESS") || "no-reply@seium.org",
+config :pearl,
+  from_email_name: System.get_env("FROM_EMAIL_NAME") || "ENEI",
+  from_email_address: System.get_env("FROM_EMAIL_ADDRESS") || "no-reply@eneiconf.pt",
   umami_script_url: System.get_env("UMAMI_SCRIPT_URL") || "",
   umami_website_id: System.get_env("UMAMI_WEBSITE_ID") || ""
 
@@ -42,7 +42,7 @@ if config_env() in [:prod, :stg] do
 
   maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
-  config :safira, Safira.Repo,
+  config :pearl, Pearl.Repo,
     ssl: true,
     ssl_opts: [
       verify: :verify_peer,
@@ -68,12 +68,12 @@ if config_env() in [:prod, :stg] do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "seium.org"
+  host = System.get_env("PHX_HOST") || "eneiconf.pt"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
-  config :safira, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
+  config :pearl, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
-  config :safira, SafiraWeb.Endpoint,
+  config :pearl, PearlWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
     http: [
       # Enable IPv6 and bind on all interfaces.
@@ -90,7 +90,7 @@ if config_env() in [:prod, :stg] do
   # To get SSL working, you will need to add the `https` key
   # to your endpoint configuration:
   #
-  #     config :safira, SafiraWeb.Endpoint,
+  #     config :pearl, PearlWeb.Endpoint,
   #       https: [
   #         ...,
   #         port: 443,
@@ -112,7 +112,7 @@ if config_env() in [:prod, :stg] do
   # We also recommend setting `force_ssl` in your config/prod.exs,
   # ensuring no data is ever sent via http, always redirecting to https:
   #
-  #     config :safira, SafiraWeb.Endpoint,
+  #     config :pearl, PearlWeb.Endpoint,
   #       force_ssl: [hsts: true]
   #
   # Check `Plug.SSL` for all available options in `force_ssl`.
@@ -123,7 +123,7 @@ if config_env() in [:prod, :stg] do
   # Also, you may need to configure the Swoosh API client of your choice if you
   # are not using SMTP. Here is an example of the configuration:
   #
-  #     config :safira, Safira.Mailer,
+  #     config :pearl, Pearl.Mailer,
   #       adapter: Swoosh.Adapters.Mailgun,
   #       api_key: System.get_env("MAILGUN_API_KEY"),
   #       domain: System.get_env("MAILGUN_DOMAIN")

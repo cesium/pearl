@@ -1,11 +1,11 @@
-defmodule Safira.ContestFixtures do
+defmodule Pearl.ContestFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Safira.Contest` context.
+  entities via the `Pearl.Contest` context.
   """
 
-  alias Safira.AccountsFixtures
-  alias Safira.Contest
+  alias Pearl.AccountsFixtures
+  alias Pearl.Contest
 
   @doc """
   Generate a badge.
@@ -22,7 +22,7 @@ defmodule Safira.ContestFixtures do
         begin: ~U[2021-01-01 00:00:00Z],
         end: ~U[2021-01-01 00:00:00Z]
       })
-      |> Safira.Contest.create_badge()
+      |> Pearl.Contest.create_badge()
 
     badge
   end
@@ -37,7 +37,7 @@ defmodule Safira.ContestFixtures do
         badge_id: badge_fixture().id,
         attendee_id: AccountsFixtures.attendee_fixture().id
       })
-      |> Safira.Contest.create_badge_redeem()
+      |> Pearl.Contest.create_badge_redeem()
 
     badge_redeem
   end
@@ -53,7 +53,7 @@ defmodule Safira.ContestFixtures do
         color: "red",
         hidden: false
       })
-      |> Safira.Contest.create_badge_category()
+      |> Pearl.Contest.create_badge_category()
 
     badge_category
   end
@@ -68,7 +68,7 @@ defmodule Safira.ContestFixtures do
         badge_id: badge_fixture().id,
         event: Contest.BadgeTrigger.events() |> Enum.random()
       })
-      |> Safira.Contest.create_badge_trigger()
+      |> Pearl.Contest.create_badge_trigger()
 
     badge_trigger
   end

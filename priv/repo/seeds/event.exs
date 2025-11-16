@@ -1,5 +1,5 @@
-defmodule Safira.Repo.Seeds.Event do
-  alias Safira.Event
+defmodule Pearl.Repo.Seeds.Event do
+  alias Pearl.Event
 
   @faqs File.read!("priv/fake/faqs.txt") |> String.split("\n") |> Enum.map(&String.split(&1, ";"))
 
@@ -55,4 +55,4 @@ defmodule Safira.Repo.Seeds.Event do
   end
 end
 
-Safira.Repo.Seeds.Event.run()
+Pearl.Repo.Seeds.Event.run()

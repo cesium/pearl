@@ -6,8 +6,8 @@
 @plugin "../vendor/fontawesome.js";
 
 @source "../js";
-@source "../../lib/safira_web.ex";
-@source "../../lib/safira_web";
+@source "../../lib/pearl_web.ex";
+@source "../../lib/pearl_web";
 
 @font-face {
   font-family: 'Terminal';

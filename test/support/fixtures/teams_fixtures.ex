@@ -1,7 +1,7 @@
-defmodule Safira.TeamsFixtures do
+defmodule Pearl.TeamsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Safira.Teams` context.
+  entities via the `Pearl.Teams` context.
   """
 
   @doc """
@@ -12,7 +12,7 @@ defmodule Safira.TeamsFixtures do
     {:ok, team} =
       attrs
       |> Enum.into(%{name: "some name", priority: 0})
-      |> Safira.Teams.create_team()
+      |> Pearl.Teams.create_team()
 
     team
   end
@@ -27,7 +27,7 @@ defmodule Safira.TeamsFixtures do
     {:ok, team_member} =
       attrs
       |> Enum.into(%{name: "some name", team_id: team.id})
-      |> Safira.Teams.create_team_member()
+      |> Pearl.Teams.create_team_member()
 
     team_member
   end

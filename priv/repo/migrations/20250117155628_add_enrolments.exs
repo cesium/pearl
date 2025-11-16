@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.AddEnrollments do
+defmodule Pearl.Repo.Migrations.AddEnrollments do
   use Ecto.Migration
 
   def change do

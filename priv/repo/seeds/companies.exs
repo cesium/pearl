@@ -1,9 +1,9 @@
-defmodule Safira.Repo.Seeds.Companies do
+defmodule Pearl.Repo.Seeds.Companies do
   alias NimbleCSV.RFC4180, as: CSV
 
-  alias Safira.Accounts.User
-  alias Safira.{Companies, Repo}
-  alias Safira.Companies.{Company, Tier}
+  alias Pearl.Accounts.User
+  alias Pearl.{Companies, Repo}
+  alias Pearl.Companies.{Company, Tier}
 
   def run do
     case Companies.list_tiers() do
@@ -75,4 +75,4 @@ defmodule Safira.Repo.Seeds.Companies do
   end
 end
 
-Safira.Repo.Seeds.Companies.run()
+Pearl.Repo.Seeds.Companies.run()

@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.AddWheelSpins do
+defmodule Pearl.Repo.Migrations.AddWheelSpins do
   use Ecto.Migration
 
   def change do

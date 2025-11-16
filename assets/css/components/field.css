@@ -1,57 +1,57 @@
 /* Checkbox */
 
-:not(.phx-no-feedback).safira-form-field-wrapper--error .safira-checkbox-label {
+:not(.phx-no-feedback).pearl-form-field-wrapper--error .pearl-checkbox-label {
   @apply !text-danger-600 dark:!text-danger-200;
 }
 
-.safira-checkbox {
+.pearl-checkbox {
   @apply w-5 h-5 transition-all duration-150 ease-linear border-gray-300 rounded cursor-pointer text-secondary-500 dark:bg-gray-800 dark:border-gray-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed focus:ring-secondary-500;
 }
 
-.safira-checkbox-label {
+.pearl-checkbox-label {
   @apply inline-flex items-center gap-3 text-sm font-normal text-gray-900 cursor-pointer dark:text-gray-200;
 }
 
 /* Checkbox group */
 
-.safira-checkbox-group {
+.pearl-checkbox-group {
   @apply pt-2;
 }
 
-.safira-checkbox-group--row {
+.pearl-checkbox-group--row {
   @apply flex flex-row gap-4 mb-3;
 }
 
-.safira-checkbox-group--col {
+.pearl-checkbox-group--col {
   @apply flex flex-col gap-4 mb-3;
 }
 
-.safira-checkbox-group__item--row {
+.pearl-checkbox-group__item--row {
   @apply inline-flex items-center gap-2 cursor-pointer;
 }
 
-.safira-checkbox-group__item--col {
+.pearl-checkbox-group__item--col {
   @apply inline-flex items-center gap-3 cursor-pointer;
 }
 
-.safira-checkbox-group--empty-message {
+.pearl-checkbox-group--empty-message {
   @apply text-sm;
 }
 
 /* Select */
 
-.safira-select {
+.pearl-select {
   @apply py-1.5 block w-full rounded-md text-dark border border-lightShade placeholder:text-darkMuted focus:outline-2 focus:border-lightShade ring-0 focus:outline-dark focus:outline-offset-2 dark:outline-darkShade dark:bg-dark dark:text-light dark:placeholder-lightMuted dark:focus:border-darkShade dark:border-darkShade focus:ring-0 dark:focus:outline-light;
 }
 
 /* Text input */
 
-.safira-text-input {
+.pearl-text-input {
   @apply block w-full border-gray-300 rounded-md shadow-sm focus:border-secondary-500 focus:ring-secondary-500 dark:border-gray-600 dark:focus:border-secondary-500 sm:text-sm disabled:cursor-not-allowed dark:text-gray-300 focus:outline-none;
 }
 
 /* Number inputs with no background */
-.safira-number-input-without-bg {
+.pearl-number-input-without-bg {
   border:none;
   background-image:none;
   background-color:transparent;
@@ -62,126 +62,126 @@
 
 /* Switch */
 
-.safira-switch {
+.pearl-switch {
   @apply relative inline-flex items-center justify-center flex-shrink-0 w-10 h-5 cursor-pointer;
 }
 
-.safira-switch-label {
+.pearl-switch-label {
   @apply inline-flex items-center gap-3 text-sm font-medium text-dark cursor-pointer dark:text-light;
 }
 
-.safira-switch__input {
+.pearl-switch__input {
   @apply absolute w-10 h-5 bg-light border-none rounded-full cursor-pointer peer-checked:border-0 checked:bg-transparent checked:focus:bg-transparent checked:hover:bg-transparent;
 }
 
-.safira-switch__fake-input {
+.pearl-switch__fake-input {
   @apply absolute h-6 mx-auto transition-colors duration-200 ease-in-out bg-lightShade dark:bg-darkShade rounded-full pointer-events-none w-11 peer-checked:bg-dark dark:peer-checked:bg-light;
 }
 
-.safira-switch__fake-input-bg {
+.pearl-switch__fake-input-bg {
   @apply absolute left-0 inline-block w-5 h-5 transition-transform duration-200 ease-in-out transform translate-x-0 bg-light dark:bg-dark rounded-full shadow pointer-events-none peer-checked:translate-x-5 ring-0;
 }
 
 /* Radio */
 
-.safira-radio {
+.pearl-radio {
   @apply w-4 h-4 border-gray-300 cursor-pointer text-secondary-600 focus:ring-secondary-500 dark:border-gray-600;
 }
 
-.safira-radio-label {
+.pearl-radio-label {
   @apply inline-flex items-center gap-3 text-sm font-normal text-gray-900 cursor-pointer dark:text-gray-200;
 }
 
 /* Radio group */
 
-.safira-radio-group {
+.pearl-radio-group {
   @apply pt-2;
 }
 
-.safira-radio-group--row {
+.pearl-radio-group--row {
   @apply flex flex-row gap-4 mb-3;
 }
 
-.safira-radio-group--col {
+.pearl-radio-group--col {
   @apply flex flex-col gap-4 mb-3;
 }
 
-.safira-radio-group__item--row {
+.pearl-radio-group__item--row {
   @apply inline-flex items-center gap-2 cursor-pointer;
 }
 
-.safira-radio-group__item--col {
+.pearl-radio-group__item--col {
   @apply inline-flex items-center gap-3 cursor-pointer;
 }
 
-.safira-radio-group--empty-message {
+.pearl-radio-group--empty-message {
   @apply text-sm;
 }
 
 /* Color */
 
-.safira-color-input {
+.pearl-color-input {
   @apply border-gray-300 cursor-pointer focus:border-secondary-500 focus:ring-secondary-500 dark:border-gray-600 dark:focus:border-secondary-500;
 }
 
 /* File */
 
-.safira-file-input {
+.pearl-file-input {
   @apply text-sm rounded-md cursor-pointer focus:outline-none file:border-0 text-slate-500 file:text-secondary-700 file:font-semibold file:px-4 file:py-2 file:mr-6 file:rounded-md hover:file:bg-secondary-100 file:bg-secondary-200 dark:file:bg-secondary-300 hover:dark:file:bg-secondary-200;
 }
 
 /* Range */
 
-.safira-range-input {
+.pearl-range-input {
   @apply w-full border-gray-300 cursor-pointer focus:border-secondary-500 focus:ring-secondary-500 dark:border-gray-600 dark:focus:border-secondary-500;
 }
 
 /* Text */
 
-.safira-text-input {
+.pearl-text-input {
   @apply block w-full rounded-md text-dark border border-lightShade placeholder:text-darkMuted focus:outline-2 focus:border-lightShade ring-0 focus:outline-dark focus:outline-offset-2 dark:outline-darkShade dark:bg-dark dark:text-light dark:placeholder-lightMuted dark:focus:border-darkShade dark:border-darkShade focus:ring-0 dark:focus:outline-light dark:[color-scheme:dark];
 }
 
 /* Code */
 
-.safira-text-code {
+.pearl-text-code {
   @apply font-mono;
 }
 
 /* Form field wrapper */
 
-.safira-form-field-wrapper {
+.pearl-form-field-wrapper {
   @apply mb-6;
 }
 
-:not(.phx-no-feedback).safira-form-field-wrapper--error input,
-:not(.phx-no-feedback).safira-form-field-wrapper--error select,
-:not(.phx-no-feedback).safira-form-field-wrapper--error textarea {
+:not(.phx-no-feedback).pearl-form-field-wrapper--error input,
+:not(.phx-no-feedback).pearl-form-field-wrapper--error select,
+:not(.phx-no-feedback).pearl-form-field-wrapper--error textarea {
   @apply border-danger-500 focus:border-danger-500 text-danger-900 placeholder-danger-700 bg-danger-50 dark:text-danger-100 dark:placeholder-danger-300 dark:bg-danger-900 focus:ring-danger-500;
 }
 
-:not(.phx-no-feedback).safira-form-field-wrapper--error input[type="checkbox"] {
+:not(.phx-no-feedback).pearl-form-field-wrapper--error input[type="checkbox"] {
   @apply bg-danger-700;
 }
 
-:not(.phx-no-feedback).safira-form-field-wrapper--error
-  .safira-switch
-  .safira-switch__fake-input {
+:not(.phx-no-feedback).pearl-form-field-wrapper--error
+  .pearl-switch
+  .pearl-switch__fake-input {
   @apply bg-danger-200 border-danger-500;
 }
 
-:not(.phx-no-feedback).safira-form-field-wrapper--error .safira-label,
-:not(.phx-no-feedback).safira-form-field-wrapper--error .safira-checkbox-label {
+:not(.phx-no-feedback).pearl-form-field-wrapper--error .pearl-label,
+:not(.phx-no-feedback).pearl-form-field-wrapper--error .pearl-checkbox-label {
   @apply !text-danger-600 dark:!text-danger-200;
 }
 
 /* Label */
 
-.safira-label {
+.pearl-label {
   @apply block mb-2 text-sm font-medium text-dark dark:text-light;
 }
 
-.safira-label--required:after {
+.pearl-label--required:after {
   color: #e32;
   content: " *";
   display: inline;
@@ -189,46 +189,46 @@
 
 /* Errors */
 
-.safira-form-field-error {
+.pearl-form-field-error {
   @apply mt-1 text-xs italic text-danger-500;
 }
 
-.phx-no-feedback.safira-form-field-error {
+.phx-no-feedback.pearl-form-field-error {
   @apply hidden;
 }
 
-.phx-no-feedback .safira-form-field-error {
+.phx-no-feedback .pearl-form-field-error {
   @apply hidden;
 }
 
 /* Help text */
 
-.safira-form-help-text {
+.pearl-form-help-text {
   @apply mt-2 text-sm text-gray-500 dark:text-gray-400;
 }
 
 /* Multiselect */
 
-.safira-multiselect-dropdown {
+.pearl-multiselect-dropdown {
   @apply absolute z-50 border border-t-0 border-lightShade dark:border-darkShade mt-1 rounded-b-md pb-1 bg-light dark:bg-dark;
 }
 
-.safira-multiselect-dropdown-option {
+.pearl-multiselect-dropdown-option {
   @apply mx-1 my-1 px-3 py-1 hover:bg-lightShade/40 dark:hover:bg-darkShade cursor-pointer rounded-md text-sm;
 }
 
-.safira-multiselect-dropdown-option-selected {
+.pearl-multiselect-dropdown-option-selected {
   @apply opacity-60;
 }
 
-.safira-multiselect-dropdown-tags-container {
+.pearl-multiselect-dropdown-tags-container {
   @apply absolute flex mt-12 gap-1 flex-wrap;
 }
 
-.safira-multiselect-dropdown-tag {
+.pearl-multiselect-dropdown-tag {
   @apply text-xs flex items-center border border-lightShade dark:border-darkShade pl-2 rounded-md z-30;
 }
 
-.safira-multiselect-dropdown-tag-remove {
+.pearl-multiselect-dropdown-tag-remove {
   @apply cursor-pointer dark:opacity-80 scale-75;
 }

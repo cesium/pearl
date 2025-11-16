@@ -23,8 +23,8 @@ If you prefer to use docker, see the [section below](#-docker).
 First, clone the repository:
 
 ```
-git clone git@github.com:cesium/safira.git
-cd safira
+git clone git@github.com:cesium/pearl.git
+cd pearl
 ```
 
 Then, run the setup script to get all dependencies configured. Make sure the database is up and running.

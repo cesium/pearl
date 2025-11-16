@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateCoinFlipRooms do
+defmodule Pearl.Repo.Migrations.CreateCoinFlipRooms do
   use Ecto.Migration
 
   def change do

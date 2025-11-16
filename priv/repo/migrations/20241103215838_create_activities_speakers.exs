@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateActivitiesSpeakers do
+defmodule Pearl.Repo.Migrations.CreateActivitiesSpeakers do
   use Ecto.Migration
 
   def change do

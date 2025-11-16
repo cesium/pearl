@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateTiers do
+defmodule Pearl.Repo.Migrations.CreateTiers do
   use Ecto.Migration
 
   def change do

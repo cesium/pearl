@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateCompanies do
+defmodule Pearl.Repo.Migrations.CreateCompanies do
   use Ecto.Migration
 
   def change do

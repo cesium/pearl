@@ -25,7 +25,7 @@ erl_crash.dump
 priv/uploads/
 
 # Ignore package tarball (built via "mix hex.build").
-safira-*.tar
+pearl-*.tar
 
 # Ignore assets that are produced by build tools.
 /priv/static/assets/
@@ -39,3 +39,4 @@ npm-debug.log
 
 .env.*
 .env
+!.env.*.sample

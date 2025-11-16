@@ -1,8 +1,8 @@
-defmodule Safira.Repo.Seeds.Roles do
-  alias Safira.Accounts.Role
-  alias Safira.Accounts.Roles.Permissions
-  alias Safira.Repo
-  alias Safira.Roles
+defmodule Pearl.Repo.Seeds.Roles do
+  alias Pearl.Accounts.Role
+  alias Pearl.Accounts.Roles.Permissions
+  alias Pearl.Repo
+  alias Pearl.Roles
 
   def run do
     case Roles.list_roles() do
@@ -30,4 +30,4 @@ defmodule Safira.Repo.Seeds.Roles do
   end
 end
 
-Safira.Repo.Seeds.Roles.run()
+Pearl.Repo.Seeds.Roles.run()

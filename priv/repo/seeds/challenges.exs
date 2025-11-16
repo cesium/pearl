@@ -1,6 +1,6 @@
-defmodule Safira.Repo.Seeds.Challenges do
-  alias Safira.Challenges
-  alias Safira.Minigames
+defmodule Pearl.Repo.Seeds.Challenges do
+  alias Pearl.Challenges
+  alias Pearl.Minigames
 
   @challenges File.read!("priv/fake/challenges.txt") |> String.split("\n")
 
@@ -38,4 +38,4 @@ defmodule Safira.Repo.Seeds.Challenges do
   end
 end
 
-Safira.Repo.Seeds.Challenges.run()
+Pearl.Repo.Seeds.Challenges.run()

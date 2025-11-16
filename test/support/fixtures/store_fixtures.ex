@@ -1,7 +1,7 @@
-defmodule Safira.StoreFixtures do
+defmodule Pearl.StoreFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Safira.Store` context.
+  entities via the `Pearl.Store` context.
   """
 
   @doc """
@@ -17,7 +17,7 @@ defmodule Safira.StoreFixtures do
         price: 42,
         stock: 42
       })
-      |> Safira.Store.create_product()
+      |> Pearl.Store.create_product()
 
     product
   end

@@ -1,9 +1,9 @@
-defmodule Safira.ActivitiesFixtures do
+defmodule Pearl.ActivitiesFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Safira.Activities` context.
+  entities via the `Pearl.Activities` context.
   """
-  alias Safira.Event
+  alias Pearl.Event
 
   @doc """
   Generate a activity.
@@ -23,7 +23,7 @@ defmodule Safira.ActivitiesFixtures do
         time_start: ~T[14:00:00],
         title: "some title"
       })
-      |> Safira.Activities.create_activity()
+      |> Pearl.Activities.create_activity()
 
     Map.put(activity, :speakers, [])
   end
@@ -37,7 +37,7 @@ defmodule Safira.ActivitiesFixtures do
       |> Enum.into(%{
         name: "some name"
       })
-      |> Safira.Activities.create_activity_category()
+      |> Pearl.Activities.create_activity_category()
 
     activity_category
   end
@@ -55,7 +55,7 @@ defmodule Safira.ActivitiesFixtures do
         name: "some name",
         title: "some title"
       })
-      |> Safira.Activities.create_speaker()
+      |> Pearl.Activities.create_speaker()
 
     speaker
   end

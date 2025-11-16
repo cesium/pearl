@@ -1,7 +1,7 @@
-defmodule Safira.AccountsFixtures do
+defmodule Pearl.AccountsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Safira.Accounts` context.
+  entities via the `Pearl.Accounts` context.
   """
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
@@ -23,7 +23,7 @@ defmodule Safira.AccountsFixtures do
       attrs
       |> Enum.into(%{attendee: %{}})
       |> valid_user_attributes()
-      |> Safira.Accounts.register_attendee_user()
+      |> Pearl.Accounts.register_attendee_user()
 
     user
   end
@@ -45,7 +45,7 @@ defmodule Safira.AccountsFixtures do
     {:ok, credential} =
       attrs
       |> Enum.into(%{})
-      |> Safira.Accounts.create_credential()
+      |> Pearl.Accounts.create_credential()
 
     credential
   end
@@ -57,7 +57,7 @@ defmodule Safira.AccountsFixtures do
     {:ok, attendee} =
       attrs
       |> Enum.into(%{user_id: user_fixture().id})
-      |> Safira.Accounts.create_attendee()
+      |> Pearl.Accounts.create_attendee()
 
     attendee
   end

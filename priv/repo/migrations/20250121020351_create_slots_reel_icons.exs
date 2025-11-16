@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateSlotsReelIcons do
+defmodule Pearl.Repo.Migrations.CreateSlotsReelIcons do
   use Ecto.Migration
 
   def change do

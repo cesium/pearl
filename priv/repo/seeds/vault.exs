@@ -1,7 +1,7 @@
-defmodule Safira.Repo.Seeds.Vault do
-  alias Safira.Accounts.Attendee
-  alias Safira.{Inventory, Repo}
-  alias Safira.Store.Product
+defmodule Pearl.Repo.Seeds.Vault do
+  alias Pearl.Accounts.Attendee
+  alias Pearl.{Inventory, Repo}
+  alias Pearl.Store.Product
 
   def run do
     case Inventory.list_items() do
@@ -37,4 +37,4 @@ defmodule Safira.Repo.Seeds.Vault do
   end
 end
 
-Safira.Repo.Seeds.Vault.run()
+Pearl.Repo.Seeds.Vault.run()

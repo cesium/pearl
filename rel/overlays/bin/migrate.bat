@@ -1,1 +1,1 @@
-call "%~dp0\safira" eval Safira.Release.migrate
+call "%~dp0\pearl" eval Pearl.Release.migrate

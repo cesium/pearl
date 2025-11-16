@@ -1,5 +1,5 @@
-defmodule Safira.Repo.Seeds.Courses do
-  alias Safira.Accounts
+defmodule Pearl.Repo.Seeds.Courses do
+  alias Pearl.Accounts
 
   @courses File.read!("priv/fake/courses.txt") |> String.split("\n")
 
@@ -24,4 +24,4 @@ defmodule Safira.Repo.Seeds.Courses do
   end
 end
 
-Safira.Repo.Seeds.Courses.run()
+Pearl.Repo.Seeds.Courses.run()

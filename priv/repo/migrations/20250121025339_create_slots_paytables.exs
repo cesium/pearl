@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateSlotsPaytables do
+defmodule Pearl.Repo.Migrations.CreateSlotsPaytables do
   use Ecto.Migration
 
   def change do

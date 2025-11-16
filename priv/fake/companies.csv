@@ -1,30 +1,30 @@
 name,email,handle,url,tier
-Accenture,accenture@seium.org,accenture,https://accenture.com/,gold
-AgentifAI,agentifai@seium.org,agentifai,https://agentifai.com/,gold
-Checkmarx,checkmarx@seium.org,checkmarx,https://checkmarx.com/,gold
-Critical Techworks,criticaltechworks@seium.org,criticaltechworks,https://www.criticaltechworks.com/,gold
-Retail Consult,retailconsult@seium.org,retailconsult,https://www.retail-consult.com/,gold
-Uphold,uphold@seium.org,uphold,https://uphold.com/,gold
-Cegid,cegid@seium.org,cegid,https://www.cegid.com/,silver
-Codsec,codsec@seium.org,codsec,https://www.codsec.io/,silver
-Continental,continental@seium.org,continental,https://www.continental.com,silver
-Deloitte,deloitte@seium.org,deloitte,https://www2.deloitte.com/,silver
-ITSector,itsector@seium.org,itsector,https://www.itsector.pt/,silver
-MCSonae,mcsonae@seium.org,mcsonae,https://mc.sonae.pt/,silver
-Optare Solutions,optaresolutions@seium.org,optaresolutions,https://optaresolutions.com/,silver
-XpandIT,xpandit@seium.org,xpandit,https://www.xpand-it.com/,silver
-Yari Labs,yarilabs@seium.org,yarilabs,https://www.yarilabs.com/,silver
-Aptiv,aptiv@seium.org,aptiv,https://www.aptiv.com/,bronze
-Bosch,bosch@seium.org,bosch,https://www.bosch.pt/,bronze
-Celfocus,celfocus@seium.org,celfocus,https://www.celfocus.com/,bronze
-Dtxcolab,dtxcolab@seium.org,dtxcolab,https://www.dtx-colab.pt/,bronze
-Eurotux,eurotux@seium.org,eurotux,https://eurotux.com,bronze
-EY,ey@seium.org,ey_,https://www.ey.com/,bronze
-Glintt,glintt@seium.org,glintt,https://www.glintt.com,bronze
-Inovaria,inovaria@seium.org,inovaria,https://www.inova-ria.pt/,bronze
-KPMG,kpmg@seium.org,kpmg,https://kpmg.com,bronze
-Issuu,issuu@seium.org,issuu,https://issuu.com/,bronze
-NTT Data,nttdata@seium.org,nttdata,https://www.nttdata.com/,bronze
-Openvia,openvia@seium.org,openvia,https://www.openvia.io/,bronze
-Pixelmatters,pixelmatters@seium.org,pixelmatters,https://www.pixelmatters.com/,bronze
-Seegno,seegno@seium.org,seegno,https://seegno.com/,bronze
+Accenture,accenture@eneiconf.pt,accenture,https://accenture.com/,gold
+AgentifAI,agentifai@eneiconf.pt,agentifai,https://agentifai.com/,gold
+Checkmarx,checkmarx@eneiconf.pt,checkmarx,https://checkmarx.com/,gold
+Critical Techworks,criticaltechworks@eneiconf.pt,criticaltechworks,https://www.criticaltechworks.com/,gold
+Retail Consult,retailconsult@eneiconf.pt,retailconsult,https://www.retail-consult.com/,gold
+Uphold,uphold@eneiconf.pt,uphold,https://uphold.com/,gold
+Cegid,cegid@eneiconf.pt,cegid,https://www.cegid.com/,silver
+Codsec,codsec@eneiconf.pt,codsec,https://www.codsec.io/,silver
+Continental,continental@eneiconf.pt,continental,https://www.continental.com,silver
+Deloitte,deloitte@eneiconf.pt,deloitte,https://www2.deloitte.com/,silver
+ITSector,itsector@eneiconf.pt,itsector,https://www.itsector.pt/,silver
+MCSonae,mcsonae@eneiconf.pt,mcsonae,https://mc.sonae.pt/,silver
+Optare Solutions,optaresolutions@eneiconf.pt,optaresolutions,https://optaresolutions.com/,silver
+XpandIT,xpandit@eneiconf.pt,xpandit,https://www.xpand-it.com/,silver
+Yari Labs,yarilabs@eneiconf.pt,yarilabs,https://www.yarilabs.com/,silver
+Aptiv,aptiv@eneiconf.pt,aptiv,https://www.aptiv.com/,bronze
+Bosch,bosch@eneiconf.pt,bosch,https://www.bosch.pt/,bronze
+Celfocus,celfocus@eneiconf.pt,celfocus,https://www.celfocus.com/,bronze
+Dtxcolab,dtxcolab@eneiconf.pt,dtxcolab,https://www.dtx-colab.pt/,bronze
+Eurotux,eurotux@eneiconf.pt,eurotux,https://eurotux.com,bronze
+EY,ey@eneiconf.pt,ey_,https://www.ey.com/,bronze
+Glintt,glintt@eneiconf.pt,glintt,https://www.glintt.com,bronze
+Inovaria,inovaria@eneiconf.pt,inovaria,https://www.inova-ria.pt/,bronze
+KPMG,kpmg@eneiconf.pt,kpmg,https://kpmg.com,bronze
+Issuu,issuu@eneiconf.pt,issuu,https://issuu.com/,bronze
+NTT Data,nttdata@eneiconf.pt,nttdata,https://www.nttdata.com/,bronze
+Openvia,openvia@eneiconf.pt,openvia,https://www.openvia.io/,bronze
+Pixelmatters,pixelmatters@eneiconf.pt,pixelmatters,https://www.pixelmatters.com/,bronze
+Seegno,seegno@eneiconf.pt,seegno,https://seegno.com/,bronze

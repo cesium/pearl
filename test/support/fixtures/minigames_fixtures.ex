@@ -1,7 +1,7 @@
-defmodule Safira.MinigamesFixtures do
+defmodule Pearl.MinigamesFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Safira.Minigames` context.
+  entities via the `Pearl.Minigames` context.
   """
 
   @doc """
@@ -14,7 +14,7 @@ defmodule Safira.MinigamesFixtures do
         name: "some name",
         stock: 42
       })
-      |> Safira.Minigames.create_prize()
+      |> Pearl.Minigames.create_prize()
 
     prize
   end
@@ -29,7 +29,7 @@ defmodule Safira.MinigamesFixtures do
         max_per_attendee: 42,
         probability: 0.2
       })
-      |> Safira.Minigames.create_wheel_drop()
+      |> Pearl.Minigames.create_wheel_drop()
 
     wheel_drop
   end
@@ -43,7 +43,7 @@ defmodule Safira.MinigamesFixtures do
       |> Enum.into(%{
         bet: 42
       })
-      |> Safira.Minigames.create_coin_flip_room()
+      |> Pearl.Minigames.create_coin_flip_room()
 
     coin_flip_room
   end
@@ -67,7 +67,7 @@ defmodule Safira.MinigamesFixtures do
         reel_1_index: 42,
         reel_2_index: 42
       })
-      |> Safira.Minigames.create_slots_reel_icon()
+      |> Pearl.Minigames.create_slots_reel_icon()
 
     slots_reel_icon
   end
@@ -86,7 +86,7 @@ defmodule Safira.MinigamesFixtures do
         # Add the required probability field.
         probability: 0.1
       })
-      |> Safira.Minigames.create_slots_paytable()
+      |> Pearl.Minigames.create_slots_paytable()
 
     slots_paytable
   end
@@ -106,7 +106,7 @@ defmodule Safira.MinigamesFixtures do
         position_2: 42,
         paytable_id: paytable.id
       })
-      |> Safira.Minigames.create_slots_payline()
+      |> Pearl.Minigames.create_slots_payline()
 
     slots_payline
   end

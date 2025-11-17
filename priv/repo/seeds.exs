@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Seeds do
+defmodule Pearl.Repo.Seeds do
   @moduledoc """
   Script for populating the database.
   You can run it as:
@@ -29,4 +29,4 @@ defmodule Safira.Repo.Seeds do
   end
 end
 
-Safira.Repo.Seeds.run()
+Pearl.Repo.Seeds.run()

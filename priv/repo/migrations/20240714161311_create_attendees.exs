@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateAttendees do
+defmodule Pearl.Repo.Migrations.CreateAttendees do
   use Ecto.Migration
 
   def change do

@@ -1,4 +1,4 @@
-app = "safira-prod"
+app = "pearl-prod"
 primary_region = "mad"
 kill_signal = "SIGTERM"
 
@@ -6,12 +6,12 @@ kill_signal = "SIGTERM"
   release_command = "/app/bin/migrate"
 
 [env]
-  PHX_HOST = "seium.org"
+  PHX_HOST = "eneiconf.pt"
   MIX_ENV = "prod"
   PORT = "8080"
-  FROM_EMAIL_NAME = "SEI '25"
-  FROM_EMAIL_ADDRESS = "no-reply@seium.org"
-  DNS_CLUSTER_QUERY = "safira-prod.internal"
+  FROM_EMAIL_NAME = "ENEI '26"
+  FROM_EMAIL_ADDRESS = "no-reply@eneiconf.pt"
+  DNS_CLUSTER_QUERY = "pearl-prod.internal"
 
 [http_service]
   internal_port = 8080

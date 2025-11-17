@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.AddObanJobsTable do
+defmodule Pearl.Repo.Migrations.AddObanJobsTable do
   use Ecto.Migration
 
   def up do

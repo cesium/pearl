@@ -22,14 +22,14 @@ config :ex_aws,
 
 config :swoosh, :api_client, Swoosh.ApiClient.Hackney
 
-config :safira, Safira.Mailer, adapter: Swoosh.Adapters.ExAwsAmazonSES
+config :pearl, Pearl.Mailer, adapter: Swoosh.Adapters.ExAwsAmazonSES
 
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
 # to the previous section and set your `:url` port to 443:
 #
-config :safira, Safira.Endpoint,
-  url: [scheme: "https", host: System.get_env("PHX_HOST") || "stg.seium.org", port: 443],
+config :pearl, Pearl.Endpoint,
+  url: [scheme: "https", host: System.get_env("PHX_HOST") || "stg.eneiconf.pt", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"

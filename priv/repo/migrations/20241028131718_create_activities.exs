@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateActivities do
+defmodule Pearl.Repo.Migrations.CreateActivities do
   use Ecto.Migration
 
   def change do

@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateConstants do
+defmodule Pearl.Repo.Migrations.CreateConstants do
   use Ecto.Migration
 
   def change do

@@ -1,4 +1,4 @@
-defmodule Safira.Repo.Migrations.CreateBadgeTriggers do
+defmodule Pearl.Repo.Migrations.CreateBadgeTriggers do
   use Ecto.Migration
 
   def change do

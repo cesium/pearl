@@ -1,4 +1,4 @@
-defmodule Safira.DataCase do
+defmodule Pearl.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -10,7 +10,7 @@ defmodule Safira.DataCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use Safira.DataCase, async: true`, although
+  by setting `use Pearl.DataCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -18,19 +18,19 @@ defmodule Safira.DataCase do
 
   using do
     quote do
-      alias Safira.Repo
+      alias Pearl.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Safira.DataCase
+      import Pearl.DataCase
     end
   end
 
   alias Ecto.Adapters.SQL.Sandbox
 
   setup tags do
-    Safira.DataCase.setup_sandbox(tags)
+    Pearl.DataCase.setup_sandbox(tags)
     :ok
   end
 
@@ -38,7 +38,7 @@ defmodule Safira.DataCase do
   Sets up the sandbox based on the test tags.
   """
   def setup_sandbox(tags) do
-    pid = Sandbox.start_owner!(Safira.Repo, shared: not tags[:async])
+    pid = Sandbox.start_owner!(Pearl.Repo, shared: not tags[:async])
     on_exit(fn -> Sandbox.stop_owner(pid) end)
   end
 

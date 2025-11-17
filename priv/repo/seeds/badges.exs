@@ -1,7 +1,7 @@
-defmodule Safira.Repo.Seeds.Badges do
-  alias Safira.Accounts.{Attendee, Staff}
-  alias Safira.{Contest, Event, Repo}
-  alias Safira.Contest.{Badge, BadgeCategory, BadgeRedeem}
+defmodule Pearl.Repo.Seeds.Badges do
+  alias Pearl.Accounts.{Attendee, Staff}
+  alias Pearl.{Contest, Event, Repo}
+  alias Pearl.Contest.{Badge, BadgeCategory, BadgeRedeem}
 
   @badges File.read!("priv/fake/badges.txt") |> String.split("\n") |> Enum.map(&String.split(&1, ";"))
 
@@ -90,4 +90,4 @@ defmodule Safira.Repo.Seeds.Badges do
   end
 end
 
-Safira.Repo.Seeds.Badges.run()
+Pearl.Repo.Seeds.Badges.run()

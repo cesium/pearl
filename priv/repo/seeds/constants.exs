@@ -1,6 +1,6 @@
-defmodule Safira.Repo.Seeds.Constants do
-  alias Safira.Constants
-  alias Safira.Event
+defmodule Pearl.Repo.Seeds.Constants do
+  alias Pearl.Constants
+  alias Pearl.Event
 
   def run do
     Constants.set("registrations_open", "true")
@@ -14,4 +14,4 @@ defmodule Safira.Repo.Seeds.Constants do
   end
 end
 
-Safira.Repo.Seeds.Constants.run()
+Pearl.Repo.Seeds.Constants.run()

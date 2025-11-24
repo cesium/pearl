@@ -1712,7 +1712,9 @@ defmodule Pearl.Minigames do
 
   def get_horse_race_multiplier do
     case Constants.get(@horse_race_multiplier_key) do
-      {:ok, multiplier} -> multiplier
+      {:ok, multiplier} ->
+        multiplier
+
       {:error, _} ->
         change_horse_race_multiplier(2.0)
         2.0
@@ -1725,7 +1727,9 @@ defmodule Pearl.Minigames do
 
   def get_horse_race_duration do
     case Constants.get(@horse_race_duration_key) do
-      {:ok, duration} -> duration
+      {:ok, duration} ->
+        duration
+
       {:error, _} ->
         change_horse_race_duration(2)
         2
@@ -1738,7 +1742,9 @@ defmodule Pearl.Minigames do
 
   def get_horse_race_entry_fee do
     case Constants.get(@horse_race_entry_fee_key) do
-      {:ok, fee} -> fee
+      {:ok, fee} ->
+        fee
+
       {:error, _} ->
         change_horse_race_entry_fee(100)
         100
@@ -1751,20 +1757,25 @@ defmodule Pearl.Minigames do
 
   def get_horse_race_number_of_horses do
     case Constants.get(@horse_race_number_of_horses_key) do
-      {:ok, count} -> count
+      {:ok, count} ->
+        count
+
       {:error, _} ->
         change_horse_race_number_of_horses(5)
         5
     end
   end
 
-  def change_horse_race_number_of_horses(count) when is_integer(count) and count >= 3 and count <= 8 do
+  def change_horse_race_number_of_horses(count)
+      when is_integer(count) and count >= 3 and count <= 8 do
     Constants.set(@horse_race_number_of_horses_key, count)
   end
 
   def get_horse_race_house_fee do
     case Constants.get(@horse_race_house_fee_key) do
-      {:ok, fee} -> fee
+      {:ok, fee} ->
+        fee
+
       {:error, _} ->
         change_horse_race_house_fee(5.0)
         5.0
@@ -1777,7 +1788,9 @@ defmodule Pearl.Minigames do
 
   def horse_race_active? do
     case Constants.get(@horse_race_active_key) do
-      {:ok, active} -> active
+      {:ok, active} ->
+        active
+
       {:error, _} ->
         change_horse_race_active(false)
         false

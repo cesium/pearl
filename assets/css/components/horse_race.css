@@ -168,3 +168,16 @@
     color: inherit;
   }
 }
+
+@keyframes bounce-custom {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(-4px); 
+  }
+}
+
+.animate-bounce {
+  animation: bounce-custom 0.6s infinite;
+}

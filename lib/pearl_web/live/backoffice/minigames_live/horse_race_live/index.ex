@@ -84,7 +84,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
                       <% end %>
                     </div>
 
-                    <div class="absolute right-0 top-0 h-full w-1 dark:bg-red-500 bg-red-600 finish-line"></div>
+                    <div class="absolute right-0 top-0 h-full w-1 dark:bg-red-500 bg-red-600 finish-line">
+                    </div>
                   </div>
 
                   <div class="absolute right-2 top-0 h-full flex items-center">
@@ -142,17 +143,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
           <% end %>
         </div>
       </div>
-      <h1>Nota ver se mudo isto do style para o hook</h1>
-
-      <style>
-        @keyframes bounce-custom {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-4px); }
-        }
-        .animate-bounce {
-          animation: bounce-custom 0.6s infinite;
-        }
-      </style>
     </div>
     """
   end
@@ -273,7 +263,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
   end
 
   def handle_update(%{update: "update_race", params: params}, socket) do
-
     if socket.assigns.racing do
       elapsed = String.to_integer(params["elapsed"])
       time_remaining = max(0, socket.assigns.total_race_time - elapsed)

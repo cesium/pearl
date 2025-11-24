@@ -1,0 +1,183 @@
+@keyframes horse-gallop {
+  0% { 
+    transform: scaleY(1) translateY(0px);
+  }
+  25% { 
+    transform: scaleY(0.9) translateY(-1px);
+  }
+  50% { 
+    transform: scaleY(1.1) translateY(1px);
+  }
+  75% { 
+    transform: scaleY(0.9) translateY(-1px);
+  }
+  100% { 
+    transform: scaleY(1) translateY(0px);
+  }
+}
+
+.horse-marker {
+  transition: left 0.5s ease-out;
+  animation: horse-gallop 0.6s infinite;
+}
+
+.horse-marker.racing {
+  animation: horse-gallop 0.4s infinite;
+}
+
+.horse-progress {
+  transition: width 0.5s ease-out;
+}
+
+@keyframes winner-announce {
+  0% { 
+    transform: scale(0.5) rotateY(90deg);
+    opacity: 0;
+  }
+  50% { 
+    transform: scale(1.1) rotateY(0deg);
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(1) rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+.winner-announcement {
+  animation: winner-announce 1s ease-out;
+  transform-origin: center;
+}
+
+@keyframes confetti {
+  0% { 
+    transform: translateY(-100vh) rotateZ(0deg);
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(100vh) rotateZ(360deg);
+    opacity: 0;
+  }
+}
+
+.confetti-piece {
+  position: absolute;
+  animation: confetti 3s linear infinite;
+}
+
+@keyframes finish-line-pulse {
+  0% { 
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% { 
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+  100% { 
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.finish-line-pulse {
+  animation: finish-line-pulse 1s ease-out;
+}
+
+.horse-marker.near-finish {
+  animation: horse-gallop 0.3s infinite, bounce-near-finish 0.8s ease-in-out infinite;
+}
+
+@keyframes bounce-near-finish {
+  0%, 100% { 
+    transform: translateY(0) scale(1);
+  }
+  50% { 
+    transform: translateY(-2px) scale(1.05);
+  }
+}
+
+@keyframes countdown-pulse {
+  0% { 
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% { 
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.countdown-pulse {
+  animation: countdown-pulse 1s ease-in-out;
+}
+
+@keyframes racing-stripes {
+  0% { 
+    background-position-x: 0;
+  }
+  100% { 
+    background-position-x: 20px;
+  }
+}
+
+.horse-progress.racing {
+  animation: racing-stripes 0.5s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.race-shimmer {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0%,
+    #ffffff 50%,
+    #f0f0f0 100%
+  );
+  background-size: 468px 104px;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.horse-percentage {
+  transition: all 0.3s ease;
+}
+
+.horse-percentage.updated {
+  animation: percentage-update 0.3s ease-out;
+}
+
+@keyframes percentage-update {
+  0% { 
+    transform: scale(1);
+    color: inherit;
+  }
+  50% { 
+    transform: scale(1.1);
+    color: #10b981;
+  }
+  100% { 
+    transform: scale(1);
+    color: inherit;
+  }
+}
+
+@keyframes bounce-custom {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(-4px); 
+  }
+}
+
+.animate-bounce {
+  animation: bounce-custom 0.6s infinite;
+}

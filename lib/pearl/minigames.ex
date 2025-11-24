@@ -1702,4 +1702,194 @@ defmodule Pearl.Minigames do
       end
     end)
   end
+
+  @doc """
+  Gets the horse race multiplier.
+
+  ## Examples
+
+      iex> get_horse_race_multiplier()
+      2.0
+  """
+  def get_horse_race_multiplier do
+    case Constants.get("horse_race_multiplier") do
+      {:ok, multiplier} ->
+        multiplier
+
+      {:error, _} ->
+        change_horse_race_multiplier(2.0)
+        2.0
+    end
+  end
+
+  @doc """
+  Changes the horse race multiplier.
+
+  ## Examples
+
+      iex> change_horse_race_multiplier(3.5)
+      :ok
+  """
+  def change_horse_race_multiplier(multiplier) when is_number(multiplier) do
+    Constants.set("horse_race_multiplier", multiplier)
+  end
+
+  @doc """
+  Gets the horse race duration in minutes.
+
+  ## Examples
+
+      iex> get_horse_race_duration()
+      2
+  """
+  def get_horse_race_duration do
+    case Constants.get("horse_race_duration") do
+      {:ok, duration} ->
+        duration
+
+      {:error, _} ->
+        change_horse_race_duration(2)
+        2
+    end
+  end
+
+  @doc """
+  Changes the horse race duration in minutes.
+
+  ## Examples
+
+      iex> change_horse_race_duration(5)
+      :ok
+  """
+  def change_horse_race_duration(minutes) when is_integer(minutes) do
+    Constants.set("horse_race_duration", minutes)
+  end
+
+  @doc """
+  Gets the horse race entry fee.
+
+  ## Examples
+
+      iex> get_horse_race_entry_fee()
+      100
+  """
+  def get_horse_race_entry_fee do
+    case Constants.get("horse_race_entry_fee") do
+      {:ok, fee} ->
+        fee
+
+      {:error, _} ->
+        change_horse_race_entry_fee(100)
+        100
+    end
+  end
+
+  @doc """
+  Changes the horse race entry fee.
+
+  ## Examples
+
+      iex> change_horse_race_entry_fee(250)
+      :ok
+  """
+  def change_horse_race_entry_fee(fee) when is_integer(fee) do
+    Constants.set("horse_race_entry_fee", fee)
+  end
+
+  @doc """
+  Gets the number of horses in a race.
+
+  ## Examples
+
+      iex> get_horse_race_number_of_horses()
+      5
+  """
+  def get_horse_race_number_of_horses do
+    case Constants.get("horse_race_number_of_horses") do
+      {:ok, count} ->
+        count
+
+      {:error, _} ->
+        change_horse_race_number_of_horses(5)
+        5
+    end
+  end
+
+  @doc """
+  Changes the number of horses in a race (between 3 and 8).
+
+  ## Examples
+
+      iex> change_horse_race_number_of_horses(7)
+      :ok
+
+      iex> change_horse_race_number_of_horses(2)
+      ** (FunctionClauseError)
+  """
+  def change_horse_race_number_of_horses(count)
+      when is_integer(count) and count >= 3 and count <= 8 do
+    Constants.set("horse_race_number_of_horses", count)
+  end
+
+  @doc """
+  Gets the horse race house fee percentage.
+
+  ## Examples
+
+      iex> get_horse_race_house_fee()
+      5.0
+  """
+  def get_horse_race_house_fee do
+    case Constants.get("horse_race_house_fee") do
+      {:ok, fee} ->
+        fee
+
+      {:error, _} ->
+        change_horse_race_house_fee(5.0)
+        5.0
+    end
+  end
+
+  @doc """
+  Changes the horse race house fee percentage.
+
+  ## Examples
+
+      iex> change_horse_race_house_fee(10.0)
+      :ok
+  """
+  def change_horse_race_house_fee(fee) when is_number(fee) do
+    Constants.set("horse_race_house_fee", fee)
+  end
+
+  @doc """
+  Gets the horse race active status.
+
+  ## Examples
+
+      iex> horse_race_active?()
+      true
+  """
+  def horse_race_active? do
+    case Constants.get("horse_race_active") do
+      {:ok, active} ->
+        active
+
+      {:error, _} ->
+        change_horse_race_active(false)
+        false
+    end
+  end
+
+  @doc """
+  Changes the horse race active status.
+
+  ## Examples
+
+      iex> change_horse_race_active(true)
+      :ok
+  """
+  def change_horse_race_active(active?) when is_boolean(active?) do
+    Constants.set("horse_race_active", active?)
+  end
 end

@@ -172,12 +172,12 @@
   id="horse-race-config-modal"
   wrapper_class="p-3"
   show
-  on_cancel={JS.patch(~p"/dashboard/minigames/horse_race")}
+  on_cancel={JS.patch(~p"/dashboard/minigames/")}
 >
   <.live_component
     id="horse-race-configurator"
     module={PearlWeb.Backoffice.MinigamesLive.HorseRace.FormComponent}
-    patch={~p"/dashboard/minigames/horse_race"}
+    patch={~p"/dashboard/minigames/"}
   />
 </.modal>
 

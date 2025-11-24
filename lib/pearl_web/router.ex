@@ -335,6 +335,11 @@ defmodule PearlWeb.Router do
           live "/", MinigamesLive.Index, :index
 
           live "/coin_flip", MinigamesLive.Index, :edit_coin_flip
+
+          scope "/horse_race" do
+            live "/", MinigamesLive.Index, :edit_horse_race
+            live "/simulation", MinigamesLive.Index, :horse_race
+          end
         end
 
         scope "/scanner", ScannerLive do

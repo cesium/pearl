@@ -30,6 +30,7 @@ defmodule PearlWeb.Router do
       live "/schedule", ScheduleLive.Index, :index
       live "/challenges", ChallengesLive.Index, :index
       live "/speakers", SpeakersLive.Index, :index
+      live "/tickets", TicketsLive.Index, :index
     end
   end
 

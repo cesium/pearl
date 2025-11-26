@@ -31,6 +31,7 @@ defmodule PearlWeb.Backoffice.EventLive.FormComponent do
               <.field field={@form[:speakers_enabled]} type="switch" label="Speaker Enabled" />
               <.field field={@form[:team_enabled]} type="switch" label="Team Enabled" />
               <.field field={@form[:faqs_enabled]} type="switch" label="FAQs Enabled" />
+              <.field field={@form[:tickets_enabled]} type="switch" label="Tickets Enabled" />
               <.field
                 field={@form[:call_for_staff_enabled]}
                 type="switch"

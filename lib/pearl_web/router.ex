@@ -228,6 +228,17 @@ defmodule PearlWeb.Router do
           end
         end
 
+        scope "/tickets", TicketsLive do
+          live "/", Index, :index
+          live "/:id/edit", Index, :edit
+
+          scope "/ticket_types" do
+            live "/", Index, :ticket_types
+            live "/new", Index, :ticket_types_new
+            live "/:id/edit", Index, :ticket_types_edit
+          end
+        end
+
         scope "/schedule", ScheduleLive do
           live "/edit", Index, :edit_schedule
 

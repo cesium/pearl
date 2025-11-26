@@ -84,6 +84,7 @@ defmodule Pearl.Event do
     result
   end
 
+  @spec subscribe_to_start_time_update(binary()) :: :ok | {:error, {:already_registered, pid()}}
   @doc """
   Subscribes the caller to the start time's updates.
 
@@ -124,7 +125,8 @@ defmodule Pearl.Event do
       "faqs_enabled",
       "general_regulation_enabled",
       "team_enabled",
-      "call_for_staff_enabled"
+      "call_for_staff_enabled",
+      "tickets_enabled"
     ]
   end
 

@@ -19,9 +19,10 @@ defmodule Pearl.TicketTypes do
 
   """
   def list_ticket_types do
-    Repo.all(TicketType)
+    TicketType
+    |> order_by(:priority)
+    |> Repo.all()
   end
-
 
   @doc """
   Gets a single ticket type.
@@ -37,10 +38,8 @@ defmodule Pearl.TicketTypes do
       ** (Ecto.NoResultsError)
 
   """
-
   def get_ticket_type!(id) do
-    TicketType
-    |> Repo.get!(id)
+    Repo.get!(TicketType, id)
   end
 
   @doc """
@@ -96,6 +95,48 @@ defmodule Pearl.TicketTypes do
   end
 
   @doc """
+  Archives a ticket type.
+
+      iex> archive_ticket_type(ticket_type)
+      {:ok, %TicketType{}}
+
+      iex> archive_ticket_type(ticket_type)
+      {:error, %Ecto.Changeset{}}
+  """
+  def archive_ticket_type(%TicketType{} = ticket_type) do
+    ticket_type
+    |> TicketType.changeset(%{active: false})
+    |> Repo.update()
+  end
+
+  @doc """
+  Unarchives a ticket type.
+
+      iex> unarchive_ticket_type(ticket_type)
+      {:ok, %TicketType{}}
+
+      iex> unarchive_ticket_type(ticket_type)
+      {:error, %Ecto.Changeset{}}
+  """
+  def unarchive_ticket_type(%TicketType{} = ticket_type) do
+    ticket_type
+    |> TicketType.changeset(%{active: true})
+    |> Repo.update()
+  end
+
+  @doc """
+  Returns the next priority a ticket type should have.
+
+  ## Examples
+
+      iex> get_next_ticket_type_priority()
+      5
+  """
+  def get_next_ticket_type_priority do
+    (Repo.aggregate(from(t in TicketType), :max, :priority) || -1) + 1
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking ticket types changes.
 
   ## Examples
@@ -107,5 +148,4 @@ defmodule Pearl.TicketTypes do
   def change_ticket_type(%TicketType{} = ticket_type, attrs \\ %{}) do
     TicketType.changeset(ticket_type, attrs)
   end
-
 end

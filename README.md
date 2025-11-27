@@ -4,7 +4,7 @@
 [ci-style-status]: https://github.com/cesium/pearl/actions/workflows/style.yml/badge.svg
 [ci-style-workflow]: https://github.com/cesium/pearl/actions/workflows/style.yml
 
-# ![ENEI Banner](.github/brand/enei-banner.png)
+<img src=".github/brand/enei-banner.png" alt="ENEI Banner" width="400" />
 
 [![CI Style][ci-style-status]][ci-style-workflow]
 

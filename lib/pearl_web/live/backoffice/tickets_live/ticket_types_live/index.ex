@@ -31,7 +31,9 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.Index do
               <.icon name="hero-bars-3" class="w-5 h-5 handle cursor-pointer ml-4" />
               {ticket_type.name}
               <%= if not ticket_type.active do %>
-                <span class="border border-amber-600 rounded-full text-xs text-amber-800 px-1 bg-amber-200">Inactive</span>
+                <span class="border border-amber-600 rounded-full text-xs text-amber-800 px-1 bg-amber-200">
+                  Inactive
+                </span>
               <% end %>
             </div>
             <p class="text-dark dark:text-light flex flex-row justify-between gap-2">

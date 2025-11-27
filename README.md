@@ -4,15 +4,14 @@
 [ci-style-status]: https://github.com/cesium/pearl/actions/workflows/style.yml/badge.svg
 [ci-style-workflow]: https://github.com/cesium/pearl/actions/workflows/style.yml
 
-<table width="100%">
-  <tr>
-    <td align="center" bgcolor="#8d0020">
-      <img src=".github/brand/enei-banner.png" alt="ENEI Banner" width="400" />
-    </td>
-  </tr>
-</table>
-
-[![CI Style][ci-style-status]][ci-style-workflow]
+<p align="center">
+  <img src=".github/brand/enei-banner.png" alt="ENEI - Encontro Nacional de Estudantes de Informática" width="800" />
+</p>
+<p align="center">
+  <a href="https://github.com/cesium/pearl/actions/workflows/style.yml">
+    <img src="https://github.com/cesium/pearl/actions/workflows/style.yml/badge.svg" alt="CI Style Status" />
+  </a>
+</p>
 
 ## 🤝 Contributing
 

@@ -9,7 +9,6 @@ defmodule PearlWeb.App.GamesLive.Components.GameCard do
   attr :desc, :string, required: true
   attr :icon, :string, required: true
 
-
   def game_card(assigns) do
     ~H"""
     <.link

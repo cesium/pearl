@@ -4,10 +4,10 @@
 [ci-style-status]: https://github.com/cesium/pearl/actions/workflows/style.yml/badge.svg
 [ci-style-workflow]: https://github.com/cesium/pearl/actions/workflows/style.yml
 
-<table style="width: 100%; background-color: #8d0020; padding: 20px; border-collapse: collapse; margin: 0; border: none;">
+<table style="width: calc(100vw - 2px); background-color: #8d0020; border-collapse: collapse; margin: 0; border: none; padding: 0; margin-left: calc(50% - 50vw);">
   <tr style="background-color: #8d0020; border: none;">
-    <td style="text-align: center; background-color: #8d0020; border: none; padding: 20px 0;">
-      <img src=".github/brand/enei-banner.png" alt="ENEI Banner" width="400" />
+    <td style="text-align: center; background-color: #8d0020; border: none; padding: 30px 20px;">
+      <img src=".github/brand/enei-banner.png" alt="ENEI Banner" width="500" />
     </td>
   </tr>
 </table>

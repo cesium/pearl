@@ -4,10 +4,13 @@
 [ci-style-status]: https://github.com/cesium/pearl/actions/workflows/style.yml/badge.svg
 [ci-style-workflow]: https://github.com/cesium/pearl/actions/workflows/style.yml
 
-<table width="100%">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
-    <td align="center" bgcolor="#8d0020" style="padding: 40px 0;">
+    <td align="center" bgcolor="#8d0020">
+      <br/>
       <img src=".github/brand/enei-banner.png" alt="ENEI - Encontro Nacional de Estudantes de Informática" width="800" />
+      <br/>
+      <br/>
     </td>
   </tr>
 </table>

@@ -8,7 +8,7 @@
   <tr>
     <td align="center" bgcolor="#FFFFFF">
       <br/>
-      <img src=".github/brand/enei-banner.png" alt="ENEI - Encontro Nacional de Estudantes de Informática" width="800" />
+      <img src=".github/brand/enei-banner.png" alt="ENEI - Encontro Nacional de Estudantes de Informática" width="400" />
       <br/>
       <br/>
     </td>

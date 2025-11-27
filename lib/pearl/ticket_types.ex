@@ -25,6 +25,23 @@ defmodule Pearl.TicketTypes do
   end
 
   @doc """
+  Returns the list of active ticket_types.
+
+  ## Examples
+
+    iex> list_active_ticket_types()
+    [%TicketType{}, ...]
+
+  """
+
+  def list_active_ticket_types do
+    TicketType
+    |> where([t], t.active == true)
+    |> order_by(:priority)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single ticket type.
 
   Raises `Ecto.NoResultsError` if the TicketType does not exist.

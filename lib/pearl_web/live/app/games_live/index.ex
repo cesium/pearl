@@ -12,9 +12,25 @@ defmodule PearlWeb.App.GamesLive.Index do
         path: "wheel",
         desc: "Spin the wheel and win exciting prizes"
       },
-      %{name: "Slots", icon: "slots.svg", path: "slots", desc: "..."},
-      %{name: "Coin Flip", icon: "coin-flip.svg", path: "coin_flip", desc: "..."},
-      %{name: "Scratch Card", icon: "wheel.svg", path: "scratch_card", desc: "..."}
+      %{
+        name: "Slots",
+        icon: "slots.svg",
+        path: "slots",
+        desc: "Test your luck with classic slot machines"
+      },
+      %{
+        name: "Coin Flip",
+        icon: "coin-flip.svg",
+        path: "coin_flip",
+        desc: "Heads or tails? Make your choice against other users"
+      },
+      %{
+        name: "Scratch Card",
+        # Fix: change icon
+        icon: "wheel.svg",
+        path: "scratch_card",
+        desc: "Scratch scratch scratch, and reveal your fortune"
+      }
     ]
 
     {:ok,

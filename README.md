@@ -6,7 +6,7 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
-    <td align="center" bgcolor="#8d0020">
+    <td align="center" bgcolor="#FFFFFF">
       <br/>
       <img src=".github/brand/enei-banner.png" alt="ENEI - Encontro Nacional de Estudantes de Informática" width="800" />
       <br/>

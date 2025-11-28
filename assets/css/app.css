@@ -21,8 +21,10 @@
   font-display: swap;
 }
 
-@theme {  
-  --color-primary: #811824;
+@theme {
+  --color-wine: #811824;
+
+  --color-primary: #04041c;
   --color-accent: #ffdb0d;
   --color-light: #ffffff;
   --color-light-muted: #a1a1aa;

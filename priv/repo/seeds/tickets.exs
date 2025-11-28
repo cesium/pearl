@@ -49,7 +49,7 @@ defmodule Pearl.Repo.Seeds.Tickets do
         else
           ticket_types = Repo.all(TicketType)
 
-         empty_ticket_types?(ticket_types)
+         empty_ticket_types?(ticket_types, users)
         end
 
       _ ->
@@ -57,7 +57,7 @@ defmodule Pearl.Repo.Seeds.Tickets do
     end
   end
 
-  defp empty_ticket_types?(ticket_types) do
+  defp empty_ticket_types?(ticket_types, users) do
     if Enum.empty?(ticket_types) do
             Mix.shell().error("No ticket types found. Please run ticket types seed first.")
           else

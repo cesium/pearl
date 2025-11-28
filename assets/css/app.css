@@ -51,8 +51,9 @@
 }
 
 @theme {
-  --color-primary: #811824;
+  --color-wine: #811824;
   --color-olive: #56564D;
+  --color-primary: #04041c;
   --color-accent: #ffdb0d;
   --color-light: #ffffff;
   --color-light-muted: #EFEFED;

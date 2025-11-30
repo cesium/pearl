@@ -239,6 +239,12 @@ defmodule PearlWeb.Router do
           end
         end
 
+        scope "/discount_codes", DiscountCodesLive do
+          live "/", Index, :index
+          live "/new", Index, :new
+          live "/:id/edit", Index, :edit
+        end
+
         scope "/schedule", ScheduleLive do
           live "/edit", Index, :edit_schedule
 

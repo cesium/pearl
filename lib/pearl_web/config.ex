@@ -161,6 +161,13 @@ defmodule PearlWeb.Config do
         scope: %{"tickets" => ["edit"]}
       },
       %{
+        key: :discount_codes,
+        title: "Discount Codes",
+        icon: "hero-tag",
+        url: "/dashboard/discount_codes",
+        scope: %{"discount_codes" => ["edit"]}
+      },
+      %{
         key: :store,
         title: "Store",
         icon: "hero-shopping-cart",

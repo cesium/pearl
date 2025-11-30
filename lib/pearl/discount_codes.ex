@@ -17,8 +17,10 @@ defmodule Pearl.DiscountCodes do
       [%DiscountCode{}, ...]
 
   """
-  def list_discount_codes do
-    Repo.all(DiscountCode)
+  def list_discount_codes(params \\ %{}) do
+    DiscountCode
+    |> preload(:ticket_types)
+    |> Flop.validate_and_run(params, for: DiscountCode)
   end
 
   @doc """
@@ -35,7 +37,11 @@ defmodule Pearl.DiscountCodes do
       ** (Ecto.NoResultsError)
 
   """
-  def get_discount_code!(id), do: Repo.get!(DiscountCode, id)
+  def get_discount_code!(id) do
+    DiscountCode
+    |> Repo.get!(id)
+    |> Repo.preload(:ticket_types)
+  end
 
   @doc """
   Creates a discount_code.
@@ -51,6 +57,7 @@ defmodule Pearl.DiscountCodes do
   """
   def create_discount_code(attrs) do
     %DiscountCode{}
+    |> Repo.preload(:ticket_types)
     |> DiscountCode.changeset(attrs)
     |> Repo.insert()
   end
@@ -69,6 +76,7 @@ defmodule Pearl.DiscountCodes do
   """
   def update_discount_code(%DiscountCode{} = discount_code, attrs) do
     discount_code
+    |> Repo.preload(:ticket_types)
     |> DiscountCode.changeset(attrs)
     |> Repo.update()
   end

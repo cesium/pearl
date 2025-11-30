@@ -23,7 +23,9 @@ defmodule Pearl.DiscountCodesTest do
     test "create_discount_code/1 with valid data creates a discount_code" do
       valid_attrs = %{active: true, code: "some code", amount: 42}
 
-      assert {:ok, %DiscountCode{} = discount_code} = DiscountCodes.create_discount_code(valid_attrs)
+      assert {:ok, %DiscountCode{} = discount_code} =
+               DiscountCodes.create_discount_code(valid_attrs)
+
       assert discount_code.active == true
       assert discount_code.code == "some code"
       assert discount_code.amount == 42
@@ -37,7 +39,9 @@ defmodule Pearl.DiscountCodesTest do
       discount_code = discount_code_fixture()
       update_attrs = %{active: false, code: "some updated code", amount: 43}
 
-      assert {:ok, %DiscountCode{} = discount_code} = DiscountCodes.update_discount_code(discount_code, update_attrs)
+      assert {:ok, %DiscountCode{} = discount_code} =
+               DiscountCodes.update_discount_code(discount_code, update_attrs)
+
       assert discount_code.active == false
       assert discount_code.code == "some updated code"
       assert discount_code.amount == 43
@@ -45,14 +49,20 @@ defmodule Pearl.DiscountCodesTest do
 
     test "update_discount_code/2 with invalid data returns error changeset" do
       discount_code = discount_code_fixture()
-      assert {:error, %Ecto.Changeset{}} = DiscountCodes.update_discount_code(discount_code, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               DiscountCodes.update_discount_code(discount_code, @invalid_attrs)
+
       assert discount_code == DiscountCodes.get_discount_code!(discount_code.id)
     end
 
     test "delete_discount_code/1 deletes the discount_code" do
       discount_code = discount_code_fixture()
       assert {:ok, %DiscountCode{}} = DiscountCodes.delete_discount_code(discount_code)
-      assert_raise Ecto.NoResultsError, fn -> DiscountCodes.get_discount_code!(discount_code.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        DiscountCodes.get_discount_code!(discount_code.id)
+      end
     end
 
     test "change_discount_code/1 returns a discount_code changeset" do

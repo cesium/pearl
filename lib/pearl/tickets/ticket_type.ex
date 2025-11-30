@@ -5,6 +5,7 @@ defmodule Pearl.Tickets.TicketType do
   use Pearl.Schema
 
   alias Pearl.Tickets.Ticket
+  alias Pearl.DiscountCodes.DiscountCode
 
   @required_fields ~w(name priority description price active)a
   @optional_fields ~w()a
@@ -19,6 +20,10 @@ defmodule Pearl.Tickets.TicketType do
     field :active, :boolean
 
     has_many :tickets, Ticket
+
+    many_to_many :discount_codes, DiscountCode,
+      join_through: "discount_codes_ticket_types",
+      on_replace: :delete
 
     timestamps(type: :utc_datetime)
   end

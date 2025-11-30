@@ -17,6 +17,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.Index do
       {:ok, {tickets, meta}} ->
         {:noreply,
          socket
+         |> assign(:current_page, :tickets)
          |> assign(:meta, meta)
          |> assign(:params, params)
          |> stream(:tickets, tickets, reset: true)

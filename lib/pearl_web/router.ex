@@ -111,6 +111,8 @@ defmodule PearlWeb.Router do
 
         live "/wheel", WheelLive.Index, :index
 
+        live "/scratch_card", ScratchCardLive.Index, :index
+
         live "/coin_flip", CoinFlipLive.Index, :index
 
         scope "/badges", BadgeLive do
@@ -335,6 +337,8 @@ defmodule PearlWeb.Router do
           live "/", MinigamesLive.Index, :index
 
           live "/coin_flip", MinigamesLive.Index, :edit_coin_flip
+
+          live "/scratch_card", MinigamesLive.Index, :edit_scratch_card
         end
 
         scope "/scanner", ScannerLive do

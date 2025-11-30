@@ -1,0 +1,47 @@
+<.page
+  title="Scratch Card"
+  size={:xl}
+  title_class="font-terminal uppercase"
+>
+  <:actions>
+    <span class="text-semibold text-xl border-2 px-4 py-2 rounded-full font-terminal">
+      💰 {@attendee_tokens}
+    </span>
+  </:actions>
+
+  <section class="flex justify-between mt-12">
+    <div
+      id="scratch-game"
+      phx-hook="ScratchCard"
+      class="flex flex-col items-center gap-12 w-1/2 px-6"
+    >
+      <div class="flex items-center justify-center rounded-2xl bg-accent/70 h-80 w-80 touch-none">
+        <div class="bg-pink-400 inset-shadow-black inset-shadow-2xl h-77.5 w-77.5 flex rounded-2xl items-center justify-center">
+          <p>Prize Here</p>
+        </div>
+
+        <canvas id="scratch-area" width="310" height="310" class="absolute rounded-2xl" />
+      </div>
+
+      <div class="w-full">
+        <.action_button
+          title={gettext("Give it a Scratch")}
+          subtitle={"💰 #{@scratch_fee}"}
+          disabled={!@scratch_card_active?}
+          class="w-64"
+        />
+      </div>
+    </div>
+
+    <div class="w-1/2">
+      <h2 class="text-2xl font-terminal uppercase font-bold mb-8">
+        {gettext("Latest Wins")}
+      </h2>
+      <%!-- <.latest_wins entries={@latest_wins} /> --%>
+      <h2 class="text-2xl font-terminal uppercase font-bold mt-24 mb-8">
+        {gettext("Awards")}
+      </h2>
+      <%!-- <.awards entries={@drops} /> --%>
+    </div>
+  </section>
+</.page>

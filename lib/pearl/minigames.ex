@@ -1702,4 +1702,88 @@ defmodule Pearl.Minigames do
       end
     end)
   end
+
+  @doc """
+  Changes the scratch game price.
+
+  ## Examples
+
+      iex> change_scratch_card_price(20)
+      :ok
+  """
+  def change_scratch_card_price(price) do
+    Constants.set("scratch_card_price", price)
+    broadcast_scratch_card_config_update("price", price)
+  end
+
+  @doc """
+  Gets the scratch card price.
+
+  ## Examples
+
+      iex> get_scratch_card_price()
+      20
+  """
+  def get_scratch_card_price do
+    case Constants.get("scratch_card_price") do
+      {:ok, price} ->
+        price
+
+      {:error, _} ->
+        # If the price is not set, set it to 0 by default
+        change_scratch_card_price(0)
+        0
+    end
+  end
+
+  @doc """
+  Changes the scratch card active status.
+
+  ## Examples
+
+      iex> change_scratch_card_active(true)
+      :ok
+  """
+  def change_scratch_card_active(active) do
+    Constants.set("scratch_card_active_status", active)
+    broadcast_scratch_card_config_update("is_active", active)
+  end
+
+  @doc """
+  Gets the scratch card active status.
+
+  ## Examples
+
+      iex> scratch_card_active?()
+      true
+  """
+  def scratch_card_active? do
+    case Constants.get("scratch_card_active_status") do
+      {:ok, active} ->
+        active
+
+      {:error, _} ->
+        # If the active status is not set, set it to false by default
+        change_scratch_card_active(true)
+        true
+    end
+  end
+
+  @doc """
+  Subscribes the caller to the scratch card's configuration updates.
+
+  ## Examples
+
+      iex> subscribe_to_scratch_card_config_update()
+      :ok
+  """
+  def subscribe_to_scratch_card_config_update(config) do
+    Phoenix.PubSub.subscribe(@pubsub, scratch_card_config_topic(config))
+  end
+
+  defp scratch_card_config_topic(config), do: "scratch_card:#{config}"
+
+  defp broadcast_scratch_card_config_update(config, value) do
+    Phoenix.PubSub.broadcast(@pubsub, scratch_card_config_topic(config), {config, value})
+  end
 end

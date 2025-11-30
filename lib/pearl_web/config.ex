@@ -82,6 +82,13 @@ defmodule PearlWeb.Config do
           enabled: true
         },
         %{
+          key: :scratch_card,
+          title: "Scratch Card",
+          image: "/images/icons/ticket.svg",
+          url: "/app/scratch_card",
+          enabled: true
+        },
+        %{
           key: :leaderboard,
           title: "Leaderboard",
           image: "/images/icons/leaderboard.svg",

@@ -109,4 +109,30 @@ defmodule Pearl.DiscountCodes do
   def change_discount_code(%DiscountCode{} = discount_code, attrs \\ %{}) do
     DiscountCode.changeset(discount_code, attrs)
   end
+
+  @doc """
+  Updates a discount code's ticket types.
+
+  ## Examples
+
+      iex> upsert_discount_code_ticket_types(discount_code, ["id1", "id2"])
+      {:ok, %DiscountCode{}}
+
+      iex> upsert_discount_code_ticket_types(discount_code, ["id1", "id2"])
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def upsert_discount_code_ticket_types(%DiscountCode{} = discount_code, ticket_type_ids) do
+    ids = ticket_type_ids || []
+
+    ticket_types =
+      Pearl.Tickets.TicketType
+      |> where([t], t.id in ^ids)
+      |> Repo.all()
+
+    discount_code
+    |> DiscountCode.changeset_update_ticket_types(ticket_types)
+    |> Repo.update()
+  end
+
 end

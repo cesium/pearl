@@ -123,26 +123,30 @@ defmodule PearlWeb.Backoffice.DiscountCodesLive.FormComponent do
   end
 
   defp save_discount_code(socket, :edit, discount_code_params) do
-    case DiscountCodes.update_discount_code(socket.assigns.discount_code, discount_code_params) do
-      {:ok, _discount_code} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Discount code updated successfully")
-         |> push_patch(to: socket.assigns.patch)}
+    ticket_type_ids = Map.get(discount_code_params, "ticket_type_ids", []) |> Enum.reject(&(&1 == ""))
 
+    with {:ok, discount_code} <- DiscountCodes.update_discount_code(socket.assigns.discount_code, discount_code_params),
+         {:ok, _discount_code} <- DiscountCodes.upsert_discount_code_ticket_types(discount_code, ticket_type_ids) do
+      {:noreply,
+       socket
+       |> put_flash(:info, "Discount code updated successfully")
+       |> push_patch(to: socket.assigns.patch)}
+    else
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end
 
   defp save_discount_code(socket, :new, discount_code_params) do
-    case DiscountCodes.create_discount_code(discount_code_params) do
-      {:ok, _discount_code} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Discount code created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+    ticket_type_ids = Map.get(discount_code_params, "ticket_type_ids", []) |> Enum.reject(&(&1 == ""))
 
+    with {:ok, discount_code} <- DiscountCodes.create_discount_code(discount_code_params),
+         {:ok, _discount_code} <- DiscountCodes.upsert_discount_code_ticket_types(discount_code, ticket_type_ids) do
+      {:noreply,
+       socket
+       |> put_flash(:info, "Discount code created successfully")
+       |> push_patch(to: socket.assigns.patch)}
+    else
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
     end

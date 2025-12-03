@@ -2,20 +2,48 @@ defmodule Pearl.Repo.Seeds.Tickets do
   import Ecto.Query
 
   alias Pearl.Accounts.User
-  alias Pearl.{Repo, Tickets, TicketTypes}
-  alias Pearl.Tickets.{Ticket, TicketType}
+  alias Pearl.{Repo, Tickets, TicketTypes, Perks}
+  alias Pearl.Tickets.{Ticket, TicketType, Perk}
+
+  @perks [
+    %{name: "Entry", description: "Entrada nos 4 dias do evento", icon: "hero-ticket", color: "#F9808D", active: true},
+    %{name: "Meals", description: "Refeições durante todo o evento", icon: "hero-beaker", color: "#505936", active: true},
+    %{name: "Accommodation", description: "Estadia no Pavilhão", icon: "hero-star", color: "#9AB7C1", active: true},
+    %{name: "Premium Accommodation", description: "Estadia na Pousada da Juventude", icon: "hero-gift", color: "#D89ED0", active: true},
+  ]
 
   @ticket_types [
-    %{name: "Normal", price: 2500, description: "Normal ticket", active: true, priotity: 0},
-    %{name: "FullPass", price: 1500, description: "Premium access", active: true, priority: 1},
-    %{name: "FullPass+Hotel", price: 5000, description: "Premium access with hotel", active: true, priority: 2},
-    %{name: "Student", price: 3000, description: "Discounted ticket for students", active: true, priority: 3},
-    %{name: "Early Bird", price: 2000, description: "Discounted early registration", active: true, priority: 4}
+    %{name: "Bilhete 1", price: 32, active: true, priority: 0, perks: ["Free Swag"]},
+    %{name: "Bilhete 2", price: 33, active: true, priority: 1, perks: ["Free Swag", "Priority Seating"]},
+    %{name: "Bilhete 3", price: 38, active: true, priority: 2, perks: ["Free Swag", "Priority Seating", "Early Access"]},
+    %{name: "Bilhete 4", price: 45, active: true, priority: 3, perks: ["Early Access", "VIP Lounge", "Free Swag", "Priority Seating"]},
   ]
 
   def run do
+    seed_perks()
     seed_ticket_types()
     seed_tickets()
+  end
+
+  defp seed_perks do
+    case Repo.all(Perk) do
+      [] ->
+        Enum.each(@perks, &insert_perk/1)
+        Mix.shell().info("Seeded perks successfully.")
+
+      _ ->
+        Mix.shell().info("Found perks, skipping seeding.")
+    end
+  end
+
+  defp insert_perk(attrs) do
+    case Perks.create_perk(attrs) do
+      {:ok, _perk} ->
+        nil
+
+      {:error, _changeset} ->
+        Mix.shell().error("Failed to insert perk: #{attrs.name}")
+    end
   end
 
   defp seed_ticket_types do
@@ -30,7 +58,13 @@ defmodule Pearl.Repo.Seeds.Tickets do
   end
 
   defp insert_ticket_type(attrs) do
-    case TicketTypes.create_ticket_type(attrs) do
+    {perk_names, ticket_type_attrs} = Map.pop(attrs, :perks, [])
+
+    perks = Repo.all(from p in Perk, where: p.name in ^perk_names)
+
+    ticket_type_attrs = Map.put(ticket_type_attrs, :perks, perks)
+
+    case TicketTypes.create_ticket_type(ticket_type_attrs) do
       {:ok, _ticket_type} ->
         nil
 
@@ -49,7 +83,7 @@ defmodule Pearl.Repo.Seeds.Tickets do
         else
           ticket_types = Repo.all(TicketType)
 
-         empty_ticket_types?(ticket_types, users)
+          empty_ticket_types?(ticket_types, users)
         end
 
       _ ->
@@ -59,21 +93,20 @@ defmodule Pearl.Repo.Seeds.Tickets do
 
   defp empty_ticket_types?(ticket_types, users) do
     if Enum.empty?(ticket_types) do
-            Mix.shell().error("No ticket types found. Please run ticket types seed first.")
-          else
-            users
-            |> Enum.with_index()
-            |> Enum.each(fn {user, index} ->
-              ticket_type = Enum.at(ticket_types, rem(index, length(ticket_types)))
+      Mix.shell().error("No ticket types found. Please run ticket types seed first.")
+    else
+      users
+      |> Enum.with_index()
+      |> Enum.each(fn {user, index} ->
+        ticket_type = Enum.at(ticket_types, rem(index, length(ticket_types)))
 
-              insert_ticket(%{
-                user_id: user.id,
-                ticket_type_id: ticket_type.id,
-                paid: rem(index, 3) != 0
-              })
-            end)
-
-          end
+        insert_ticket(%{
+          user_id: user.id,
+          ticket_type_id: ticket_type.id,
+          paid: rem(index, 3) != 0
+        })
+      end)
+    end
   end
 
   defp insert_ticket(attrs) do

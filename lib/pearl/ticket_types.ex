@@ -56,7 +56,9 @@ defmodule Pearl.TicketTypes do
 
   """
   def get_ticket_type!(id) do
-    Repo.get!(TicketType, id)
+    TicketType
+    |> Repo.get!(id)
+    |> Repo.preload(:perks)
   end
 
   @doc """
@@ -165,4 +167,31 @@ defmodule Pearl.TicketTypes do
   def change_ticket_type(%TicketType{} = ticket_type, attrs \\ %{}) do
     TicketType.changeset(ticket_type, attrs)
   end
+
+  @doc """
+  Updates a ticket type's perks.
+
+  ## Examples
+
+      iex> upsert_ticket_type_perks(ticket_type, ["id1", "id2"])
+      {:ok, %TicketType{}}
+
+      iex> upsert_ticket_type_perks(ticket_type, ["id1", "id2"])
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def upsert_ticket_type_perks(%TicketType{} = ticket_type, perk_ids) do
+    ids = perk_ids || []
+
+    perks =
+      Pearl.Tickets.Perk
+      |> where([p], p.id in ^ids)
+      |> Repo.all()
+
+    ticket_type
+    |> Repo.preload(:perks)
+    |> TicketType.changeset_update_perks(perks)
+    |> Repo.update()
+  end
+
 end

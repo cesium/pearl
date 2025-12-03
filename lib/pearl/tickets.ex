@@ -128,4 +128,100 @@ defmodule Pearl.Tickets do
   def change_ticket(%Ticket{} = ticket, attrs \\ %{}) do
     Ticket.changeset(ticket, attrs)
   end
+
+  alias Pearl.Tickets.Perk
+
+  @doc """
+  Returns the list of perks.
+
+  ## Examples
+
+      iex> list_perks()
+      [%Perk{}, ...]
+
+  """
+  def list_perks do
+    Repo.all(Perk)
+  end
+
+  @doc """
+  Gets a single perk.
+
+  Raises `Ecto.NoResultsError` if the Perk does not exist.
+
+  ## Examples
+
+      iex> get_perk!(123)
+      %Perk{}
+
+      iex> get_perk!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_perk!(id), do: Repo.get!(Perk, id)
+
+  @doc """
+  Creates a perk.
+
+  ## Examples
+
+      iex> create_perk(%{field: value})
+      {:ok, %Perk{}}
+
+      iex> create_perk(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_perk(attrs) do
+    %Perk{}
+    |> Perk.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a perk.
+
+  ## Examples
+
+      iex> update_perk(perk, %{field: new_value})
+      {:ok, %Perk{}}
+
+      iex> update_perk(perk, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_perk(%Perk{} = perk, attrs) do
+    perk
+    |> Perk.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a perk.
+
+  ## Examples
+
+      iex> delete_perk(perk)
+      {:ok, %Perk{}}
+
+      iex> delete_perk(perk)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_perk(%Perk{} = perk) do
+    Repo.delete(perk)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking perk changes.
+
+  ## Examples
+
+      iex> change_perk(perk)
+      %Ecto.Changeset{data: %Perk{}}
+
+  """
+  def change_perk(%Perk{} = perk, attrs \\ %{}) do
+    Perk.changeset(perk, attrs)
+  end
 end

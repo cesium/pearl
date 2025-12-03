@@ -59,6 +59,9 @@ defmodule Pearl.TicketTypes do
     TicketType
     |> Repo.get!(id)
     |> Repo.preload(:perks)
+    TicketType
+    |> Repo.get!(id)
+    |> Repo.preload(:perks)
   end
 
   @doc """

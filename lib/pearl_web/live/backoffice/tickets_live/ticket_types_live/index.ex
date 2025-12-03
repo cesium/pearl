@@ -17,6 +17,9 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.Index do
             <.link navigate={~p"/dashboard/tickets/ticket_types/perks"}>
               <.backoffice_button>Perks</.backoffice_button>
             </.link>
+            <.link navigate={~p"/dashboard/tickets/ticket_types/perks"}>
+              <.button>Perks</.button>
+            </.link>
           </.ensure_permissions>
         </:actions>
         <ul

@@ -3,6 +3,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
 
   alias Pearl.Perks
   alias Pearl.TicketTypes
+  alias Pearl.Perks
 
   import PearlWeb.Components.Forms
 
@@ -72,9 +73,20 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
         _ -> []
       end
 
+    perks = Perks.list_perks()
+
+    selected_ids =
+      case ticket_type.perks do
+        %Ecto.Association.NotLoaded{} -> []
+        perks when is_list(perks) -> Enum.map(perks, & &1.id)
+        _ -> []
+      end
+
     {:ok,
      socket
      |> assign(assigns)
+     |> assign(:perks, perks)
+     |> assign(:selected_perks_ids, selected_ids)
      |> assign(:perks, perks)
      |> assign(:selected_perks_ids, selected_ids)
      |> assign_new(:form, fn ->
@@ -90,15 +102,15 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
       case ticket_type_params do
         %{"perk_ids" => ids} when is_list(ids) ->
           ids |> Enum.reject(&(&1 == "" or is_nil(&1)))
-
         _ ->
           []
       end
 
     {:noreply,
-     socket
-     |> assign(form: to_form(changeset, action: :validate))
-     |> assign(selected_perks_ids: selected_ids)}
+    socket
+    |> assign(form: to_form(changeset, action: :validate))
+    |> assign(selected_perks_ids: selected_ids)
+  }
   end
 
   def handle_event("save", %{"ticket_type" => ticket_type_params}, socket) do

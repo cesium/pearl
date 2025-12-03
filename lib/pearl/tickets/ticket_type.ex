@@ -4,6 +4,7 @@ defmodule Pearl.Tickets.TicketType do
   """
   use Pearl.Schema
 
+  alias Pearl.Tickets.Perk
   alias Pearl.DiscountCodes.DiscountCode
   alias Pearl.Tickets.Perk
   alias Pearl.Tickets.Ticket

@@ -19,8 +19,9 @@ defmodule Pearl.DiscountCodes.DiscountCode do
 
   schema "discount_codes" do
     field :code, :string
-    field :amount, :integer
+    field :amount, :float
     field :active, :boolean, default: false
+    field :usage_limit, :integer
 
     many_to_many :ticket_types, TicketType, join_through: "discount_codes_ticket_types", on_replace: :delete
 
@@ -32,26 +33,12 @@ defmodule Pearl.DiscountCodes.DiscountCode do
     discount_code
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> put_ticket_types(attrs)
   end
 
-  defp put_ticket_types(changeset, %{ticket_type_ids: ticket_type_ids}) when is_list(ticket_type_ids) do
-    ticket_types =
-      ticket_type_ids
-      |> Enum.reject(&(&1 == "" or is_nil(&1)))
-      |> Enum.map(&Pearl.TicketTypes.get_ticket_type!/1)
-
-    put_assoc(changeset, :ticket_types, ticket_types)
+  @doc false
+  def changeset_update_ticket_types(discount_code, ticket_types) do
+    discount_code
+    |> cast(%{}, @required_fields ++ @optional_fields)
+    |> put_assoc(:ticket_types, ticket_types)
   end
-
-  defp put_ticket_types(changeset, %{"ticket_type_ids" => ticket_type_ids}) when is_list(ticket_type_ids) do
-    ticket_types =
-      ticket_type_ids
-      |> Enum.reject(&(&1 == "" or is_nil(&1)))
-      |> Enum.map(&Pearl.TicketTypes.get_ticket_type!/1)
-
-    put_assoc(changeset, :ticket_types, ticket_types)
-  end
-
-  defp put_ticket_types(changeset, _attrs), do: changeset
 end

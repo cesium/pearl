@@ -5,8 +5,9 @@ defmodule Pearl.Repo.Migrations.CreateDiscountCodes do
     create table(:discount_codes, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :code, :string
-      add :amount, :integer
+      add :amount, :float
       add :active, :boolean, default: false, null: false
+      add :usage_limit, :integer
 
       timestamps(type: :utc_datetime)
     end

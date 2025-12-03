@@ -5,9 +5,10 @@ defmodule Pearl.Tickets.TicketType do
   use Pearl.Schema
 
   alias Pearl.Tickets.Ticket
+  alias Pearl.Tickets.Perk
   alias Pearl.DiscountCodes.DiscountCode
 
-  @required_fields ~w(name priority description price active)a
+  @required_fields ~w(name priority price active)a
   @optional_fields ~w()a
 
   @derive {Flop.Schema, sortable: [:priority], filterable: []}
@@ -15,11 +16,15 @@ defmodule Pearl.Tickets.TicketType do
   schema "ticket_types" do
     field :name, :string
     field :priority, :integer
-    field :description, :string
-    field :price, :integer
+    field :price, :float
     field :active, :boolean
+    field :product_key, :binary_id
 
     has_many :tickets, Ticket
+
+    many_to_many :perks, Perk,
+      join_through: "ticket_types_perks",
+      on_replace: :delete
 
     many_to_many :discount_codes, DiscountCode,
       join_through: "discount_codes_ticket_types",
@@ -33,5 +38,11 @@ defmodule Pearl.Tickets.TicketType do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> foreign_key_constraint(:tickets)
+  end
+
+  def changeset_update_perks(ticket_type, perks) do
+    ticket_type
+    |> cast(%{}, @required_fields ++ @optional_fields)
+    |> put_assoc(:perks, perks)
   end
 end

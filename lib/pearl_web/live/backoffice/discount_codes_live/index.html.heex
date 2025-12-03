@@ -25,7 +25,7 @@
         {discount_code.amount}
       </:col>
       <:col :let={{_id, discount_code}} sortable field={:active} label="Active">
-        {discount_code.active}
+        <.input type="checkbox" name="active" value="true" checked={discount_code.active} disabled class="text-wine"/>
       </:col>
       <:col :let={{_id, discount_code}} field={:ticket_types} label="Ticket Types">
         <div class="flex flex-wrap gap-1">

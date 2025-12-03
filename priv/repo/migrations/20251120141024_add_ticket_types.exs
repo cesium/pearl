@@ -6,9 +6,9 @@ defmodule Pearl.Repo.Migrations.AddTicketTypes do
       add :id, :binary_id, primary_key: true
       add :priority, :integer
       add :name, :string
-      add :description, :string
-      add :price, :integer
+      add :price, :float
       add :active, :boolean
+      add :product_key, :binary_id
 
       timestamps(type: :utc_datetime)
     end

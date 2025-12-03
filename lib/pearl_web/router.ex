@@ -236,6 +236,12 @@ defmodule PearlWeb.Router do
             live "/", Index, :ticket_types
             live "/new", Index, :ticket_types_new
             live "/:id/edit", Index, :ticket_types_edit
+
+            scope "/perks" do
+              live "/", Index, :perks
+              live "/new", Index, :perks_new
+              live "/:id/edit", Index, :perks_edit
+            end
           end
         end
 

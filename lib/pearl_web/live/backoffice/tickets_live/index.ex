@@ -3,8 +3,8 @@ defmodule PearlWeb.Backoffice.TicketsLive.Index do
 
   import PearlWeb.Components.{Table, TableSearch}
 
-  alias Pearl.{Tickets, TicketTypes}
-  alias Pearl.Tickets.TicketType
+  alias Pearl.{Tickets, TicketTypes, Perks}
+  alias Pearl.Tickets.{TicketType, Perk}
 
   on_mount {PearlWeb.StaffRoles, index: %{"tickets" => ["edit"]}}
 
@@ -54,6 +54,23 @@ defmodule PearlWeb.Backoffice.TicketsLive.Index do
     socket
     |> assign(:page_title, "New Ticket Type")
     |> assign(:ticket_type, %TicketType{})
+  end
+
+  defp apply_action(socket, :perks, _params) do
+    socket
+    |> assign(:page_title, "Listing Perks")
+  end
+
+  defp apply_action(socket, :perks_new, _params) do
+    socket
+    |> assign(:page_title, "New Perk")
+    |> assign(:perk, %Perk{})
+  end
+
+  defp apply_action(socket, :perks_edit, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Perk")
+    |> assign(:perk, Perks.get_perk!(id))
   end
 
   def handle_event("delete", %{"id" => id}, socket) do

@@ -21,8 +21,8 @@
   font-display: swap;
 }
 
-@theme {
-  --color-primary: #04041c;
+@theme {  
+  --color-primary: #811824;
   --color-accent: #ffdb0d;
   --color-light: #ffffff;
   --color-light-muted: #a1a1aa;

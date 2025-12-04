@@ -22,9 +22,7 @@
 }
 
 @theme {
-  --color-wine: #811824;
-
-  --color-primary: #04041c;
+  --color-primary: #811824;
   --color-accent: #ffdb0d;
   --color-light: #ffffff;
   --color-light-muted: #a1a1aa;

@@ -4,49 +4,49 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
   """
   use PearlWeb, :component
 
-  def card(assigns) do
-    ~H"""
-    <div class="w-full h-full flex flex-col justify-between bg-white overflow-hidden">
-      <div
-        class="relative flex flex-col text-white p-4 bg-cover bg-center"
-        style="background-image: url('/images/tickets/background.png')"
-      >
-        <div class="absolute bg-black/30 inset-0"></div>
-        <span class="relative font-extrabold text-2xl">{assigns.ticket_type.name}</span>
-        <span class="relative font-extrabold text-2xl">€{assigns.ticket_type.price}</span>
-      </div>
-      <div class="flex flex-col text-black p-8 gap-6 h-full justify-between">
-        <div class="space-y-2">
-          <span class="font-extrabold text-xl leading-tight block">
-            {assigns.ticket_type.description}
-          </span>
-          <div class="h-1 w-12 bg-wine"></div>
+def card(assigns) do
+  ~H"""
+    <div class="w-full h-[476px] max-w-95 p-0.5" style="background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 40%, transparent 46%);">    <div class="w-full h-full flex flex-col gap-5 justify-between bg-white overflow-hidden p-5 border-dark/20">
+      <div class="flex flex-col gap-4">
+        <div class="flex">
+          <div :for={perk <- @ticket_type.perks} class="flex w-15 h-15 items-center place-content-center gap-2 p-2" style={"background-color: #{perk.color};"}>
+            <.icon class="w-10 h-10" name={perk.icon} />
+          </div>
         </div>
-        <ul class="space-y-3 text-gray-700">
-          <li class="flex items-start gap-3">
-            <span class="text-wine mt-1">•</span>
-            <span>Backstage access</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="text-wine mt-1">•</span>
-            <span>Private dinner with speakers</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="text-wine mt-1">•</span>
-            <span>Exclusive merch</span>
-          </li>
-        </ul>
+        <div class="flex flex-col gap-3">
+          <span class="text-black text-2xl font-extrabold">{@ticket_type.name}</span>
+          <div class="flex flex-col gap-3">
+            <div :for={perk <- @ticket_type.perks} class="flex gap-2">
+              <img
+                src={~p"/images/check.svg"}
+                alt={gettext("Check")}
+                class=""
+              />
+              <span class="text-black text-lg">{perk.description}</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="flex justify-center place-items-center bg-wine">
-        <.button
-          class="rounded-none bg-transparent! text-white! px-1 py-5 cursor-pointer w-full h-full group flex justify-center items-center gap-2"
-          phx-value-ticket_type_id={assigns.ticket_type.id}
-        >
-          <span class="text-sm group-hover:-translate-x-0.5 transition-all">Get this ticket</span>
-          <.icon name="hero-arrow-right" class="h-4 w-4 group-hover:translate-x-0.5 transition-all" />
-        </.button>
+      <div class="flex gap-4">
+        <div class="flex flex-col gap-2">
+          <span class="text-black text-4xl font-extrabold">
+                {Number.Currency.number_to_currency(@ticket_type.price, unit: "€", format: "%n%u", precision: 2, delimiter: ".", separator: ",")}
+          </span>
+          <span class="text-dark/50">INCL. IVA</span>
+        </div>
+        <div>
+          <.link
+            navigate={~p"/speakers"}
+            class=""
+            >
+            <.button class="w-16 h-16 rounded-none bg-primary hover:bg-black cursor-pointer">
+              <.icon name="hero-arrow-right" />
+            </.button>
+          </.link>
+        </div>
       </div>
     </div>
-    """
-  end
+  </div>
+  """
+end
 end

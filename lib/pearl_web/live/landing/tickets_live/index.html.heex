@@ -1,12 +1,22 @@
-<div class="py-14 sm:py-28 xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
-  <div class="relative z-20 flex flex-col justify-between py-20 lg:h-3/4">
-    <div class="font-terminal uppercase relative z-50 font-bold animate-slide-in">
-      <h5 class="text-accent text-2xl">
-        Tickets
-      </h5>
-    </div>
-    <div class="mt-16 grid sm:grid-cols-2 2xl:grid-cols-4 justify-between place-items-center gap-8">
-      <.card :for={ticket_type <- @ticket_types} ticket_type={ticket_type} />
-    </div>
+<div class="bg-white">
+
+<div class="relative h-100 flex flex-col bg-bottom justify-end place-items-center" style="background: linear-gradient(to bottom, rgba(239, 239, 237, 0.7) 0%, rgba(239, 239, 237, 0.1) 70%, transparent 100%), linear-gradient(to right, rgba(249, 128, 141, 0.3) 0%, rgba(219, 179, 127, 0.3) 25%, rgba(216, 158, 208, 0.3) 50%, rgba(154, 183, 193, 0.3) 75%, rgba(179, 193, 146, 0.3) 100%);">
+  <div class="relative flex flex-col place-items-center gap-4">
+    <h1 class="text-black text-4xl font-extrabold">Bilhetes</h1>
+    <p class="text-dark/50 text-xl">Temos bilhetes à tua medida. Informa-te sobre as nossas opções abaixo.</p>
+  </div>
+  <img
+    src={~p"/images/tickets/multiticket.svg"}
+    alt={gettext("Multiticket")}
+    class="w-[671px] relative pointer-events-none select-none"
+  />
+</div>
+  <div class="pb-14 sm:pb-28 md:px-10 xl:px-16 px-10 bg-white relative">
+
+  <div class="relative z-20 flex flex-col justify-between pb-20 lg:h-3/4">
+  </div>
+  <div class="mt-16 grid md:grid-cols-2 2xl:grid-cols-4 md:justify-between place-items-center gap-8">
+    <.card :for={ticket_type <- @ticket_types} ticket_type={ticket_type} />
+  </div>
   </div>
 </div>

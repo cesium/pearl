@@ -18,37 +18,43 @@ else
       code: "EARLYBIRD2025",
       amount: 10,
       active: true,
-      ticket_type_ids: [normal, early_bird] |> Enum.reject(&is_nil/1) |> Enum.map(& &1.id)
+      ticket_type_ids: [normal, early_bird] |> Enum.reject(&is_nil/1) |> Enum.map(& &1.id),
+      usage_limit: 50
     },
     %{
       code: "STUDENT50",
       amount: 20,
       active: true,
-      ticket_type_ids: [student] |> Enum.reject(&is_nil/1) |> Enum.map(& &1.id)
+      ticket_type_ids: [student] |> Enum.reject(&is_nil/1) |> Enum.map(& &1.id),
+      usage_limit: 20
     },
     %{
       code: "FULLPASS20",
       amount: 100,
       active: true,
-      ticket_type_ids: [fullpass, fullpass_hotel] |> Enum.reject(&is_nil/1) |> Enum.map(& &1.id)
+      ticket_type_ids: [fullpass, fullpass_hotel] |> Enum.reject(&is_nil/1) |> Enum.map(& &1.id),
+      usage_limit: 12
     },
     %{
       code: "ALLACCESS",
       amount: 100,
       active: true,
-      ticket_type_ids: ticket_types |> Enum.map(& &1.id)
+      ticket_type_ids: ticket_types |> Enum.map(& &1.id),
+      usage_limit: 3
     },
     %{
       code: "SPONSOR25",
       amount: 100,
       active: true,
-      ticket_type_ids: [normal, fullpass] |> Enum.reject(&is_nil/1) |> Enum.map(& &1.id)
+      ticket_type_ids: [normal, fullpass] |> Enum.reject(&is_nil/1) |> Enum.map(& &1.id),
+      usage_limit: 1
     },
     %{
       code: "EXPIRED2024",
       amount: 33,
       active: false,
-      ticket_type_ids: [normal] |> Enum.reject(&is_nil/1) |> Enum.map(& &1.id)
+      ticket_type_ids: [normal] |> Enum.reject(&is_nil/1) |> Enum.map(& &1.id),
+      usage_limit: 10
     }
   ]
 

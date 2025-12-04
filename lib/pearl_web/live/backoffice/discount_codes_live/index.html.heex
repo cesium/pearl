@@ -34,6 +34,9 @@
           class="text-wine"
         />
       </:col>
+      <:col :let={{_id, discount_code}} field={:usage_limit} label="Usage Limit">
+        {discount_code.usage_limit}
+      </:col>
       <:col :let={{_id, discount_code}} field={:ticket_types} label="Ticket Types">
         <div class="flex flex-wrap gap-1">
           <%= for ticket_type <- discount_code.ticket_types do %>

@@ -21,6 +21,7 @@ defmodule Pearl.TicketTypes do
   def list_ticket_types do
     TicketType
     |> order_by(:priority)
+    |> preload(:perks)
     |> Repo.all()
   end
 
@@ -38,6 +39,7 @@ defmodule Pearl.TicketTypes do
     TicketType
     |> where([t], t.active == true)
     |> order_by(:priority)
+    |> preload(:perks)
     |> Repo.all()
   end
 

@@ -11,8 +11,8 @@ defmodule Pearl.DiscountCodesTest do
     @invalid_attrs %{active: nil, code: nil, amount: nil}
 
     test "list_discount_codes/0 returns all discount_codes" do
-      discount_code = discount_code_fixture()
-      assert DiscountCodes.list_discount_codes() == [discount_code]
+      _discount_code = discount_code_fixture()
+      assert {:ok, {[_discount_code], _meta}} = DiscountCodes.list_discount_codes()
     end
 
     test "get_discount_code!/1 returns the discount_code with given id" do

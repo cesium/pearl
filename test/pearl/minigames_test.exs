@@ -483,4 +483,156 @@ defmodule Pearl.MinigamesTest do
       assert %Ecto.Changeset{} = Minigames.change_slots_payline(slots_payline)
     end
   end
+
+  describe "scratch_cards" do
+    alias Pearl.Minigames.ScratchCard
+
+    import Pearl.MinigamesFixtures
+
+    @invalid_attrs %{symbols: nil, is_revealed: nil}
+
+    test "list_scratch_cards/0 returns all scratch_cards" do
+      scratch_card = scratch_card_fixture()
+      assert Minigames.list_scratch_cards() == [scratch_card]
+    end
+
+    test "get_scratch_card!/1 returns the scratch_card with given id" do
+      scratch_card = scratch_card_fixture()
+      assert Minigames.get_scratch_card!(scratch_card.id) == scratch_card
+    end
+
+    test "create_scratch_card/1 with valid data creates a scratch_card" do
+      valid_attrs = %{symbols: ["option1", "option2"], is_revealed: true}
+
+      assert {:ok, %ScratchCard{} = scratch_card} = Minigames.create_scratch_card(valid_attrs)
+      assert scratch_card.symbols == ["option1", "option2"]
+      assert scratch_card.is_revealed == true
+    end
+
+    test "create_scratch_card/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Minigames.create_scratch_card(@invalid_attrs)
+    end
+
+    test "update_scratch_card/2 with valid data updates the scratch_card" do
+      scratch_card = scratch_card_fixture()
+      update_attrs = %{symbols: ["option1"], is_revealed: false}
+
+      assert {:ok, %ScratchCard{} = scratch_card} =
+               Minigames.update_scratch_card(scratch_card, update_attrs)
+
+      assert scratch_card.symbols == ["option1"]
+      assert scratch_card.is_revealed == false
+    end
+
+    test "update_scratch_card/2 with invalid data returns error changeset" do
+      scratch_card = scratch_card_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               Minigames.update_scratch_card(scratch_card, @invalid_attrs)
+
+      assert scratch_card == Minigames.get_scratch_card!(scratch_card.id)
+    end
+
+    test "delete_scratch_card/1 deletes the scratch_card" do
+      scratch_card = scratch_card_fixture()
+      assert {:ok, %ScratchCard{}} = Minigames.delete_scratch_card(scratch_card)
+      assert_raise Ecto.NoResultsError, fn -> Minigames.get_scratch_card!(scratch_card.id) end
+    end
+
+    test "change_scratch_card/1 returns a scratch_card changeset" do
+      scratch_card = scratch_card_fixture()
+      assert %Ecto.Changeset{} = Minigames.change_scratch_card(scratch_card)
+    end
+  end
+
+  describe "scratch_card_drops" do
+    alias Pearl.Minigames.ScratchCardDrop
+
+    import Pearl.MinigamesFixtures
+
+    @invalid_attrs %{
+      tokens: nil,
+      symbol: nil,
+      probability: nil,
+      entries: nil,
+      max_per_attendee: nil
+    }
+
+    test "list_scratch_card_drops/0 returns all scratch_card_drops" do
+      scratch_card_drop = scratch_card_drop_fixture()
+      assert Minigames.list_scratch_card_drops() == [scratch_card_drop]
+    end
+
+    test "get_scratch_card_drop!/1 returns the scratch_card_drop with given id" do
+      scratch_card_drop = scratch_card_drop_fixture()
+      assert Minigames.get_scratch_card_drop!(scratch_card_drop.id) == scratch_card_drop
+    end
+
+    test "create_scratch_card_drop/1 with valid data creates a scratch_card_drop" do
+      valid_attrs = %{
+        tokens: 42,
+        symbol: "some symbol",
+        probability: 120.5,
+        entries: 42,
+        max_per_attendee: 42
+      }
+
+      assert {:ok, %ScratchCardDrop{} = scratch_card_drop} =
+               Minigames.create_scratch_card_drop(valid_attrs)
+
+      assert scratch_card_drop.tokens == 42
+      assert scratch_card_drop.symbol == "some symbol"
+      assert scratch_card_drop.probability == 120.5
+      assert scratch_card_drop.entries == 42
+      assert scratch_card_drop.max_per_attendee == 42
+    end
+
+    test "create_scratch_card_drop/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Minigames.create_scratch_card_drop(@invalid_attrs)
+    end
+
+    test "update_scratch_card_drop/2 with valid data updates the scratch_card_drop" do
+      scratch_card_drop = scratch_card_drop_fixture()
+
+      update_attrs = %{
+        tokens: 43,
+        symbol: "some updated symbol",
+        probability: 456.7,
+        entries: 43,
+        max_per_attendee: 43
+      }
+
+      assert {:ok, %ScratchCardDrop{} = scratch_card_drop} =
+               Minigames.update_scratch_card_drop(scratch_card_drop, update_attrs)
+
+      assert scratch_card_drop.tokens == 43
+      assert scratch_card_drop.symbol == "some updated symbol"
+      assert scratch_card_drop.probability == 456.7
+      assert scratch_card_drop.entries == 43
+      assert scratch_card_drop.max_per_attendee == 43
+    end
+
+    test "update_scratch_card_drop/2 with invalid data returns error changeset" do
+      scratch_card_drop = scratch_card_drop_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               Minigames.update_scratch_card_drop(scratch_card_drop, @invalid_attrs)
+
+      assert scratch_card_drop == Minigames.get_scratch_card_drop!(scratch_card_drop.id)
+    end
+
+    test "delete_scratch_card_drop/1 deletes the scratch_card_drop" do
+      scratch_card_drop = scratch_card_drop_fixture()
+      assert {:ok, %ScratchCardDrop{}} = Minigames.delete_scratch_card_drop(scratch_card_drop)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Minigames.get_scratch_card_drop!(scratch_card_drop.id)
+      end
+    end
+
+    test "change_scratch_card_drop/1 returns a scratch_card_drop changeset" do
+      scratch_card_drop = scratch_card_drop_fixture()
+      assert %Ecto.Changeset{} = Minigames.change_scratch_card_drop(scratch_card_drop)
+    end
+  end
 end

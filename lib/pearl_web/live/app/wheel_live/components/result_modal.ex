@@ -112,7 +112,7 @@ defmodule PearlWeb.App.WheelLive.Components.ResultModal do
         end
 
       _ ->
-        gettext("Oops.. You didn't win anything.. Maybe spin again? 👀")
+        gettext("Oops.. You didn't win anything.. Maybe try again? 👀")
     end
   end
 end

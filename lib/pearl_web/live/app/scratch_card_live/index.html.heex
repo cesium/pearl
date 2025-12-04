@@ -15,20 +15,43 @@
       phx-hook="ScratchCard"
       class="flex flex-col items-center gap-12 w-1/2 px-6"
     >
-      <div class="flex items-center justify-center rounded-2xl bg-accent/70 h-80 w-80 touch-none">
-        <div class="bg-pink-400 inset-shadow-black inset-shadow-2xl h-77.5 w-77.5 flex rounded-2xl items-center justify-center">
-          <p>Prize Here</p>
+      <div class="flex items-center justify-center rounded-2xl bg-accent p-1 h-80 w-80 touch-none">
+        <div
+          class="bg-blue-950 h-full w-full rounded-2xl grid grid-cols-3"
+          style="background-image: repeating-linear-gradient(-45deg, #4a5088, #4a5088 4px, transparent 4px, transparent 8px)"
+        >
+          <%= if assigns[:current_scratch_card] do %>
+            <div
+              :for={s <- @current_scratch_card.symbols}
+              class="flex items-center justify-center font-bold"
+            >
+              {s}
+            </div>
+          <% end %>
         </div>
 
-        <canvas id="scratch-area" width="310" height="310" class="absolute rounded-2xl" />
+        <canvas
+          id="scratch-area"
+          width="312"
+          height="312"
+          class="absolute rounded-2xl transition-opacity duration-300"
+        />
       </div>
 
       <div class="w-full">
         <.action_button
           title={gettext("Give it a Scratch")}
-          subtitle={"💰 #{@scratch_fee}"}
-          disabled={!@scratch_card_active?}
+          subtitle={"💰 #{@scratch_card_price}"}
+          disabled={
+            !can_scratch?(
+              @scratch_card_active?,
+              @attendee_tokens,
+              @scratch_card_price,
+              @is_scratching?
+            )
+          }
           class="w-64"
+          phx-click="buy-card"
         />
       </div>
     </div>
@@ -37,11 +60,21 @@
       <h2 class="text-2xl font-terminal uppercase font-bold mb-8">
         {gettext("Latest Wins")}
       </h2>
-      <%!-- <.latest_wins entries={@latest_wins} /> --%>
+      <.latest_wins entries={@latest_wins} />
       <h2 class="text-2xl font-terminal uppercase font-bold mt-24 mb-8">
         {gettext("Awards")}
       </h2>
-      <%!-- <.awards entries={@drops} /> --%>
+      <.awards entries={@drops} />
     </div>
   </section>
 </.page>
+
+<.result_modal
+  :if={@is_revealed && @result}
+  drop_type={@result.type}
+  drop={@result.drop}
+  wrapper_class="px-6"
+  show
+  id="confirm"
+  on_cancel={JS.push("close-modal")}
+/>

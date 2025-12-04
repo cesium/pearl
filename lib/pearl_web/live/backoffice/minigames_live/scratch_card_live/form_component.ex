@@ -14,6 +14,14 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCard.FormComponent do
         title={gettext("Scratch Card Configuration")}
         subtitle={gettext("Configures scratch card minigame's internal settings.")}
       >
+        <:actions>
+          <.link navigate={~p"/dashboard/minigames/scratch_card/drops"}>
+            <.button>
+              <.icon name="hero-table-cells" class="w-5" />
+            </.button>
+          </.link>
+        </:actions>
+
         <div class="my-8">
           <.form
             id="scratch-card-config-form"

@@ -180,3 +180,16 @@
     patch={~p"/dashboard/minigames/"}
   />
 </.modal>
+
+<.modal
+  :if={@live_action in [:edit_scratch_card_drops]}
+  id="scratch-card-drops-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/scratch_card/")}
+>
+  <.live_component
+    id="scratch-card-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent}
+    patch={~p"/dashboard/minigames/scratch_card/"}
+  />
+</.modal>

@@ -110,4 +110,37 @@ defmodule Pearl.MinigamesFixtures do
 
     slots_payline
   end
+
+  @doc """
+  Generate a scratch_card.
+  """
+  def scratch_card_fixture(attrs \\ %{}) do
+    {:ok, scratch_card} =
+      attrs
+      |> Enum.into(%{
+        is_revealed: true,
+        symbols: ["option1", "option2"]
+      })
+      |> Pearl.Minigames.create_scratch_card()
+
+    scratch_card
+  end
+
+  @doc """
+  Generate a scratch_card_drop.
+  """
+  def scratch_card_drop_fixture(attrs \\ %{}) do
+    {:ok, scratch_card_drop} =
+      attrs
+      |> Enum.into(%{
+        entries: 42,
+        max_per_attendee: 42,
+        probability: 120.5,
+        symbol: "some symbol",
+        tokens: 42
+      })
+      |> Pearl.Minigames.create_scratch_card_drop()
+
+    scratch_card_drop
+  end
 end

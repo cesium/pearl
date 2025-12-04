@@ -13,7 +13,8 @@ defmodule Pearl.DiscountCodesFixtures do
       |> Enum.into(%{
         active: true,
         amount: 42,
-        code: "some code"
+        code: "some code",
+        usage_limit: 100
       })
       |> Pearl.DiscountCodes.create_discount_code()
 

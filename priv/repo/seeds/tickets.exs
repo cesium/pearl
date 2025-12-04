@@ -9,14 +9,14 @@ defmodule Pearl.Repo.Seeds.Tickets do
     %{name: "Entry", description: "Entrada nos 4 dias do evento", icon: "hero-ticket", color: "#F9808D", active: true},
     %{name: "Meals", description: "Refeições durante todo o evento", icon: "hero-beaker", color: "#505936", active: true},
     %{name: "Accommodation", description: "Estadia no Pavilhão", icon: "hero-star", color: "#9AB7C1", active: true},
-    %{name: "Premium Accommodation", description: "Estadia na Pousada da Juventude", icon: "hero-gift", color: "#D89ED0", active: true},
+    %{name: "Premium Accommodation", description: "Estadia na Pousada da Juventude", icon: "hero-gift", color: "#D89ED0", active: true}
   ]
 
   @ticket_types [
-    %{name: "Bilhete 1", price: 32, active: true, priority: 0, perks: ["Free Swag"]},
-    %{name: "Bilhete 2", price: 33, active: true, priority: 1, perks: ["Free Swag", "Priority Seating"]},
-    %{name: "Bilhete 3", price: 38, active: true, priority: 2, perks: ["Free Swag", "Priority Seating", "Early Access"]},
-    %{name: "Bilhete 4", price: 45, active: true, priority: 3, perks: ["Early Access", "VIP Lounge", "Free Swag", "Priority Seating"]},
+    %{name: "Bilhete 1", description: "A nice ticket", price: 32, active: true, product_key: "XxXxX", priority: 0, perks: ["Entry"]},
+    %{name: "Bilhete 2", description: "A much nicer ticket", price: 33, active: true, product_key: "XxXxX", priority: 1, perks: ["Entry", "Meals"]},
+    %{name: "Bilhete 3", description: "An awesome ticket", price: 38, active: true, product_key: "XxXxX", priority: 2, perks: ["Entry", "Meals", "Accommodation"]},
+    %{name: "Bilhete 4", description: "Absolutely magnificent ticket", price: 45, product_key: "XxXxX", active: true, priority: 3, perks: ["Entry", "Meals", "Premium Accommodation"]}
   ]
 
   def run do
@@ -60,13 +60,18 @@ defmodule Pearl.Repo.Seeds.Tickets do
   defp insert_ticket_type(attrs) do
     {perk_names, ticket_type_attrs} = Map.pop(attrs, :perks, [])
 
-    perks = Repo.all(from p in Perk, where: p.name in ^perk_names)
-
-    ticket_type_attrs = Map.put(ticket_type_attrs, :perks, perks)
-
     case TicketTypes.create_ticket_type(ticket_type_attrs) do
-      {:ok, _ticket_type} ->
-        nil
+      {:ok, ticket_type} ->
+        perk_ids =
+          Repo.all(from p in Perk, where: p.name in ^perk_names, select: p.id)
+
+        case TicketTypes.upsert_ticket_type_perks(ticket_type, perk_ids) do
+          {:ok, _ticket_type} ->
+            nil
+
+          {:error, _changeset} ->
+            Mix.shell().error("Failed to associate perks for ticket type: #{attrs.name}")
+        end
 
       {:error, _changeset} ->
         Mix.shell().error("Failed to insert ticket type: #{attrs.name}")

@@ -3,8 +3,8 @@ defmodule PearlWeb.Backoffice.TicketsLive.Index do
 
   import PearlWeb.Components.{Table, TableSearch}
 
-  alias Pearl.{Tickets, TicketTypes, Perks}
-  alias Pearl.Tickets.{TicketType, Perk}
+  alias Pearl.{Perks, Tickets, TicketTypes}
+  alias Pearl.Tickets.{Perk, TicketType}
 
   on_mount {PearlWeb.StaffRoles, index: %{"tickets" => ["edit"]}}
 

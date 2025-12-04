@@ -4,11 +4,11 @@ defmodule Pearl.Repo.Migrations.CreateDiscountCodesTicketTypes do
   def change do
     create table(:discount_codes_ticket_types, primary_key: false) do
       add :discount_code_id,
-        references(:discount_codes, type: :binary_id, on_delete: :delete_all), null: false
+          references(:discount_codes, type: :binary_id, on_delete: :delete_all), null: false
 
       add :ticket_type_id,
-        references(:ticket_types, type: :binary_id, on_delete: :delete_all),
-        null: false
+          references(:ticket_types, type: :binary_id, on_delete: :delete_all),
+          null: false
     end
 
     create index(:discount_codes_ticket_types, [:discount_code_id])

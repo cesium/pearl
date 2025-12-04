@@ -17,8 +17,7 @@ defmodule Pearl.Tickets.Perk do
     field :color, :string
     field :active, :boolean
 
-    many_to_many :ticket_types, Pearl.Tickets.TicketType,
-      join_through: "ticket_types_perks"
+    many_to_many :ticket_types, Pearl.Tickets.TicketType, join_through: "ticket_types_perks"
 
     timestamps(type: :utc_datetime)
   end

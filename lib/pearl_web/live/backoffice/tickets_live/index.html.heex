@@ -24,7 +24,14 @@
         {ticket.user.name}
       </:col>
       <:col :let={{_id, ticket}} sortable field={:paid} label="Paid">
-        <.input type="checkbox" name="active" value="true" checked={ticket.paid} disabled class="text-wine"/>
+        <.input
+          type="checkbox"
+          name="active"
+          value="true"
+          checked={ticket.paid}
+          disabled
+          class="text-wine"
+        />
       </:col>
       <:col :let={{_id, ticket}} sortable field={:ticket_type} label="Ticket Type">
         {ticket.ticket_type.name}

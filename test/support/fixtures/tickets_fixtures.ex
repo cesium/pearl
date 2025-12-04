@@ -14,7 +14,8 @@ defmodule Pearl.TicketsFixtures do
         color: "some color",
         description: "some description",
         icon: "some icon",
-        name: "some name"
+        name: "some name",
+        active: true
       })
       |> Pearl.Tickets.create_perk()
 

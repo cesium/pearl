@@ -193,5 +193,4 @@ defmodule Pearl.TicketTypes do
     |> TicketType.changeset_update_perks(perks)
     |> Repo.update()
   end
-
 end

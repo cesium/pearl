@@ -2,8 +2,8 @@ defmodule Pearl.Repo.Seeds.Tickets do
   import Ecto.Query
 
   alias Pearl.Accounts.User
-  alias Pearl.{Repo, Tickets, TicketTypes, Perks}
-  alias Pearl.Tickets.{Ticket, TicketType, Perk}
+  alias Pearl.{Perks, Repo, Tickets, TicketTypes}
+  alias Pearl.Tickets.{Perk, Ticket, TicketType}
 
   @perks [
     %{name: "Entry", description: "Entrada nos 4 dias do evento", icon: "hero-ticket", color: "#F9808D", active: true},

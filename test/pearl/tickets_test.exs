@@ -8,7 +8,7 @@ defmodule Pearl.TicketsTest do
 
     import Pearl.TicketsFixtures
 
-    @invalid_attrs %{name: nil, description: nil, color: nil, icon: nil}
+    @invalid_attrs %{name: nil, description: nil, color: nil, icon: nil, active: nil}
 
     test "list_perks/0 returns all perks" do
       perk = perk_fixture()
@@ -21,13 +21,20 @@ defmodule Pearl.TicketsTest do
     end
 
     test "create_perk/1 with valid data creates a perk" do
-      valid_attrs = %{name: "some name", description: "some description", color: "some color", icon: "some icon"}
+      valid_attrs = %{
+        name: "some name",
+        description: "some description",
+        color: "some color",
+        icon: "some icon",
+        active: true
+      }
 
       assert {:ok, %Perk{} = perk} = Tickets.create_perk(valid_attrs)
       assert perk.name == "some name"
       assert perk.description == "some description"
       assert perk.color == "some color"
       assert perk.icon == "some icon"
+      assert perk.active == true
     end
 
     test "create_perk/1 with invalid data returns error changeset" do
@@ -36,13 +43,21 @@ defmodule Pearl.TicketsTest do
 
     test "update_perk/2 with valid data updates the perk" do
       perk = perk_fixture()
-      update_attrs = %{name: "some updated name", description: "some updated description", color: "some updated color", icon: "some updated icon"}
+
+      update_attrs = %{
+        name: "some updated name",
+        description: "some updated description",
+        color: "some updated color",
+        icon: "some updated icon",
+        active: true
+      }
 
       assert {:ok, %Perk{} = perk} = Tickets.update_perk(perk, update_attrs)
       assert perk.name == "some updated name"
       assert perk.description == "some updated description"
       assert perk.color == "some updated color"
       assert perk.icon == "some updated icon"
+      assert perk.active == true
     end
 
     test "update_perk/2 with invalid data returns error changeset" do

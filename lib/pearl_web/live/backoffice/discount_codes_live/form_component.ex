@@ -102,20 +102,22 @@ defmodule PearlWeb.Backoffice.DiscountCodesLive.FormComponent do
 
   @impl true
   def handle_event("validate", %{"discount_code" => discount_code_params}, socket) do
-    changeset = DiscountCodes.change_discount_code(socket.assigns.discount_code, discount_code_params)
+    changeset =
+      DiscountCodes.change_discount_code(socket.assigns.discount_code, discount_code_params)
 
     selected_ids =
       case discount_code_params do
         %{"ticket_type_ids" => ids} when is_list(ids) ->
           ids |> Enum.reject(&(&1 == "" or is_nil(&1)))
+
         _ ->
           []
       end
 
     {:noreply,
-    socket
-    |> assign(form: to_form(changeset, action: :validate))
-    |> assign(selected_ticket_type_ids: selected_ids)}
+     socket
+     |> assign(form: to_form(changeset, action: :validate))
+     |> assign(selected_ticket_type_ids: selected_ids)}
   end
 
   def handle_event("save", %{"discount_code" => discount_code_params}, socket) do
@@ -123,10 +125,13 @@ defmodule PearlWeb.Backoffice.DiscountCodesLive.FormComponent do
   end
 
   defp save_discount_code(socket, :edit, discount_code_params) do
-    ticket_type_ids = Map.get(discount_code_params, "ticket_type_ids", []) |> Enum.reject(&(&1 == ""))
+    ticket_type_ids =
+      Map.get(discount_code_params, "ticket_type_ids", []) |> Enum.reject(&(&1 == ""))
 
-    with {:ok, discount_code} <- DiscountCodes.update_discount_code(socket.assigns.discount_code, discount_code_params),
-         {:ok, _discount_code} <- DiscountCodes.upsert_discount_code_ticket_types(discount_code, ticket_type_ids) do
+    with {:ok, discount_code} <-
+           DiscountCodes.update_discount_code(socket.assigns.discount_code, discount_code_params),
+         {:ok, _discount_code} <-
+           DiscountCodes.upsert_discount_code_ticket_types(discount_code, ticket_type_ids) do
       {:noreply,
        socket
        |> put_flash(:info, "Discount code updated successfully")
@@ -138,10 +143,12 @@ defmodule PearlWeb.Backoffice.DiscountCodesLive.FormComponent do
   end
 
   defp save_discount_code(socket, :new, discount_code_params) do
-    ticket_type_ids = Map.get(discount_code_params, "ticket_type_ids", []) |> Enum.reject(&(&1 == ""))
+    ticket_type_ids =
+      Map.get(discount_code_params, "ticket_type_ids", []) |> Enum.reject(&(&1 == ""))
 
     with {:ok, discount_code} <- DiscountCodes.create_discount_code(discount_code_params),
-         {:ok, _discount_code} <- DiscountCodes.upsert_discount_code_ticket_types(discount_code, ticket_type_ids) do
+         {:ok, _discount_code} <-
+           DiscountCodes.upsert_discount_code_ticket_types(discount_code, ticket_type_ids) do
       {:noreply,
        socket
        |> put_flash(:info, "Discount code created successfully")

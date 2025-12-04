@@ -134,5 +134,4 @@ defmodule Pearl.DiscountCodes do
     |> DiscountCode.changeset_update_ticket_types(ticket_types)
     |> Repo.update()
   end
-
 end

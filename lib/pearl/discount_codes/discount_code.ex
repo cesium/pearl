@@ -1,4 +1,8 @@
 defmodule Pearl.DiscountCodes.DiscountCode do
+  @moduledoc """
+   Module for the Discount Code
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -23,7 +27,9 @@ defmodule Pearl.DiscountCodes.DiscountCode do
     field :active, :boolean, default: false
     field :usage_limit, :integer
 
-    many_to_many :ticket_types, TicketType, join_through: "discount_codes_ticket_types", on_replace: :delete
+    many_to_many :ticket_types, TicketType,
+      join_through: "discount_codes_ticket_types",
+      on_replace: :delete
 
     timestamps(type: :utc_datetime)
   end

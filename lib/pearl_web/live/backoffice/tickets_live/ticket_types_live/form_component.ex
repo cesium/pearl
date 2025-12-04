@@ -1,8 +1,8 @@
 defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
   use PearlWeb, :live_component
 
-  alias Pearl.TicketTypes
   alias Pearl.Perks
+  alias Pearl.TicketTypes
 
   import PearlWeb.Components.Forms
 
@@ -90,15 +90,15 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
       case ticket_type_params do
         %{"perk_ids" => ids} when is_list(ids) ->
           ids |> Enum.reject(&(&1 == "" or is_nil(&1)))
+
         _ ->
           []
       end
 
     {:noreply,
-    socket
-    |> assign(form: to_form(changeset, action: :validate))
-    |> assign(selected_perks_ids: selected_ids)
-  }
+     socket
+     |> assign(form: to_form(changeset, action: :validate))
+     |> assign(selected_perks_ids: selected_ids)}
   end
 
   def handle_event("save", %{"ticket_type" => ticket_type_params}, socket) do
@@ -108,7 +108,8 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
   defp save_ticket_type(socket, :ticket_types_edit, ticket_type_params) do
     perk_ids = Map.get(ticket_type_params, "perk_ids", []) |> Enum.reject(&(&1 == ""))
 
-    with {:ok, ticket_type} <- TicketTypes.update_ticket_type(socket.assigns.ticket_type, ticket_type_params),
+    with {:ok, ticket_type} <-
+           TicketTypes.update_ticket_type(socket.assigns.ticket_type, ticket_type_params),
          {:ok, _ticket_type} <- TicketTypes.upsert_ticket_type_perks(ticket_type, perk_ids) do
       {:noreply,
        socket
@@ -123,11 +124,12 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
   defp save_ticket_type(socket, :ticket_types_new, ticket_type_params) do
     perk_ids = Map.get(ticket_type_params, "perk_ids", []) |> Enum.reject(&(&1 == ""))
 
-    with {:ok, ticket_type} <- TicketTypes.create_ticket_type(
-           ticket_type_params
-           |> Map.put("priority", TicketTypes.get_next_ticket_type_priority())
-           |> Map.put("active", true)
-         ),
+    with {:ok, ticket_type} <-
+           TicketTypes.create_ticket_type(
+             ticket_type_params
+             |> Map.put("priority", TicketTypes.get_next_ticket_type_priority())
+             |> Map.put("active", true)
+           ),
          {:ok, _ticket_type} <- TicketTypes.upsert_ticket_type_perks(ticket_type, perk_ids) do
       {:noreply,
        socket

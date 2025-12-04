@@ -5,7 +5,7 @@ defmodule Pearl.Perks do
   use Pearl.Context
   alias Pearl.Tickets.Perk
 
-  def list_perks() do
+  def list_perks do
     Repo.all(Perk)
   end
 
@@ -41,5 +41,4 @@ defmodule Pearl.Perks do
     |> Perk.changeset(%{active: true})
     |> Repo.update()
   end
-
 end

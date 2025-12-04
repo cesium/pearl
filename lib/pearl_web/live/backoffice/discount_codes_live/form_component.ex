@@ -40,6 +40,13 @@ defmodule PearlWeb.Backoffice.DiscountCodesLive.FormComponent do
         />
 
         <.field
+          field={@form[:usage_limit]}
+          type="number"
+          label="Usage Limit"
+          required
+        />
+
+        <.field
           field={@form[:active]}
           type="checkbox"
           label="Active"

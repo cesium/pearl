@@ -15,7 +15,7 @@ defmodule Pearl.DiscountCodes.DiscountCode do
     default_limit: 25
   }
 
-  @required_fields ~w(code amount active)a
+  @required_fields ~w(code amount active usage_limit)a
   @optional_fields ~w()a
 
   @primary_key {:id, :binary_id, autogenerate: true}

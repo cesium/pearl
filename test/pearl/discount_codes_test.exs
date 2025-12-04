@@ -8,7 +8,7 @@ defmodule Pearl.DiscountCodesTest do
 
     import Pearl.DiscountCodesFixtures
 
-    @invalid_attrs %{active: nil, code: nil, amount: nil}
+    @invalid_attrs %{active: nil, code: nil, amount: nil, usage_limit: nil}
 
     test "list_discount_codes/0 returns all discount_codes" do
       _discount_code = discount_code_fixture()
@@ -21,7 +21,7 @@ defmodule Pearl.DiscountCodesTest do
     end
 
     test "create_discount_code/1 with valid data creates a discount_code" do
-      valid_attrs = %{active: true, code: "some code", amount: 42}
+      valid_attrs = %{active: true, code: "some code", amount: 42, usage_limit: 1}
 
       assert {:ok, %DiscountCode{} = discount_code} =
                DiscountCodes.create_discount_code(valid_attrs)
@@ -37,7 +37,7 @@ defmodule Pearl.DiscountCodesTest do
 
     test "update_discount_code/2 with valid data updates the discount_code" do
       discount_code = discount_code_fixture()
-      update_attrs = %{active: false, code: "some updated code", amount: 43}
+      update_attrs = %{active: false, code: "some updated code", amount: 43, usage_limit: 2}
 
       assert {:ok, %DiscountCode{} = discount_code} =
                DiscountCodes.update_discount_code(discount_code, update_attrs)

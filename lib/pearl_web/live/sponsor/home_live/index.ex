@@ -5,9 +5,7 @@ defmodule PearlWeb.Sponsor.HomeLive.Index do
   alias Pearl.Contest
 
   import PearlWeb.Sponsor.HomeLive.Components.Attendee
-  import PearlWeb.Components.Forms
-  import PearlWeb.Components.Table
-  import PearlWeb.Components.TableSearch
+  import PearlWeb.Components.{TableSearch,Table,Forms,Button}
 
   @limit 12
 

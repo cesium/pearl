@@ -2,7 +2,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Teams
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button,Forms}
 
   @impl true
   def render(assigns) do
@@ -14,9 +14,9 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
             :if={@action != :teams_new}
             navigate={~p"/dashboard/event/teams/#{@team.id}/edit/members"}
           >
-            <.button>
+            <.backoffice_button>
               {gettext("New Member")}
-            </.button>
+            </.backoffice_button>
           </.link>
         </:actions>
         <.simple_form for={@form} id="edit-team-form" phx-target={@myself} phx-submit="save">
@@ -56,7 +56,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
             </div>
           </ul>
           <:actions>
-            <.button phx-disable-with="Saving...">Save Team</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Team</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

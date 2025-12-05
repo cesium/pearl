@@ -42,7 +42,7 @@ defmodule PearlWeb.PrizeLive.FormComponent do
           </div>
         </div>
         <:actions>
-          <.button phx-disable-with="Saving...">Save Prize</.button>
+          <.backoffice_button phx-disable-with="Saving...">Save Prize</.backoffice_button>
         </:actions>
       </.simple_form>
     </div>

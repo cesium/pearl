@@ -9,13 +9,13 @@
         placeholder={gettext("Search for prizes")}
       />
       <.link navigate={~p"/dashboard/minigames/prizes/daily"}>
-        <.button>
+        <.backoffice_button>
           <.icon name="hero-calendar-days" class="w-5" />
-        </.button>
+        </.backoffice_button>
       </.link>
       <.ensure_permissions user={@current_user} permissions={%{"minigames" => ["edit"]}}>
         <.link patch={~p"/dashboard/minigames/prizes/new"}>
-          <.button>New Prize</.button>
+          <.backoffice_button>New Prize</.backoffice_button>
         </.link>
       </.ensure_permissions>
     </div>

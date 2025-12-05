@@ -16,9 +16,9 @@ defmodule PearlWeb.Backoffice.SpotlightLive.FormComponent do
       <.page title={@title}>
         <:actions>
           <.link navigate={~p"/dashboard/spotlights/config/tiers"}>
-            <.button>
+            <.backoffice_button>
               <.icon name="hero-rectangle-stack" class="w-5" />
-            </.button>
+            </.backoffice_button>
           </.link>
         </:actions>
         <div class="w-full space-y-2">
@@ -26,7 +26,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.FormComponent do
             <div>
               <.field field={@form[:duration]} type="number" label="Duration (in minutes)" required />
             </div>
-            <.button phx-disable-with="Saving...">Save Configuration</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Configuration</.backoffice_button>
           </.simple_form>
         </div>
       </.page>

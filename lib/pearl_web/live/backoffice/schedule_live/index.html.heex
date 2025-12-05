@@ -10,31 +10,31 @@
       />
       <.ensure_permissions user={@current_user} permissions={%{"schedule" => ["edit"]}}>
         <.link patch={~p"/dashboard/schedule/activities/new"}>
-          <.button>New Activity</.button>
+          <.backoffice_button>New Activity</.backoffice_button>
         </.link>
       </.ensure_permissions>
 
       <.ensure_permissions user={@current_user} permissions={%{"schedule" => ["edit"]}}>
         <.link patch={~p"/dashboard/schedule/edit"}>
-          <.button>
+          <.backoffice_button>
             <.icon name="hero-calendar-days" class="w-5 h-5" />
-          </.button>
+          </.backoffice_button>
         </.link>
       </.ensure_permissions>
 
       <.ensure_permissions user={@current_user} permissions={%{"schedule" => ["edit"]}}>
         <.link patch={~p"/dashboard/schedule/activities/speakers"}>
-          <.button>
+          <.backoffice_button>
             <.icon name="hero-user" class="w-5 h-5" />
-          </.button>
+          </.backoffice_button>
         </.link>
       </.ensure_permissions>
 
       <.ensure_permissions user={@current_user} permissions={%{"schedule" => ["edit"]}}>
         <.link patch={~p"/dashboard/schedule/activities/categories"}>
-          <.button>
+          <.backoffice_button>
             <.icon name="hero-tag" class="w-5 h-5" />
-          </.button>
+          </.backoffice_button>
         </.link>
       </.ensure_permissions>
     </div>

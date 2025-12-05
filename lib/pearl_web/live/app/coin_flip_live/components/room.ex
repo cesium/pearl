@@ -5,7 +5,7 @@ defmodule PearlWeb.App.CoinFlipLive.Components.Room do
   use PearlWeb, :component
 
   import PearlWeb.CoreComponents
-  import PearlWeb.Components.Avatar
+  import PearlWeb.Components.{Avatar,Button}
 
   attr :room, :map, required: true
   attr :current_user, :map, required: true
@@ -104,7 +104,7 @@ defmodule PearlWeb.App.CoinFlipLive.Components.Room do
           <div :if={@player_id == @room.player2_id} class="side-b-not-rotated"></div>
         </div>
       <% else %>
-        <.button
+        <.backoffice_button
           :if={@room.player1.user.id != @current_user.id}
           class="px-7 size-full rounded-none !bg-transparent !text-white"
           phx-click="join-room"
@@ -112,15 +112,15 @@ defmodule PearlWeb.App.CoinFlipLive.Components.Room do
           disabled={@attendee_tokens < @room.bet}
         >
           <.icon name="hero-plus" class="size-12" />
-        </.button>
-        <.button
+        </.backoffice_button>
+        <.backoffice_button
           :if={@room.player1.user.id == @current_user.id}
           class="px-7 my-auto size-full rounded-none !bg-transparent !text-white"
           phx-click="delete-room"
           phx-value-room_id={@room.id}
         >
           <.icon name="hero-x-mark" class="size-12" />
-        </.button>
+        </.backoffice_button>
       <% end %>
     </div>
     """

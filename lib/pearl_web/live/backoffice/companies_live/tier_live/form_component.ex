@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Companies
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button,Forms}
 
   @impl true
   def render(assigns) do
@@ -24,7 +24,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent do
             <.field field={@form[:full_cv_access]} type="switch" label="Full CV Access" />
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save Tier</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Tier</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

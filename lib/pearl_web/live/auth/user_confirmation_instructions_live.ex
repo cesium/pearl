@@ -2,6 +2,8 @@ defmodule PearlWeb.UserConfirmationInstructionsLive do
   use PearlWeb, :live_view
 
   alias Pearl.Accounts
+  
+  import PearlWeb.Components.Button
 
   def render(assigns) do
     ~H"""
@@ -14,9 +16,9 @@ defmodule PearlWeb.UserConfirmationInstructionsLive do
       <.simple_form for={@form} id="resend_confirmation_form" phx-submit="send_instructions">
         <.input field={@form[:email]} type="email" placeholder="Email" required />
         <:actions>
-          <.button phx-disable-with="Sending..." class="w-full">
+          <.backoffice_button phx-disable-with="Sending..." class="w-full">
             Resend confirmation instructions
-          </.button>
+          </.backoffice_button>
         </:actions>
       </.simple_form>
 

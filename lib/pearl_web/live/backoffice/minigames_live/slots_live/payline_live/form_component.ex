@@ -5,7 +5,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent do
 
   alias Pearl.Minigames
 
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button,Forms}
 
   @impl true
   def render(assigns) do
@@ -15,9 +15,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent do
         <div class="pt-8">
           <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold">{gettext("Entries")}</h2>
-            <.button phx-click="add-entry" phx-target={@myself}>
+            <.backoffice_button phx-click="add-entry" phx-target={@myself}>
               <.icon name="hero-plus" class="w-5 h-5" />
-            </.button>
+            </.backoffice_button>
           </div>
           <ul class="h-[45vh] overflow-y-scroll scrollbar-hide mt-4 border-b-[1px] border-lightShade  dark:border-darkShade">
             <%= for {id, _entry, form} <- @entries do %>
@@ -71,9 +71,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent do
           </ul>
         </div>
         <div class="w-full flex flex-row-reverse">
-          <.button phx-click="save" phx-target={@myself} phx-disable-with="Saving...">
+          <.backoffice_button phx-click="save" phx-target={@myself} phx-disable-with="Saving...">
             Save Configuration
-          </.button>
+          </.backoffice_button>
         </div>
       </.page>
     </div>

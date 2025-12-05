@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.EventLive.FaqLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Event
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button,Forms}
 
   @impl true
   def render(assigns) do
@@ -24,7 +24,7 @@ defmodule PearlWeb.Backoffice.EventLive.FaqLive.FormComponent do
             <.field field={@form[:answer]} type="textarea" required />
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save FAQ</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save FAQ</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

@@ -1,7 +1,7 @@
 <.page title={@product.name}>
   <:actions>
     <.link patch={~p"/dashboard/store/products/#{@product}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit product</.button>
+      <.backoffice_button>Edit product</.backoffice_button>
     </.link>
   </:actions>
 

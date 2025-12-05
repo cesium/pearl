@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.CategoryLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Contest
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button,Forms}
 
   @impl true
   def render(assigns) do
@@ -38,7 +38,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.CategoryLive.FormComponent do
             />
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save Category</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Category</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

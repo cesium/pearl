@@ -3,7 +3,7 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
 
   alias Pearl.Challenges
   alias Pearl.Challenges.Challenge
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Forms,Button}
 
   @impl true
   def render(assigns) do
@@ -81,7 +81,7 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
             {gettext("New Prize")}
           </button>
 
-          <.button phx-disable-with="Saving...">Save Challenge</.button>
+          <.backoffice_button phx-disable-with="Saving...">Save Challenge</.backoffice_button>
         </:actions>
       </.simple_form>
     </div>

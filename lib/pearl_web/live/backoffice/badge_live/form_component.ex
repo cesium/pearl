@@ -4,8 +4,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.FormComponent do
   alias Pearl.Contest
   alias Pearl.Uploaders.Badge
 
-  import PearlWeb.Components.ImageUploader
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Forms,Button,ImageUploader}
 
   @impl true
   def render(assigns) do
@@ -21,19 +20,19 @@ defmodule PearlWeb.Backoffice.BadgeLive.FormComponent do
       >
         <:actions>
           <.link :if={@badge.id} patch={~p"/dashboard/badges/#{@badge.id}/triggers"}>
-            <.button>
+            <.backoffice_button>
               <.icon name="hero-bolt" />
-            </.button>
+            </.backoffice_button>
           </.link>
           <.link :if={@badge.id} patch={~p"/dashboard/badges/#{@badge.id}/conditions"}>
-            <.button>
+            <.backoffice_button>
               <.icon name="hero-check-circle" />
-            </.button>
+            </.backoffice_button>
           </.link>
           <.link :if={@badge.id} patch={~p"/dashboard/badges/#{@badge.id}/redeems"}>
-            <.button>
+            <.backoffice_button>
               <.icon name="hero-check-badge" />
-            </.button>
+            </.backoffice_button>
           </.link>
         </:actions>
         <.simple_form
@@ -99,7 +98,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.FormComponent do
             </div>
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save Badge</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Badge</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

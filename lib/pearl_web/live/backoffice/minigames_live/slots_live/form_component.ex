@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Slots.FormComponent do
   @moduledoc false
   use PearlWeb, :live_component
 
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Forms,Button}
 
   alias Ecto.Changeset
   alias Pearl.Minigames
@@ -16,24 +16,24 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Slots.FormComponent do
       >
         <:actions>
           <.link navigate={~p"/dashboard/minigames/slots/reels_icons"}>
-            <.button>
+            <.backoffice_button>
               <.icon name="hero-star" class="w-5" />
-            </.button>
+            </.backoffice_button>
           </.link>
           <.link navigate={~p"/dashboard/minigames/slots/reels_position"}>
-            <.button>
+            <.backoffice_button>
               <.icon name="hero-view-columns" class="w-5" />
-            </.button>
+            </.backoffice_button>
           </.link>
           <.link navigate={~p"/dashboard/minigames/slots/paytable"}>
-            <.button>
+            <.backoffice_button>
               <.icon name="hero-circle-stack" class="w-5" />
-            </.button>
+            </.backoffice_button>
           </.link>
           <.link navigate={~p"/dashboard/minigames/slots/payline"}>
-            <.button>
+            <.backoffice_button>
               <.icon name="hero-rectangle-stack" class="w-5" />
-            </.button>
+            </.backoffice_button>
           </.link>
         </:actions>
         <div class="my-8">
@@ -55,7 +55,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Slots.FormComponent do
               />
             </div>
             <div class="flex flex-row-reverse">
-              <.button phx-disable-with="Saving...">{gettext("Save Configuration")}</.button>
+              <.backoffice_button phx-disable-with="Saving...">{gettext("Save Configuration")}</.backoffice_button>
             </div>
           </.form>
         </div>

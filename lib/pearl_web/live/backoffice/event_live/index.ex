@@ -5,6 +5,8 @@ defmodule PearlWeb.Backoffice.EventLive.Index do
   alias Pearl.Event.Faq
   alias Pearl.Teams
 
+  import PearlWeb.Components.Button
+
   on_mount {PearlWeb.StaffRoles,
             show: %{"event" => ["show"]},
             edit: %{"event" => ["edit"]},

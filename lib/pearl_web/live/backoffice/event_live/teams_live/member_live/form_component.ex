@@ -5,7 +5,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.MemberLive.FormComponent 
   alias Pearl.Uploaders.Member
 
   import PearlWeb.Components.Forms
-  import PearlWeb.Components.ImageUploader
+  import PearlWeb.Components.{ImageUploader,Button}
 
   @impl true
   def render(assigns) do
@@ -33,7 +33,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.MemberLive.FormComponent 
             />
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

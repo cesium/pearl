@@ -5,7 +5,7 @@ defmodule PearlWeb.App.CoinFlipLive.Components.Room do
   use PearlWeb, :component
 
   import PearlWeb.CoreComponents
-  import PearlWeb.Components.{Avatar,Button}
+  import PearlWeb.Components.{Avatar, Button}
 
   attr :room, :map, required: true
   attr :current_user, :map, required: true

@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.EventLive.FaqLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Event
-  import PearlWeb.Components.{Button,Forms}
+  import PearlWeb.Components.{Button, Forms}
 
   @impl true
   def render(assigns) do

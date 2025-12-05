@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.CategoryLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Contest
-  import PearlWeb.Components.{Button,Forms}
+  import PearlWeb.Components.{Button, Forms}
 
   @impl true
   def render(assigns) do

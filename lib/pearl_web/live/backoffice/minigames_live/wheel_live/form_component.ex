@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Wheel.FormComponent do
   @moduledoc false
   use PearlWeb, :live_component
 
-  import PearlWeb.Components.{Button,Forms}
+  import PearlWeb.Components.{Button, Forms}
 
   alias Ecto.Changeset
   alias Pearl.Minigames

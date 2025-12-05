@@ -5,7 +5,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent do
 
   alias Pearl.Minigames
 
-  import PearlWeb.Components.{Button,Forms}
+  import PearlWeb.Components.{Button, Forms}
 
   @impl true
   def render(assigns) do

@@ -1,7 +1,7 @@
 defmodule PearlWeb.Backoffice.EventLive.GenerateCredentialsLive.FormComponent do
   use PearlWeb, :live_component
 
-  import PearlWeb.Components.{Button,Forms}
+  import PearlWeb.Components.{Button, Forms}
 
   @impl true
   def render(assigns) do

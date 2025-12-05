@@ -23,10 +23,20 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Confirm do
             )}
           </p>
           <div class="flex justify-center space-x-8">
-            <.backoffice_button phx-click="cancel-spotlight" class="w-full" phx-target={@myself} type="button">
+            <.backoffice_button
+              phx-click="cancel-spotlight"
+              class="w-full"
+              phx-target={@myself}
+              type="button"
+            >
               Cancel
             </.backoffice_button>
-            <.backoffice_button phx-click="confirm-spotlight" class="w-full" phx-target={@myself} type="button">
+            <.backoffice_button
+              phx-click="confirm-spotlight"
+              class="w-full"
+              phx-target={@myself}
+              type="button"
+            >
               Start Spotlight
             </.backoffice_button>
           </div>

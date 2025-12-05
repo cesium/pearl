@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.Index do
   use PearlWeb, :live_component
 
   alias Pearl.Companies
-  import PearlWeb.Components.{ EnsurePermissions, Button}
+  import PearlWeb.Components.{EnsurePermissions, Button}
 
   @impl true
   def render(assigns) do

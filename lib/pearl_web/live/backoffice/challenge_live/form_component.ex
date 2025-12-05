@@ -3,7 +3,7 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
 
   alias Pearl.Challenges
   alias Pearl.Challenges.Challenge
-  import PearlWeb.Components.{Forms,Button}
+  import PearlWeb.Components.{Forms, Button}
 
   @impl true
   def render(assigns) do

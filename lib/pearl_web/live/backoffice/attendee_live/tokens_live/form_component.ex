@@ -3,7 +3,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.TokensLive.FormComponent do
 
   alias Pearl.Accounts
   alias Pearl.Contest
-  import PearlWeb.Components.{Forms,Button}
+  import PearlWeb.Components.{Forms, Button}
 
   @impl true
   def render(assigns) do
@@ -59,7 +59,12 @@ defmodule PearlWeb.Backoffice.AttendeeLive.TokensLive.FormComponent do
             {gettext("Confirm")}
           </.backoffice_button>
 
-          <.backoffice_button phx-click="cancel" phx-value="Remove" phx-target={@myself} class="w-full">
+          <.backoffice_button
+            phx-click="cancel"
+            phx-value="Remove"
+            phx-target={@myself}
+            class="w-full"
+          >
             {gettext("Cancel")}
           </.backoffice_button>
         </div>

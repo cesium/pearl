@@ -9,6 +9,15 @@
     </div>
   </:actions>
   <div class="flex flex-col items-center mt-8">
+    <div class="flex flex-row">
+      <.secondary_button title="cancel" phx-click="cancel" />
+      <.primary_button title="continue" />
+    </div>
+    <div class="flex flex-row mt-6 mb-6">
+      <.secondary_button title="entrar" icon="hero-user" icon_position="left" phx-click="cancel" />
+      <.primary_button title="inscrição" />
+    </div>
+    <.primary_button small={true} />
     <img
       src={~p"/images/spotlight.svg"}
       alt={gettext("Spotlight")}

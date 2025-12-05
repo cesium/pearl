@@ -2,7 +2,7 @@ defmodule PearlWeb.UserConfirmationInstructionsLive do
   use PearlWeb, :live_view
 
   alias Pearl.Accounts
-  
+
   import PearlWeb.Components.Button
 
   def render(assigns) do

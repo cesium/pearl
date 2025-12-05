@@ -5,7 +5,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.MemberLive.FormComponent 
   alias Pearl.Uploaders.Member
 
   import PearlWeb.Components.Forms
-  import PearlWeb.Components.{ImageUploader,Button}
+  import PearlWeb.Components.{ImageUploader, Button}
 
   @impl true
   def render(assigns) do

@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.IneligibleLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Accounts
-  import PearlWeb.Components.{Forms,Button}
+  import PearlWeb.Components.{Forms, Button}
 
   @impl true
   def render(assigns) do

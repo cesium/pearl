@@ -4,7 +4,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ReelIcons.FormComponent do
   use PearlWeb, :live_component
 
   import PearlWeb.Components.Forms
-  import PearlWeb.Components.{ImageUploader,Button}
+  import PearlWeb.Components.{ImageUploader, Button}
 
   alias Pearl.Minigames
 
@@ -64,7 +64,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ReelIcons.FormComponent do
               )}
             </p>
             <div class="flex justify-end">
-              <.backoffice_button phx-disable-with="Saving...">{gettext("Save Configuration")}</.backoffice_button>
+              <.backoffice_button phx-disable-with="Saving...">
+                {gettext("Save Configuration")}
+              </.backoffice_button>
             </div>
           </.simple_form>
         </div>

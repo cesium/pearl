@@ -65,18 +65,79 @@ defmodule PearlWeb.Components.Button do
   end
 
   @doc """
-  button
+  Renders a primary button with icon and title.
+
+  ## Examples
+
+      <.primary_button title="Continue" />
+      <.primary_button title="Next" class="w-full" />
+      <.primary_button small />
   """
+  attr :title, :string, default: nil
+  attr :icon, :string, default: "hero-arrow-right"
+  attr :small, :boolean, default: false
+  attr :gap, :string, default: "gap-1.5"
+  attr :class, :string, default: nil
+  attr :rest, :global, include: ~w(disabled phx-click phx-disable-with phx-target)
 
   def primary_button(assigns) do
     ~H"""
     <button
-    class={[
-      ""
-    ]}>
-
+      class={[
+        "flex items-center justify-center px-6 py-3",
+        if(@small, do: "w-[50px] h-[50px]", else: ["w-[139px] h-[43px]", @gap]),
+        "bg-[#811824] text-white hover:bg-[#6b1420] disabled:opacity-50 disabled:cursor-not-allowed",
+        "font-normal transition-colors font-['Space_Grotesk']",
+        @class
+      ]}
+      {@rest}
+    >
+      <%= if @small do %>
+        <.icon name={@icon} class="w-6 h-6 shrink-0" />
+      <% else %>
+        <.icon name={@icon} class="w-6 h-6 shrink-0" />
+        <span class="text-base">{assigns.title}</span>
+      <% end %>
     </button>
     """
   end
 
+  @doc """
+  Renders a secondary button with icon and title.
+
+  ## Examples
+
+      <.secondary_button title="Continue" />
+      <.secondary_button title="Next" icon_position="left" />
+  """
+  attr :title, :string, required: true
+  attr :icon, :string, default: "hero-arrow-left"
+  attr :icon_position, :string, default: "right", values: ["left", "right"]
+  attr :gap, :string, default: "gap-1.5"
+  attr :class, :string, default: nil
+  attr :rest, :global, include: ~w(disabled phx-click phx-disable-with phx-target)
+
+  def secondary_button(assigns) do
+    ~H"""
+    <button
+      class={[
+        "flex items-center justify-center px-6 py-3",
+        @gap,
+        "bg-[#81182410] text-[#811824] hover:bg-[#81182420] disabled:opacity-50 disabled:cursor-not-allowed",
+        "font-normal transition-colors font-['Space_Grotesk']",
+        "w-[125px] h-[43px]",
+        @class
+      ]}
+      {@rest}
+    >
+      <%= if @icon_position == "left" do %>
+        <.icon name={@icon} class="w-6 h-6 shrink-0" />
+        <span class="text-base">{assigns.title}</span>
+      <% else %>
+        <span class="text-base">{assigns.title}</span>
+        <.icon name={@icon} class="w-6 h-6 shrink-0" />
+      <% end %>
+    </button>
+    """
+  end
 end

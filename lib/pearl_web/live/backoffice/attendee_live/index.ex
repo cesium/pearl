@@ -1,8 +1,8 @@
 defmodule PearlWeb.Backoffice.AttendeeLive.Index do
   alias Pearl.Accounts
   use PearlWeb, :backoffice_view
-  
-  import PearlWeb.Components.{Table,TableSearch,Button}
+
+  import PearlWeb.Components.{Table, TableSearch, Button}
 
   on_mount {PearlWeb.StaffRoles,
             index: %{"attendees" => ["show"]}, edit: %{"attendees" => ["edit"]}}

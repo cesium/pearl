@@ -6,7 +6,7 @@ defmodule PearlWeb.PrizeLive.Daily.FormComponent do
   alias Pearl.Contest.DailyPrize
   alias Pearl.Minigames
 
-  import PearlWeb.Components.{Button,Forms}
+  import PearlWeb.Components.{Button, Forms}
 
   @impl true
   def render(assigns) do

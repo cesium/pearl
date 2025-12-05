@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.EventLive.FaqLive.Index do
   use PearlWeb, :live_component
 
   alias Pearl.Event
-  import PearlWeb.Components.{Button,EnsurePermissions}
+  import PearlWeb.Components.{Button, EnsurePermissions}
 
   @impl true
   def render(assigns) do

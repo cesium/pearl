@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Companies
-  import PearlWeb.Components.{Button,Forms}
+  import PearlWeb.Components.{Button, Forms}
 
   @impl true
   def render(assigns) do

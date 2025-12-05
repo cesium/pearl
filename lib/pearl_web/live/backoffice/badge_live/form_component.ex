@@ -4,7 +4,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.FormComponent do
   alias Pearl.Contest
   alias Pearl.Uploaders.Badge
 
-  import PearlWeb.Components.{Forms,Button,ImageUploader}
+  import PearlWeb.Components.{Forms, Button, ImageUploader}
 
   @impl true
   def render(assigns) do

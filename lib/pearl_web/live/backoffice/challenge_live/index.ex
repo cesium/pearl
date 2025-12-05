@@ -8,7 +8,7 @@ defmodule PearlWeb.Backoffice.ChallengeLive.Index do
 
   alias PearlWeb.Helpers
 
-  import PearlWeb.Components.{Button,TableSearch,Table}
+  import PearlWeb.Components.{Button, TableSearch, Table}
 
   on_mount {PearlWeb.StaffRoles,
             index: %{"challenges" => ["show"]},

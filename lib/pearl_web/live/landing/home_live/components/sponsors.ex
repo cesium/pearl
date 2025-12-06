@@ -39,7 +39,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
               class="opacity-80 hover:opacity-100 hover:scale-105 duration-500 transition-all mx-auto"
             >
               <%= if sponsor.logo do %>
-                <div class="w-40 h-20 flex items-center justify-center">
+                <div class="w-40 h-16 flex items-center justify-center">
                   <img
                     class="max-w-full max-h-full object-contain"
                     src={Uploaders.Company.url({sponsor.logo, sponsor}, :original, signed: true)}

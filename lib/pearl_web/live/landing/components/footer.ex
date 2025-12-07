@@ -117,10 +117,10 @@ defmodule PearlWeb.Landing.Components.Footer do
   defp discover_links do
     [
       %{title: "Página Inicial", url: "/", enabled: true},
-      %{title: "Calendário", url: "/calendar", enabled: true},
-      %{title: "Oradores & Patrocínios", url: "/companies", enabled: true},
+      %{title: "Calendário", url: "/schedule", enabled: true},
+      %{title: "Oradores & Patrocínios", url: "/speakers", enabled: true},
       %{title: "Desafios", url: "/challenges", enabled: true},
-      %{title: "Organização", url: "/organizers", enabled: true},
+      %{title: "Equipa", url: "/team", enabled: true},
       %{title: "Informações & Ajuda", url: "/info", enabled: true}
     ]
     |> Enum.filter(fn x -> x.enabled end)
@@ -142,7 +142,7 @@ defmodule PearlWeb.Landing.Components.Footer do
   defp more_pages_links do
     [
       %{title: "ENEI x CeSIUM", url: "https://cesium.di.uminho.pt", enabled: true},
-      %{title: "Fórum Braga", url: "https://forum.braga.pt", enabled: true}
+      %{title: "Fórum Braga", url: "https://www.forumbraga.com/", enabled: true}
     ]
     |> Enum.filter(fn x -> x.enabled end)
   end

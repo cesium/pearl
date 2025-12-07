@@ -44,7 +44,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
             <.link
               :if={!@current_user}
               navigate={~p"/users/log_in"}
-              class="flex items-center gap-2 h-10 px-5 border border-[#811824] bg-transparent text-[#811824] text-sm transition-all hover:bg-[#811824]/10"
+              class="flex items-center gap-2 h-10 px-5 border border-[#811824] bg-[#811824]/10 text-[#811824] text-sm transition-all hover:bg-[#811824]/20"
             >
               <.icon name="hero-user" class="h-4 w-4" />
               <span>entrar</span>

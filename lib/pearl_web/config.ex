@@ -15,8 +15,8 @@ defmodule PearlWeb.Config do
         feature_flag: "schedule_enabled"
       },
       %{
-        title: "Atividades",
-        url: "/activities",
+        title: "Oradores & Patrocínios",
+        url: "/speakers",
         feature_flag: "team_enabled"
       },
       %{
@@ -25,8 +25,8 @@ defmodule PearlWeb.Config do
         feature_flag: "challenges_enabled"
       },
       %{
-        title: "Organização",
-        url: "/organizers",
+        title: "Equipa",
+        url: "/team",
         feature_flag: "speakers_enabled"
       },
       %{

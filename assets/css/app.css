@@ -16,13 +16,42 @@
 }
 
 @font-face {
-  font-family: 'Inter-Regular';
-  src: url('/fonts/Inter/Inter-Regular.ttf') format('truetype');
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Bold.ttf') format('truetype');
+  font-weight: 700;
   font-display: swap;
 }
 
 @theme {
-  --color-primary: #04041c;
+  --color-primary: #EFEFED;
   --color-accent: #ffdb0d;
   --color-light: #ffffff;
   --color-light-muted: #a1a1aa;
@@ -97,7 +126,8 @@
   --color-info-950: var(--color-blue-950);
 
   --font-terminal: 'Terminal', ui-monospace, monospace;
-  --font-iregular: 'Inter-Regular', ui-sans-serif, sans-serif;
+  --font-iregular: 'Space Grotesk', ui-sans-serif, sans-serif;
+  --font-sans: 'Space Grotesk', ui-sans-serif, sans-serif;
 
   --animate-slide-in: slide-in 1.5s ease-in-out;
   --animate-fade-in: fade-in 0.5s ease-in-out;

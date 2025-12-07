@@ -10,34 +10,29 @@ defmodule PearlWeb.Config do
 
     [
       %{
-        title: "Schedule",
+        title: "Calendário",
         url: "/schedule",
         feature_flag: "schedule_enabled"
       },
       %{
-        title: "Team",
-        url: "/team",
+        title: "Atividades",
+        url: "/activities",
         feature_flag: "team_enabled"
       },
       %{
-        title: "Challenges",
+        title: "Desafios",
         url: "/challenges",
         feature_flag: "challenges_enabled"
       },
       %{
-        title: "Speakers",
-        url: "/speakers",
+        title: "Organização",
+        url: "/organizers",
         feature_flag: "speakers_enabled"
       },
       %{
-        title: "FAQs",
+        title: "Informação & Ajuda",
         url: "/faqs",
         feature_flag: "faqs_enabled"
-      },
-      %{
-        title: "Call for Staff",
-        url: "https://forms.gle/XWHoNu4LjC8BogF68",
-        feature_flag: "call_for_staff_enabled"
       }
     ]
     |> Enum.filter(fn x -> Enum.member?(enabled_flags, x.feature_flag) end)

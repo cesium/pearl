@@ -12,43 +12,49 @@ defmodule PearlWeb.Landing.Components.Navbar do
   def navbar(assigns) do
     ~H"""
     <div>
-      <nav class="pt-8 pb-4 xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
-        <div class="flex h-16 items-center justify-between">
-          <div class="relative flex flex-auto">
-            <div class="flex w-full justify-between">
-              <.link href="/">
-                <div class="block select-none h-full">
-                  <img
-                    src="/images/enei-logo.svg"
-                    width={125}
-                    alt="ENEI Logo"
-                    class="cursor-pointer transition-colors duration-75 ease-in hover:text-accent h-full"
-                  />
-                </div>
-              </.link>
-              <div class="col-span-3 hidden justify-self-end lg:block">
-                <div class="flex select-none items-center h-full">
-                  <div class="flex flex-row gap-12">
-                    <%= for page <- @pages do %>
-                      <.link
-                        navigate={page.url}
-                        class="text-sm text-white transition-colors duration-75 ease-in hover:text-accent"
-                      >
-                        {page.title}
-                      </.link>
-                    <% end %>
-                    <.link
-                      :if={!@current_user}
-                      navigate={~p"/users/log_in"}
-                      class="text-sm text-white transition-colors duration-75 ease-in hover:text-accent text-nowrap"
-                    >
-                      Log in
-                    </.link>
-                  </div>
-                  <div :if={@registrations_open? && !@current_user} class="flex pl-20">
-                    <.join_us />
-                  </div>
-                  <div :if={@current_user} class="flex pl-16">
+      <nav class="pt-8 pb-4 xl:px-[3rem] md:px-[2rem] px-[1rem]">
+        <div class="flex h-16 items-center justify-between gap-8">
+          <div class="flex-shrink-0">
+            <.link href="/">
+              <div class="block select-none h-full -translate-y-1">
+                <img
+                  src="/images/enei-logo.svg"
+                  width={125}
+                  alt="ENEI Logo"
+                  class="cursor-pointer transition-colors duration-75 ease-in hover:text-accent h-full"
+                />
+              </div>
+            </.link>
+          </div>
+
+          <div class="hidden xl:flex items-center flex-1">
+            <div class="flex flex-row gap-6 2xl:gap-8">
+              <%= for page <- @pages do %>
+                <.link
+                  navigate={page.url}
+                  class="text-sm text-[#811824] transition-colors duration-75 ease-in hover:text-accent whitespace-nowrap"
+                >
+                  {page.title}
+                </.link>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="hidden xl:flex items-center flex-shrink-0">
+            <.link
+              :if={!@current_user}
+              navigate={~p"/users/log_in"}
+              class="flex items-center gap-2 h-10 px-5 border border-[#811824] bg-transparent text-[#811824] text-sm transition-all hover:bg-[#811824]/10"
+            >
+              <.icon name="hero-user" class="h-4 w-4" />
+              <span>entrar</span>
+            </.link>
+            <div :if={@registrations_open? && !@current_user}>
+              <.join_us />
+            </div>
+          </div>
+
+          <div :if={@current_user} class="hidden xl:flex items-center flex-shrink-0">
                     <.dropdown>
                       <:trigger_element>
                         <.avatar
@@ -93,34 +99,31 @@ defmodule PearlWeb.Landing.Components.Navbar do
                         label="Sign Out"
                       />
                     </.dropdown>
-                  </div>
-                </div>
-              </div>
-              <div class="block lg:hidden">
-                <span class="cursor-pointer" phx-click={show_mobile_navbar()}>
-                  <.icon name="hero-bars-3" />
-                </span>
-              </div>
-            </div>
+          </div>
+
+          <div class="block xl:hidden">
+            <span class="cursor-pointer text-[#811824]" phx-click={show_mobile_navbar()}>
+              <.icon name="hero-bars-3" class="w-7 h-7" />
+            </span>
           </div>
         </div>
       </nav>
       <div
         id="mobile-navbar"
-        class="bg-primary w-full h-dvh overflow-y-auto absolute top-0 left-0 bottom-0 z-40 flex flex-col"
+        class="bg-[#EFEFED] w-full h-dvh overflow-y-auto absolute top-0 left-0 bottom-0 z-40 flex flex-col"
         style="display: none;"
       >
         <div class="w-full flex flex-col items-end px-10 py-12">
-          <span class="cursor-pointer" phx-click={hide_mobile_navbar()}>
-            <.icon name="hero-x-mark" />
+          <span class="cursor-pointer text-[#811824]" phx-click={hide_mobile_navbar()}>
+            <.icon name="hero-x-mark" class="w-8 h-8" />
           </span>
         </div>
-        <div class="flex flex-col w-full items-center gap-16 mb-16">
+        <div class="flex flex-col w-full items-center gap-12 mb-16">
           <%= for page <- @pages do %>
             <.link
               navigate={page.url}
               phx-click={hide_mobile_navbar()}
-              class="font-terminal uppercase text-3xl text-white transition-colors duration-75 ease-in hover:text-accent"
+              class="font-terminal uppercase text-2xl text-[#811824] transition-colors duration-75 ease-in hover:text-accent"
             >
               {page.title}
             </.link>
@@ -129,18 +132,24 @@ defmodule PearlWeb.Landing.Components.Navbar do
             :if={!@current_user}
             navigate={~p"/users/log_in"}
             phx-click={hide_mobile_navbar()}
-            class="font-terminal uppercase text-3xl text-white transition-colors duration-75 ease-in hover:text-accent"
+            class="font-terminal uppercase text-2xl text-[#811824] transition-colors duration-75 ease-in hover:text-accent"
           >
             Log in
           </.link>
-          <div :if={@registrations_open? && !@current_user} class="flex">
-            <.join_us />
-          </div>
+          <.link
+            :if={@registrations_open? && !@current_user}
+            navigate={~p"/users/register"}
+            phx-click={hide_mobile_navbar()}
+            class="flex items-center gap-3 mt-6 px-8 py-3 rounded-lg border-2 border-[#811824] text-[#811824] text-lg font-medium transition-all hover:bg-[#811824] hover:text-white"
+          >
+            <.icon name="hero-arrow-right" class="h-5 w-5" />
+            <span>inscrição</span>
+          </.link>
           <.link
             :if={user_type?(@current_user, :staff)}
             patch={~p"/dashboard/scanner"}
             phx-click={hide_mobile_navbar()}
-            class="font-terminal uppercase text-3xl text-white transition-colors duration-75 ease-in hover:text-accent"
+            class="font-terminal uppercase text-2xl text-[#811824] transition-colors duration-75 ease-in hover:text-accent"
           >
             Dashboard
           </.link>
@@ -148,7 +157,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
             :if={user_type?(@current_user, :attendee)}
             patch={~p"/app"}
             phx-click={hide_mobile_navbar()}
-            class="font-terminal uppercase text-3xl text-white transition-colors duration-75 ease-in hover:text-accent"
+            class="font-terminal uppercase text-2xl text-[#811824] transition-colors duration-75 ease-in hover:text-accent"
           >
             App
           </.link>
@@ -156,7 +165,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
             :if={user_type?(@current_user, :company)}
             patch={~p"/sponsor/scanner"}
             phx-click={hide_mobile_navbar()}
-            class="font-terminal uppercase text-3xl text-white transition-colors duration-75 ease-in hover:text-accent"
+            class="font-terminal uppercase text-2xl text-[#811824] transition-colors duration-75 ease-in hover:text-accent"
           >
             Scanner
           </.link>
@@ -165,7 +174,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
             method="delete"
             href={~p"/users/log_out"}
             phx-click={hide_mobile_navbar()}
-            class="font-terminal uppercase text-3xl text-white transition-colors duration-75 ease-in hover:text-accent"
+            class="font-terminal uppercase text-2xl text-[#811824] transition-colors duration-75 ease-in hover:text-accent"
           >
             Sign Out
           </.link>

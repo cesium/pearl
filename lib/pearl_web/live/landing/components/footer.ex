@@ -129,7 +129,7 @@ defmodule PearlWeb.Landing.Components.Footer do
   defp your_enei_links do
     [
       %{title: "Área Pessoal", url: "/users/log_in", enabled: true},
-      %{title: "Bilhetes e inscrição", url: "/buy", enabled: true},
+      %{title: "Bilhetes e inscrição", url: "#", enabled: true},
       %{
         title: "Survival Guide",
         url: "/docs/survival-guide.pdf",

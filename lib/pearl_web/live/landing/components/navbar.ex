@@ -55,50 +55,50 @@ defmodule PearlWeb.Landing.Components.Navbar do
           </div>
 
           <div :if={@current_user} class="hidden xl:flex items-center flex-shrink-0">
-                    <.dropdown>
-                      <:trigger_element>
-                        <.avatar
-                          handle={@current_user.handle}
-                          src={
-                            Uploaders.UserPicture.url(
-                              {@current_user.picture, @current_user},
-                              :original,
-                              signed: true
-                            )
-                          }
-                          size={:sm}
-                          class="ring-2 rounded-full ring-white"
-                        />
-                      </:trigger_element>
-                      <.dropdown_menu_item
-                        :if={user_type?(@current_user, :staff)}
-                        link_type="a"
-                        to="/dashboard/scanner"
-                        label="Dashboard"
-                      />
-                      <.dropdown_menu_item
-                        :if={user_type?(@current_user, :attendee)}
-                        link_type="a"
-                        to={
-                          if @current_user.confirmed_at,
-                            do: "/app",
-                            else: "/users/confirmation_pending"
-                        }
-                        label="App"
-                      />
-                      <.dropdown_menu_item
-                        :if={user_type?(@current_user, :company)}
-                        link_type="a"
-                        to="/sponsor/scanner"
-                        label="Scanner"
-                      />
-                      <.dropdown_menu_item
-                        link_type="a"
-                        method="delete"
-                        to="/users/log_out"
-                        label="Sign Out"
-                      />
-                    </.dropdown>
+            <.dropdown>
+              <:trigger_element>
+                <.avatar
+                  handle={@current_user.handle}
+                  src={
+                    Uploaders.UserPicture.url(
+                      {@current_user.picture, @current_user},
+                      :original,
+                      signed: true
+                    )
+                  }
+                  size={:sm}
+                  class="ring-2 rounded-full ring-white"
+                />
+              </:trigger_element>
+              <.dropdown_menu_item
+                :if={user_type?(@current_user, :staff)}
+                link_type="a"
+                to="/dashboard/scanner"
+                label="Dashboard"
+              />
+              <.dropdown_menu_item
+                :if={user_type?(@current_user, :attendee)}
+                link_type="a"
+                to={
+                  if @current_user.confirmed_at,
+                    do: "/app",
+                    else: "/users/confirmation_pending"
+                }
+                label="App"
+              />
+              <.dropdown_menu_item
+                :if={user_type?(@current_user, :company)}
+                link_type="a"
+                to="/sponsor/scanner"
+                label="Scanner"
+              />
+              <.dropdown_menu_item
+                link_type="a"
+                method="delete"
+                to="/users/log_out"
+                label="Sign Out"
+              />
+            </.dropdown>
           </div>
 
           <div class="block xl:hidden">

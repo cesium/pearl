@@ -33,7 +33,7 @@ defmodule PearlWeb.Landing.Components.Footer do
                 <%= for link <- discover_links() do %>
                   <li>
                     <.link navigate={link.url} class="hover:text-white transition-colors">
-                      <%= link.title %>
+                      {link.title}
                     </.link>
                   </li>
                 <% end %>
@@ -48,7 +48,7 @@ defmodule PearlWeb.Landing.Components.Footer do
                 <%= for link <- your_enei_links() do %>
                   <li>
                     <.link navigate={link.url} class="hover:text-white transition-colors">
-                      <%= link.title %>
+                      {link.title}
                     </.link>
                   </li>
                 <% end %>
@@ -63,7 +63,7 @@ defmodule PearlWeb.Landing.Components.Footer do
                 <%= for link <- more_pages_links() do %>
                   <li>
                     <.link href={link.url} class="hover:text-white transition-colors">
-                      <%= link.title %>
+                      {link.title}
                     </.link>
                   </li>
                 <% end %>
@@ -116,27 +116,34 @@ defmodule PearlWeb.Landing.Components.Footer do
 
   defp discover_links do
     [
-      %{title: "Página Inicial", url: "/"},
-      %{title: "Calendário", url: "/calendar"},
-      %{title: "Oradores & Patrocínios", url: "/companies"},
-      %{title: "Desafios", url: "/challenges"},
-      %{title: "Organização", url: "/organizers"},
-      %{title: "Informações & Ajuda", url: "/info"}
+      %{title: "Página Inicial", url: "/", enabled: true},
+      %{title: "Calendário", url: "/calendar", enabled: true},
+      %{title: "Oradores & Patrocínios", url: "/companies", enabled: true},
+      %{title: "Desafios", url: "/challenges", enabled: true},
+      %{title: "Organização", url: "/organizers", enabled: true},
+      %{title: "Informações & Ajuda", url: "/info", enabled: true}
     ]
+    |> Enum.filter(fn x -> x.enabled end)
   end
 
   defp your_enei_links do
     [
-      %{title: "Área Pessoal", url: "/users/log_in"},
-      %{title: "Bilhetes e inscrição", url: "/buy"},
-      %{title: "Survival Guide", url: "/docs/survival-guide.pdf"}
+      %{title: "Área Pessoal", url: "/users/log_in", enabled: true},
+      %{title: "Bilhetes e inscrição", url: "/buy", enabled: true},
+      %{
+        title: "Survival Guide",
+        url: "/docs/survival-guide.pdf",
+        enabled: Event.get_feature_flag!("survival_guide_enabled")
+      }
     ]
+    |> Enum.filter(fn x -> x.enabled end)
   end
 
   defp more_pages_links do
     [
-      %{title: "ENEI x CeSIUM", url: "https://cesium.di.uminho.pt"},
-      %{title: "Fórum Braga", url: "https://forum.braga.pt"}
+      %{title: "ENEI x CeSIUM", url: "https://cesium.di.uminho.pt", enabled: true},
+      %{title: "Fórum Braga", url: "https://forum.braga.pt", enabled: true}
     ]
+    |> Enum.filter(fn x -> x.enabled end)
   end
 end

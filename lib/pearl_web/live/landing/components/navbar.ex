@@ -21,7 +21,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
                   src="/images/enei-logo.svg"
                   width={125}
                   alt="ENEI Logo"
-                  class="cursor-pointer transition-colors duration-75 ease-in hover:text-accent h-full"
+                  class="cursor-pointer h-full"
                 />
               </div>
             </.link>
@@ -32,7 +32,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
               <%= for page <- @pages do %>
                 <.link
                   navigate={page.url}
-                  class="text-sm text-[#811824] transition-colors duration-75 ease-in hover:text-accent whitespace-nowrap"
+                  class="text-sm text-[#811824] transition-colors duration-75 ease-in hover:text-[#22060A] whitespace-nowrap"
                 >
                   {page.title}
                 </.link>

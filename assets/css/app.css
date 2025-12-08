@@ -51,10 +51,11 @@
 }
 
 @theme {
-  --color-primary: #EFEFED;
+  --color-primary: #811824;
+  --color-olive: #56564D;
   --color-accent: #ffdb0d;
   --color-light: #ffffff;
-  --color-light-muted: #a1a1aa;
+  --color-light-muted: #EFEFED;
   --color-light-shade: #e5e7eb;
   --color-dark: #09090b;
   --color-dark-muted: #71717a;
@@ -126,8 +127,7 @@
   --color-info-950: var(--color-blue-950);
 
   --font-terminal: 'Terminal', ui-monospace, monospace;
-  --font-iregular: 'Space Grotesk', ui-sans-serif, sans-serif;
-  --font-sans: 'Space Grotesk', ui-sans-serif, sans-serif;
+  --font-grotesk: 'Space Grotesk', ui-sans-serif, sans-serif;
 
   --animate-slide-in: slide-in 1.5s ease-in-out;
   --animate-fade-in: fade-in 0.5s ease-in-out;

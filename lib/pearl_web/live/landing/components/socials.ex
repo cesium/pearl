@@ -6,14 +6,14 @@ defmodule PearlWeb.Landing.Components.Socials do
 
   def socials(assigns) do
     ~H"""
-    <ul class="flex items-center gap-2.5">
+    <ul class="flex items-center gap-4">
       <li :for={link <- links()}>
         <.link
           href={link.url}
           target="_blank"
-          class="flex items-center justify-center w-[26px] h-[26px] rounded-[7px] bg-white/10 text-white/50 transition-all hover:bg-white/20 hover:text-white"
+          class="flex items-center justify-center w-fit h-fit p-1 rounded-[7px] bg-white/10 text-white/50 transition-all hover:bg-white/20 hover:text-white"
         >
-          <.icon name={link.icon} class="w-4 h-4" />
+          <.icon name={link.icon} class="w-4.5 h-4.5" />
         </.link>
       </li>
     </ul>

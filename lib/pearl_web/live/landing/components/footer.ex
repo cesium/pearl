@@ -11,16 +11,14 @@ defmodule PearlWeb.Landing.Components.Footer do
 
   def footer(assigns) do
     ~H"""
-    <footer class="bg-[#56564D] xl:px-[3rem] md:px-[2rem] px-[1rem] pt-12 md:pt-16 pb-8 md:pb-12">
+    <footer class="bg-olive px-8 pt-8 pb-12 md:px-12.5 md:pt-12.5 md:pb-16">
       <div class="flex flex-col gap-8 md:gap-12">
-        <div class="flex flex-col md:flex-row items-center md:items-center gap-3 md:gap-4 text-center md:text-left">
-          <img src="/images/enei-logo-white.svg" width={100} class="md:w-[125px]" alt="ENEI Logo" />
-          <div>
-            <p class="text-white text-sm md:text-base leading-snug">
-              encontro nacional de estudantes de informática
-            </p>
-            <p class="text-white text-sm md:text-base mt-1">2026</p>
-          </div>
+        <div class="grid grid-cols-[auto_1fr] gap-x-3.5 items-start">
+          <img src="/images/enei-logo-white.svg" width={75} alt="ENEI Logo" class="row-span-2" />
+          <p class="text-white text-sm md:text-base self-end">
+            encontro nacional de estudantes de informática
+          </p>
+          <p class="text-light/50 col-start-2">2026</p>
         </div>
 
         <div class="flex flex-col md:flex-row gap-8 md:gap-12 justify-between items-start md:items-end">
@@ -71,9 +69,9 @@ defmodule PearlWeb.Landing.Components.Footer do
             </div>
           </div>
 
-          <div class="grid grid-cols-2 md:flex md:flex-row gap-8 md:gap-12 w-full md:w-auto mt-4 md:mt-0">
-            <div>
-              <h3 class="text-white font-semibold md:text-white/50 md:font-bold mb-3 md:mb-4 text-xs md:text-sm uppercase tracking-wider">
+          <div class="flex gap-12.5">
+            <div class="space-y-3">
+              <h3 class="text-white/50 font-bold text-xs md:text-sm uppercase">
                 Redes Sociais
               </h3>
               <div>
@@ -81,15 +79,15 @@ defmodule PearlWeb.Landing.Components.Footer do
               </div>
             </div>
 
-            <div>
-              <h3 class="text-white font-semibold md:text-white/50 md:font-bold mb-3 md:mb-4 text-xs md:text-sm uppercase tracking-wider">
+            <div class="space-y-2">
+              <h3 class="text-white/50 font-bold text-xs md:text-sm uppercase">
                 Organização
               </h3>
               <.link href="https://cesium.di.uminho.pt" class="block">
                 <img
                   src="/images/cesium-logo.svg"
                   alt="CeSIUM Logo"
-                  class="h-10 md:h-12 opacity-70 hover:opacity-100 transition-opacity"
+                  class="h-8.5 opacity-70 hover:opacity-100 transition-opacity"
                 />
               </.link>
             </div>

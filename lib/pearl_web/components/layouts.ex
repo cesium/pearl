@@ -11,7 +11,7 @@ defmodule PearlWeb.Layouts do
   use PearlWeb, :html
 
   import PearlWeb.Components.Sidebar
-  import PearlWeb.Landing.Components.{Footer, Navbar, Sparkles}
+  import PearlWeb.Landing.Components.{Footer, Navbar}
   import PearlWeb.Components.Banner
 
   embed_templates "layouts/*"

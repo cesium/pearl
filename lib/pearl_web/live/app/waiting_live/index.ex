@@ -3,13 +3,10 @@ defmodule PearlWeb.App.WaitingLive.Index do
 
   alias Pearl.Event
 
-  import PearlWeb.Landing.Components.Sparkles
-
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.sparkles />
       <!-- 3D physics based credential scene  -->
       <div
         id="credential-scene"

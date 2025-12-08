@@ -14,7 +14,6 @@ defmodule PearlWeb.Landing.Components.Navbar do
     <div>
       <nav class="py-8.5 px-9">
         <div class="flex h-fit items-center justify-between">
-
           <div class="flex gap-8">
             <div class="shrink-0">
               <.link href="/">

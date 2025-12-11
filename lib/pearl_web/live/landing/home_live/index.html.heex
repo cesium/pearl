@@ -20,8 +20,7 @@
     current_user={@current_user}
   />
 </div>
-#FIX: remover font hardcoded
-<div class="px-16 font-['Space_Grotesk']">
+<div class="px-8 md:px-16">
   <.speakers :if={@has_highlighted_speakers?} speakers={@streams.speakers} />
   <.sponsors :if={@has_sponsors?} tiers={@tiers} />
   <.partners />

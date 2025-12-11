@@ -139,7 +139,6 @@ defmodule PearlWeb.Landing.Components.Footer do
 
   defp more_pages_links do
     [
-      %{title: "ENEI x CeSIUM", url: "https://cesium.di.uminho.pt", enabled: true},
       %{title: "Fórum Braga", url: "https://www.forumbraga.com/", enabled: true}
     ]
     |> Enum.filter(fn x -> x.enabled end)

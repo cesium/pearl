@@ -20,7 +20,7 @@
     current_user={@current_user}
   />
 </div>
-<div class="xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
+<div class="px-8 md:px-16">
   <.speakers :if={@has_highlighted_speakers?} speakers={@streams.speakers} />
   <.sponsors :if={@has_sponsors?} tiers={@tiers} />
   <.partners />

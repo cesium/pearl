@@ -8,6 +8,7 @@ defmodule Pearl.Repo.Migrations.CreateTiers do
       add :priority, :integer, null: false
       add :spotlight_multiplier, :float, null: false
       add :max_spotlights, :integer, null: false
+      add :color, :string, null: false
 
       timestamps(type: :utc_datetime)
     end

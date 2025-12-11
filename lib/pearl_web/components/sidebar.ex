@@ -139,7 +139,7 @@ defmodule PearlWeb.Components.Sidebar do
       </div>
       <div
         id="mobile-sidebar"
-        class="relative flex-col flex-1 hidden w-full max-w-xs pt-5 pb-4 rounded-r-3xl bg-primary h-dvh"
+        class="relative flex-col flex-1 hidden w-full max-w-xs pt-5 pb-4 rounded-r-3xl bg-background-dark h-dvh"
       >
         <div class="flex flex-col flex-1 py-4 overflow-y-auto scrollbar-hide">
           <.link navigate={@logo_url} class="flex items-center flex-shrink-0 px-16 py-3 sm:pt-8">
@@ -175,7 +175,7 @@ defmodule PearlWeb.Components.Sidebar do
     </div>
     <!-- Static sidebar for desktop -->
     <div class="hidden lg:flex lg:flex-shrink-0">
-      <div class={"flex flex-col w-64 border-r #{@border} bg-primary pt-5"}>
+      <div class={"flex flex-col w-64 border-r #{@border} bg-background-dark pt-5"}>
         <.link navigate={@logo_url} class="flex items-center flex-shrink-0 px-16 pt-4 pb-4">
           <img class="hidden w-full h-full dark:block" src={@logo_images.light} />
           <img class="w-full h-full dark:hidden" src={@logo_images.dark} />
@@ -290,7 +290,7 @@ defmodule PearlWeb.Components.Sidebar do
       <div
         id={"#{@id}-dropdown"}
         phx-click-away={hide_user_dropdown("##{@id}-dropdown")}
-        class="absolute left-0 right-0 z-10 hidden mx-3 mb-2 overflow-hidden origin-bottom rounded-md shadow-lg bottom-full bg-light text-primary"
+        class="absolute left-0 right-0 z-10 hidden mx-3 mb-2 overflow-hidden origin-bottom rounded-md shadow-lg bottom-full bg-light text-background-dark"
         role="menu"
         aria-labelledby={@id}
       >
@@ -299,7 +299,7 @@ defmodule PearlWeb.Components.Sidebar do
             <.link
               tabindex="-1"
               role="menuitem"
-              class="block px-4 py-3 font-medium transition-colors bg-light text-primary hover:bg-lightShade"
+              class="block px-4 py-3 font-medium transition-colors bg-light text-background-dark hover:bg-lightShade"
               {link}
             >
               {render_slot(link)}
@@ -338,7 +338,10 @@ defmodule PearlWeb.Components.Sidebar do
           <%= if Map.get(page, :image) do %>
             <div
               src={page.image}
-              class={["mr-3 flex-shrink-0 size-8 bg-primary", @current_page != page.key && "bg-white"]}
+              class={[
+                "mr-3 flex-shrink-0 size-8 bg-background-dark",
+                @current_page != page.key && "bg-white"
+              ]}
               style={"mask: url(#{page.image}) no-repeat center / contain; -webkit-mask: url(#{page.image}) no-repeat center / contain;"}
             />
           <% end %>

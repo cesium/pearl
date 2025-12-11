@@ -119,7 +119,7 @@ defmodule PearlWeb.Landing.Components.Footer do
       %{title: "Oradores & Patrocínios", url: "/speakers", enabled: true},
       %{title: "Desafios", url: "/challenges", enabled: true},
       %{title: "Equipa", url: "/team", enabled: true},
-      %{title: "Informações & Ajuda", url: "/info", enabled: true}
+      %{title: "Informações & Ajuda", url: "/faqs", enabled: true}
     ]
     |> Enum.filter(fn x -> x.enabled end)
   end

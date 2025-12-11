@@ -112,7 +112,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
       </nav>
       <div
         id="mobile-navbar"
-        class="bg-light-muted w-full h-dvh overflow-y-auto absolute top-0 left-0 bottom-0 z-40 flex flex-col"
+        class="bg-background-muted w-full h-dvh overflow-y-auto absolute top-0 left-0 bottom-0 z-40 flex flex-col"
         style="display: none;"
       >
         <div class="w-full flex flex-col items-end px-10 py-12">

@@ -60,6 +60,15 @@
   --color-dark: #09090b;
   --color-dark-muted: #71717a;
   --color-dark-shade: #27272a;
+  --color-dark-blue: #04041c;
+
+  --color-background: var(--color-light);
+  --color-background-muted: var(--color-light-muted);
+  --color-surface: var(--color-light-shade);
+
+  --color-background-dark: var(--color-dark-blue);
+  --color-background-dark-muted: var(--color-dark-shade);
+  --color-surface-dark: var(--color-dark-muted);
 
   --color-lightMuted: #a1a1aa;
   --color-lightShade: #e5e7eb;

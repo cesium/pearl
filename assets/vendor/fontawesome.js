@@ -26,6 +26,7 @@ module.exports = plugin(function({ matchComponents, theme }) {
         "-webkit-mask": `var(--fa-${name})`,
         "mask": `var(--fa-${name})`,
         "mask-repeat": "no-repeat",
+        "mask-position": "center",
         "background-color": "currentColor",
         "vertical-align": "middle",
         "display": "inline-block",

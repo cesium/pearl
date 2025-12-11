@@ -16,20 +16,59 @@
 }
 
 @font-face {
-  font-family: 'Inter-Regular';
-  src: url('/fonts/Inter/Inter-Regular.ttf') format('truetype');
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Bold.ttf') format('truetype');
+  font-weight: 700;
   font-display: swap;
 }
 
 @theme {
-  --color-primary: #04041c;
+  --color-primary: #811824;
+  --color-olive: #56564D;
   --color-accent: #ffdb0d;
   --color-light: #ffffff;
-  --color-light-muted: #a1a1aa;
+  --color-light-muted: #EFEFED;
   --color-light-shade: #e5e7eb;
   --color-dark: #09090b;
   --color-dark-muted: #71717a;
   --color-dark-shade: #27272a;
+  --color-dark-blue: #04041c;
+
+  --color-background: var(--color-light);
+  --color-background-muted: var(--color-light-muted);
+  --color-surface: var(--color-light-shade);
+
+  --color-background-dark: var(--color-dark-blue);
+  --color-background-dark-muted: var(--color-dark-shade);
+  --color-surface-dark: var(--color-dark-muted);
 
   --color-lightMuted: #a1a1aa;
   --color-lightShade: #e5e7eb;
@@ -97,7 +136,7 @@
   --color-info-950: var(--color-blue-950);
 
   --font-terminal: 'Terminal', ui-monospace, monospace;
-  --font-iregular: 'Inter-Regular', ui-sans-serif, sans-serif;
+  --font-grotesk: 'Space Grotesk', ui-sans-serif, sans-serif;
 
   --animate-slide-in: slide-in 1.5s ease-in-out;
   --animate-fade-in: fade-in 0.5s ease-in-out;

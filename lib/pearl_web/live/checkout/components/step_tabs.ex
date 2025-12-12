@@ -1,4 +1,7 @@
 defmodule PearlWeb.Checkout.Components.StepTabs do
+  @moduledoc """
+    Tabs for the checkout flow
+  """
   use PearlWeb, :live_component
 
   @impl true
@@ -8,15 +11,15 @@ defmodule PearlWeb.Checkout.Components.StepTabs do
       <div :for={{tab, i} <- Enum.with_index(@tabs)}>
         <div class={[
           "w-40 flex border-b-2 border-black/5 text-black py-2.5 gap-2",
-          is_current_action(tab, @action) && "border-primary"
+          current_action?(tab, @action) && "border-primary"
         ]}>
           <div class={[
             "w-6 h-6 flex items-center justify-center bg-black/5",
-            is_current_action(tab, @action) && "bg-primary"
+            current_action?(tab, @action) && "bg-primary"
           ]}>
-            <span class={["text-sm", is_current_action(tab, @action) && "text-white"]}>{i + 1}</span>
+            <span class={["text-sm", current_action?(tab, @action) && "text-white"]}>{i + 1}</span>
           </div>
-          <span class={[is_current_action(tab, @action) && "text-primary"]}>
+          <span class={[current_action?(tab, @action) && "text-primary"]}>
             {String.capitalize(Atom.to_string(tab))}
           </span>
         </div>
@@ -37,5 +40,5 @@ defmodule PearlWeb.Checkout.Components.StepTabs do
     {:noreply, socket}
   end
 
-  defp is_current_action(tab, action), do: tab == action
+  defp current_action?(tab, action), do: tab == action
 end

@@ -16,4 +16,10 @@ defmodule PearlWeb.Landing.TicketsLive.Index do
   def handle_params(_unsigned_params, _uri, socket) do
     {:noreply, socket}
   end
+
+  def handle_event("select_ticket", %{"ticket_type_id" => ticket_type_id}, socket) do
+    {:noreply,
+     socket
+     |> push_navigate(to: ~p"/checkout/init?ticket_type_id=#{ticket_type_id}")}
+  end
 end

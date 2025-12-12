@@ -74,6 +74,21 @@ defmodule PearlWeb.Router do
     end
   end
 
+  scope "/checkout", PearlWeb do
+    pipe_through :browser
+
+    get "/init", TicketCheckoutController, :init
+
+    live_session :checkout,
+      on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
+      live "/precautions", Checkout.TicketInformationsLive, :precautions
+      live "/informations", Checkout.TicketInformationsLive, :informations
+      live "/conclusion", Checkout.TicketInformationsLive, :conclusion
+
+      live "/payment", Checkout.PaymentLive, :conclusion
+    end
+  end
+
   scope "/", PearlWeb do
     pipe_through [:browser, :require_authenticated_user]
 

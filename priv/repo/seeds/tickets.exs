@@ -81,7 +81,7 @@ defmodule Pearl.Repo.Seeds.Tickets do
   defp seed_tickets do
     case Repo.all(Ticket) do
       [] ->
-        users = Repo.all(from u in User, where: u.type == :attendee, limit: 20)
+        users = Repo.all(from u in User, where: u.type == :attendee and u.name != "Jonas", limit: 20)
 
         if Enum.empty?(users) do
           Mix.shell().error("No attendee users found. Please create users first.")

@@ -52,10 +52,10 @@ defmodule PearlWeb.UserLoginLive do
           </.simple_form>
         </div>
 
-        <div class="bg-white rounded-full px-8 sm:px-12 md:px-16 py-2 md:py-2 shadow-lg">
-          <div class="flex items-center justify-between gap-3 md:gap-4">
+        <div class="bg-white rounded-full pr-2 pl-8 py-2 shadow-lg">
+          <div class="flex items-center justify-between">
             <div class="text-sm md:text-base text-black/40 shrink">
-              Não consegues entrar?
+              Esqueceste-te da tua palavra-passe?
               <.link
                 href={~p"/users/reset_password"}
                 class="text-primary underline hover:no-underline ml-1"
@@ -67,7 +67,7 @@ defmodule PearlWeb.UserLoginLive do
             <button
               type="submit"
               form="login_form"
-              class="flex items-center justify-center gap-2 px-4 md:px-6 py-3 md:py-4 bg-primary text-white rounded-full text-sm md:text-base font-medium hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0 ml-auto"
+              class="flex items-center justify-center gap-2 px-4 md:px-6 py-3 md:py-4 bg-primary text-white rounded-full text-sm md:text-base font-medium hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0 ml-auto cursor-pointer"
             >
               <.icon name="hero-arrow-right" class="w-3.5 h-3.5 md:w-4 md:h-4" />
               <span>continuar</span>

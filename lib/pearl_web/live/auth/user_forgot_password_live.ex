@@ -18,10 +18,10 @@ defmodule PearlWeb.UserForgotPasswordLive do
               <span class="text-primary font-light text-lg md:text-2xl leading-none">conta</span>
             </div>
 
-            <h1 class="text-3xl md:text-4xl font-bold text-olive leading-tight mb-2">
+            <h1 class="text-3xl md:text-4xl font-semibold text-black leading-tight mb-2">
               Recuperar palavra-passe
             </h1>
-            <p class="text-sm md:text-base text-olive/60">
+            <p class="text-sm md:text-base text-black/40">
               Enviaremos um link de recuperação para o teu email
             </p>
           </div>
@@ -43,8 +43,8 @@ defmodule PearlWeb.UserForgotPasswordLive do
           </.simple_form>
         </div>
 
-        <div class="bg-white rounded-full px-8 sm:px-12 md:px-16 py-2 md:py-2 shadow-lg">
-          <div class="flex items-center justify-between gap-3 md:gap-4">
+        <div class="bg-white rounded-full pr-2 pl-8 py-2 shadow-lg">
+          <div class="flex items-center justify-between">
             <div class="text-sm md:text-base text-black/40 shrink">
               Já tens conta?
               <.link href={~p"/users/log_in"} class="text-primary underline hover:no-underline ml-1">
@@ -55,10 +55,10 @@ defmodule PearlWeb.UserForgotPasswordLive do
             <button
               type="submit"
               form="reset_password_form"
-              class="flex items-center justify-center gap-2 px-4 md:px-6 py-3 md:py-4 bg-primary text-white rounded-full text-sm md:text-base font-medium hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0 ml-auto"
+              class="flex items-center justify-center gap-2 px-4 md:px-6 py-3 md:py-4 bg-primary text-white rounded-full text-sm md:text-base font-medium hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0 ml-auto cursor-pointer"
             >
-              <span>enviar</span>
               <.icon name="hero-arrow-right" class="w-3.5 h-3.5 md:w-4 md:h-4" />
+              <span>enviar</span>
             </button>
           </div>
         </div>

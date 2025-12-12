@@ -11,8 +11,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
      |> assign(:ticket_data, %{})
      |> assign(:ticket_type_id, ticket_type_id)
      |> assign(:form, to_form(Tickets.change_ticket(%Ticket{})))
-     |> assign(:verified_account, false)
-    }
+     |> assign(:verified_account, false)}
   end
 
   def handle_params(params, _url, socket) do
@@ -55,8 +54,8 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     {:noreply,
      socket
      |> assign(:ticket_data, ticket_data)
-     |> assign(:form, to_form(changeset, action: :validate))
-}  end
+     |> assign(:form, to_form(changeset, action: :validate))}
+  end
 
   def handle_event("ticket_data_loaded", %{"data" => data}, socket) when is_map(data) do
     changeset = Tickets.change_ticket(%Ticket{}, data)
@@ -95,17 +94,13 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     changeset = Tickets.change_ticket(%Ticket{}, ticket_data)
 
     {:noreply,
-    socket
-    |> assign(:ticket_data, ticket_data)
-    |> assign(:form, to_form(changeset, action: :validate))}
+     socket
+     |> assign(:ticket_data, ticket_data)
+     |> assign(:form, to_form(changeset, action: :validate))}
   end
 
   def handle_event("payment", _, socket) do
-    if not socket.assigns.verified_account do
-      {:noreply,
-       socket
-       |> put_flash(:error, "Email not verified")}
-    else
+    if socket.assigns.verified_account do
       user_id = socket.assigns.current_user.id
       ticket_type_id = socket.assigns.ticket_type_id
 
@@ -130,17 +125,19 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
            |> push_navigate(to: ~p"/checkout/payment")}
 
         {:error, changeset} ->
-          IO.inspect(changeset.errors)
-
           {:noreply,
            socket
            |> put_flash(:error, "Failed to proccess your ticket")
            |> assign(:form, to_form(changeset, action: :validate))}
       end
+    else
+      {:noreply,
+       socket
+       |> put_flash(:error, "Email not verified")}
     end
   end
 
-  defp get_prev_route(:precautions), do: ~p"/register"
+  # defp get_prev_route(:precautions), do: ~p"/register"
   defp get_prev_route(:informations), do: ~p"/checkout/precautions"
   defp get_prev_route(:conclusion), do: ~p"/checkout/informations"
 

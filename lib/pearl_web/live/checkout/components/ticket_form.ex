@@ -1,4 +1,7 @@
 defmodule PearlWeb.Checkout.Components.TicketForm do
+  @moduledoc """
+    Module for the ticket checkout forms
+  """
   use PearlWeb, :live_component
 
   def render(assigns) do
@@ -136,14 +139,14 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
               ]}
             />
           </div>
-            <.button
-              class="flex place-items-center gap-2 bg-transparent hover:bg-transparent text-primary p-1!"
-              type="button"
-              phx-value={:has_attended_enei_before}
-              phx-click="remove_response"
-            >
+          <.button
+            class="flex place-items-center gap-2 bg-transparent hover:bg-transparent text-primary p-1!"
+            type="button"
+            phx-value={:has_attended_enei_before}
+            phx-click="remove_response"
+          >
             <.icon name="hero-backspace" class="w-5 h-5" /> remove response
-            </.button>
+          </.button>
         </div>
       </.simple_form>
     </div>

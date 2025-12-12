@@ -191,7 +191,6 @@ defmodule PearlWeb.UserAuth do
   def on_mount(:require_confirmed_email, _params, session, socket) do
     {:cont, mount_current_user(socket, session)}
 
-    IO.inspect(socket.assigns)
     {:cont, socket}
   end
 

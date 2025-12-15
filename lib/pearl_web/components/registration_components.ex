@@ -1,4 +1,11 @@
 defmodule PearlWeb.RegistrationComponents do
+  @moduledoc """
+  Provides UI components specific to the user registration flow.
+
+  This module includes the main layout for the registration page (`registration_layout`),
+  the progress stepper (`step_bar`), and other visual elements used exclusively
+  during the attendee sign-up flow.
+  """
   use PearlWeb, :component
 
   import PearlWeb.Landing.Components.Navbar

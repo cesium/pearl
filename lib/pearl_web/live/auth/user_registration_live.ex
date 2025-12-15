@@ -13,6 +13,17 @@ defmodule PearlWeb.UserRegistrationLive do
     default_ticket_id = :general
     selected_ticket = get_ticket_config(default_ticket_id)
 
+    months = [
+      {"Janeiro", 1}, {"Fevereiro", 2}, {"Março", 3}, {"Abril", 4},
+      {"Maio", 5}, {"Junho", 6}, {"Julho", 7}, {"Agosto", 8},
+      {"Setembro", 9}, {"Outubro", 10}, {"Novembro", 11}, {"Dezembro", 12}
+    ]
+
+    current_year = Date.utc_today().year
+    years = (current_year)..(current_year - 100)
+
+    days = 1..31
+
     {:ok,
      socket
      |> assign(trigger_submit: false, check_errors: false)
@@ -22,7 +33,12 @@ defmodule PearlWeb.UserRegistrationLive do
      |> assign(:selected_ticket, selected_ticket)
      |> assign(:current_user, nil)
      |> assign(:registrations_open?, true)
-     |> assign(:pages, [])}
+     |> assign(:universities, Pearl.Catalog.universities())
+     |> assign(:cities, Pearl.Catalog.cities())
+     |> assign(:pages, [])
+     |> assign(:months, months)
+     |> assign(:years, years)
+     |> assign(:days, days)}
   end
 
   defp get_ticket_config(id) do
@@ -84,7 +100,11 @@ defmodule PearlWeb.UserRegistrationLive do
 
   def handle_event("validate", %{"user" => user_params}, socket) do
     changeset = Accounts.change_user_registration(%User{}, user_params)
-    {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}
+    days_range = calculate_days_range(user_params["birth_date"])
+    {:noreply,
+     socket
+     |> assign(:days, days_range)
+     |> assign_form(Map.put(changeset, :action, :validate))}
   end
 
   def handle_event("save", %{"user" => user_params}, socket) do
@@ -121,7 +141,32 @@ defmodule PearlWeb.UserRegistrationLive do
   def step_header(5, _), do: "Já temos tudo. Confirma se está tudo certo e verifica o teu email com o código que enviamos. A seguir, serás redirecionado para o pagamento."
 
   def step_header(_, _), do: ""
+
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     assign(socket, :form, to_form(changeset, as: "user"))
   end
+
+  defp calculate_days_range(%{"year" => y, "month" => m}) when y != "" and m != "" do
+    year = String.to_integer(y)
+    month = String.to_integer(m)
+
+    case Date.new(year, month, 1) do
+
+      {:ok, date} -> 1..Date.days_in_month(date)
+
+      _ -> 1..31
+    end
+  end
+
+  defp calculate_days_range(%{"month" => m}) when m != "" do
+    month = String.to_integer(m)
+
+    case Date.new(Date.utc_today().year, month, 1) do
+      {:ok, date} -> 1..Date.days_in_month(date)
+
+      _ -> 1..31
+    end
+  end
+
+  defp calculate_days_range(_), do: 1..31
 end

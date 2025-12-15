@@ -101,13 +101,26 @@ defmodule PearlWeb.UserRegistrationLive do
     end
   end
 
-  def step_header(1), do: "Bilhete Geral"
-  def step_header(2), do: "Ótimo! Agora precisamos de alguns dados pessoais teus."
-  def step_header(3), do: "Precauções e Alergias"
-  def step_header(4), do: "Informações Adicionais"
-  def step_header(5), do: "Já temos tudo."
-  def step_header(_), do: ""
+  def step_header(step, form \\ nil)
 
+  def step_header(1, _), do: "Bem-vindo ao ENEI, para começar, escolhe o tipo de bilhete que desejas adquirir!"
+  def step_header(2, _), do: "Ótimo! Agora precisamos de alguns dados pessoais teus."
+
+  def step_header(3, form) do
+    first_name =
+      (Phoenix.HTML.Form.input_value(form, :name) || "")
+      |> String.split(" ", trim: true)
+      |> List.first()
+      |> Kernel.||("Participante")
+
+    "Olá, #{first_name}! Se tiveres alguma incapacidade (motora, visual, auditiva) ou alergia alimentar, pedimos que nos informes."
+  end
+
+  def step_header(4, _), do: "Ok! Para finalizar, precisamos de saber mais alguns detalhes, e também temos algumas curiosidades."
+
+  def step_header(5, _), do: "Já temos tudo. Confirma se está tudo certo e verifica o teu email com o código que enviamos. A seguir, serás redirecionado para o pagamento."
+
+  def step_header(_, _), do: ""
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     assign(socket, :form, to_form(changeset, as: "user"))
   end

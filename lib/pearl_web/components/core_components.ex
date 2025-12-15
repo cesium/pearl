@@ -249,34 +249,15 @@ defmodule PearlWeb.CoreComponents do
 
   @doc """
   Renders an input with label and error messages.
-
-  A `Phoenix.HTML.FormField` may be passed as argument,
-  which is used to retrieve the input name, id, and values.
-  Otherwise all attributes may be passed explicitly.
-
-  ## Types
-
-  This function accepts all HTML input types, considering that:
-
-    * You may also set `type="select"` to render a `<select>` tag
-
-    * `type="checkbox"` is used exclusively to render boolean values
-
-    * For live file uploads, see `Phoenix.Component.live_file_input/1`
-
-  See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
-  for more information. Unsupported types, such as hidden and radio,
-  are best written directly in your templates.
-
-  ## Examples
-
-      <.input field={@form[:email]} type="email" />
-      <.input name="my-input" errors={["oh no!"]} />
+  ...
   """
   attr :id, :any, default: nil
   attr :name, :any
   attr :label, :string, default: nil
   attr :value, :any
+
+  # Add this new attribute
+  attr :variant, :atom, values: [:default, :flushed], default: :default
 
   attr :type, :string,
     default: "text",
@@ -370,17 +351,22 @@ defmodule PearlWeb.CoreComponents do
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
       <.label for={@id}>{@label}</.label>
-      <select
-        id={@id}
-        name={@name}
-        class={"mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm #{@class}"}
-        multiple={@multiple}
-        {@rest}
-      >
-        <option :if={@prompt} value="">{@prompt}</option>
-        {Phoenix.HTML.Form.options_for_select(@options, @value)}
-      </select>
-      <.error :for={msg <- @errors}>{msg}</.error>
+      <div class="w-full">
+        <select
+          id={@id}
+          name={@name}
+          class={[
+            input_class(@variant),
+            @class
+          ]}
+          multiple={@multiple}
+          {@rest}
+        >
+          <option :if={@prompt} value="">{@prompt}</option>
+          {Phoenix.HTML.Form.options_for_select(@options, @value)}
+        </select>
+        <.error :for={msg <- @errors}>{msg}</.error>
+      </div>
     </div>
     """
   end
@@ -389,74 +375,67 @@ defmodule PearlWeb.CoreComponents do
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
       <.label for={@id}>{@label}</.label>
-      <textarea
-        id={@id}
-        name={@name}
-        class={[
-          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-          "min-h-[6rem] phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400",
-          @class,
-          @errors == [] && "border-zinc-300 focus:border-zinc-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400"
-        ]}
-        {@rest}
-      ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
-      <.error :for={msg <- @errors}>{msg}</.error>
+      <div class="w-full">
+        <textarea
+          id={@id}
+          name={@name}
+          class={[
+            input_class(@variant),
+            "min-h-24",
+            @class,
+            input_border(@variant, @errors)
+          ]}
+          {@rest}
+        ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
+        <.error :for={msg <- @errors}>{msg}</.error>
+      </div>
     </div>
     """
   end
 
-  def input(%{type: "handle"} = assigns) do
+  def input(assigns) do
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
       <.label for={@id}>{@label}</.label>
-      <div class={[
-        "mt-2 flex bg-white w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-        "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400 select-none",
-        @class,
-        @errors == [] && "border-zinc-300 focus:border-zinc-400",
-        @errors != [] && "border-rose-400 focus:border-rose-400"
-      ]}>
-        <span class="pl-3 self-center text-zinc-600 border-r pr-2 mr-3 border-zinc-400/50">@</span>
+      <div class="w-full">
         <input
           type={@type}
           name={@name}
           id={@id}
           value={Phoenix.HTML.Form.normalize_value(@type, @value)}
           class={[
-            "block w-full border-none focus:outline-none focus:ring-transparent mr-4 text-zinc-900 sm:text-sm sm:leading-6 border-0 ring-0 py-[0.5rem]",
-            @class
+            input_class(@variant),
+            @class,
+            input_border(@variant, @errors)
           ]}
           {@rest}
         />
+        <.error :for={msg <- @errors}>{msg}</.error>
       </div>
-      <.error :for={msg <- @errors}>{msg}</.error>
     </div>
     """
   end
 
-  # All other inputs text, datetime-local, url, password, etc. are handled here...
-  def input(assigns) do
-    ~H"""
-    <div phx-feedback-for={@name} class={@wrapper_class}>
-      <.label for={@id}>{@label}</.label>
-      <input
-        type={@type}
-        name={@name}
-        id={@id}
-        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
-        class={[
-          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400",
-          @class,
-          @errors == [] && "border-zinc-300 focus:border-zinc-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400"
-        ]}
-        {@rest}
-      />
-      <.error :for={msg <- @errors}>{msg}</.error>
-    </div>
-    """
+  defp input_class(:default) do
+    "mt-2 block w-full rounded-lg text-dark focus:ring-0 sm:text-sm sm:leading-6 bg-surface border-0"
+  end
+
+  defp input_class(:flushed) do
+    "block w-full px-0 py-2 border-0 border-b border-dark-muted/30 focus:border-primary focus:ring-0 bg-transparent text-dark placeholder-dark-muted/60 focus:outline-none transition-colors sm:text-sm"
+  end
+
+  defp input_border(:default, errors) do
+    cond do
+      errors == [] -> "border-transparent focus:border-primary"
+      true -> "border-danger-400 focus:border-danger-400"
+    end
+  end
+
+  defp input_border(:flushed, errors) do
+    cond do
+      errors == [] -> ""
+      true -> "border-danger-500 focus:border-danger-500 text-danger-500 placeholder-danger-300"
+    end
   end
 
   @doc """

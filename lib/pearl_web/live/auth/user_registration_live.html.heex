@@ -5,8 +5,8 @@
 
   <:sidebar>
     <div class="h-[625px] w-full flex flex-col justify-between">
-      <p class="text-[17.5px] min-h-8 font-medium text-dark">
-        {step_header(@step)}
+      <p class="text-[17.5px] font-medium text-dark">
+       {step_header(@step, @form)}
       </p>
 
       <%= if @step == 1 do %>

@@ -30,20 +30,20 @@ defmodule PearlWeb.UserRegistrationLiveTest do
     end
 
     test "Registration page renders errors for invalid data", %{conn: conn} do
-    {:ok, lv, _html} = live(conn, ~p"/users/register")
+      {:ok, lv, _html} = live(conn, ~p"/users/register")
 
-    lv
-    |> form("#registration_form", user: %{})
-    |> render_submit()
-
-    result =
       lv
-      |> element("#registration_form")
-      |> render_change(user: %{"email" => "with spaces"})
+      |> form("#registration_form", user: %{})
+      |> render_submit()
 
-    assert result =~ "Inscrição"
-    assert result =~ "must have the @ sign and no spaces"
-  end
+      result =
+        lv
+        |> element("#registration_form")
+        |> render_change(user: %{"email" => "with spaces"})
+
+      assert result =~ "Inscrição"
+      assert result =~ "must have the @ sign and no spaces"
+    end
   end
 
   describe "registration navigation" do

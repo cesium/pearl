@@ -99,6 +99,7 @@ defmodule Pearl.MixProject do
       {:jason, "~> 1.2"},
       {:timex, "~> 3.7.11"},
       {:nimble_csv, "~>1.3.0"},
+      {:live_debugger, "~> 0.5.0", only: :dev},
 
       # server
       {:bandit, "~> 1.8.0"},

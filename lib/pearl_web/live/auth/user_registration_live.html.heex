@@ -6,7 +6,7 @@
   <:sidebar>
     <div class="h-[625px] w-full flex flex-col justify-between">
       <p class="text-[17.5px] font-medium text-dark">
-       {step_header(@step, @form)}
+        {step_header(@step, @form)}
       </p>
 
       <%= if @step == 1 do %>
@@ -26,11 +26,11 @@
             <% name_value = Phoenix.HTML.Form.input_value(@form, :name) %>
             <% initials = get_initials(name_value) %>
             <% has_initials = initials != nil %>
-      
+
             <div class={"absolute inset-0 flex items-center justify-center transition-all duration-500 ease-out transform #{if has_initials, do: "opacity-0 scale-50", else: "opacity-100 scale-100"}"}>
               <.icon name="hero-user" class="text-white size-20" />
             </div>
-      
+
             <div class={"absolute inset-0 flex items-center justify-center transition-all duration-500 ease-out transform #{if has_initials, do: "opacity-100 scale-100", else: "opacity-0 scale-150"}"}>
               <span class="text-white text-6xl font-bold uppercase tracking-widest">
                 {initials}
@@ -118,17 +118,63 @@
               <label class="block text-[17.5px] font-bold text-dark">
                 Data de Nascimento
               </label>
+
+              <% field = @form[:birth_date] %>
+              <% value = Phoenix.HTML.Form.input_value(@form, :birth_date) %>
+
               <div class="flex gap-5">
-                <select class="bg-transparent border-0 border-b border-dark-muted/30 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 w-25 transition-colors">
-                  <option>Dia</option>
-                </select>
-                <select class="bg-transparent border-0 border-b border-dark-muted/30 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 w-40 transition-colors">
-                  <option>Mês</option>
-                </select>
-                <select class="bg-transparent border-0 border-b border-dark-muted/30 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 w-30 transition-colors">
-                  <option>Ano</option>
-                </select>
+                <div class="w-25">
+                  <select
+                    name={field.name <> "[day]"}
+                    id={field.id <> "_day"}
+                    class="w-full bg-transparent border-0 border-b border-dark-muted/30 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
+                  >
+                    <option value="">Dia</option>
+                    <%= for d <- @days do %>
+                      <% selected =
+                        value &&
+                          ((is_map(value) && value["day"] == to_string(d)) ||
+                             (is_struct(value) && value.day == d)) %>
+                      <option value={d} selected={selected}>{d}</option>
+                    <% end %>
+                  </select>
+                </div>
+
+                <div class="w-40">
+                  <select
+                    name={field.name <> "[month]"}
+                    id={field.id <> "_month"}
+                    class="w-full bg-transparent border-0 border-b border-dark-muted/30 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
+                  >
+                    <option value="">Mês</option>
+                    <%= for {name, m} <- @months do %>
+                      <% selected =
+                        value &&
+                          ((is_map(value) && value["month"] == to_string(m)) ||
+                             (is_struct(value) && value.month == m)) %>
+                      <option value={m} selected={selected}>{name}</option>
+                    <% end %>
+                  </select>
+                </div>
+
+                <div class="w-30">
+                  <select
+                    name={field.name <> "[year]"}
+                    id={field.id <> "_year"}
+                    class="w-full bg-transparent border-0 border-b border-dark-muted/30 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
+                  >
+                    <option value="">Ano</option>
+                    <%= for y <- @years do %>
+                      <% selected =
+                        value &&
+                          ((is_map(value) && value["year"] == to_string(y)) ||
+                             (is_struct(value) && value.year == y)) %>
+                      <option value={y} selected={selected}>{y}</option>
+                    <% end %>
+                  </select>
+                </div>
               </div>
+              <.error :for={msg <- field.errors}>{msg}</.error>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-25 items-baseline">
@@ -155,11 +201,11 @@
             </div>
 
             <.input
-              field={@form[:country]}
+              field={@form[:university]}
               type="select"
-              label="País"
-              options={[{"Portugal", "PT"}, {"Brasil", "BR"}]}
-              placeholder="Selecionar país"
+              label="Universidade"
+              options={@universities}
+              prompt="Selecionar instituição"
               variant={:flushed}
               wrapper_class="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-25 items-baseline"
               required
@@ -169,8 +215,8 @@
               field={@form[:city]}
               type="select"
               label="Cidade"
-              options={[{"Lisboa", "Lisboa"}, {"Porto", "Porto"}, {"Braga", "Braga"}]}
-              placeholder="Selecionar distrito"
+              options={@cities}
+              prompt="Selecionar cidade"
               variant={:flushed}
               wrapper_class="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-25 items-baseline"
               required

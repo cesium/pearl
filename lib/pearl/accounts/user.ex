@@ -50,7 +50,7 @@ defmodule Pearl.Accounts.User do
     field :cv, Uploaders.CV.Type
     field :notes, :string
     field :university, :string
-    field :district, :string
+    field :city, :string
     field :dietary_restrictions, :string
 
     # has_one :ticket, Pearl.Tickets.Ticket, on_delete: :delete_all

@@ -48,14 +48,12 @@ defmodule Pearl.Accounts.User do
     field :type, Ecto.Enum, values: [:attendee, :staff, :company], default: :attendee
     field :allows_marketing, :boolean, default: false
     field :cv, Uploaders.CV.Type
-    # The proper type does not exist yet
-    field :ticket_type, :string
     field :notes, :string
     field :university, :string
     field :district, :string
     field :dietary_restrictions, :string
 
-    has_one :ticket, Pearl.Tickets.Ticket, on_delete: :delete_all
+    # has_one :ticket, Pearl.Tickets.Ticket, on_delete: :delete_all
     has_one :attendee, Attendee, on_delete: :delete_all
     has_one :staff, Staff, on_delete: :delete_all, on_replace: :update
     has_one :company, Company, on_delete: :delete_all

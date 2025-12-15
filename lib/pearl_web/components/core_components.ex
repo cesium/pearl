@@ -394,16 +394,18 @@ defmodule PearlWeb.CoreComponents do
   end
 
   defp input_border(:default, errors) do
-    cond do
-      errors == [] -> "border-transparent focus:border-primary"
-      true -> "border-danger-400 focus:border-danger-400"
+    if errors == [] do
+      "border-transparent focus:border-primary"
+    else
+      "border-danger-400 focus:border-danger-400"
     end
   end
 
   defp input_border(:flushed, errors) do
-    cond do
-      errors == [] -> ""
-      true -> "border-danger-500 focus:border-danger-500 text-danger-500 placeholder-danger-300"
+    if errors == [] do
+      ""
+    else
+      "border-danger-500 focus:border-danger-500 text-danger-500 placeholder-danger-300"
     end
   end
 

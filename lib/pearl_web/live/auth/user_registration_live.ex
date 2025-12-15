@@ -3,6 +3,7 @@ defmodule PearlWeb.UserRegistrationLive do
 
   alias Pearl.Accounts
   alias Pearl.Accounts.User
+  alias Phoenix.HTML.Form
 
   import PearlWeb.RegistrationComponents
   import PearlWeb.CoreComponents
@@ -140,7 +141,7 @@ defmodule PearlWeb.UserRegistrationLive do
 
   def step_header(3, form) do
     first_name =
-      (Phoenix.HTML.Form.input_value(form, :name) || "")
+      (Form.input_value(form, :name) || "")
       |> String.split(" ", trim: true)
       |> List.first()
       |> Kernel.||("Participante")

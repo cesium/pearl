@@ -14,13 +14,22 @@ defmodule PearlWeb.UserRegistrationLive do
     selected_ticket = get_ticket_config(default_ticket_id)
 
     months = [
-      {"Janeiro", 1}, {"Fevereiro", 2}, {"Março", 3}, {"Abril", 4},
-      {"Maio", 5}, {"Junho", 6}, {"Julho", 7}, {"Agosto", 8},
-      {"Setembro", 9}, {"Outubro", 10}, {"Novembro", 11}, {"Dezembro", 12}
+      {"Janeiro", 1},
+      {"Fevereiro", 2},
+      {"Março", 3},
+      {"Abril", 4},
+      {"Maio", 5},
+      {"Junho", 6},
+      {"Julho", 7},
+      {"Agosto", 8},
+      {"Setembro", 9},
+      {"Outubro", 10},
+      {"Novembro", 11},
+      {"Dezembro", 12}
     ]
 
     current_year = Date.utc_today().year
-    years = (current_year)..(current_year - 100)
+    years = current_year..(current_year - 100)
 
     days = 1..31
 
@@ -67,7 +76,6 @@ defmodule PearlWeb.UserRegistrationLive do
           %{text: "Pequeno almoço", color: "text-[#8AB5C9]"}
         ]
       }
-
       # depois adciona-se mais aqui
     }
 
@@ -100,7 +108,9 @@ defmodule PearlWeb.UserRegistrationLive do
 
   def handle_event("validate", %{"user" => user_params}, socket) do
     changeset = Accounts.change_user_registration(%User{}, user_params)
+
     days_range = calculate_days_range(user_params["birth_date"])
+
     {:noreply,
      socket
      |> assign(:days, days_range)
@@ -123,7 +133,9 @@ defmodule PearlWeb.UserRegistrationLive do
 
   def step_header(step, form \\ nil)
 
-  def step_header(1, _), do: "Bem-vindo ao ENEI, para começar, escolhe o tipo de bilhete que desejas adquirir!"
+  def step_header(1, _),
+    do: "Bem-vindo ao ENEI, para começar, escolhe o tipo de bilhete que desejas adquirir!"
+
   def step_header(2, _), do: "Ótimo! Agora precisamos de alguns dados pessoais teus."
 
   def step_header(3, form) do
@@ -136,9 +148,13 @@ defmodule PearlWeb.UserRegistrationLive do
     "Olá, #{first_name}! Se tiveres alguma incapacidade (motora, visual, auditiva) ou alergia alimentar, pedimos que nos informes."
   end
 
-  def step_header(4, _), do: "Ok! Para finalizar, precisamos de saber mais alguns detalhes, e também temos algumas curiosidades."
+  def step_header(4, _),
+    do:
+      "Ok! Para finalizar, precisamos de saber mais alguns detalhes, e também temos algumas curiosidades."
 
-  def step_header(5, _), do: "Já temos tudo. Confirma se está tudo certo e verifica o teu email com o código que enviamos. A seguir, serás redirecionado para o pagamento."
+  def step_header(5, _),
+    do:
+      "Já temos tudo. Confirma se está tudo certo e verifica o teu email com o código que enviamos. A seguir, serás redirecionado para o pagamento."
 
   def step_header(_, _), do: ""
 
@@ -151,9 +167,7 @@ defmodule PearlWeb.UserRegistrationLive do
     month = String.to_integer(m)
 
     case Date.new(year, month, 1) do
-
       {:ok, date} -> 1..Date.days_in_month(date)
-
       _ -> 1..31
     end
   end
@@ -161,9 +175,8 @@ defmodule PearlWeb.UserRegistrationLive do
   defp calculate_days_range(%{"month" => m}) when m != "" do
     month = String.to_integer(m)
 
-    case Date.new(Date.utc_today().year, month, 1) do
+    case Date.new(2024, month, 1) do
       {:ok, date} -> 1..Date.days_in_month(date)
-
       _ -> 1..31
     end
   end

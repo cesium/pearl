@@ -1,91 +1,220 @@
-<div class="mx-auto max-w-lg py-2">
-  <div class="px-28 sm:px-40 py-12">
-    <img
-      class="w-full h-full block select-none pointer-events-none"
-      src={~p"/images/star-struck-void.svg"}
-    />
-  </div>
-  <.header class="text-center px-4">
-    <h1 class="text-3xl text-center font-terminal uppercase font-semibold">Event Registration</h1>
-    <:subtitle>
-      {gettext("Already registered?")}
-      <.link navigate={~p"/users/log_in"} class="font-semibold text-accent hover:underline">
-        Log in
-      </.link>
-      {gettext("to your account now")}
-    </:subtitle>
-  </.header>
+<.registration_layout>
+  <:header>
+    <.step_bar current_step={@step} />
+  </:header>
 
-  <.form
-    for={@form}
-    id="registration_form"
-    phx-change="validate"
-    phx-trigger-action={@trigger_submit}
-    action={~p"/users/register"}
-    class="mx-auto w-90 flex flex-col px-6 sm:px-0 sm:grid grid-cols-2 gap-4 py-10"
-  >
-    <.input
-      field={@form[:name]}
-      type="text"
-      label="Name"
-      placeholder="John Doe"
-      autocomplete="off"
-      required
-    />
-    <.input
-      field={@form[:handle]}
-      type="handle"
-      label="Username"
-      autocomplete="off"
-      required
-      placeholder="johndoe"
-    />
-    <.input
-      field={@form[:email]}
-      type="email"
-      label="Email"
-      required
-      wrapper_class="col-span-2"
-      placeholder="john.doe@cesium.pt"
-    />
-    <.input field={@form[:password]} type="password" label="Password" required />
-    <.input
-      field={@form[:password_confirmation]}
-      type="password"
-      label="Confirm Password"
-      required
-    />
+  <:sidebar>
+    <div class="h-[625px] w-full flex flex-col justify-between">
+      <p class="text-[17.5px] min-h-8 font-medium text-dark">
+        {step_header(@step)}
+      </p>
 
-    <.label class="col-span-2 pt-4">
-      <div class="flex">
-        <div class="mr-1 mt-1 pr-2">
-          <.input name="consent" label="" type="checkbox" value={false} required />
+      <%= if @step == 1 do %>
+        <div class="flex items-center justify-center gap-0 px-4">
+          <%= for icon_config <- @selected_ticket.sidebar_icons do %>
+            <div
+              class={"w-12 h-12 flex items-center justify-center #{icon_config.rounded}"}
+              style={"background-color: #{icon_config.bg}"}
+            >
+              <.icon name={icon_config.icon} class="text-white w-6 h-6" />
+            </div>
+          <% end %>
         </div>
+      <% else %>
+        <div class="flex-1 flex items-center justify-center">
+          <div class="relative w-[170px] h-[170px] rounded-full bg-linear-to-b from-gray-200 to-gray-400 shadow-inner overflow-hidden">
+            <% name_value = Phoenix.HTML.Form.input_value(@form, :name) %>
+            <% initials = get_initials(name_value) %>
+            <% has_initials = initials != nil %>
+      
+            <div class={"absolute inset-0 flex items-center justify-center transition-all duration-500 ease-out transform #{if has_initials, do: "opacity-0 scale-50", else: "opacity-100 scale-100"}"}>
+              <.icon name="hero-user" class="text-white size-20" />
+            </div>
+      
+            <div class={"absolute inset-0 flex items-center justify-center transition-all duration-500 ease-out transform #{if has_initials, do: "opacity-100 scale-100", else: "opacity-0 scale-150"}"}>
+              <span class="text-white text-6xl font-bold uppercase tracking-widest">
+                {initials}
+              </span>
+            </div>
+          </div>
+        </div>
+      <% end %>
 
-        <div class="inline">
-          {gettext("I have read and agree to the ")}
-          <.link
-            href={~p"/docs/privacy_policy.pdf"}
-            target="_blank"
-            class="font-semibold text-accent hover:underline"
-          >
-            {gettext("Privacy Policy.")}
-          </.link>
+      <div class="flex justify-end">
+        <div>
+          <span class="grid grid-cols-2 items-baseline gap-1.25">
+            <p class="text-[17.5px] font-normal mb-1.25">Preço atual:</p>
+            <p class="text-[30px] font-bold text-dark">
+              {@total_price}<span class="text-[30px]">€</span>
+            </p>
+          </span>
+          <p class="text-[12.5px] text-dark-muted font-bold mt-1.25 tracking-widest uppercase text-right">
+            INCL. IVA
+          </p>
         </div>
       </div>
-    </.label>
-    <.label class="col-span-2 pb-8">
-      <div class="flex">
-        <div class="mr-1 mt-1 pr-2">
-          <.input label="" type="checkbox" field={@form[:allows_marketing]} />
-        </div>
-        <div class="inline">
-          {gettext("I want to receive marketing emails promoting the event.")}
-        </div>
-      </div>
-    </.label>
-    <div class="col-span-2 w-full flex items-center">
-      <.action_button title="Register" subtitle="" class="mx-12" disabled={@errors} />
     </div>
-  </.form>
-</div>
+  </:sidebar>
+
+  <div class="h-full flex flex-col">
+    <.form
+      for={@form}
+      id="registration_form"
+      phx-change="validate"
+      phx-submit={if @step < 5, do: "next_step", else: "save"}
+      class="flex-1 flex flex-col justify-between min-h-[500px]"
+    >
+      <div class="space-y-8">
+        <%= case @step do %>
+          <% 1 -> %>
+            <div>
+              <h3 class="font-bold text-dark text-lg mb-4">Benefícios deste bilhete:</h3>
+              <ul class="space-y-3 text-dark-muted text-[15px]">
+                <%= for benefit <- @selected_ticket.benefits do %>
+                  <li class="flex items-center gap-3">
+                    <.icon name="hero-check" class={"w-5 h-5 #{benefit.color}"} />
+                    <span>{benefit.text}</span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <hr class="border-gray-200" />
+
+            <div class="flex items-center justify-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+              <p class="text-dark-muted font-bold text-lg text-center opacity-60">
+                ESPACO PARA OS TICKETS (╯°□°)╯︵ ┻━┻
+              </p>
+            </div>
+          <% 2 -> %>
+            <.input
+              field={@form[:name]}
+              label="Nome"
+              placeholder="Nome completo"
+              variant={:flushed}
+              wrapper_class="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-25 items-baseline"
+              required
+            />
+
+            <div class="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-25 items-baseline">
+              <.label for={@form[:email].id} class="text-dark">Email</.label>
+              <div>
+                <.input
+                  field={@form[:email]}
+                  type="email"
+                  placeholder="Endereço de email"
+                  variant={:flushed}
+                  required
+                  label=""
+                />
+                <p class="text-[15px] text-warning-600 mt-2.5 font-medium flex items-center gap-1.25">
+                  <.icon name="hero-information-circle-mini" class="w-5 h-5" />
+                  Vamos verificar o teu email num passo seguinte.
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-25 items-baseline">
+              <label class="block text-[17.5px] font-bold text-dark">
+                Data de Nascimento
+              </label>
+              <div class="flex gap-5">
+                <select class="bg-transparent border-0 border-b border-dark-muted/30 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 w-25 transition-colors">
+                  <option>Dia</option>
+                </select>
+                <select class="bg-transparent border-0 border-b border-dark-muted/30 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 w-40 transition-colors">
+                  <option>Mês</option>
+                </select>
+                <select class="bg-transparent border-0 border-b border-dark-muted/30 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 w-30 transition-colors">
+                  <option>Ano</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-25 items-baseline">
+              <label class="block text-[17.5px] font-bold text-dark">Telefone</label>
+              <div class="flex gap-5">
+                <div class="w-40">
+                  <.input
+                    field={@form[:phone_prefix]}
+                    type="select"
+                    options={[{"PT (+351)", "+351"}, {"ES (+34)", "+34"}]}
+                    variant={:flushed}
+                    label=""
+                  />
+                </div>
+                <div class="flex-1">
+                  <.input
+                    field={@form[:phone_number]}
+                    placeholder="Número de telefone"
+                    variant={:flushed}
+                    label=""
+                  />
+                </div>
+              </div>
+            </div>
+
+            <.input
+              field={@form[:country]}
+              type="select"
+              label="País"
+              options={[{"Portugal", "PT"}, {"Brasil", "BR"}]}
+              placeholder="Selecionar país"
+              variant={:flushed}
+              wrapper_class="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-25 items-baseline"
+              required
+            />
+
+            <.input
+              field={@form[:city]}
+              type="select"
+              label="Cidade"
+              options={[{"Lisboa", "Lisboa"}, {"Porto", "Porto"}, {"Braga", "Braga"}]}
+              placeholder="Selecionar distrito"
+              variant={:flushed}
+              wrapper_class="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-25 items-baseline"
+              required
+            />
+
+            <.input
+              field={@form[:nif]}
+              label="NIF"
+              placeholder="Número de Identificação Fiscal"
+              variant={:flushed}
+              wrapper_class="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-25 items-baseline"
+            />
+          <% 3 -> %>
+            (╯°□°)╯︵ ┻━┻"
+          <% 4 -> %>
+            (╯°□°)╯︵ ┻━┻"
+          <% 5 -> %>
+            (╯°□°)╯︵ ┻━┻"
+          <% _ -> %>
+            <div class="p-12.5 text-center text-dark-muted">
+              Passo {@step} desconhecido (╯°□°)╯︵ ┻━┻
+            </div>
+        <% end %>
+      </div>
+
+      <div class="flex justify-end items-center mt-20 mb-5">
+        <button
+          type="button"
+          phx-click="prev_step"
+          class="flex items-center gap-2.5 bg-primary/20 text-primary/80 hover:text-primary font-medium px-5 py-2.5 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          disabled={@step == 1}
+        >
+          <span>←</span>
+          <span>anterior</span>
+        </button>
+
+        <button
+          type="submit"
+          class="flex items-center gap-2.5 bg-primary hover:bg-primary/90 text-light font-medium px-5 py-2.5 shadow-sm transition-all"
+        >
+          <.icon name="hero-arrow-right" class="h-6.25 w-6.25" />
+          <span>continuar</span>
+        </button>
+      </div>
+    </.form>
+  </div>
+</.registration_layout>

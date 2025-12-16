@@ -65,7 +65,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
           {"O calendário é preenchido ao longo dos quatro dias do ENEI - conhece o tipo de atividades que estarão disponíveis."}
         </p>
       </span>
-      <div class="grid grid-cols-4 gap-1 overflow-hidden border-light-muted border-2">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1 overflow-hidden border-light-muted border-2 max-w-[1180px]">
         <%= for activity <- @activities do %>
           <.activity_card
             img_path={activity["img_path"]}
@@ -74,7 +74,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
             description={activity["description"]}
           />
         <% end %>
-        <div class="relative size-full flex flex-col p-4 gap-6 text-dark-text after:absolute before:absolute after:bg-light-muted before:bg-light-muted after:[inline-size:100vw] before:[inline-size:2px] after:[block-size:2px] before:[block-size:100vh] after:start-0 before:-start-0.5 after:[inset-block-start:-2px] before:[inset-block-start:0]">
+        <div class="relative size-full flex flex-col p-4 gap-6 h-[340px] text-dark-text after:absolute before:absolute after:bg-light-muted before:bg-light-muted after:[inline-size:100vw] before:[inline-size:2px] after:[block-size:2px] before:[block-size:100vh] after:start-0 before:-start-0.5 after:[inset-block-start:-2px] before:[inset-block-start:0]">
           <img
             src="/images/activities/decoration.svg"
             class="absolute left-0 top-0 right-0 bottom-0 size-full object-cover z-10"

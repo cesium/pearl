@@ -3,7 +3,6 @@ defmodule PearlWeb.Landing.Components.Navbar do
   use PearlWeb, :component
 
   import PearlWeb.Components.{Avatar, Dropdown, Button}
-  import PearlWeb.Landing.Components.JoinUs
 
   attr :pages, :list, default: []
   attr :registrations_open?, :boolean, default: false

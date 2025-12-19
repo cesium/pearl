@@ -42,8 +42,20 @@ defmodule PearlWeb.Landing.Components.Navbar do
           </div>
 
           <div class="hidden xl:flex items-center shrink-0">
-            <.secondary_button title="entrar" icon_position="left" icon="hero-user" />
-            <.primary_button title="inscrição" />
+            <.link
+              :if={!@current_user}
+              navigate={~p"/users/log_in"}
+              phx-click={hide_mobile_navbar()}
+            >
+              <.secondary_button title="entrar" icon_position="left" icon="hero-user" />
+            </.link>
+            <.link
+              :if={@registrations_open? && !@current_user}
+              navigate={~p"/users/register"}
+              phx-click={hide_mobile_navbar()}
+            >
+              <.primary_button title="inscrição" />
+            </.link>
           </div>
 
           <div :if={@current_user} class="hidden xl:flex items-center shrink-0">

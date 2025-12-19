@@ -2,7 +2,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
   @moduledoc false
   use PearlWeb, :component
 
-  import PearlWeb.Components.{Avatar, Dropdown,Button}
+  import PearlWeb.Components.{Avatar, Dropdown, Button}
   import PearlWeb.Landing.Components.JoinUs
 
   attr :pages, :list, default: []
@@ -43,7 +43,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
           </div>
 
           <div class="hidden xl:flex items-center shrink-0">
-            <.secondary_button title="entrar" icon_position="left" icon="hero-user"/>
+            <.secondary_button title="entrar" icon_position="left" icon="hero-user" />
             <.primary_button title="inscrição" />
           </div>
 

@@ -4,7 +4,7 @@ defmodule Pearl.Companies.Tier do
   """
   use Pearl.Schema
 
-  @required_fields ~w(name priority)a
+  @required_fields ~w(name priority color)a
   @optional_fields ~w(full_cv_access)a
 
   @derive {Flop.Schema, sortable: [:priority], filterable: []}
@@ -15,6 +15,7 @@ defmodule Pearl.Companies.Tier do
     field :spotlight_multiplier, :float, default: 0.0
     field :max_spotlights, :integer, default: 1
     field :full_cv_access, :boolean, default: false
+    field :color, :string
 
     has_many :companies, Pearl.Companies.Company, foreign_key: :tier_id
 

@@ -86,7 +86,7 @@ defmodule PearlWeb.Components.Button do
       class={[
         "flex items-center justify-center px-6 py-3",
         if(@small, do: "w-[50px] h-[50px]", else: ["w-[139px] h-[43px]", @gap]),
-        "bg-[#811824] text-white hover:bg-[#6b1420] disabled:opacity-50 disabled:cursor-not-allowed",
+        "bg-primary text-white hover:bg-primary/80 disabled:opacity-50 disabled:cursor-not-allowed",
         "font-normal transition-colors font-['Space_Grotesk']",
         @class
       ]}
@@ -123,7 +123,7 @@ defmodule PearlWeb.Components.Button do
       class={[
         "flex items-center justify-center px-6 py-3",
         @gap,
-        "bg-[#81182410] text-[#811824] hover:bg-[#81182420] disabled:opacity-50 disabled:cursor-not-allowed",
+        "bg-primary/10 text-primary hover:bg-primary/20 disabled:opacity-50 disabled:cursor-not-allowed",
         "font-normal transition-colors font-['Space_Grotesk']",
         "w-[125px] h-[43px]",
         @class

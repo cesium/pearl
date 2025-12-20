@@ -1,29 +1,62 @@
-defmodule PearlWeb.Teamcomponent do
+defmodule PearlWeb.Landing.TeamLive.Components.Team do
   @moduledoc """
   Team component.
   """
   use PearlWeb, :component
 
-  attr :team_name, :string, required: true
-  attr :members, :list, required: true
+  attr :teams, :list, required: true
+  attr :current_filter, :atom, required: true
 
   def team(assigns) do
     ~H"""
-    <div class="text-left my-8">
-      <h2 class="text-lg font-terminal uppercase text-white mb-2 font-bold">{@team_name}</h2>
-      <div class="grid grid-cols-3 gap-8">
-        <div :for={member <- @members} class="flex flex-col items-start">
-          <img
-            src={
-              if member.image,
-                do: Uploaders.Member.url({member.image, member}, :original, signed: true),
-                else: "/images/team/placeholder.png"
+    <div class="space-y-14">
+      <div class="mx-auto flex flex-wrap justify-center px-5 py-3.5 bg-white w-fit rounded-3xl gap-8">
+        <%= for {team, index} <- Enum.with_index(Enum.sort_by(@teams, & &1.priority)) do %>
+          <button
+            phx-click="add_filter"
+            phx-value-filter={team.name}
+            class={
+              if @current_filter == team.name do
+                "text-dark/50 font-semibold scale-95 opacity-100 hover:opacity-80 transition-all duration-300 cursor-pointer"
+              else
+                "text-primary hover:text-dark/50 hover:scale-95 transition-all duration-300 cursor-pointer"
+              end
             }
-            alt={"#{member.name}'s photo"}
-            width="210"
-            height="210"
-          />
-          <p class="font-terminal text-md text-white uppercase mb-8 font-bold">{member.name}</p>
+          >
+            {team.name} ({length(team.team_members)})
+          </button>
+        <% end %>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-2.5 justify-items-center">
+        <%= for {team, index} <- Enum.with_index(Enum.sort_by(@teams, & &1.priority)) do %>
+          <%= if (@current_filter == team.name || @current_filter == :all) do %>
+            <%= for member <- team.team_members do %>
+              <.member_card member={member} team_name={team.name} team_color={team.color} />
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    """
+  end
+
+  defp member_card(assigns) do
+    ~H"""
+    <div class="w-full flex flex-col group hover:scale-95 hover:shadow-lg transition-all duration-200 bg-white">
+      <img
+        src={
+          if @member.image,
+            do: Uploaders.Member.url({@member.image, @member}, :original, signed: true),
+            else: "/images/team/placeholder.png"
+        }
+        alt={"#{@member.name}'s photo"}
+        class="w-full aspect-square object-cover"
+      />
+      <div class="bg-white p-4">
+        <p class="text-md font-semibold">{@member.name}</p>
+        <div class="inline-flex gap-2 items-center">
+          <div class="w-5 h-1.5 rounded-md" style={"background-color: #{@team_color}"} />
+          <p>{@team_name}</p>
         </div>
       </div>
     </div>

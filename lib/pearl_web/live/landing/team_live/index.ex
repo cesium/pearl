@@ -2,7 +2,7 @@ defmodule PearlWeb.Landing.TeamLive.Index do
   use PearlWeb, :landing_view
 
   alias Pearl.Teams
-  import PearlWeb.Teamcomponent
+  import PearlWeb.Landing.TeamLive.Components.{PolygonLines, Team}
 
   on_mount {PearlWeb.VerifyFeatureFlag, "team_enabled"}
 
@@ -18,6 +18,14 @@ defmodule PearlWeb.Landing.TeamLive.Index do
     {:ok,
      socket
      |> assign(teams: sorted_teams)
+     |> assign(filter_by: :all)
      |> assign(:current_page, :team)}
+  end
+
+  @impl true
+  def handle_event("add_filter", %{"filter" => filter}, socket) do
+    {:noreply,
+     socket
+     |> assign(filter_by: if(filter != socket.assigns.filter_by, do: filter, else: :all))}
   end
 end

@@ -11,7 +11,8 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
      |> assign(:ticket_data, %{})
      |> assign(:ticket_type_id, ticket_type_id)
      |> assign(:form, to_form(Tickets.change_ticket(%Ticket{})))
-     |> assign(:verified_account, false)}
+     |> assign(:verified_account, true)
+     |> assign(:live_action, :precautions)}
   end
 
   def handle_params(params, _url, socket) do
@@ -89,7 +90,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     end
   end
 
-  def handle_event("remove_response", %{"value" => field}, socket) do
+  def handle_event("remove_response", %{"field" => field}, socket) do
     ticket_data = Map.delete(socket.assigns.ticket_data, field)
     changeset = Tickets.change_ticket(%Ticket{}, ticket_data)
 
@@ -109,7 +110,14 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
         |> Map.put("paid", false)
         |> Map.put("user_id", user_id)
         |> Map.put("ticket_type_id", ticket_type_id)
-        |> Map.update("has_attended_enei_before", false, fn val -> val == "Yes" end)
+        |> Map.update("has_attended_enei_before", nil, fn val -> to_string(val || "") end)
+        |> then(fn attrs ->
+          case Map.get(attrs, "has_allergens") do
+            "no" -> Map.put(attrs, "allergens", "none")
+            "yes" -> attrs
+            _ -> Map.put(attrs, "allergens", "none")
+          end
+        end)
 
       # ISSO AQUI VAI SER ACRESCENTADO QUANDO EU TIVER O REGISTER FORM DO GUI
       # case Accounts.create_attendee() do

@@ -37,7 +37,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
         <div class="w-full h-0.5 bg-black/5"></div>
 
-        <h2 class="font-extrabold text-2xl mb-2">Allergens</h2>
+        <h2 class="font-extrabold text-2xl mb-2">Allergens*</h2>
         <span class="mb-3 block">
           If you have any food allergies, select the corresponding option and list the foods to which you are sensitive.
         </span>
@@ -113,10 +113,11 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
             />
           </div>
           <.button
-            class="flex place-items-center gap-2 bg-transparent hover:bg-transparent text-primary p-1!"
+            class="flex place-items-center gap-2 bg-transparent hover:bg-transparent text-primary p-1! w-fit cursor-pointer transition-opacity disabled:opacity-50 disabled:cursor-default"
             type="button"
-            phx-value={:intended_transport_to_enei}
+            phx-value-field="intended_transport_to_enei"
             phx-click="remove_response"
+            disabled={is_nil(@form.params["intended_transport_to_enei"])}
           >
             <.icon name="hero-backspace" class="w-5 h-5" /> remove response
           </.button>
@@ -140,10 +141,11 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
             />
           </div>
           <.button
-            class="flex place-items-center gap-2 bg-transparent hover:bg-transparent text-primary p-1!"
+            class="flex place-items-center gap-2 bg-transparent hover:bg-transparent text-primary p-1! w-fit cursor-pointer transition-opacity disabled:opacity-50 disabled:cursor-default"
             type="button"
-            phx-value={:has_attended_enei_before}
+            phx-value-field="has_attended_enei_before"
             phx-click="remove_response"
+            disabled={is_nil(@form.params["has_attended_enei_before"])}
           >
             <.icon name="hero-backspace" class="w-5 h-5" /> remove response
           </.button>
@@ -158,18 +160,9 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
     <div class="py-8">
       <h2 class="text-3xl font-bold mb-2">The data you will submit</h2>
       <div>
-        <.data_line key="Disabilities" value={Map.get(@ticket_data, "disabilities")} />
-        <.data_line key="Allergens" value={Map.get(@ticket_data, "allergens") || "No allergies"} />
-        <.data_line key="T-shirt size" value={Map.get(@ticket_data, "tshirt_size")} />
-        <.data_line key="Diet" value={Map.get(@ticket_data, "diet")} />
-        <.data_line
-          key="How are you getting to ENEI?"
-          value={Map.get(@ticket_data, "intended_transport_to_enei") || "No data"}
-        />
-        <.data_line
-          key="Have you been to ENEI before?"
-          value={Map.get(@ticket_data, "has_attended_enei_before") || "No data"}
-        />
+        <%= for {key, value} <- @ticket_data do %>
+          <.data_line key={humanize_key(key)} value={humanize_value(value)} />
+        <% end %>
       </div>
     </div>
     """
@@ -183,4 +176,35 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
     </div>
     """
   end
+
+  defp humanize_key("disabilities"), do: "Disabilities"
+  defp humanize_key("allergens"), do: "Allergens"
+  defp humanize_key("tshirt_size"), do: "T-shirt size"
+  defp humanize_key("diet"), do: "Diet"
+  defp humanize_key("intended_transport_to_enei"), do: "How are you getting to ENEI?"
+  defp humanize_key("has_attended_enei_before"), do: "Have you been to ENEI before?"
+  defp humanize_key(key), do: key
+
+  defp humanize_value("no_restrictions"), do: "No restrictions"
+  defp humanize_value("vegetarian"), do: "Vegetarian"
+  defp humanize_value("vegan"), do: "Vegan"
+  defp humanize_value("xs"), do: "XS"
+  defp humanize_value("s"), do: "S"
+  defp humanize_value("m"), do: "M"
+  defp humanize_value("l"), do: "L"
+  defp humanize_value("xl"), do: "XL"
+  defp humanize_value("xxl"), do: "XXL"
+  defp humanize_value("own_vehicle"), do: "I'll go in my own vehicle"
+  defp humanize_value("someone_else"), do: "I'm getting a ride in someone else's vehicle"
+
+  defp humanize_value("external"),
+    do: "I will be traveling by public transportation outside of ENEI (bus, train, or plane)"
+
+  defp humanize_value("taxi_or_tvde"), do: "I will use a taxi or private hire car service."
+  defp humanize_value("walking"), do: "I'm walking"
+  defp humanize_value("no"), do: "No"
+  defp humanize_value("yes_elsewhere"), do: "Yes, including one or more editions in Braga"
+  defp humanize_value("yes_braga"), do: "Yes, but never an edition in Braga"
+  defp humanize_value(nil), do: "No data"
+  defp humanize_value(value), do: value
 end

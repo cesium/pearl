@@ -42,6 +42,8 @@ defmodule Pearl.Tickets.Ticket do
     field :intended_transport_to_enei, :string
     field :has_attended_enei_before, :string
 
+    field :has_allergens, :string, virtual: true
+
     belongs_to :user, User
     belongs_to :ticket_type, TicketType, on_replace: :delete
 
@@ -60,15 +62,15 @@ defmodule Pearl.Tickets.Ticket do
 
   def changeset_precautions(ticket, attrs) do
     ticket
-    |> cast(attrs, [:disabilities, :allergens])
+    |> cast(attrs, [:disabilities, :allergens, :has_allergens])
+    |> validate_required([:has_allergens])
     |> validate_allergens(attrs)
   end
 
   defp validate_allergens(changeset, attrs) do
-    has_allergens = Map.get(attrs, "has_allergens")
-
-    case has_allergens do
+    case Map.get(attrs, "has_allergens") do
       "yes" -> validate_required(changeset, [:allergens])
+      "no" -> changeset
       _ -> changeset
     end
   end

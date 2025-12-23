@@ -10,17 +10,17 @@ defmodule PearlWeb.Landing.TeamLive.Components.Team do
   def team(assigns) do
     ~H"""
     <div class="space-y-14">
-      <div class="mx-auto flex flex-wrap justify-center px-5 py-3.5 bg-white w-fit rounded-3xl gap-8">
+      <div class="mx-auto flex flex-wrap justify-center p-1 bg-white w-fit rounded-3xl lg:rounded-full gap-2 lg:gap-8">
         <%= for {team, index} <- Enum.with_index(Enum.sort_by(@teams, & &1.priority)) do %>
           <button
             phx-click="add_filter"
             phx-value-filter={team.name}
-            class={
+            class={[
               if @current_filter == team.name do
-                "text-dark/50 font-semibold scale-95 opacity-100 hover:opacity-80 transition-all duration-300 cursor-pointer"
+                "font-semibold bg-primary/10 hover:opacity-70 transition-all duration-200 cursor-pointer"
               else
-                "text-primary hover:text-dark/50 hover:scale-95 transition-all duration-300 cursor-pointer"
-              end
+                "hover:scale-95 transition-all duration-300 cursor-pointer"
+              end, "text-primary px-4 py-3 rounded-3xl"]
             }
           >
             {team.name} ({length(team.team_members)})

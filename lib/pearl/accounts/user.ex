@@ -78,7 +78,10 @@ defmodule Pearl.Accounts.User do
   def registration_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, (@required_fields |> Enum.reject(&(&1 == :type))) ++ @optional_fields)
-    |> validate_required(@required_fields |> Enum.reject(&(&1 in [:email, :password, :handle])))
+    |> validate_required(
+      @required_fields
+      |> Enum.reject(&(&1 in [:email, :password, :handle, :type]))
+    )
     |> validate_email(opts)
     |> validate_handle()
     |> validate_password(opts)

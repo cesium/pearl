@@ -21,7 +21,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.New do
               wrapper_class=""
               required
             />
-            <.button phx-disable-with="Saving...">Save</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save</.backoffice_button>
           </.simple_form>
         </div>
       </.page>

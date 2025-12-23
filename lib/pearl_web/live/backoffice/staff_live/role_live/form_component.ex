@@ -42,7 +42,7 @@ defmodule PearlWeb.Backoffice.StaffLive.RoleLive.FormComponent do
             </div>
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save Role</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Role</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

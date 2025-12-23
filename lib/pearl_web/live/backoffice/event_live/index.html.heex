@@ -1,29 +1,29 @@
 <.page title="Event Settings">
   <:actions>
     <.link patch={~p"/dashboard/event/teams"}>
-      <.button>
+      <.backoffice_button>
         <.icon name="hero-user-group" class="w-5 h-5" />
-      </.button>
+      </.backoffice_button>
     </.link>
     <.link patch={~p"/dashboard/event/faqs"}>
-      <.button>
+      <.backoffice_button>
         <.icon name="hero-lifebuoy" class="w-5 h-5" />
-      </.button>
+      </.backoffice_button>
     </.link>
     <.link patch={~p"/dashboard/event/credentials"}>
-      <.button>
+      <.backoffice_button>
         <.icon name="hero-qr-code" class="w-5 h-5" />
-      </.button>
+      </.backoffice_button>
     </.link>
     <.link patch={~p"/dashboard/event/edit"}>
-      <.button>{gettext("Edit Settings")}</.button>
+      <.backoffice_button>{gettext("Edit Settings")}</.backoffice_button>
     </.link>
 
     <.link href={~p"/downloads/cv_challenge"} target="_blank">
-      <.button>{gettext("CV Challenge")}</.button>
+      <.backoffice_button>{gettext("CV Challenge")}</.backoffice_button>
     </.link>
     <.link patch={~p"/downloads/final_draw"} target="_blank">
-      <.button>{gettext("Export Final Draw CSV")}</.button>
+      <.backoffice_button>{gettext("Export Final Draw CSV")}</.backoffice_button>
     </.link>
   </:actions>
 

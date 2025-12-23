@@ -14,14 +14,14 @@ defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.Index do
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"enrolments" => ["show"]}}>
             <.link navigate={~p"/dashboard/scanner/enrolments/#{@activity_id}"}>
-              <.button>
+              <.backoffice_button>
                 <.icon name="hero-qr-code" class="w-5 h-5" />
-              </.button>
+              </.backoffice_button>
             </.link>
           </.ensure_permissions>
           <.ensure_permissions user={@current_user} permissions={%{"enrolments" => ["edit"]}}>
             <.link navigate={~p"/dashboard/schedule/activities/#{@activity_id}/enrolments/new"}>
-              <.button>New Enrolment</.button>
+              <.backoffice_button>New Enrolment</.backoffice_button>
             </.link>
           </.ensure_permissions>
         </:actions>

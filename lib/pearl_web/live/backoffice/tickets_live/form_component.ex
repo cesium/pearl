@@ -44,7 +44,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.FormComponent do
           </div>
         </div>
         <:actions>
-          <.button phx-disable-with="Saving...">Save Ticket</.button>
+          <.backoffice_button phx-disable-with="Saving...">Save Ticket</.backoffice_button>
         </:actions>
       </.simple_form>
     </div>

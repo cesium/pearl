@@ -12,10 +12,10 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.Index do
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"tickets" => ["edit"]}}>
             <.link navigate={~p"/dashboard/tickets/ticket_types/new"}>
-              <.button>New Ticket Type</.button>
+              <.backoffice_button>New Ticket Type</.backoffice_button>
             </.link>
             <.link navigate={~p"/dashboard/tickets/ticket_types/perks"}>
-              <.button>Perks</.button>
+              <.backoffice_button>Perks</.backoffice_button>
             </.link>
           </.ensure_permissions>
         </:actions>

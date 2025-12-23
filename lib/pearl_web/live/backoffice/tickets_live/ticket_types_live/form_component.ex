@@ -49,7 +49,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
           <input type="hidden" name="ticket_type[perk_ids][]" value="" />
         </div>
         <:actions>
-          <.button phx-disable-with="Saving...">Save Ticket Type</.button>
+          <.backoffice_button phx-disable-with="Saving...">Save Ticket Type</.backoffice_button>
         </:actions>
       </.simple_form>
     </div>

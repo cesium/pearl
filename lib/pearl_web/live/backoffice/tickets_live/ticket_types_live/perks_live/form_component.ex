@@ -28,7 +28,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.FormComponen
         <.field field={@form[:icon]} type="text" label="Icon" />
         <.field field={@form[:color]} type="text" label="Color" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Perk</.button>
+          <.backoffice_button phx-disable-with="Saving...">Save Perk</.backoffice_button>
         </:actions>
       </.simple_form>
     </div>

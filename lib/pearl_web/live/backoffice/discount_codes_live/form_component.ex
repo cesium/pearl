@@ -74,7 +74,7 @@ defmodule PearlWeb.Backoffice.DiscountCodesLive.FormComponent do
         </div>
 
         <:actions>
-          <.button phx-disable-with="Saving...">Save Discount Code</.button>
+          <.backoffice_button phx-disable-with="Saving...">Save Discount Code</.backoffice_button>
         </:actions>
       </.simple_form>
     </div>

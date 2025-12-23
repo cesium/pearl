@@ -259,6 +259,8 @@ defmodule Pearl.Accounts do
 
   """
   def register_attendee_user(attrs) do
+    attrs = attrs |> Map.put("type", :attendee)
+
     Ecto.Multi.new()
     |> Ecto.Multi.insert(
       :user,

@@ -264,7 +264,7 @@ defmodule Pearl.Accounts do
     Ecto.Multi.new()
     |> Ecto.Multi.insert(
       :user,
-      User.registration_changeset(%User{}, Map.delete(attrs, :attendee),
+      User.registration_changeset(%User{}, Map.delete(attrs, "attendee"),
         hash_password: true,
         validate_email: true
       )

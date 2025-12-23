@@ -61,7 +61,7 @@ defmodule Pearl.AccountsTest do
 
     test "validates email and password when given" do
       {:error, _, changeset, _} =
-        Accounts.register_attendee_user(%{email: "not valid", password: "not valid"})
+        Accounts.register_attendee_user(%{"email" => "not valid", "password" => "not valid"})
 
       assert %{
                email: ["must have the @ sign and no spaces"],
@@ -73,7 +73,7 @@ defmodule Pearl.AccountsTest do
       too_long = String.duplicate("db", 100)
 
       {:error, _, changeset, _} =
-        Accounts.register_attendee_user(%{email: too_long, password: too_long})
+        Accounts.register_attendee_user(%{"email" => too_long, "password" => too_long})
 
       assert "should be at most 160 character(s)" in errors_on(changeset).email
       assert "should be at most 72 character(s)" in errors_on(changeset).password
@@ -81,11 +81,11 @@ defmodule Pearl.AccountsTest do
 
     test "validates email uniqueness" do
       %{email: email} = user_fixture()
-      {:error, _, changeset, _} = Accounts.register_attendee_user(%{email: email})
+      {:error, _, changeset, _} = Accounts.register_attendee_user(%{"email" => email})
       assert "has already been taken" in errors_on(changeset).email
 
       # Now try with the upper cased email too, to check that email case is ignored.
-      {:error, _, changeset, _} = Accounts.register_attendee_user(%{email: String.upcase(email)})
+      {:error, _, changeset, _} = Accounts.register_attendee_user(%{"email" => String.upcase(email)})
       assert "has already been taken" in errors_on(changeset).email
     end
 
@@ -94,7 +94,7 @@ defmodule Pearl.AccountsTest do
 
       {:ok, %{user: user}} =
         Accounts.register_attendee_user(
-          Map.put(valid_user_attributes(email: email), :attendee, %{})
+          Map.put(valid_user_attributes(%{"email" => email}), "attendee", %{})
         )
 
       assert user.email == email
@@ -149,7 +149,7 @@ defmodule Pearl.AccountsTest do
       changeset =
         Accounts.change_user_registration(
           %User{},
-          valid_user_attributes(email: email, password: password)
+          valid_user_attributes(%{"email" => email, "password" => password})
         )
 
       assert changeset.valid?

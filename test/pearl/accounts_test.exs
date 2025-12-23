@@ -85,7 +85,9 @@ defmodule Pearl.AccountsTest do
       assert "has already been taken" in errors_on(changeset).email
 
       # Now try with the upper cased email too, to check that email case is ignored.
-      {:error, _, changeset, _} = Accounts.register_attendee_user(%{"email" => String.upcase(email)})
+      {:error, _, changeset, _} =
+        Accounts.register_attendee_user(%{"email" => String.upcase(email)})
+
       assert "has already been taken" in errors_on(changeset).email
     end
 

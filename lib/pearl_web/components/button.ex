@@ -84,8 +84,8 @@ defmodule PearlWeb.Components.Button do
     ~H"""
     <button
       class={[
-        "flex items-center justify-center px-12 py-3",
-        if(@small, do: "w-13 h-13", else: ["w-27 h-9", @gap]),
+        "flex items-center justify-center py-3",
+        if(@small, do: "w-13 h-13", else: ["w-27 px-12 h-9", @gap]),
         "bg-primary text-white hover:bg-primary/80 disabled:opacity-50 disabled:cursor-not-allowed",
         @class
       ]}

@@ -13,16 +13,14 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
       <div class="absolute inset-0 z-0">
         <div
           :if={@selected_speaker && @selected_speaker.picture}
-          class="absolute inset-0 bg-cover bg-center transition-all duration-700"
+          class="absolute inset-0 bg-cover bg-center"
           style={"background-image: url('#{Uploaders.Speaker.url({@selected_speaker.picture, @selected_speaker}, :original, signed: true)}');"}
         >
         </div>
         <div class="absolute inset-0 backdrop-blur-[150px] bg-olive/70"></div>
       </div>
 
-      <%!-- Conteúdo --%>
-      <div class="relative z-10 max-w-7xl mx-auto px-12 py-16 h-screen flex flex-col">
-        <%!-- Header --%>
+      <div class="relative z-10 px-8 lg:px-16 py-16 h-screen flex flex-col">
         <div class="flex justify-between items-start mb-12">
           <div class="max-w-2xl">
             <h1 class="text-5xl font-terminal uppercase text-white mb-4 leading-tight tracking-wide">
@@ -37,14 +35,12 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
               title="conhece os oradores"
               icon="hero-arrow-right"
               icon_position="right"
-              class="!bg-primary !text-white !hover:bg-primary/80 !rounded-md !text-sm"
+              class="!bg-primary !text-white hover:!bg-primary/80 !rounded-none !text-base !w-70 !h-10 !px-8 !py-4 !font-medium"
             />
           </.link>
         </div>
 
-        <%!-- Grid com lista e detalhe --%>
         <div class="grid grid-cols-2 gap-0 relative flex-1 min-h-0">
-          <%!-- Lista de oradores com scroll por hover --%>
           <div
             class="pr-12 overflow-y-auto relative speakers-scroll h-full"
             phx-hook="SpeakerScroll"
@@ -70,20 +66,17 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
             </div>
           </div>
 
-          <%!-- Linha vertical divisória --%>
-          <div class="absolute left-1/2 top-0 bottom-0 w-[2px] bg-white/30 transform -translate-x-1/2">
+          <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-white/30 transform -translate-x-1/2">
           </div>
 
-          <%!-- Detalhe do orador --%>
-          <div class="pl-12 flex flex-col items-center justify-center bg-[#D4C5B9] rounded-lg">
+          <div class="flex flex-col items-end justify-end">
             <div
               :if={@selected_speaker}
-              class="flex flex-col items-center py-12"
+              class="absolute -bottom-16 -right-16 flex flex-col items-center py-24 px-24 bg-[#D4C5B9]"
               id="speaker-detail"
               phx-hook="FadeIn"
             >
-              <%!-- Foto do orador --%>
-              <div class="w-72 h-72 rounded-full overflow-hidden mb-8 shadow-2xl ring-8 ring-black/10">
+              <div class="w-96 h-96 rounded-full overflow-hidden mb-24">
                 <img
                   src={
                     if @selected_speaker.picture do
@@ -99,9 +92,8 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
                 />
               </div>
 
-              <%!-- Informação do orador --%>
-              <div class="text-center max-w-md px-8">
-                <p class="text-gray-800 text-base mb-3">
+              <div class="text-center max-w-xl px-8">
+                <p class="text-gray-800 text-lg mb-4">
                   <span class="font-semibold">{@selected_speaker.title}</span>
                   <span :if={@selected_speaker.company}> na </span>
                   <span :if={@selected_speaker.company} class="font-medium">
@@ -110,7 +102,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
                 </p>
                 <p
                   :if={first_activity(@selected_speaker)}
-                  class="text-gray-600 text-sm leading-relaxed"
+                  class="text-gray-600 text-base leading-relaxed"
                 >
                   Poderás ver o {String.split(@selected_speaker.name) |> List.first()} na tertúlia "{first_activity(
                     @selected_speaker

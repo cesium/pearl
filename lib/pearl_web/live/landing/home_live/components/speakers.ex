@@ -72,7 +72,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           <div class="flex flex-col items-end justify-end">
             <div
               :if={@selected_speaker}
-              class="absolute -bottom-16 -right-16 flex flex-col items-center py-24 px-24 bg-[#D4C5B9]"
+              class="absolute -bottom-16 -right-16 flex flex-col items-center py-24 px-24 bg-white/60"
               id="speaker-detail"
               phx-hook="FadeIn"
             >

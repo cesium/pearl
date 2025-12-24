@@ -3,33 +3,132 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   use PearlWeb, :component
 
   import PearlWeb.Components.Button
-  import PearlWeb.Landing.Components.Speaker
 
   attr :speakers, :list, required: true
+  attr :selected_speaker, :map, default: nil
 
   def speakers(assigns) do
     ~H"""
-    <div class="spacing flex flex-col justify-normal lg:justify-between gap-8 lg:gap-64 pt-20 lg:flex-row">
-      <div class="mb-10 lg:w-1/2">
-        <h2 class="font-terminal uppercase mb-8 select-none text-4xl text-white xs:text-5xl lg:text-6xl">
-          Here's a selection of this year's speakers
-        </h2>
-        <div class="xs:w-70 w-60 sm:w-80">
+    <div class="relative -mx-8 lg:-mx-16 overflow-hidden min-h-screen">
+      <div class="absolute inset-0 z-0">
+        <div
+          :if={@selected_speaker && @selected_speaker.picture}
+          class="absolute inset-0 bg-cover bg-center transition-all duration-700"
+          style={"background-image: url('#{Uploaders.Speaker.url({@selected_speaker.picture, @selected_speaker}, :original, signed: true)}');"}
+        >
+        </div>
+        <div class="absolute inset-0 backdrop-blur-[150px] bg-olive/70"></div>
+      </div>
+
+      <%!-- Conteúdo --%>
+      <div class="relative z-10 max-w-7xl mx-auto px-12 py-16 h-screen flex flex-col">
+        <%!-- Header --%>
+        <div class="flex justify-between items-start mb-12">
+          <div class="max-w-2xl">
+            <h1 class="text-5xl font-terminal uppercase text-white mb-4 leading-tight tracking-wide">
+              Trazemos oradores extraordinários
+            </h1>
+            <p class="text-white/80 text-base">
+              Conhece os oradores que te trarão as palestras incríveis que temos preparadas para ti e sabe mais sobre quem são.
+            </p>
+          </div>
           <.link navigate={~p"/speakers"}>
-            <.action_button title="MEET THE SPEAKERS" title_class="!text-lg !font-iregular font-bold" />
+            <.secondary_button
+              title="conhece os oradores"
+              icon="hero-arrow-right"
+              icon_position="right"
+              class="!bg-primary !text-white !hover:bg-primary/80 !rounded-md !text-sm"
+            />
           </.link>
         </div>
+
+        <%!-- Grid com lista e detalhe --%>
+        <div class="grid grid-cols-2 gap-0 relative flex-1 min-h-0">
+          <%!-- Lista de oradores com scroll por hover --%>
+          <div
+            class="pr-12 overflow-y-auto relative speakers-scroll h-full"
+            phx-hook="SpeakerScroll"
+            id="speakers-scroll-container"
+            style="max-height: calc(100vh - 200px);"
+          >
+            <div class="space-y-1 py-2" id="speakers-list-inner">
+              <div
+                :for={{id, speaker} <- @speakers}
+                id={id}
+                class={[
+                  "py-3 px-4 rounded-md transition-all duration-300 cursor-pointer speaker-item",
+                  if(speaker.selected,
+                    do: "text-white font-bold text-xl bg-white/10",
+                    else: "text-white/50 text-lg hover:text-white/80 font-normal"
+                  )
+                ]}
+                data-speaker-id={speaker.id}
+                phx-click={JS.push("select_speaker", value: %{id: speaker.id})}
+              >
+                {speaker.name}
+              </div>
+            </div>
+          </div>
+
+          <%!-- Linha vertical divisória --%>
+          <div class="absolute left-1/2 top-0 bottom-0 w-[2px] bg-white/30 transform -translate-x-1/2">
+          </div>
+
+          <%!-- Detalhe do orador --%>
+          <div class="pl-12 flex flex-col items-center justify-center bg-[#D4C5B9] rounded-lg">
+            <div
+              :if={@selected_speaker}
+              class="flex flex-col items-center py-12"
+              id="speaker-detail"
+              phx-hook="FadeIn"
+            >
+              <%!-- Foto do orador --%>
+              <div class="w-72 h-72 rounded-full overflow-hidden mb-8 shadow-2xl ring-8 ring-black/10">
+                <img
+                  src={
+                    if @selected_speaker.picture do
+                      Uploaders.Speaker.url({@selected_speaker.picture, @selected_speaker}, :original,
+                        signed: true
+                      )
+                    else
+                      "https://github.com/identicons/#{@selected_speaker.name |> String.slice(0..2)}.png"
+                    end
+                  }
+                  alt={@selected_speaker.name}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+
+              <%!-- Informação do orador --%>
+              <div class="text-center max-w-md px-8">
+                <p class="text-gray-800 text-base mb-3">
+                  <span class="font-semibold">{@selected_speaker.title}</span>
+                  <span :if={@selected_speaker.company}> na </span>
+                  <span :if={@selected_speaker.company} class="font-medium">
+                    {@selected_speaker.company}
+                  </span>
+                </p>
+                <p
+                  :if={first_activity(@selected_speaker)}
+                  class="text-gray-600 text-sm leading-relaxed"
+                >
+                  Poderás ver o {String.split(@selected_speaker.name) |> List.first()} na tertúlia "{first_activity(
+                    @selected_speaker
+                  ).title}", dia {Calendar.strftime(first_activity(@selected_speaker).date, "%d")} às {Calendar.strftime(
+                    first_activity(@selected_speaker).time_start,
+                    "%Hh"
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <ul
-        id="speakers"
-        class="grid grid-cols-2 justify-items-center gap-y-8 gap-x-2 lg:gap-x-8"
-        phx-update="stream"
-      >
-        <li :for={{id, speaker} <- @speakers} id={id}>
-          <.speaker speaker={speaker} />
-        </li>
-      </ul>
     </div>
     """
+  end
+
+  defp first_activity(speaker) do
+    Enum.at(speaker.activities, 0)
   end
 end

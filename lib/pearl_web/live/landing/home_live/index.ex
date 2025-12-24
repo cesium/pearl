@@ -8,7 +8,13 @@ defmodule PearlWeb.Landing.HomeLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    speakers = Enum.take_random(Activities.list_highlighted_speakers(), 6)
+    speakers = Activities.list_highlighted_speakers()
+    first_speaker = List.first(speakers)
+
+    speakers_with_selection =
+      Enum.map(speakers, fn s ->
+        Map.put(s, :selected, first_speaker && s.id == first_speaker.id)
+      end)
 
     {:ok,
      socket
@@ -20,12 +26,31 @@ defmodule PearlWeb.Landing.HomeLive.Index do
      |> assign(:registrations_open?, Event.registrations_open?())
      |> assign(:has_sponsors?, Companies.get_companies_count() > 0)
      |> assign(:has_schedule?, Activities.get_activities_count() > 0)
-     |> stream(:speakers, speakers |> Enum.shuffle())}
+     |> assign(:selected_speaker, first_speaker)
+     |> stream(:speakers, speakers_with_selection)}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, socket |> assign(:params, params)}
+  end
+
+  @impl true
+  def handle_event("select_speaker", %{"id" => id}, socket) do
+    speaker = Activities.get_speaker!(id)
+
+    # Update streams to reflect selection
+    speakers = Activities.list_highlighted_speakers()
+
+    speakers_with_selection =
+      Enum.map(speakers, fn s ->
+        Map.put(s, :selected, s.id == speaker.id)
+      end)
+
+    {:noreply,
+     socket
+     |> assign(:selected_speaker, speaker)
+     |> stream(:speakers, speakers_with_selection, reset: true)}
   end
 
   @impl true

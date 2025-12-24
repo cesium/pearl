@@ -21,7 +21,11 @@
   />
 </div>
 <div class="px-8 md:px-16">
-  <.speakers :if={@has_highlighted_speakers?} speakers={@streams.speakers} />
+  <.speakers
+    :if={@has_highlighted_speakers?}
+    speakers={@streams.speakers}
+    selected_speaker={@selected_speaker}
+  />
   <.sponsors :if={@has_sponsors?} tiers={@tiers} />
   <.partners />
 </div>

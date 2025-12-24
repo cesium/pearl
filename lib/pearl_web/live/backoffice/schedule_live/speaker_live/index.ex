@@ -18,7 +18,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.Index do
             </.link>
           </.ensure_permissions>
         </:actions>
-        <div class="pt-4 flex flex-col gap-2 h-[30.5rem]">
+        <div class="pt-4 flex flex-col gap-2 h-122">
           <.table_search
             id="speaker-table-name-search"
             params={@params}
@@ -36,7 +36,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.Index do
                 />
                 <div class="self-center">
                   <p class="text-base font-semibold">{speaker.name}</p>
-                  <p class="font-normal truncate max-w-[12rem]">{speaker.title}</p>
+                  <p class="font-normal truncate max-w-48">{speaker.title}</p>
                 </div>
               </div>
             </:col>

@@ -350,7 +350,7 @@ defmodule Pearl.Activities do
       ** (Ecto.NoResultsError)
 
   """
-  def get_speaker!(id), do: Repo.get!(Speaker, id)
+  def get_speaker!(id), do: Repo.get!(Speaker, id) |> Repo.preload(:activities)
 
   @doc """
   Creates a speaker.
@@ -448,6 +448,23 @@ defmodule Pearl.Activities do
     Speaker
     |> apply_filters(opts)
     |> where([s], s.highlighted)
+    |> order_by([s], asc: s.name)
+    |> Repo.all()
+    |> Repo.preload(:activities)
+  end
+
+  @doc """
+  Returns the list of all speakers ordered by name.
+
+  ## Examples
+
+      iex> list_speakers_ordered()
+      [%Speaker{}, ...]
+
+  """
+  def list_speakers_ordered do
+    Speaker
+    |> order_by([s], asc: s.name)
     |> Repo.all()
     |> Repo.preload(:activities)
   end

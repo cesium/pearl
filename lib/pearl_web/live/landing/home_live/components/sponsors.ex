@@ -1,12 +1,13 @@
 defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
   @moduledoc false
   use PearlWeb, :component
+  import PearlWeb.Components.Button
 
   alias Pearl.Uploaders
 
   def sponsors(assigns) do
     ~H"""
-    <div class="flex items-center justify-center flex-col py-14.5 bg-[#EFEFED]">
+    <div class="flex items-center justify-center flex-col py-14.5">
       <div class="flex flex-col gap-5 items-center text-black px-4 md:px-8">
         <h2 class="flex font-semibold justify-center text-center text-2xl md:text-3xl max-w-full md:max-w-[580px]">
           {gettext("Um elenco de empresas que abre portas e janelas")}
@@ -21,17 +22,23 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
         <% end %>
       </div>
     </div>
+    <div class="flex justify-center">
+      <.action_button title="conhece os patrocínios" icon="hero-arrow-right" />
+    </div>
     """
   end
 
   def sponsor_segment(assigns) do
     ~H"""
-    <div class="flex flex-col justify-center">
-      <div class="flex w-full flex-col items-center justify-center">
-        <p class="uppercase font-light text-xl" style={"color: #{@tier.color}"}>
+    <div class="flex  flex-col justify-center">
+      <div class="flex w-full flex-row items-start justify-center">
+        <p
+          class="uppercase self-stretch min-w-36 flex flex-col font-light text-xl border-r-2"
+          style={"color: #{@tier.color}; border-color: color-mix(in srgb, #{@tier.color}, transparent 67%);"}
+        >
           <span class="font-semibold">{@tier.name}</span> sponsors
         </p>
-        <div class="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 w-full gap-x-8 gap-y-12 md:gap-x-12.5 md:gap-y-16 items-center justify-items-center pt-8 px-4">
+        <div class="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 w-full gap-x-8 gap-y-12 md:gap-x-12.5 md:gap-y-16 items-start justify-items-center px-4">
           <%= for sponsor <- @sponsors |> Enum.shuffle() do %>
             <.link
               href={sponsor.url}

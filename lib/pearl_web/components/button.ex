@@ -6,10 +6,10 @@ defmodule PearlWeb.Components.Button do
 
   import PearlWeb.CoreComponents
 
-  attr :title, :string, default: ""
-  attr :subtitle, :string, default: ""
+  attr :title, :string, required: true
+  attr :subtitle, :string, default: nil
+  attr :icon, :string, default: "hero-arrow-right"
   attr :disabled, :boolean, default: false
-  attr :icon, :string, default: ""
   attr :class, :string, default: ""
   attr :title_class, :string, default: ""
 
@@ -21,15 +21,37 @@ defmodule PearlWeb.Components.Button do
   def action_button(assigns) do
     ~H"""
     <button
-      class={"m-auto block select-none rounded-full hover:opacity-75 disabled:hover:border-white disabled:hover:text-white disabled:cursor-not-allowed disabled:bg-gray-400 disabled:opacity-75 h-20 w-full border-2 border-white text-white transition-colors hover:border-accent hover:bg-accent/10 hover:text-accent #{@class}"}
       disabled={@disabled}
+      class={[
+        "group flex items-center justify-between min-w-64 p-2",
+        "rounded-full bg-background-muted transition-all",
+        "hover:bg-background-muted/80",
+        "disabled:opacity-50 disabled:cursor-not-allowed",
+        @class
+      ]}
       {@rest}
     >
-      <%= if @icon != "" do %>
-        <.icon name={@icon} />
-      <% end %>
-      <p class={"uppercase font-terminal text-2xl #{@title_class}"}>{@title}</p>
-      <p class="font-terminal">{@subtitle}</p>
+      <div class="flex flex-col items-center mx-auto px-4">
+        <span class={[
+          "text-dark text-md lowercase tracking-tight leading-tight",
+          @title_class
+        ]}>
+          {@title}
+        </span>
+
+        <%= if @subtitle do %>
+          <span class="text-xs opacity-70 font-terminal lowercase">
+            {@subtitle}
+          </span>
+        <% end %>
+      </div>
+
+      <div
+        :if={@icon != ""}
+        class="flex items-center justify-center size-10 shrink-0 rounded-full bg-primary text-white transition-transform group-hover:scale-105 group-disabled:scale-100"
+      >
+        <.icon name={@icon} class="size-5" />
+      </div>
     </button>
     """
   end

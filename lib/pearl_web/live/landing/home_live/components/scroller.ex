@@ -7,16 +7,16 @@ defmodule PearlWeb.Landing.HomeLive.Components.Scroller do
   """
 
   attr :text, :string, required: true
-  attr :speed, :string, default: "20s"
   attr :pausable, :boolean, default: true
   attr :class, :string, default: nil
 
   def scroller(assigns) do
     ~H"""
+    <div class="flex flex-row">
     <div class={["relative flex w-full font-thin overflow-hidden bg-light py-7 group", @class]}>
       <div
         class="flex whitespace-nowrap scroller-content"
-        style={"animation: infinite-scroll #{@speed} linear infinite;"}
+        style={"animation: infinite-scroll 15s linear infinite;"}
       >
         <div class="flex shrink-0 items-center gap-10 px-7">
           <%= for _ <- 1..5 do %>
@@ -37,6 +37,8 @@ defmodule PearlWeb.Landing.HomeLive.Components.Scroller do
 
       <div class="absolute inset-y-0 left-0 w-96 bg-linear-to-r from-light to-transparent pointer-events-none"></div>
       <div class="absolute inset-y-0 right-0 w-96 bg-linear-to-l from-light to-transparent pointer-events-none"></div>
+    </div>
+    <button class="bg-light" >LEMBRA-ME BOI</button>
     </div>
     """
   end

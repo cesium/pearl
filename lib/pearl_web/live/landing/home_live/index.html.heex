@@ -1,4 +1,4 @@
-<div class="xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
+<div class="bg-background-muted xl:px-60 md:px-32 px-10">
   <.hero
     event_start_date={@event_start_date}
     event_end_date={@event_end_date}
@@ -6,7 +6,13 @@
   />
   <.pitch :if={@has_schedule? || @has_highlighted_speakers? || @has_sponsors?} />
 </div>
-<div class="px-5 md:px-32 xl:px-32 pt-20">
+<div>
+  <.scroller
+    text={gettext("as inscrições abrem no dia 5 de janeiro")}
+    pausable={true}
+  />
+</div>
+<div class="bg-light px-5 md:px-32 xl:px-32 pt-20">
   <.live_component
     :if={@has_schedule?}
     id={:schedule}
@@ -20,7 +26,7 @@
     current_user={@current_user}
   />
 </div>
-<div class="px-8 md:px-16">
+<div class="bg-light px-8 md:px-16">
   <.speakers :if={@has_highlighted_speakers?} speakers={@streams.speakers} />
   <.sponsors :if={@has_sponsors?} tiers={@tiers} />
   <.partners />

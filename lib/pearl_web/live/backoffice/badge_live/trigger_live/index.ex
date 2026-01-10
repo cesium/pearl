@@ -2,6 +2,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.TriggerLive.Index do
   use PearlWeb, :live_component
 
   alias Pearl.Contest
+  import PearlWeb.Components.Button
 
   @impl true
   def render(assigns) do
@@ -10,7 +11,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.TriggerLive.Index do
       <.page title={@title} subtitle={gettext("Attendee actions can trigger badge redeems.")}>
         <:actions>
           <.link navigate={~p"/dashboard/badges/#{@badge.id}/triggers/new"}>
-            <.button>New Trigger</.button>
+            <.backoffice_button>New Trigger</.backoffice_button>
           </.link>
         </:actions>
 

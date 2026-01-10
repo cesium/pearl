@@ -10,7 +10,7 @@
       />
       <.ensure_permissions user={@current_user} permissions={%{"challenges" => ["edit"]}}>
         <.link patch={~p"/dashboard/minigames/challenges/new"}>
-          <.button>New Challenge</.button>
+          <.backoffice_button>New Challenge</.backoffice_button>
         </.link>
       </.ensure_permissions>
     </div>

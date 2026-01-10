@@ -75,7 +75,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
             </div>
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save Speaker</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Speaker</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

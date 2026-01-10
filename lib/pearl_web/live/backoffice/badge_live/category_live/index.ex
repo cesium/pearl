@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.CategoryLive.Index do
   use PearlWeb, :live_component
 
   alias Pearl.Contest
-  import PearlWeb.Components.EnsurePermissions
+  import PearlWeb.Components.{Button, EnsurePermissions}
 
   @impl true
   def render(assigns) do
@@ -12,7 +12,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.CategoryLive.Index do
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"badges" => ["edit"]}}>
             <.link navigate={~p"/dashboard/badges/categories/new"}>
-              <.button>New Category</.button>
+              <.backoffice_button>New Category</.backoffice_button>
             </.link>
           </.ensure_permissions>
         </:actions>

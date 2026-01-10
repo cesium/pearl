@@ -3,6 +3,8 @@ defmodule PearlWeb.App.CredentialLive.Edit do
 
   alias Pearl.Accounts
 
+  import PearlWeb.Components.Button
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}

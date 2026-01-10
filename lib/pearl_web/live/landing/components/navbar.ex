@@ -2,8 +2,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
   @moduledoc false
   use PearlWeb, :component
 
-  import PearlWeb.Components.{Avatar, Dropdown}
-  import PearlWeb.Landing.Components.JoinUs
+  import PearlWeb.Components.{Avatar, Dropdown, Button}
 
   attr :pages, :list, default: []
   attr :registrations_open?, :boolean, default: false
@@ -46,14 +45,17 @@ defmodule PearlWeb.Landing.Components.Navbar do
             <.link
               :if={!@current_user}
               navigate={~p"/users/log_in"}
-              class="flex items-center gap-2 h-10 px-5 border border-primary bg-primary/10 text-primary text-sm transition-all hover:bg-primary/20"
+              phx-click={hide_mobile_navbar()}
             >
-              <.icon name="hero-user" class="h-4 w-4" />
-              <span>entrar</span>
+              <.secondary_button title="entrar" icon_position="left" icon="hero-user" />
             </.link>
-            <div :if={@registrations_open? && !@current_user}>
-              <.join_us />
-            </div>
+            <.link
+              :if={@registrations_open? && !@current_user}
+              navigate={~p"/users/register"}
+              phx-click={hide_mobile_navbar()}
+            >
+              <.primary_button title="inscrição" />
+            </.link>
           </div>
 
           <div :if={@current_user} class="hidden xl:flex items-center shrink-0">

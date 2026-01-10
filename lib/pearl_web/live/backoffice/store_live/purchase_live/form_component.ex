@@ -17,22 +17,22 @@ defmodule PearlWeb.Backoffice.PurchaseLive.FormComponent do
         </p>
 
         <div class="flex flex-row w-full gap-2">
-          <.button
+          <.backoffice_button
             phx-click="cancel"
             phx-target={@myself}
             class="w-full flex flex-row items-center justify-center"
           >
             <.icon name="hero-x-circle" class="w-5 h-5 mr-2" />
             {gettext("Cancel")}
-          </.button>
-          <.button
+          </.backoffice_button>
+          <.backoffice_button
             phx-click="confirm-action"
             phx-target={@myself}
             class="w-full flex flex-row items-center justify-center"
           >
             <.icon name="hero-check-circle" class="w-5 h-5 mr-2" />
             {confirmation_button(@action)}
-          </.button>
+          </.backoffice_button>
         </div>
       </div>
     </div>

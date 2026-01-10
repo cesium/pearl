@@ -4,6 +4,8 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Index do
   alias Pearl.Companies
   alias Pearl.Spotlights
 
+  import PearlWeb.Components.Button
+
   @impl true
   def mount(_params, _session, socket) do
     case Spotlights.get_current_spotlight() do

@@ -1,10 +1,11 @@
-<div class="xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
+<div>
   <.hero
     event_start_date={@event_start_date}
     event_end_date={@event_end_date}
     registrations_open?={@registrations_open?}
   />
-  <.pitch :if={@has_schedule? || @has_highlighted_speakers? || @has_sponsors?} />
+  <.announcement_bar />
+  <.venue_section />
 </div>
 <div class="px-5 md:px-32 xl:px-32 pt-20">
   <.live_component

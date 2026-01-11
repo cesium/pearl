@@ -18,15 +18,14 @@ defmodule PearlWeb.Components.Button do
       ~w(csrf_token download form href hreflang method name navigate patch referrerpolicy rel replace target type value autofocus tabindex),
     doc: "Arbitrary HTML or phx attributes."
 
-  def action_button(assigns) do
+  def navigate_button(assigns) do
     ~H"""
-    <button
-      disabled={@disabled}
+    <.link
       class={[
         "group flex items-center justify-between min-w-64 p-2",
         "rounded-full bg-background-muted transition-all",
         "hover:bg-background-muted/80",
-        "disabled:opacity-50 disabled:cursor-not-allowed",
+        @disabled && "opacity-50 cursor-not-allowed pointer-events-none",
         @class
       ]}
       {@rest}
@@ -48,10 +47,38 @@ defmodule PearlWeb.Components.Button do
 
       <div
         :if={@icon != ""}
-        class="flex items-center justify-center size-10 shrink-0 rounded-full bg-primary text-white transition-transform group-hover:scale-105 group-disabled:scale-100"
+        class="flex items-center justify-center size-10 shrink-0 rounded-full bg-primary text-white transition-transform group-hover:scale-105"
       >
         <.icon name={@icon} class="size-5" />
       </div>
+    </.link>
+    """
+  end
+
+  attr :title, :string, default: ""
+  attr :subtitle, :string, default: ""
+  attr :disabled, :boolean, default: false
+  attr :icon, :string, default: ""
+  attr :class, :string, default: ""
+  attr :title_class, :string, default: ""
+
+  attr :rest, :global,
+    include:
+      ~w(csrf_token download form href hreflang method name navigate patch referrerpolicy rel replace target type value autofocus tabindex),
+    doc: "Arbitrary HTML or phx attributes."
+
+  def action_button(assigns) do
+    ~H"""
+    <button
+      class={"m-auto block select-none rounded-full hover:opacity-75 disabled:hover:border-white disabled:hover:text-white disabled:cursor-not-allowed disabled:bg-gray-400 disabled:opacity-75 h-20 w-full border-2 border-white text-white transition-colors hover:border-accent hover:bg-accent/10 hover:text-accent #{@class}"}
+      disabled={@disabled}
+      {@rest}
+    >
+      <%= if @icon != "" do %>
+        <.icon name={@icon} />
+      <% end %>
+      <p class={"uppercase font-terminal text-2xl #{@title_class}"}>{@title}</p>
+      <p class="font-terminal">{@subtitle}</p>
     </button>
     """
   end

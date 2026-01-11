@@ -23,7 +23,8 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
       </div>
     </div>
     <div class="flex justify-center">
-      <.action_button title="conhece os patrocínios" icon="hero-arrow-right" />
+      <%!-- Falta mudar o navigate ja que nao tenho sponsors --%>
+      <.navigate_button title="conhece os patrocínios" icon="hero-arrow-right" navigate={~p"/"} />
     </div>
     """
   end

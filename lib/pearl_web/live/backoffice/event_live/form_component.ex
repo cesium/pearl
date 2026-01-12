@@ -1,7 +1,7 @@
 defmodule PearlWeb.Backoffice.EventLive.FormComponent do
   use PearlWeb, :live_component
 
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button, Forms}
 
   alias Pearl.Event
   alias PearlWeb.Helpers
@@ -51,12 +51,12 @@ defmodule PearlWeb.Backoffice.EventLive.FormComponent do
             <.field field={@form[:start_time]} type="datetime-local" label="Start Date/Time" required />
           </div>
           <:actions>
-            <.button
+            <.backoffice_button
               data-confirm="Do you want to save these changes? It can break stuff if you are not careful"
               phx-disable-with="Saving..."
             >
               {gettext("Save Settings")}
-            </.button>
+            </.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

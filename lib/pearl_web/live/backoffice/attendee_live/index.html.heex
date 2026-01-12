@@ -6,21 +6,21 @@
           user={@current_user}
           permissions={%{"attendees" => ["show_leaderboard"]}}
         >
-          <.button>
+          <.backoffice_button>
             <span class="flex flex-row items-center gap-2">
               <.icon name="hero-trophy" class="w-5 h-5" />
               <span class="hidden sm:block">{gettext("Leaderboard")}</span>
             </span>
-          </.button>
+          </.backoffice_button>
         </.ensure_permissions>
       </.link>
       <.link patch={~p"/downloads/attendees"} target="_blank">
-        <.button>
+        <.backoffice_button>
           <span class="flex flex-row items-center gap-2">
             <.icon name="hero-cloud-arrow-down" class="w-5 h-5" />
             <span class="hidden sm:block">{gettext("Export attendees")}</span>
           </span>
-        </.button>
+        </.backoffice_button>
       </.link>
       <.table_search
         id="attendees-table-name-search"

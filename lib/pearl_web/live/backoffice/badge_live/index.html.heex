@@ -10,20 +10,20 @@
       />
       <.ensure_permissions user={@current_user} permissions={%{"badges" => ["edit"]}}>
         <.link patch={~p"/dashboard/badges/new"}>
-          <.button>New Badge</.button>
+          <.backoffice_button>New Badge</.backoffice_button>
         </.link>
         <.link patch={~p"/dashboard/badges/import"}>
-          <.button>
+          <.backoffice_button>
             <.icon name="hero-arrow-up-tray" class="w-5 h-5" />
-          </.button>
+          </.backoffice_button>
         </.link>
       </.ensure_permissions>
 
       <.ensure_permissions user={@current_user} permissions={%{"badges" => ["show"]}}>
         <.link patch={~p"/dashboard/badges/categories"}>
-          <.button>
+          <.backoffice_button>
             <.icon name="hero-tag" class="w-5 h-5" />
-          </.button>
+          </.backoffice_button>
         </.link>
       </.ensure_permissions>
     </div>

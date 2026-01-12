@@ -9,9 +9,9 @@
         placeholder={gettext("Search by name")}
       />
       <.link href={~p"/downloads/cvs"} target="_blank" class="sm:flex hidden">
-        <.button>
+        <.backoffice_button>
           {gettext("Download CVs")}
-        </.button>
+        </.backoffice_button>
       </.link>
       <.simple_form :if={@all_enabled} for={@form} phx-change="validate" class="sm:flex hidden">
         <.field field={@form[:all]} type="switch" label="All" wrapper_class="pb-2" />
@@ -24,9 +24,9 @@
       <.field field={@form[:all]} type="switch" label="All" wrapper_class="pb-2" />
     </.simple_form>
     <.link href={~p"/downloads/cvs"} target="_blank" class="justify-end">
-      <.button>
+      <.backoffice_button>
         {gettext("Download CVs")}
-      </.button>
+      </.backoffice_button>
     </.link>
   </div>
 

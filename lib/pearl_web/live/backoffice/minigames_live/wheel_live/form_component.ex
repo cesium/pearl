@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Wheel.FormComponent do
   @moduledoc false
   use PearlWeb, :live_component
 
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button, Forms}
 
   alias Ecto.Changeset
   alias Pearl.Minigames
@@ -16,9 +16,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Wheel.FormComponent do
       >
         <:actions>
           <.link navigate={~p"/dashboard/minigames/wheel/drops"}>
-            <.button>
+            <.backoffice_button>
               <.icon name="hero-table-cells" class="w-5" />
-            </.button>
+            </.backoffice_button>
           </.link>
         </:actions>
         <div class="my-8">
@@ -48,7 +48,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Wheel.FormComponent do
               />
             </div>
             <div class="flex flex-row-reverse">
-              <.button phx-disable-with="Saving...">Save Configuration</.button>
+              <.backoffice_button phx-disable-with="Saving...">Save Configuration</.backoffice_button>
             </div>
           </.form>
         </div>

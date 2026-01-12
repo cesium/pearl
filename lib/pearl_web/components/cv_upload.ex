@@ -47,7 +47,7 @@ defmodule PearlWeb.Components.CVUpload do
           <%= if @in_app do %>
             <.action_button title="Upload" phx-disable-with="Uploading..." />
           <% else %>
-            <.button phx-disable-with="Uploading...">Upload</.button>
+            <.backoffice_button phx-disable-with="Uploading...">Upload</.backoffice_button>
           <% end %>
         </:actions>
       </.simple_form>

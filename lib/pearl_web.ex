@@ -102,6 +102,7 @@ defmodule PearlWeb do
         layout: {PearlWeb.Layouts, :backoffice}
 
       import PearlWeb.Components.Avatar
+      import PearlWeb.Components.Button
       import PearlWeb.Components.EnsurePermissions
       import PearlWeb.BackofficeHelpers
 
@@ -131,6 +132,7 @@ defmodule PearlWeb do
     quote do
       use Phoenix.LiveComponent
       import PearlWeb.Components.Avatar
+      import PearlWeb.Components.Button
       unquote(html_helpers())
     end
   end

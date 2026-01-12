@@ -43,7 +43,7 @@ defmodule PearlWeb.Backoffice.ProductLive.FormComponent do
             </div>
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save Product</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Product</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

@@ -2,76 +2,78 @@ defmodule PearlWeb.UserLoginLive do
   use PearlWeb, :auth_view
 
   alias Pearl.Event
+  alias PearlWeb.Components.Button
 
   def render(assigns) do
     ~H"""
     <div class="flex items-center justify-center min-h-screen px-4 py-8">
-      <div class="w-full max-w-sm md:max-w-xl space-y-3 md:space-y-4">
-        <div class="bg-white rounded-4xl px-8 sm:px-12 md:px-16 py-10 md:py-14 shadow-lg">
-          <div class="mb-8 md:mb-10">
-            <div class="flex items-center gap-2 mb-5 md:mb-7">
-              <img
-                src="/images/enei-logo.svg"
-                alt="ENEI Logo"
-                class="h-5 md:h-6 w-auto pb-1"
-              />
-              <span class="text-primary font-light text-lg md:text-2xl leading-none">conta</span>
+      <div class="w-full max-w-[1000px]">
+        <div class="bg-white rounded-4xl px-8 sm:px-12 md:px-16 py-10 md:py-14 shadow-lg min-h-[420px] flex flex-col">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 grow">
+            <div>
+              <h1 class="text-3xl md:text-4xl font-semibold text-black leading-tight mb-6 md:mb-8">
+                Iniciar sessão
+              </h1>
+
+              <p class="text-sm md:text-base text-black/60 leading-relaxed">
+                Na tua conta do ENEI está a tua credencial, os teus jogos e os teus prémios. Inicia sessão para descobrires o mundo a tua espera.
+              </p>
             </div>
 
-            <h1 class="text-4xl md:text-4xl font-semibold text-black leading-tight">
-              Iniciar sessão
-            </h1>
+            <div>
+              <.simple_form
+                for={@form}
+                id="login_form"
+                action={
+                  ~p"/users/log_in?action=#{@action || ""}&action_id=#{@action_id || ""}&return_to=#{@return_to || ""}"
+                }
+                phx-update="ignore"
+                class="space-y-5 md:space-y-6"
+              >
+                <div>
+                  <.input
+                    field={@form[:email]}
+                    type="email"
+                    placeholder="E-mail ou número de telefone"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <.input
+                    field={@form[:password]}
+                    type="password"
+                    placeholder="Palavra-passe"
+                    required
+                  />
+                </div>
+
+                <div class="pt-2">
+                  <.input
+                    field={@form[:remember_me]}
+                    type="checkbox"
+                    label="Manter sessão iniciada"
+                    class="w-4 h-4 border-2 border-black/20 rounded text-primary focus:ring-primary focus:ring-offset-0"
+                    wrapper_class="[&_label]:text-sm [&_label]:md:text-base [&_label]:text-black/60"
+                  />
+                </div>
+              </.simple_form>
+            </div>
           </div>
 
-          <.simple_form
-            for={@form}
-            id="login_form"
-            action={
-              ~p"/users/log_in?action=#{@action || ""}&action_id=#{@action_id || ""}&return_to=#{@return_to || ""}"
-            }
-            phx-update="ignore"
-            class="space-y-5 md:space-y-6 mb-32 md:mb-60"
-          >
-            <div>
-              <.input
-                field={@form[:email]}
-                type="email"
-                placeholder="E-mail ou número de telefone"
-                required
-              />
-            </div>
+          <div class="flex justify-end mt-auto pt-8">
+            <Button.primary_button
+              title="continuar"
+              icon="hero-arrow-right"
+              phx-click={JS.dispatch("submit", to: "#login_form")}
+            />
 
-            <div>
-              <.input
-                field={@form[:password]}
-                type="password"
-                placeholder="Palavra-passe"
-                required
-              />
-            </div>
-          </.simple_form>
-        </div>
-
-        <div class="bg-white rounded-full pr-2 pl-8 py-2 shadow-lg">
-          <div class="flex items-center justify-between">
-            <div class="text-sm md:text-base text-black/40 shrink">
-              Esqueceste-te da tua palavra-passe?
-              <.link
-                href={~p"/users/reset_password"}
-                class="text-primary underline hover:no-underline ml-1"
-              >
-                Carrega aqui
-              </.link>
-            </div>
-
-            <button
-              type="submit"
-              form="login_form"
-              class="flex items-center justify-center gap-2 px-4 md:px-6 py-3 md:py-4 bg-primary text-white rounded-full text-sm md:text-base font-medium hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0 ml-auto cursor-pointer"
-            >
-              <.icon name="hero-arrow-right" class="w-3.5 h-3.5 md:w-4 md:h-4" />
-              <span>continuar</span>
-            </button>
+            <Button.secondary_button
+              title="não consigo entrar"
+              no_icon
+              class="px-4!"
+              phx-click={JS.navigate(~p"/users/reset_password")}
+            />
           </div>
         </div>
       </div>

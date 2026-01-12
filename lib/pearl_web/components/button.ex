@@ -108,10 +108,12 @@ defmodule PearlWeb.Components.Button do
 
       <.secondary_button title="Continue" />
       <.secondary_button title="Next" icon_position="left" />
+      <.secondary_button title="Help" no_icon />
   """
   attr :title, :string, required: true
   attr :icon, :string, default: "hero-arrow-left"
   attr :icon_position, :string, default: "right", values: ["left", "right"]
+  attr :no_icon, :boolean, default: false
   attr :gap, :string, default: "gap-1.5"
   attr :class, :string, default: nil
   attr :rest, :global, include: ~w(disabled phx-click phx-disable-with phx-target)
@@ -121,19 +123,24 @@ defmodule PearlWeb.Components.Button do
     <button
       class={[
         "flex items-center justify-center px-12 py-3",
-        @gap,
+        if(@no_icon, do: "", else: @gap),
         "bg-primary/10 text-primary hover:bg-primary/20 disabled:opacity-50 disabled:cursor-not-allowed",
-        "w-22 h-9",
+        if(@no_icon, do: "w-auto whitespace-nowrap", else: "w-22"),
+        "h-9",
         @class
       ]}
       {@rest}
     >
-      <%= if @icon_position == "left" do %>
-        <.icon name={@icon} class="w-4 h-4 shrink-0" />
+      <%= if @no_icon do %>
         <span class="text-base">{assigns.title}</span>
       <% else %>
-        <span class="text-base">{assigns.title}</span>
-        <.icon name={@icon} class="w-4 h-4 shrink-0" />
+        <%= if @icon_position == "left" do %>
+          <.icon name={@icon} class="w-4 h-4 shrink-0" />
+          <span class="text-base">{assigns.title}</span>
+        <% else %>
+          <span class="text-base">{assigns.title}</span>
+          <.icon name={@icon} class="w-4 h-4 shrink-0" />
+        <% end %>
       <% end %>
     </button>
     """

@@ -11,6 +11,7 @@ defmodule PearlWeb.Landing.FAQLive.Index do
     {:ok,
      socket
      |> assign(:current_page, :faqs)
+     |> assign(:event_start_date, Event.get_event_start_date())
      |> stream(:faqs, Event.list_faqs())}
   end
 end

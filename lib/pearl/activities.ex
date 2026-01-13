@@ -441,20 +441,18 @@ defmodule Pearl.Activities do
   end
 
   defp calculate_dominant_color(path) do
-    try do
-      case Image.open(path) do
-        {:ok, image} ->
-          case Image.dominant_color(image) do
-            {:ok, [r, g, b | _]} -> %{r: r, g: g, b: b}
-            _ -> %{r: 129, g: 24, b: 36}
-          end
+    case Image.open(path) do
+      {:ok, image} ->
+        case Image.dominant_color(image) do
+          {:ok, [r, g, b | _]} -> %{r: r, g: g, b: b}
+          _ -> %{"r" => 129, "g" => 24, "b" => 36}
+        end
 
-        _ ->
-          %{r: 129, g: 24, b: 36}
-      end
-    rescue
-      _ -> %{r: 129, g: 24, b: 36}
+      _ ->
+        %{"r" => 129, "g" => 24, "b" => 36}
     end
+  rescue
+    _ -> %{"r" => 129, "g" => 24, "b" => 36}
   end
 
   @doc """

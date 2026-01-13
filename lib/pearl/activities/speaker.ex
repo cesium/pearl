@@ -21,7 +21,7 @@ defmodule Pearl.Activities.Speaker do
     field :company, :string
     field :biography, :string
     field :highlighted, :boolean, default: false
-    field :dominant_color, :map, default: %{r: 129, g: 24, b: 36}
+    field :dominant_color, :map, default: %{"r" => 129, "g" => 24, "b" => 36}
 
     embeds_one :socials, Activities.Speaker.Socials
 

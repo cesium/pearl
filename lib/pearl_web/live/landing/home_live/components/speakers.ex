@@ -236,17 +236,17 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   end
 
   defp text_class(color) do
-    if is_light_color?(color), do: "text-dark", else: "text-light"
+    if light_color?(color), do: "text-dark", else: "text-light"
   end
 
   defp bg_style(%{"r" => r, "g" => g, "b" => b}), do: "--r: #{r}; --g: #{g}; --b: #{b};"
   defp bg_style(_), do: "--r: 26; --g: 26; --b: 46;"
 
-  defp is_light_color?(%{"r" => r, "g" => g, "b" => b}) do
+  defp light_color?(%{"r" => r, "g" => g, "b" => b}) do
     (r * 299 + g * 587 + b * 114) / 1000 > 155
   end
 
-  defp is_light_color?(_), do: false
+  defp light_color?(_), do: false
 
   defp speaker_image_url(speaker) do
     if speaker.picture,

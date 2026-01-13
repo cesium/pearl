@@ -5,49 +5,49 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
   def activities(assigns) do
     activities = [
       %{
-        "img_path" => "/images/activities/stands.png",
+        "img_path" => "/images/activities/stands.webp",
         "icon_name" => "hero-briefcase",
         "title" => "Stands",
         "description" =>
           "As empresas terão balcões pelo recinto para poderes conhecer as oportunidades que têm para ti."
       },
       %{
-        "img_path" => "/images/activities/talks.png",
+        "img_path" => "/images/activities/talks.webp",
         "icon_name" => "hero-presentation-chart-line",
         "title" => "Talks",
         "description" =>
-          "As empresas terão balcões pelo recinto para poderes conhecer as oportunidades que têm para ti."
+          "Palestras temáticas dadas por oradores convidados especiais de empresas de renome."
       },
       %{
-        "img_path" => "/images/activities/workshops.png",
+        "img_path" => "/images/activities/workshops.webp",
         "icon_name" => "hero-wrench-screwdriver",
         "title" => "Workshops",
         "description" =>
-          "As empresas terão balcões pelo recinto para poderes conhecer as oportunidades que têm para ti."
+          "Atividades interativas organizadas por oradores e empresas que te convidam a “meter as mãos na massa”."
       },
       %{
-        "img_path" => "/images/activities/panel-discussions.png",
+        "img_path" => "/images/activities/panel-discussions.webp",
         "icon_name" => "hero-user-group",
         "title" => "Panel Discussions",
         "description" =>
           "Tertúlios com múltiplos convidados que discutem um assunto entre si, criando um momento de aprendizagem."
       },
       %{
-        "img_path" => "/images/activities/pitch.png",
+        "img_path" => "/images/activities/pitch.webp",
         "icon_name" => "hero-megaphone",
         "title" => "Pitch",
         "description" =>
           "Durante 15 minutos, vais ouvir sobre a experiência de trabalho numa empresa - aí, podes deixar o teu contacto."
       },
       %{
-        "img_path" => "/images/activities/gameshows.png",
+        "img_path" => "/images/activities/gameshows.webp",
         "icon_name" => "hero-puzzle-piece",
         "title" => "Gameshows",
         "description" =>
           "Concursos ao vivo nos quais podes ser tanto espectador como participante - e, possivelmente, premiado!"
       },
       %{
-        "img_path" => "/images/activities/eventos-sociais.png",
+        "img_path" => "/images/activities/eventos-sociais.webp",
         "icon_name" => "hero-chat-bubble-left-right",
         "title" => "Eventos sociais",
         "description" =>
@@ -58,11 +58,13 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
     assigns = assign(assigns, :activities, activities)
 
     ~H"""
-    <div class="px-[52px] pb-[70px] pt-[60px] w-full flex flex-col items-center gap-10 bg-white">
+    <div class="pb-12 pt-3 w-full flex flex-col items-center gap-10 bg-white">
       <span class="flex flex-col gap-3.5 items-center text-dark-text max-w-[755px] text-center">
-        <h1 class="text-[32px] font-semibold">{"Há sempre algo para fazer"}</h1>
+        <h1 class="text-[32px] font-semibold">{"São quatro dias preenchidos"}</h1>
         <p>
-          {"O calendário é preenchido ao longo dos quatro dias do ENEI - conhece o tipo de atividades que estarão disponíveis."}
+          {gettext(
+            "Durante o ENEI, nunca te faltará o que fazer. Conhece os tipos de atividades que temos e vê o calendário detalhado."
+          )}
         </p>
       </span>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1 overflow-hidden border-light-muted border-2 max-w-[1180px]">
@@ -81,10 +83,9 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
           />
           <div class="flex flex-col justify-end h-full z-20 pb-3 px-3">
             <p class="font-grotesk text-sm text-black/50">
-              {"Imagens da SEI ‘25 - Semena da Engenharia Informática 2025 em Braga, organizada também pelo CeSIUM."}
-              <a href="#" class="text-primary underline">
-                {"Sabe mais sobre o papel do CeSIUM no ENEI"}
-              </a>
+              {gettext(
+                "Imagens da SEI ‘25 - Semena da Engenharia Informática 2025 em Braga, organizada também pelo CeSIUM."
+              )}
             </p>
           </div>
         </div>

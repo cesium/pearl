@@ -67,18 +67,18 @@ defmodule PearlWeb.UserLoginLiveTest do
       assert login_html =~ "Register"
     end
 
-    test "redirects to forgot password page when the Forgot Password button is clicked", %{
+    test "redirects to forgot password page when the 'não consigo entrar' button is clicked", %{
       conn: conn
     } do
       {:ok, lv, _html} = live(conn, ~p"/users/log_in")
 
-      {:ok, conn} =
+      {:ok, _forgot_lv, forgot_html} =
         lv
-        |> element("main a", "Carrega aqui")
+        |> element("button", "não consigo entrar")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/reset_password")
 
-      assert conn.resp_body =~ "Recuperar palavra-passe"
+      assert forgot_html =~ "Recuperar palavra-passe"
     end
   end
 end

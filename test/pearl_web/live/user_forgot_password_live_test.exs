@@ -9,10 +9,10 @@ defmodule PearlWeb.UserForgotPasswordLiveTest do
 
   describe "Forgot password page" do
     test "renders email page", %{conn: conn} do
-      {:ok, lv, html} = live(conn, ~p"/users/reset_password")
+      {:ok, _lv, html} = live(conn, ~p"/users/reset_password")
 
       assert html =~ "Recuperar palavra-passe"
-      assert has_element?(lv, ~s|a[href="#{~p"/users/log_in"}"]|, "Entra aqui")
+      assert html =~ "Enviaremos um link de recuperação para o teu email"
     end
 
     test "redirects if already logged in", %{conn: conn} do

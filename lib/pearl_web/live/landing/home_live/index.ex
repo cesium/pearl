@@ -8,7 +8,13 @@ defmodule PearlWeb.Landing.HomeLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    speakers = Enum.take_random(Activities.list_highlighted_speakers(), 6)
+    speakers = Activities.list_speakers_for_showcase()
+
+    {selected_speaker, selected_activity} =
+      case speakers do
+        [%{speaker: speaker, activity: activity} | _] -> {speaker, activity}
+        _ -> {nil, nil}
+      end
 
     {:ok,
      socket
@@ -20,7 +26,9 @@ defmodule PearlWeb.Landing.HomeLive.Index do
      |> assign(:registrations_open?, Event.registrations_open?())
      |> assign(:has_sponsors?, Companies.get_companies_count() > 0)
      |> assign(:has_schedule?, Activities.get_activities_count() > 0)
-     |> stream(:speakers, speakers |> Enum.shuffle())}
+     |> assign(:speakers, speakers)
+     |> assign(:selected_speaker, selected_speaker)
+     |> assign(:selected_activity, selected_activity)}
   end
 
   @impl true
@@ -31,5 +39,25 @@ defmodule PearlWeb.Landing.HomeLive.Index do
   @impl true
   def handle_info({:update_flash, {flash_type, msg}}, socket) do
     {:noreply, put_flash(socket, flash_type, msg)}
+  end
+
+  @impl true
+  def handle_event("select_speaker", %{"speaker-id" => id}, socket) do
+    found_item =
+      Enum.find(socket.assigns.speakers, fn %{speaker: s} ->
+        s.id == id
+      end)
+
+    case found_item do
+      %{speaker: speaker, activity: activity} ->
+        {:noreply,
+         socket
+         |> assign(:selected_speaker, speaker)
+         |> assign(:selected_activity, activity)}
+
+      nil ->
+        IO.puts("Speaker with ID #{inspect(id)} not found")
+        {:noreply, socket}
+    end
   end
 end

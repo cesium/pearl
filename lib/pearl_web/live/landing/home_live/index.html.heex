@@ -20,8 +20,12 @@
     current_user={@current_user}
   />
 </div>
-<div class="px-8 md:px-16">
-  <.speakers :if={@has_highlighted_speakers?} speakers={@streams.speakers} />
+<div class="md:px-16">
+  <.speakers
+    speakers={@speakers}
+    selected_speaker={@selected_speaker}
+    selected_activity={@selected_activity}
+  />
   <.sponsors :if={@has_sponsors?} tiers={@tiers} />
   <.partners />
 </div>

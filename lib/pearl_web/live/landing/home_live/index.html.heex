@@ -6,6 +6,7 @@
   />
   <.pitch :if={@has_schedule? || @has_highlighted_speakers? || @has_sponsors?} />
 </div>
+<.activities />
 <div class="px-5 md:px-32 xl:px-32 pt-20">
   <.live_component
     :if={@has_schedule?}

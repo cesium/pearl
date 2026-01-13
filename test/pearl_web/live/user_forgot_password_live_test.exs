@@ -40,7 +40,8 @@ defmodule PearlWeb.UserForgotPasswordLiveTest do
         |> render_submit()
         |> follow_redirect(conn, "/")
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "If your email is in our system"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
+               "Se o teu email estiver no nosso sistema"
 
       assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context ==
                "reset_password"
@@ -55,7 +56,9 @@ defmodule PearlWeb.UserForgotPasswordLiveTest do
         |> render_submit()
         |> follow_redirect(conn, "/")
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "If your email is in our system"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
+               "Se o teu email estiver no nosso sistema"
+
       assert Repo.all(Accounts.UserToken) == []
     end
   end

@@ -7,16 +7,20 @@ defmodule PearlWeb.UserForgotPasswordLive do
   def render(assigns) do
     ~H"""
     <div class="flex items-center justify-center min-h-screen px-4 py-8">
-      <div class="w-full max-w-[1000px]">
+      <div class="w-full max-w-[1000px] relative">
+        <div class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-full z-10 -mb-2.5">
+          <img src="/images/braga_door.svg" alt="" class="w-16 h-auto" />
+        </div>
+
         <div class="bg-white rounded-4xl px-8 sm:px-12 md:px-16 py-10 md:py-14 shadow-lg min-h-[420px] flex flex-col">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 grow">
             <div>
               <h1 class="text-3xl md:text-4xl font-semibold text-black leading-tight mb-6 md:mb-8 wrap-break-word">
-                Recuperar palavra-passe
+                {gettext("Recuperar palavra-passe")}
               </h1>
 
               <p class="text-sm md:text-base text-black/60 leading-relaxed">
-                Enviaremos um link de recuperação para o teu email
+                {gettext("Enviaremos um link de recuperação para o teu email")}
               </p>
             </div>
 
@@ -31,7 +35,7 @@ defmodule PearlWeb.UserForgotPasswordLive do
                   <.input
                     field={@form[:email]}
                     type="email"
-                    placeholder="E-mail"
+                    placeholder={gettext("E-mail")}
                     required
                   />
                 </div>
@@ -41,7 +45,7 @@ defmodule PearlWeb.UserForgotPasswordLive do
 
           <div class="flex justify-end mt-auto pt-8">
             <Button.primary_button
-              title="continuar"
+              title={gettext("continuar")}
               icon="hero-arrow-right"
               phx-click={JS.dispatch("submit", to: "#reset_password_form")}
             />

@@ -7,16 +7,22 @@ defmodule PearlWeb.UserLoginLive do
   def render(assigns) do
     ~H"""
     <div class="flex items-center justify-center min-h-screen px-4 py-8">
-      <div class="w-full max-w-[1000px]">
+      <div class="w-full max-w-[1000px] relative">
+        <div class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-full z-10 -mb-2.5">
+          <img src="/images/braga_door.svg" alt="" class="w-16 h-auto" />
+        </div>
+
         <div class="bg-white rounded-4xl px-8 sm:px-12 md:px-16 py-10 md:py-14 shadow-lg min-h-[420px] flex flex-col">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 grow">
             <div>
               <h1 class="text-3xl md:text-4xl font-semibold text-black leading-tight mb-6 md:mb-8">
-                Iniciar sessão
+                {gettext("Iniciar sessão")}
               </h1>
 
               <p class="text-sm md:text-base text-black/60 leading-relaxed">
-                Na tua conta do ENEI está a tua credencial, os teus jogos e os teus prémios. Inicia sessão para descobrires o mundo a tua espera.
+                {gettext(
+                  "Na tua conta do ENEI está a tua credencial, os teus jogos e os teus prémios. Inicia sessão para descobrires o mundo a tua espera."
+                )}
               </p>
             </div>
 
@@ -34,7 +40,7 @@ defmodule PearlWeb.UserLoginLive do
                   <.input
                     field={@form[:email]}
                     type="email"
-                    placeholder="E-mail ou número de telefone"
+                    placeholder={gettext("E-mail ou número de telefone")}
                     required
                   />
                 </div>
@@ -43,7 +49,7 @@ defmodule PearlWeb.UserLoginLive do
                   <.input
                     field={@form[:password]}
                     type="password"
-                    placeholder="Palavra-passe"
+                    placeholder={gettext("Palavra-passe")}
                     required
                   />
                 </div>
@@ -52,7 +58,7 @@ defmodule PearlWeb.UserLoginLive do
                   <.input
                     field={@form[:remember_me]}
                     type="checkbox"
-                    label="Manter sessão iniciada"
+                    label={gettext("Manter sessão iniciada")}
                     class="w-4 h-4 border-2 border-black/20 rounded text-primary focus:ring-primary focus:ring-offset-0"
                     wrapper_class="[&_label]:text-sm [&_label]:md:text-base [&_label]:text-black/60"
                   />
@@ -63,15 +69,14 @@ defmodule PearlWeb.UserLoginLive do
 
           <div class="flex justify-end mt-auto pt-8">
             <Button.primary_button
-              title="continuar"
+              title={gettext("continuar")}
               icon="hero-arrow-right"
               phx-click={JS.dispatch("submit", to: "#login_form")}
             />
 
             <Button.secondary_button
-              title="não consigo entrar"
+              title={gettext("não consigo entrar")}
               no_icon
-              class="px-4!"
               phx-click={JS.navigate(~p"/users/reset_password")}
             />
           </div>

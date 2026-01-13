@@ -163,6 +163,26 @@
   }
 }
 
+@property --r { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --g { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --b { syntax: '<number>'; inherits: false; initial-value: 0; }
+
+.dynamic-gradient-bg {
+  transition: --r 0.4s ease-in-out, --g 0.4s ease-in-out, --b 0.4s ease-in-out;
+
+  --base-color: rgb(var(--r), var(--g), var(--b));
+
+  --c-highlight: color-mix(in srgb, var(--base-color), white 20%);
+  --c-deep:      color-mix(in srgb, var(--base-color), black 30%);
+  --c-shadow:    color-mix(in srgb, var(--base-color), black 60%);
+  
+  background-color: var(--c-deep);
+  background-image:
+    radial-gradient(circle at 50% 0%, var(--c-highlight) 0%, transparent 80%),
+    radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--base-color), transparent 50%) 0%, transparent 60%),
+    linear-gradient(165deg, var(--base-color) 0%, var(--c-deep) 60%, var(--c-shadow) 100%);
+}
+
 /* Add variants based on LiveView classes */
 @custom-variant phx-no-feedback (.phx-no-feedback&, .phx-no-feedback &);
 @custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);

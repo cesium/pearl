@@ -5,6 +5,19 @@ defmodule Pearl.Repo.Seeds.Activities do
   alias Pearl.Activities.{Activity, ActivityCategory, Speaker}
   alias Pearl.Event
 
+@placeholder_colors [
+  %{r: 26,  g: 26,  b: 46},   # #1a1a2e (Deep Navy)
+  %{r: 22,  g: 33,  b: 62},   # #16213e
+  %{r: 15,  g: 52,  b: 96},   # #0f3460
+  %{r: 83,  g: 52,  b: 131},  # #533483
+  %{r: 233, g: 69,  b: 96},   # #e94560
+  %{r: 124, g: 58,  b: 237},  # #7c3aed
+  %{r: 37,  g: 99,  b: 235},  # #2563eb
+  %{r: 5,   g: 150, b: 105},  # #059669
+  %{r: 217, g: 119, b: 6},    # #d97706
+  %{r: 255, g: 255, b: 255}   # #ffffff (White)
+]
+
   def run do
     seed_event_schedule_config()
 
@@ -79,6 +92,7 @@ defmodule Pearl.Repo.Seeds.Activities do
         company: Faker.Company.name(),
         biography: Faker.Lorem.paragraph(3),
         highlighted: i > 24,
+        dominant_color: Enum.random(@placeholder_colors),
         socials: %{
           x: handle |> String.slice(0..14),
           linkedin: handle,
@@ -184,140 +198,34 @@ defmodule Pearl.Repo.Seeds.Activities do
 
   defp first_day_seed_data do
     [
-      %{
-        title: "Opening Ceremony",
-        time_start: ~T[10:00:00],
-        time_end: ~T[11:00:00],
-        location: "CP2 - B1",
-        type: :none
-      },
-      %{
-        title: "Prizes and Contests",
-        time_start: ~T[11:00:00],
-        time_end: ~T[11:30:00],
-        location: "CP2 - B1",
-        type: :none
-      },
-      %{
-        title: "Coffee Break",
-        time_start: ~T[11:30:00],
-        time_end: ~T[12:00:00],
-        type: :break,
-      },
-      %{
-        time_start: ~T[12:00:00],
-        time_end: ~T[13:00:00],
-        type: :talk,
-      },
-      %{
-        title: "Lunch Break",
-        time_start: ~T[13:00:00],
-        time_end: ~T[14:00:00],
-        type: :break,
-      },
-      %{
-        time_start: ~T[14:00:00],
-        time_end: ~T[15:00:00],
-        type: :talk
-      },
-      %{
-        time_start: ~T[15:00:00],
-        time_end: ~T[16:00:00],
-        type: :talk
-      },
-      %{
-        title: "Coffee Break",
-        time_start: ~T[16:00:00],
-        time_end: ~T[16:30:00],
-        type: :break,
-      },
-      %{
-        time_start: ~T[16:30:00],
-        time_end: ~T[16:45:00],
-        type: :pitch,
-      },
-      %{
-        time_start: ~T[16:45:00],
-        time_end: ~T[17:00:00],
-        type: :pitch,
-      },
-      %{
-        time_start: ~T[17:00:00],
-        time_end: ~T[18:00:00],
-        type: :gameshow
-      }
+      %{title: "Opening Ceremony", time_start: ~T[10:00:00], time_end: ~T[11:00:00], location: "CP2 - B1", type: :none},
+      %{title: "Prizes and Contests", time_start: ~T[11:00:00], time_end: ~T[11:30:00], location: "CP2 - B1", type: :none},
+      %{title: "Coffee Break", time_start: ~T[11:30:00], time_end: ~T[12:00:00], type: :break},
+      %{time_start: ~T[12:00:00], time_end: ~T[13:00:00], type: :talk},
+      %{title: "Lunch Break", time_start: ~T[13:00:00], time_end: ~T[14:00:00], type: :break},
+      %{time_start: ~T[14:00:00], time_end: ~T[15:00:00], type: :talk},
+      %{time_start: ~T[15:00:00], time_end: ~T[16:00:00], type: :talk},
+      %{title: "Coffee Break", time_start: ~T[16:00:00], time_end: ~T[16:30:00], type: :break},
+      %{time_start: ~T[16:30:00], time_end: ~T[16:45:00], type: :pitch},
+      %{time_start: ~T[16:45:00], time_end: ~T[17:00:00], type: :pitch},
+      %{time_start: ~T[17:00:00], time_end: ~T[18:00:00], type: :gameshow}
     ]
   end
 
   defp last_days_seed_data do
     [
-      %{
-        time_start: ~T[09:00:00],
-        time_end: ~T[11:00:00],
-        location: "CP2 - 0.14",
-        type: :workshop
-      },
-      %{
-        time_start: ~T[09:00:00],
-        time_end: ~T[11:00:00],
-        location: "CP2 - 0.15",
-        type: :workshop
-      },
-      %{
-        time_start: ~T[09:00:00],
-        time_end: ~T[11:00:00],
-        location: "CP2 - 0.17",
-        type: :workshop
-      },
-      %{
-        title: "Coffee Break",
-        time_start: ~T[11:00:00],
-        time_end: ~T[11:30:00],
-        type: :break,
-      },
-      %{
-        time_start: ~T[11:30:00],
-        time_end: ~T[12:30:00],
-        location: "CP2 - B1",
-        type: :talk
-      },
-      %{
-        title: "Lunch Break",
-        time_start: ~T[12:30:00],
-        time_end: ~T[14:00:00],
-        type: :break,
-      },
-      %{
-        time_start: ~T[14:00:00],
-        time_end: ~T[15:00:00],
-        type: :talk
-      },
-      %{
-        time_start: ~T[15:00:00],
-        time_end: ~T[16:00:00],
-        type: :talk
-      },
-      %{
-        title: "Coffee Break",
-        time_start: ~T[16:00:00],
-        time_end: ~T[16:30:00],
-        type: :break,
-      },
-      %{
-        time_start: ~T[16:30:00],
-        time_end: ~T[16:45:00],
-        type: :pitch
-      },
-      %{
-        time_start: ~T[16:45:00],
-        time_end: ~T[17:00:00],
-        type: :pitch
-      },
-      %{
-        time_start: ~T[17:00:00],
-        time_end: ~T[18:00:00],
-        type: :talk
-      }
+      %{time_start: ~T[09:00:00], time_end: ~T[11:00:00], location: "CP2 - 0.14", type: :workshop},
+      %{time_start: ~T[09:00:00], time_end: ~T[11:00:00], location: "CP2 - 0.15", type: :workshop},
+      %{time_start: ~T[09:00:00], time_end: ~T[11:00:00], location: "CP2 - 0.17", type: :workshop},
+      %{title: "Coffee Break", time_start: ~T[11:00:00], time_end: ~T[11:30:00], type: :break},
+      %{time_start: ~T[11:30:00], time_end: ~T[12:30:00], location: "CP2 - B1", type: :talk},
+      %{title: "Lunch Break", time_start: ~T[12:30:00], time_end: ~T[14:00:00], type: :break},
+      %{time_start: ~T[14:00:00], time_end: ~T[15:00:00], type: :talk},
+      %{time_start: ~T[15:00:00], time_end: ~T[16:00:00], type: :talk},
+      %{title: "Coffee Break", time_start: ~T[16:00:00], time_end: ~T[16:30:00], type: :break},
+      %{time_start: ~T[16:30:00], time_end: ~T[16:45:00], type: :pitch},
+      %{time_start: ~T[16:45:00], time_end: ~T[17:00:00], type: :pitch},
+      %{time_start: ~T[17:00:00], time_end: ~T[18:00:00], type: :talk}
     ]
   end
 end

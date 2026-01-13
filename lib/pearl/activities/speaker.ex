@@ -7,7 +7,7 @@ defmodule Pearl.Activities.Speaker do
   alias Pearl.Activities
 
   @required_fields ~w(name company title)a
-  @optional_fields ~w(biography highlighted)a
+  @optional_fields ~w(biography highlighted dominant_color)a
 
   @derive {
     Flop.Schema,
@@ -21,6 +21,7 @@ defmodule Pearl.Activities.Speaker do
     field :company, :string
     field :biography, :string
     field :highlighted, :boolean, default: false
+    field :dominant_color, :map, default: %{r: 129, g: 24, b: 36}
 
     embeds_one :socials, Activities.Speaker.Socials
 

@@ -320,6 +320,23 @@ defmodule Pearl.Activities do
   end
 
   @doc """
+  Only includes speakers with talks or workshops, sorted by activity start time.
+  Each speaker appears once with their first activity.
+  """
+  def list_speakers_for_showcase do
+    from(a in Activity,
+      join: as in "activities_speakers",
+      on: a.id == as.activity_id,
+      join: s in Speaker,
+      on: as.speaker_id == s.id,
+      order_by: [asc: a.date, asc: a.time_start],
+      select: %{speaker: s, activity: a}
+    )
+    |> Repo.all()
+    |> Enum.uniq_by(fn %{speaker: s} -> s.id end)
+  end
+
+  @doc """
   Returns the list of daily speakers.
 
   ## Examples
@@ -401,9 +418,43 @@ defmodule Pearl.Activities do
 
   """
   def update_speaker_picture(%Speaker{} = speaker, attrs) do
-    speaker
-    |> Speaker.picture_changeset(attrs)
-    |> Repo.update()
+    changeset = Speaker.picture_changeset(speaker, attrs)
+
+    upload = attrs["picture"] || attrs[:picture]
+
+    path =
+      case upload do
+        %Plug.Upload{path: path} -> path
+        path when is_binary(path) -> path
+        _ -> nil
+      end
+
+    changeset =
+      if path && File.exists?(path) do
+        color = calculate_dominant_color(path)
+        Ecto.Changeset.put_change(changeset, :dominant_color, color)
+      else
+        changeset
+      end
+
+    Repo.update(changeset)
+  end
+
+  defp calculate_dominant_color(path) do
+    try do
+      case Image.open(path) do
+        {:ok, image} ->
+          case Image.dominant_color(image) do
+            {:ok, [r, g, b | _]} -> %{r: r, g: g, b: b}
+            _ -> %{r: 129, g: 24, b: 36}
+          end
+
+        _ ->
+          %{r: 129, g: 24, b: 36}
+      end
+    rescue
+      _ -> %{r: 129, g: 24, b: 36}
+    end
   end
 
   @doc """

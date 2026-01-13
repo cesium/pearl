@@ -86,7 +86,7 @@ defmodule PearlWeb.Components.Button do
       class={[
         "flex items-center justify-center",
         if(@small, do: "w-13 h-13", else: ["px-4 py-3", @gap]),
-        "bg-primary text-white hover:bg-primary/80 disabled:opacity-50 disabled:cursor-not-allowed",
+        "bg-primary text-white hover:bg-primary/80 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
         @class
       ]}
       {@rest}
@@ -125,7 +125,7 @@ defmodule PearlWeb.Components.Button do
         "flex items-center justify-center py-3",
         if(@no_icon, do: "px-4", else: "px-4"),
         if(@no_icon, do: "", else: @gap),
-        "bg-primary/10 text-primary hover:bg-primary/20 disabled:opacity-50 disabled:cursor-not-allowed",
+        "bg-primary/10 text-primary hover:bg-primary/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
         @class
       ]}
       {@rest}

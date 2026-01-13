@@ -59,7 +59,7 @@ defmodule PearlWeb.UserLoginLive do
                     field={@form[:remember_me]}
                     type="checkbox"
                     label={gettext("Manter sessão iniciada")}
-                    class="w-4 h-4 border-2 border-black/20 rounded text-primary focus:ring-primary focus:ring-offset-0"
+                    class="w-4 h-4 border-2 border-black/20 rounded text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer"
                     wrapper_class="[&_label]:text-sm [&_label]:md:text-base [&_label]:text-black/60"
                   />
                 </div>

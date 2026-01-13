@@ -128,7 +128,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         </div>
 
         <div class="absolute bottom-0 right-0 h-[80%] p-0 flex items-end justify-center overflow-hidden pointer-events-none select-none">
-          <.speaker_image speaker={@selected_speaker} class="size-full" />
+          <.speaker_image
+            speaker={@selected_speaker}
+            class="size-full blur-xl mask-[radial-gradient(ellipse_at_bottom_right,black_20%,transparent_70%)] opacity-50"
+          /> <.speaker_image speaker={@selected_speaker} class="size-full" />
         </div>
       </div>
     </div>
@@ -152,6 +155,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     ~H"""
     <div class="
           relative z-10
+          py-10
           max-h-100
           w-2xl
           overflow-x-hidden

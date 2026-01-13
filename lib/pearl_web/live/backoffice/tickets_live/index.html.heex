@@ -41,21 +41,6 @@
           </span>
         <% end %>
       </:col>
-      <:action :let={{id, ticket}}>
-        <.ensure_permissions user={@current_user} permissions={%{"tickets" => ["edit"]}}>
-          <div class="flex flex-row gap-2">
-            <.link patch={~p"/dashboard/tickets/#{ticket.id}/edit"}>
-              <.icon name="hero-pencil" class="w-5 h-5" />
-            </.link>
-            <.link
-              phx-click={JS.push("delete", value: %{id: ticket.id}) |> hide("##{id}")}
-              data-confirm="Are you sure?"
-            >
-              <.icon name="hero-trash" class="w-5 h-5" />
-            </.link>
-          </div>
-        </.ensure_permissions>
-      </:action>
     </.table>
   </div>
 </.page>

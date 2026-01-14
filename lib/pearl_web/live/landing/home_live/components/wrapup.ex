@@ -1,4 +1,5 @@
 defmodule PearlWeb.Landing.HomeLive.Components.Wrapup do
+  @moduledoc false
   use PearlWeb, :component
 
   def link_wrapup(assigns) do

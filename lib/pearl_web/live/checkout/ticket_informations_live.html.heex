@@ -1,6 +1,20 @@
-<div class="text-black flex w-full h-full gap-4" phx-hook="TicketData" id="ticket-checkout">
+<div class="text-black flex w-full h-full gap-4">
   <div class="min-w-[420px]">
     <div class="sticky top-6 min-w-[420px] h-[642px] bg-white rounded-4xl border border-gray-100 overflow-hidden">
+          <div class="flex-1 flex items-center justify-center">
+            <div class="relative w-[170px] h-[170px] rounded-full bg-linear-to-b from-gray-200 to-gray-400 shadow-inner overflow-hidden">
+
+              <div class={"absolute inset-0 flex items-center justify-center transition-all duration-500 ease-out transform"}>
+                <.icon name="hero-user" class="text-white size-20" />
+              </div>
+
+              <div class={"absolute inset-0 flex items-center justify-center transition-all duration-500 ease-out transform"}>
+                <span class="text-white text-6xl font-bold uppercase tracking-widest">
+                  EP
+                </span>
+              </div>
+            </div>
+          </div>
     </div>
   </div>
 
@@ -13,6 +27,7 @@
           step={@current_step}
           form={@form}
           ticket_data={@ticket_data}
+          ticket_types={@ticket_types}
         />
       </div>
     </div>

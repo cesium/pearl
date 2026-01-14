@@ -8,6 +8,8 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
     ~H"""
     <div class="px-10">
       <%= case @step do %>
+        <% :choose_ticket -> %>
+          <.choose_ticket_step form={@form} ticket_types={@ticket_types}/>
         <% :precautions -> %>
           <.precautions_step form={@form} />
         <% :informations -> %>
@@ -16,6 +18,26 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
           <.conclusion_step form={@form} ticket_data={@ticket_data} />
       <% end %>
     </div>
+    """
+  end
+
+  defp choose_ticket_step(assigns) do
+    ~H"""
+      <div class="">
+        <h2 class="font-extrabold text-2xl mb-2">Escolha o teu bilhete</h2>
+        <span>
+          Os tipos de bilhetes incluem diferentes benefícios.
+        </span>
+        <.simple_form phx-change="validate" for={@form} id="choose_ticket-form">
+          <.input
+            field={@form[:ticket_type_id]}
+            type="select"
+            options={@ticket_types |> Enum.map(&{&1.name, &1.id})}
+            variant={:flushed}
+            label=""
+          />
+        </.simple_form>
+      </div>
     """
   end
 

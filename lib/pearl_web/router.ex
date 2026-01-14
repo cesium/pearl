@@ -71,6 +71,7 @@ defmodule PearlWeb.Router do
       pipe_through :registrations_open
       live "/users/register", UserRegistrationLive, :new
       post "/users/register", UserSessionController, :new
+      live "/users/confirm_email", UserConfirmationInstructionsLive, :confirm_email
     end
   end
 
@@ -81,6 +82,7 @@ defmodule PearlWeb.Router do
 
     live_session :checkout,
       on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
+      live "/choose_ticket", Checkout.TicketInformationsLive, :choose_ticket
       live "/precautions", Checkout.TicketInformationsLive, :precautions
       live "/informations", Checkout.TicketInformationsLive, :informations
       live "/conclusion", Checkout.TicketInformationsLive, :conclusion

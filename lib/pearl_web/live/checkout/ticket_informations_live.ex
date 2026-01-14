@@ -2,21 +2,43 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
   use PearlWeb, :checkout_view
 
   # alias Pearl.Accounts
-  alias Pearl.Tickets
+  alias Pearl.{Tickets, TicketTypes}
   alias Pearl.Tickets.Ticket
 
-  def mount(_params, %{"ticket_type_id" => ticket_type_id}, socket) do
+  def mount(_params, session, socket) do
+    ticket_types = TicketTypes.list_ticket_types()
+
+    ticket_type_id =
+      case Map.get(session, "ticket_type_id") do
+        nil ->
+          case ticket_types do
+            [head | _] -> head.id
+            [] -> nil
+          end
+        id -> id
+    end
+  ticket_data = %{"ticket_type_id" => ticket_type_id}
+
     {:ok,
      socket
-     |> assign(:ticket_data, %{})
+     |> assign(:ticket_data, ticket_data)
      |> assign(:ticket_type_id, ticket_type_id)
-     |> assign(:form, to_form(Tickets.change_ticket(%Ticket{})))
-     |> assign(:verified_account, true)
-     |> assign(:live_action, :precautions)}
+     |> assign(:ticket_types, ticket_types)
+     |> assign(:form, to_form(Tickets.change_ticket(%Ticket{}, ticket_data)))
+     |> assign(:verified_account, true)}
   end
 
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  def apply_action(socket, :choose_ticket, _params) do
+    changeset = Tickets.change_ticket(%Ticket{}, socket.assigns.ticket_data)
+
+    socket
+    |> assign(:ticket_types, socket.assigns.ticket_types)
+    |> assign(:current_step, :choose_ticket)
+    |> assign(:form, to_form(changeset))
   end
 
   def apply_action(socket, :precautions, _params) do
@@ -57,17 +79,6 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
      |> assign(:ticket_data, ticket_data)
      |> assign(:form, to_form(changeset, action: :validate))}
   end
-
-  def handle_event("ticket_data_loaded", %{"data" => data}, socket) when is_map(data) do
-    changeset = Tickets.change_ticket(%Ticket{}, data)
-
-    {:noreply,
-     socket
-     |> assign(:ticket_data, data)
-     |> assign(:form, to_form(changeset))}
-  end
-
-  def handle_event("ticket_data_loaded", _, socket), do: {:noreply, socket}
 
   def handle_event("prev", _, socket) do
     prev_route = get_prev_route(socket.assigns.current_step)
@@ -145,13 +156,19 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     end
   end
 
-  # defp get_prev_route(:precautions), do: ~p"/register"
+  defp get_prev_route(:precautions), do: ~p"/checkout/choose_ticket"
   defp get_prev_route(:informations), do: ~p"/checkout/precautions"
   defp get_prev_route(:conclusion), do: ~p"/checkout/informations"
 
+
+  defp get_next_route(:choose_ticket), do: ~p"/checkout/precautions"
   defp get_next_route(:precautions), do: ~p"/checkout/informations"
   defp get_next_route(:informations), do: ~p"/checkout/conclusion"
   defp get_next_route(:conclusion), do: ~p"/checkout/payment"
+
+  defp apply_step_validation(changeset, :choose_ticket, ticket_data) do
+    changeset |> Tickets.change_ticket_type(ticket_data)
+  end
 
   defp apply_step_validation(changeset, :precautions, ticket_data) do
     changeset |> Tickets.change_precautions(ticket_data)

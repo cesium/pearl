@@ -1,11 +1,10 @@
 defmodule PearlWeb.UserRegistrationLive do
-  use PearlWeb, :live_view
+  use PearlWeb, :checkout_view
 
   alias Pearl.Accounts
   alias Pearl.Accounts.User
   alias Phoenix.HTML.Form
 
-  import PearlWeb.RegistrationComponents
   import PearlWeb.CoreComponents
 
   def mount(_params, _session, socket) do
@@ -91,22 +90,6 @@ defmodule PearlWeb.UserRegistrationLive do
     end
   end
 
-  def handle_event("next_step", params, socket) do
-    user_params = params["user"] || %{}
-
-    changeset =
-      socket.assigns.form.source
-      |> User.registration_changeset(user_params)
-
-    new_step = socket.assigns.step + 1
-    {:noreply, socket |> assign(:step, new_step) |> assign_form(changeset)}
-  end
-
-  def handle_event("prev_step", _, socket) do
-    new_step = max(1, socket.assigns.step - 1)
-    {:noreply, assign(socket, step: new_step)}
-  end
-
   def handle_event("validate", %{"user" => user_params}, socket) do
     changeset = Accounts.change_user_registration(%User{}, user_params)
 
@@ -120,12 +103,12 @@ defmodule PearlWeb.UserRegistrationLive do
 
   def handle_event("save", %{"user" => user_params}, socket) do
     case Accounts.register_attendee_user(user_params) do
-      {:ok, user} ->
+      {:ok, %{user: user}} ->
         {:ok, _} =
           Accounts.deliver_user_confirmation_instructions(user, &url(~p"/users/confirm/#{&1}"))
 
         changeset = Accounts.change_user_registration(user)
-        {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset)}
+        {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset) |> redirect(to: "/users/log_in")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, socket |> assign(check_errors: true) |> assign_form(changeset)}

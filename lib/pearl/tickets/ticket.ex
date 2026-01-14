@@ -60,6 +60,12 @@ defmodule Pearl.Tickets.Ticket do
     |> foreign_key_constraint(:ticket_type_id)
   end
 
+  def changeset_ticket_type(ticket, attrs) do
+    ticket
+    |> cast(attrs, [:ticket_type_id])
+    |> validate_required([:ticket_type_id])
+  end
+
   def changeset_precautions(ticket, attrs) do
     ticket
     |> cast(attrs, [:disabilities, :allergens, :has_allergens])

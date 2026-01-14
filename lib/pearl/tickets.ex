@@ -225,6 +225,10 @@ defmodule Pearl.Tickets do
     Perk.changeset(perk, attrs)
   end
 
+  def change_ticket_type(%Ticket{} = ticket, attrs \\ %{}) do
+    Ticket.changeset_ticket_type(ticket, attrs)
+  end
+
   def change_precautions(%Ticket{} = ticket, attrs \\ %{}) do
     Ticket.changeset_precautions(ticket, attrs)
   end

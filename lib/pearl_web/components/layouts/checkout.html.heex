@@ -12,7 +12,7 @@
         <.live_component
           module={PearlWeb.Checkout.Components.StepTabs}
           id="ticket-checkout-step-tabs"
-          tabs={[:registration, :precautions, :informations, :conclusion]}
+          tabs={[:new, :confirm_email, :choose_ticket, :precautions, :informations, :conclusion]}
           action={@live_action}
           patch={~p"/checkout/precautions"}
         />

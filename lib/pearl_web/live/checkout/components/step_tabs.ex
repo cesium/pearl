@@ -20,7 +20,7 @@ defmodule PearlWeb.Checkout.Components.StepTabs do
             <span class={["text-sm", current_action?(tab, @action) && "text-white"]}>{i + 1}</span>
           </div>
           <span class={[current_action?(tab, @action) && "text-primary"]}>
-            {String.capitalize(Atom.to_string(tab))}
+            {get_tab_name(tab)}
           </span>
         </div>
       </div>
@@ -41,4 +41,12 @@ defmodule PearlWeb.Checkout.Components.StepTabs do
   end
 
   defp current_action?(tab, action), do: tab == action
+
+  defp get_tab_name(:new), do: "Registo"
+  defp get_tab_name(:confirm_email), do: "Confirmar email"
+  defp get_tab_name(:verification), do: "Verificação"
+  defp get_tab_name(:choose_ticket), do: "Tipo de bilhete"
+  defp get_tab_name(:precautions), do: "Precauções"
+  defp get_tab_name(:informations), do: "Informações"
+  defp get_tab_name(:conclusion), do: "Conclusão"
 end

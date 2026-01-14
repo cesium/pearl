@@ -1,5 +1,5 @@
 defmodule PearlWeb.ConfirmationPendingLive do
-  use PearlWeb, :landing_view
+  use PearlWeb, :checkout_view
 
   alias Pearl.Accounts
 
@@ -51,7 +51,7 @@ defmodule PearlWeb.ConfirmationPendingLive do
     if is_nil(socket.assigns.current_user.confirmed_at) do
       {:ok, socket |> assign(:last_sent, nil)}
     else
-      {:ok, socket |> push_navigate(to: ~p"/app")}
+      {:ok, socket |> push_navigate(to: ~p"/checkout/choose_ticket")}
     end
   end
 

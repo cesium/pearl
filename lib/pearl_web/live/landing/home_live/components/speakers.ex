@@ -10,7 +10,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
 
   def speakers(assigns) do
     ~H"""
-    <div class="md:mx-20 mx-0">
+    <div :if={@speakers} class="md:mx-20 mx-0">
       <div
         class={[
           "relative w-full overflow-hidden transition-colors duration-300 ease-in-out",
@@ -81,7 +81,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         </div>
       </div>
 
-      <div class="absolute bottom-0 h-[45%] left-0 z-10 min-h-0 overflow-y-auto pb-40 overflow-x-scroll [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div class="absolute bottom-0 h-[45%] left-0 z-10 min-h-0 overflow-y-clip pb-40 overflow-x-scroll [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <.speaker_list
           speakers={@speakers}
           selected_speaker={@selected_speaker}
@@ -120,7 +120,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
       <div class="flex flex-col h-full w-full items-end justify-end z-10">
         <div class="absolute bottom-30 -translate-x-1/2 z-30" style="left: calc(1/2 * 100% - 28px)">
           <.info_card
-            :if={@selected_activity}
             activity={@selected_activity}
             speaker={@selected_speaker}
             class="bg-background-muted/80 backdrop-blur-sm shadow-xl min-w-[300px]"
@@ -130,7 +129,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         <div class="absolute bottom-0 right-0 h-[80%] p-0 flex items-end justify-center overflow-hidden pointer-events-none select-none">
           <.speaker_image
             speaker={@selected_speaker}
-            class="size-full blur-xl mask-[radial-gradient(ellipse_at_bottom_right,black_20%,transparent_70%)] opacity-50"
+            class="size-full blur-xl mask-[radial-gradient(ellipse_at_bottom_left,black_20%,transparent_70%)] scale-x-[-1] opacity-50"
           /> <.speaker_image speaker={@selected_speaker} class="size-full" />
         </div>
       </div>
@@ -155,7 +154,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     ~H"""
     <div class="
           relative z-10
-          py-10
+          pt-6
+          pb-50
+          mb-10
+          md:py-10
           max-h-100
           w-2xl
           overflow-x-hidden
@@ -194,9 +196,9 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   defp info_card(assigns) do
     ~H"""
     <div
-      :if={@activity}
+      :if={@speaker}
       class={[
-        "rounded-[40px] md:rounded-full px-6 py-4 flex flex-col items-center justify-center text-dark animate-[fade_in_0.5s_both]",
+        "rounded-[40px] md:rounded-full px-6 py-4 min-h-2 flex flex-col items-center justify-center text-dark animate-[fade_in_0.5s_both]",
         @class
       ]}
     >
@@ -208,13 +210,14 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         </span>
       </p>
 
-      <p class="text-xs mt-1 text-dark/60 font-medium text-center">
-        <%!-- HELPPP< O QUE FACO AOS PRONOMESS (╯°□°)╯︵ ┻━┻ --%>
-        Poderás ver o {first_name(@speaker.name)}
-        <span class="text-primary border-b-2 border-primary ml-1 text-base md:text-lg pb-0.5">
-          {format_activity_time(@activity)}
-        </span>
-      </p>
+      <%= if @activity do %>
+        <p class="text-xs mt-1 text-dark/60 font-medium text-center">
+          Poderás ver este orador
+          <span class="text-primary border-b-2 border-primary ml-1 text-base md:text-lg pb-0.5">
+            {format_activity_time(@activity)}
+          </span>
+        </p>
+      <% end %>
     </div>
     """
   end
@@ -269,6 +272,4 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
       true -> ""
     end
   end
-
-  defp first_name(name), do: List.first(String.split(name, " "))
 end

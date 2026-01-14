@@ -320,23 +320,6 @@ defmodule Pearl.Activities do
   end
 
   @doc """
-  Only includes speakers with talks or workshops, sorted by activity start time.
-  Each speaker appears once with their first activity.
-  """
-  def list_speakers_for_showcase do
-    from(a in Activity,
-      join: as in "activities_speakers",
-      on: a.id == as.activity_id,
-      join: s in Speaker,
-      on: as.speaker_id == s.id,
-      order_by: [asc: a.date, asc: a.time_start],
-      select: %{speaker: s, activity: a}
-    )
-    |> Repo.all()
-    |> Enum.uniq_by(fn %{speaker: s} -> s.id end)
-  end
-
-  @doc """
   Returns the list of daily speakers.
 
   ## Examples
@@ -487,18 +470,28 @@ defmodule Pearl.Activities do
   @doc """
   Returns the list of highlighted speakers.
 
+  If a speaker has an associated activity of type `Talk`, it is included; otherwise, the activity can be `null`.
+
+  Each speaker is shown only once.
+
   ## Examples
 
       iex> list_highlighted_speakers()
-      [%Speaker{}, ...]
+      [%{speaker: %Speaker{}, activity: %Activity{}}]
 
   """
   def list_highlighted_speakers(opts \\ []) do
     Speaker
     |> apply_filters(opts)
     |> where([s], s.highlighted)
+    |> join(:left, [s], as in "activities_speakers", on: s.id == as.speaker_id)
+    |> join(:left, [s, as], a in Activity, on: as.activity_id == a.id)
+    |> join(:left, [s, as, a], c in ActivityCategory,
+      on: a.category_id == c.id and c.name == "Talk"
+    )
+    |> distinct([s], s.id)
+    |> select([s, as, a, c], %{speaker: s, activity: a, category: c})
     |> Repo.all()
-    |> Repo.preload(:activities)
   end
 
   @doc """

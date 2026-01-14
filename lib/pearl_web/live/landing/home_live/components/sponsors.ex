@@ -1,7 +1,6 @@
 defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
   @moduledoc false
   use PearlWeb, :component
-  import PearlWeb.Components.Button
 
   alias Pearl.Uploaders
 
@@ -21,10 +20,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
           <.sponsor_segment tier={tier} sponsors={tier.companies} />
         <% end %>
       </div>
-    </div>
-    <div class="flex justify-center">
-      <%!-- Falta mudar o navigate ja que nao tenho sponsors --%>
-      <.navigate_button title="conhece os patrocínios" icon="hero-arrow-right" navigate={~p"/"} />
     </div>
     """
   end

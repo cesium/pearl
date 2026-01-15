@@ -85,7 +85,7 @@ defmodule PearlWeb.Components.Button do
     <button
       class={[
         "flex items-center justify-center",
-        if(@small, do: "w-13 h-13", else: ["px-4 py-3", @gap]),
+        if(@small, do: "w-13 h-13", else: ["px-4 py-2.5", @gap]),
         "bg-primary text-white hover:bg-primary/80 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
         @class
       ]}
@@ -95,7 +95,7 @@ defmodule PearlWeb.Components.Button do
         <.icon name={@icon} class="w-5 h-5 shrink-0" />
       <% else %>
         <.icon name={@icon} class="w-4 h-4 shrink-0" />
-        <span class="text-base">{assigns.title}</span>
+        <span>{assigns.title}</span>
       <% end %>
     </button>
     """
@@ -122,8 +122,7 @@ defmodule PearlWeb.Components.Button do
     ~H"""
     <button
       class={[
-        "flex items-center justify-center py-3",
-        if(@no_icon, do: "px-4", else: "px-4"),
+        "flex items-center justify-center py-2.5 px-4",
         if(@no_icon, do: "", else: @gap),
         "bg-primary/10 text-primary hover:bg-primary/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
         @class
@@ -131,13 +130,13 @@ defmodule PearlWeb.Components.Button do
       {@rest}
     >
       <%= if @no_icon do %>
-        <span class="text-base">{assigns.title}</span>
+        <span>{assigns.title}</span>
       <% else %>
         <%= if @icon_position == "left" do %>
           <.icon name={@icon} class="w-4 h-4 shrink-0" />
-          <span class="text-base">{assigns.title}</span>
+          <span>{assigns.title}</span>
         <% else %>
-          <span class="text-base">{assigns.title}</span>
+          <span>{assigns.title}</span>
           <.icon name={@icon} class="w-4 h-4 shrink-0" />
         <% end %>
       <% end %>

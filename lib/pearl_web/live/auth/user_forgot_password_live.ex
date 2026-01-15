@@ -39,16 +39,16 @@ defmodule PearlWeb.UserForgotPasswordLive do
                     required
                   />
                 </div>
+
+                <div class="flex justify-end pt-8 mt-20 md:mt-32">
+                  <Button.primary_button
+                    title={gettext("continuar")}
+                    icon="hero-arrow-right"
+                    type="submit"
+                  />
+                </div>
               </.simple_form>
             </div>
-          </div>
-
-          <div class="flex justify-end mt-auto pt-8">
-            <Button.primary_button
-              title={gettext("continuar")}
-              icon="hero-arrow-right"
-              phx-click={JS.dispatch("submit", to: "#reset_password_form")}
-            />
           </div>
         </div>
       </div>

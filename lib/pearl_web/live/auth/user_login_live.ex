@@ -63,22 +63,22 @@ defmodule PearlWeb.UserLoginLive do
                     wrapper_class="[&_label]:text-sm [&_label]:md:text-base [&_label]:text-black/60"
                   />
                 </div>
+
+                <div class="flex justify-end mt-auto pt-8">
+                  <Button.primary_button
+                    title={gettext("continuar")}
+                    icon="hero-arrow-right"
+                    type="submit"
+                  />
+
+                  <Button.secondary_button
+                    title={gettext("não consigo entrar")}
+                    no_icon
+                    phx-click={JS.navigate(~p"/users/reset_password")}
+                  />
+                </div>
               </.simple_form>
             </div>
-          </div>
-
-          <div class="flex justify-end mt-auto pt-8">
-            <Button.primary_button
-              title={gettext("continuar")}
-              icon="hero-arrow-right"
-              phx-click={JS.dispatch("submit", to: "#login_form")}
-            />
-
-            <Button.secondary_button
-              title={gettext("não consigo entrar")}
-              no_icon
-              phx-click={JS.navigate(~p"/users/reset_password")}
-            />
           </div>
         </div>
       </div>

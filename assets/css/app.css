@@ -49,11 +49,50 @@
   font-weight: 700;
   font-display: swap;
 }
+@keyframes fade-out-down {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-left {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease-out forwards;
+}
+
+.animate-slide-out-left {
+  animation: slide-out-left 0.4s ease-in forwards;
+}
 
 @theme {
-  --color-wine: #811824;
   --color-olive: #56564D;
-  --color-primary: #04041c;
+  --color-primary: #811824;
   --color-accent: #ffdb0d;
   --color-light: #ffffff;
   --color-light-muted: #EFEFED;

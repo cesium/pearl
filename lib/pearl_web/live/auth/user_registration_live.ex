@@ -82,14 +82,6 @@ defmodule PearlWeb.UserRegistrationLive do
     Map.get(tickets, id, tickets.general)
   end
 
-  defp get_initials(name) do
-    case String.split(name || "", " ", trim: true) do
-      [] -> nil
-      [single] -> String.slice(single, 0, 1)
-      names -> "#{String.first(List.first(names))}#{String.first(List.last(names))}"
-    end
-  end
-
   def handle_event("validate", %{"user" => user_params}, socket) do
     changeset = Accounts.change_user_registration(%User{}, user_params)
 

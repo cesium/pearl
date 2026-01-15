@@ -76,7 +76,7 @@ defmodule PearlWeb.Router do
   end
 
   scope "/checkout", PearlWeb do
-    pipe_through :browser
+    pipe_through [:browser, :require_authenticated_user]
 
     get "/init", TicketCheckoutController, :init
 

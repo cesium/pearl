@@ -25,7 +25,8 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
      |> assign(:ticket_type_id, ticket_type_id)
      |> assign(:ticket_types, ticket_types)
      |> assign(:form, to_form(Tickets.change_ticket(%Ticket{}, ticket_data)))
-     |> assign(:verified_account, true)}
+     |> assign(:verified_account, true)
+     |> assign(:active_orbs, [])}
   end
 
   def handle_params(params, _url, socket) do
@@ -47,6 +48,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     socket
     |> assign(:current_step, :precautions)
     |> assign(:form, to_form(changeset))
+    |> assign(:active_orbs, [%{disabilities: "active"}, %{allergens: "active"}])
   end
 
   def apply_action(socket, :informations, _params) do
@@ -55,6 +57,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     socket
     |> assign(:current_step, :informations)
     |> assign(:form, to_form(changeset))
+    |> assign(:active_orbs, [%{disabilities: "inactive"}, %{allergens: "inactive"}, %{tshirt_size: "active"}, %{diet: "active"}, %{transport: "active"}, %{attended: "active"}, %{user: "active"}])
   end
 
   def apply_action(socket, :conclusion, _params) do
@@ -63,6 +66,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     socket
     |> assign(:current_step, :conclusion)
     |> assign(:form, to_form(changeset))
+    |> assign(:active_orbs, [%{disabilities: "active"}, %{allergens: "active"}, %{tshirt_size: "active"}, %{diet: "active"}, %{transport: "active"}, %{attended: "active"}, %{user: "active"}])
   end
 
   def handle_event("validate", params, socket) do
@@ -159,7 +163,6 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
   defp get_prev_route(:precautions), do: ~p"/checkout/choose_ticket"
   defp get_prev_route(:informations), do: ~p"/checkout/precautions"
   defp get_prev_route(:conclusion), do: ~p"/checkout/informations"
-
 
   defp get_next_route(:choose_ticket), do: ~p"/checkout/precautions"
   defp get_next_route(:precautions), do: ~p"/checkout/informations"

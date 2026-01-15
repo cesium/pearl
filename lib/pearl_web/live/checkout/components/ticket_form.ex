@@ -3,13 +3,14 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
     Module for the ticket checkout forms
   """
   use PearlWeb, :live_component
+  alias Pearl.TicketTypes
 
   def render(assigns) do
     ~H"""
     <div class="px-10">
       <%= case @step do %>
         <% :choose_ticket -> %>
-          <.choose_ticket_step form={@form} ticket_types={@ticket_types}/>
+          <.choose_ticket_step form={@form} ticket_data={@ticket_data} ticket_types={@ticket_types}/>
         <% :precautions -> %>
           <.precautions_step form={@form} />
         <% :informations -> %>
@@ -23,20 +24,36 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
   defp choose_ticket_step(assigns) do
     ~H"""
-      <div class="">
-        <h2 class="font-extrabold text-2xl mb-2">Escolha o teu bilhete</h2>
-        <span>
-          Os tipos de bilhetes incluem diferentes benefícios.
-        </span>
-        <.simple_form phx-change="validate" for={@form} id="choose_ticket-form">
-          <.input
-            field={@form[:ticket_type_id]}
-            type="select"
-            options={@ticket_types |> Enum.map(&{&1.name, &1.id})}
-            variant={:flushed}
-            label=""
-          />
-        </.simple_form>
+      <div class="flex flex-col gap-10">
+        <% selected_ticket_type = TicketTypes.get_ticket_type!(Map.get(assigns.ticket_data, "ticket_type_id")) %>
+        <div>
+          <h2 class="font-extrabold text-2xl mb-2">Escolha o teu bilhete</h2>
+          <span>
+            Os tipos de bilhetes incluem diferentes benefícios.
+          </span>
+          <.simple_form phx-change="validate" for={@form} id="choose_ticket-form">
+            <.input
+              field={@form[:ticket_type_id]}
+              type="select"
+              options={@ticket_types |> Enum.map(&{&1.name, &1.id})}
+              variant={:flushed}
+              label=""
+            />
+          </.simple_form>
+        </div>
+        <div>
+          <h2 class="font-semibold text-lg mb-2">Benefícios deste bilhete:</h2>
+          <ul class="flex flex-col gap-2">
+            <%= for perk <- selected_ticket_type.perks do %>
+              <li class="flex items-center gap-2">
+                <span class="flex" style={"color: #{perk.color};"}>
+                  <.icon name="hero-check" class="size-4"/>
+                </span>
+                <span class="text-lg">{perk.description}</span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     """
   end

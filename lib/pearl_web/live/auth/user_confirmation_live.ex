@@ -1,5 +1,5 @@
 defmodule PearlWeb.UserConfirmationLive do
-  use PearlWeb, :landing_view
+  use PearlWeb, :auth_view
 
   alias Pearl.Accounts
 

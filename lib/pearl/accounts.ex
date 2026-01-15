@@ -259,8 +259,6 @@ defmodule Pearl.Accounts do
 
   """
   def register_attendee_user(attrs) do
-    attrs = attrs |> Map.put("type", :attendee)
-
     Ecto.Multi.new()
     |> Ecto.Multi.insert(
       :user,
@@ -291,8 +289,6 @@ defmodule Pearl.Accounts do
 
   """
   def register_staff_user(attrs) do
-    attrs = attrs |> Map.put("type", :staff)
-
     Ecto.Multi.new()
     |> Ecto.Multi.insert(
       :user,
@@ -302,6 +298,7 @@ defmodule Pearl.Accounts do
         hash_password: true,
         validate_email: true
       )
+      |> Ecto.Changeset.put_change(:type, :staff)
     )
     |> Ecto.Multi.insert(
       :staff,

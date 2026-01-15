@@ -24,33 +24,36 @@ defmodule PearlWeb.UserResetPasswordLive do
               </p>
             </div>
 
-            <div>
+            <div class="flex flex-col h-full">
               <.simple_form
                 for={@form}
                 id="reset_password_form"
                 phx-submit="reset_password"
                 phx-change="validate"
-                class="space-y-5 md:space-y-6"
+                class="flex flex-col h-full"
+                wrapper_class="flex flex-col justify-between h-full"
               >
-                <div>
-                  <.input
-                    field={@form[:password]}
-                    type="password"
-                    placeholder={gettext("Nova palavra-passe")}
-                    required
-                  />
+                <div class="space-y-5 md:space-y-6">
+                  <div>
+                    <.input
+                      field={@form[:password]}
+                      type="password"
+                      placeholder={gettext("Nova palavra-passe")}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <.input
+                      field={@form[:password_confirmation]}
+                      type="password"
+                      placeholder={gettext("Confirmar palavra-passe")}
+                      required
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <.input
-                    field={@form[:password_confirmation]}
-                    type="password"
-                    placeholder={gettext("Confirmar palavra-passe")}
-                    required
-                  />
-                </div>
-
-                <div class="flex justify-end mt-20 pt-8">
+                <div class="flex justify-end pt-8">
                   <Button.primary_button
                     title={gettext("continuar")}
                     icon="hero-arrow-right"

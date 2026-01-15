@@ -24,12 +24,13 @@ defmodule PearlWeb.UserForgotPasswordLive do
               </p>
             </div>
 
-            <div>
+            <div class="flex flex-col h-full">
               <.simple_form
                 for={@form}
                 id="reset_password_form"
                 phx-submit="send_email"
-                class="space-y-5 md:space-y-6"
+                class="flex flex-col h-full"
+                wrapper_class="flex flex-col justify-between h-full"
               >
                 <div>
                   <.input
@@ -40,7 +41,7 @@ defmodule PearlWeb.UserForgotPasswordLive do
                   />
                 </div>
 
-                <div class="flex justify-end pt-8 mt-20 md:mt-32">
+                <div class="flex justify-end pt-8">
                   <Button.primary_button
                     title={gettext("continuar")}
                     icon="hero-arrow-right"

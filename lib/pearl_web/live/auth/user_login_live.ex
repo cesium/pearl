@@ -26,7 +26,7 @@ defmodule PearlWeb.UserLoginLive do
               </p>
             </div>
 
-            <div>
+            <div class="flex flex-col h-full">
               <.simple_form
                 for={@form}
                 id="login_form"
@@ -34,37 +34,40 @@ defmodule PearlWeb.UserLoginLive do
                   ~p"/users/log_in?action=#{@action || ""}&action_id=#{@action_id || ""}&return_to=#{@return_to || ""}"
                 }
                 phx-update="ignore"
-                class="space-y-5 md:space-y-6"
+                class="flex flex-col h-full"
+                wrapper_class="flex flex-col justify-between h-full space-y-5 md:space-y-6"
               >
-                <div>
-                  <.input
-                    field={@form[:email]}
-                    type="email"
-                    placeholder={gettext("E-mail ou número de telefone")}
-                    required
-                  />
+                <div class="space-y-5 md:space-y-6">
+                  <div>
+                    <.input
+                      field={@form[:email]}
+                      type="email"
+                      placeholder={gettext("E-mail ou número de telefone")}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <.input
+                      field={@form[:password]}
+                      type="password"
+                      placeholder={gettext("Palavra-passe")}
+                      required
+                    />
+                  </div>
+
+                  <div class="pt-2">
+                    <.input
+                      field={@form[:remember_me]}
+                      type="checkbox"
+                      label={gettext("Manter sessão iniciada")}
+                      class="w-4 h-4 border-2 border-black/20 rounded text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer"
+                      wrapper_class="[&_label]:text-sm [&_label]:md:text-base [&_label]:text-black/60"
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <.input
-                    field={@form[:password]}
-                    type="password"
-                    placeholder={gettext("Palavra-passe")}
-                    required
-                  />
-                </div>
-
-                <div class="pt-2">
-                  <.input
-                    field={@form[:remember_me]}
-                    type="checkbox"
-                    label={gettext("Manter sessão iniciada")}
-                    class="w-4 h-4 border-2 border-black/20 rounded text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer"
-                    wrapper_class="[&_label]:text-sm [&_label]:md:text-base [&_label]:text-black/60"
-                  />
-                </div>
-
-                <div class="flex justify-end mt-auto pt-8">
+                <div class="flex justify-end pt-8">
                   <Button.primary_button
                     title={gettext("continuar")}
                     icon="hero-arrow-right"

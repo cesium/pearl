@@ -2,7 +2,7 @@ defmodule PearlWeb.App.BadgeLive.Index do
   use PearlWeb, :app_view
 
   alias Pearl.Contest
-  import PearlWeb.Components.Badge
+  import PearlWeb.Components.{Button, Badge}
 
   @impl true
   def mount(_params, _session, socket) do

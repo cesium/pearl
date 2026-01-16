@@ -14,7 +14,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.Index do
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"schedule" => ["edit"]}}>
             <.link navigate={~p"/dashboard/schedule/activities/speakers/new"}>
-              <.button>New Speaker</.button>
+              <.backoffice_button>New Speaker</.backoffice_button>
             </.link>
           </.ensure_permissions>
         </:actions>

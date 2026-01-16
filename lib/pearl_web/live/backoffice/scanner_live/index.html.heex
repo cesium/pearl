@@ -15,10 +15,10 @@
     <:actions>
       <div class="flex flex-row gap-4 justify-center items-center">
         <.link patch={~p"/dashboard/scanner/redeems"} class="hidden sm:block w-full">
-          <.button class="flex gap-2">
+          <.backoffice_button class="flex gap-2">
             <.icon name="hero-gift" />
             {gettext("Redeems")}
-          </.button>
+          </.backoffice_button>
         </.link>
         <.table_search
           id="badge-table-name-search"

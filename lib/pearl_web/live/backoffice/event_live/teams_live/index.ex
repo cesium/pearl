@@ -3,6 +3,8 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.Index do
 
   alias Pearl.Teams
 
+  import PearlWeb.Components.Button
+
   @impl true
   def render(assigns) do
     ~H"""
@@ -10,7 +12,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.Index do
       <.page title={@title}>
         <:actions>
           <.link navigate={~p"/dashboard/event/teams/new"}>
-            <.button>New Team</.button>
+            <.backoffice_button>New Team</.backoffice_button>
           </.link>
         </:actions>
         <ul

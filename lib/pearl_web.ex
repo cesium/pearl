@@ -102,6 +102,7 @@ defmodule PearlWeb do
         layout: {PearlWeb.Layouts, :backoffice}
 
       import PearlWeb.Components.Avatar
+      import PearlWeb.Components.Button
       import PearlWeb.Components.EnsurePermissions
       import PearlWeb.BackofficeHelpers
 
@@ -118,10 +119,20 @@ defmodule PearlWeb do
     end
   end
 
+  def auth_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {PearlWeb.Layouts, :auth}
+
+      unquote(html_helpers())
+    end
+  end
+
   def live_component do
     quote do
       use Phoenix.LiveComponent
       import PearlWeb.Components.Avatar
+      import PearlWeb.Components.Button
       unquote(html_helpers())
     end
   end

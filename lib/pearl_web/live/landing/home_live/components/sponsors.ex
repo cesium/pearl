@@ -27,11 +27,14 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
   def sponsor_segment(assigns) do
     ~H"""
     <div class="flex flex-col justify-center">
-      <div class="flex w-full flex-col items-center justify-center">
-        <p class="uppercase font-light text-xl" style={"color: #{@tier.color}"}>
-          <span class="font-semibold">{@tier.name}</span> sponsors
+      <div class="flex w-full flex-col md:flex-row md:items-stretch justify-center">
+        <p
+          class="self-stretch text-center md:text-left uppercase pr-4 lg:w-1/7 font-light text-xl md:border-r-2"
+          style={"color: #{@tier.color}; border-color: #{@tier.color}40;"}
+        >
+          <span class="font-semibold md:block">{@tier.name}</span> sponsors
         </p>
-        <div class="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 w-full gap-x-8 gap-y-12 md:gap-x-12.5 md:gap-y-16 items-center justify-items-center pt-8 px-4">
+        <div class={"grid w-full gap-x-8 gap-y-12 md:gap-x-6 lg:gap-x-12.5 md:gap-y-16 items-center justify-items-center pt-8 md:pt-0 px-4 md:px-2 #{if @tier.name == "Gold", do: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3", else: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"}"}>
           <%= for sponsor <- @sponsors |> Enum.shuffle() do %>
             <.link
               href={sponsor.url}
@@ -39,7 +42,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
               class="opacity-80 hover:opacity-100 hover:scale-105 duration-500 transition-all mx-auto"
             >
               <%= if sponsor.logo do %>
-                <div class="w-30 h-16 sm:w-40 sm:h-16 flex items-center justify-center">
+                <div class={"flex items-center justify-center #{if @tier.name == "Gold", do: "w-55 h-20 sm:w-50 md:w-40 md:h-18 lg:w-48 lg:h-24", else: "w-30 h-16 sm:w-40 sm:h-20 md:w-32 "}"}>
                   <img
                     class="max-w-full max-h-full object-contain"
                     src={Uploaders.Company.url({sponsor.logo, sponsor}, :original, signed: true)}

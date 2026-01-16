@@ -2,6 +2,7 @@ defmodule PearlWeb.Router do
   use PearlWeb, :router
 
   import PearlWeb.UserAuth
+  import PearlWeb.UserTicket
   import PearlWeb.UserRoles
   import PearlWeb.EventRoles
 
@@ -75,22 +76,31 @@ defmodule PearlWeb.Router do
     end
   end
 
-  scope "/checkout", PearlWeb do
-    pipe_through [:browser, :require_authenticated_user]
 
-    get "/init", TicketCheckoutController, :init
+scope "/checkout", PearlWeb do
+  pipe_through [:browser, :require_authenticated_user]
 
-    live_session :checkout,
-      on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
-      live "/choose_ticket", Checkout.TicketInformationsLive, :choose_ticket
-      live "/precautions", Checkout.TicketInformationsLive, :precautions
-      live "/informations", Checkout.TicketInformationsLive, :informations
-      live "/conclusion", Checkout.TicketInformationsLive, :conclusion
+  get "/init", TicketCheckoutController, :init
 
-      live "/payment", Checkout.PaymentLive, :conclusion
-    end
+  live_session :checkout,
+    on_mount: [
+      {PearlWeb.UserAuth, :mount_current_user},
+      {PearlWeb.UserTicket, :redirect_if_user_has_unpaid_ticket}
+    ] do
+    live "/choose_ticket", Checkout.TicketInformationsLive, :choose_ticket
+    live "/precautions", Checkout.TicketInformationsLive, :precautions
+    live "/informations", Checkout.TicketInformationsLive, :informations
+    live "/conclusion", Checkout.TicketInformationsLive, :conclusion
   end
 
+  live_session :checkout_payment,
+    on_mount: [
+      {PearlWeb.UserAuth, :mount_current_user},
+      {PearlWeb.UserTicket, :redirect_if_user_has_paid_ticket}
+    ] do
+    live "/payment", Checkout.PaymentLive, :conclusion
+  end
+end
   scope "/", PearlWeb do
     pipe_through [:browser, :require_authenticated_user]
 

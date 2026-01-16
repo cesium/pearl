@@ -59,7 +59,8 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                                 else
                                   "bg-primary/40 scale-90"
                                 end]}>
-                                <div class={["absolute inset-0 bg-linear-[15deg] from-white/20 via-white/10 to-white/05 pointer-events-none", "#{if status == "inactive", do: "from-white/80 via-white/60 to-white/40"}"]}></div>
+
+                                <div class={["absolute inset-0 bg-linear-[15deg] from-white/45 via-white/20 to-white/05 pointer-events-none", "#{if status == "inactive", do: "from-white/80 via-white/60 to-white/40"}"]}></div>
                                 <.icon
                                   name={get_orb_icon(key_str)}
                                   class={[

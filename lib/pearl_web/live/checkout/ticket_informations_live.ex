@@ -4,6 +4,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
   # alias Pearl.Accounts
   alias Pearl.{Tickets, TicketTypes}
   alias Pearl.Tickets.Ticket
+  import PearlWeb.Components.Button
 
   def mount(_params, session, socket) do
     ticket_types = TicketTypes.list_ticket_types()
@@ -43,30 +44,54 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
   end
 
   def apply_action(socket, :precautions, _params) do
-    changeset = Tickets.change_ticket(%Ticket{}, socket.assigns.ticket_data)
+    changeset =
+      %Ticket{}
+      |> apply_step_validation(:choose_ticket, socket.assigns.ticket_data)
 
-    socket
-    |> assign(:current_step, :precautions)
-    |> assign(:form, to_form(changeset))
-    |> assign(:active_orbs, [%{disabilities: "active"}, %{allergens: "active"}])
+    if changeset.valid? do
+      socket
+      |> assign(:current_step, :precautions)
+      |> assign(:form, to_form(changeset))
+      |> assign(:active_orbs, [%{disabilities: "active"}, %{allergens: "active"}])
+    else
+      socket
+      |> put_flash(:error, "Please complete all required fields before proceeding.")
+      |> push_patch(to: ~p"/checkout/choose_ticket")
+    end
   end
 
   def apply_action(socket, :informations, _params) do
-    changeset = Tickets.change_ticket(%Ticket{}, socket.assigns.ticket_data)
+    changeset =
+      %Ticket{}
+      |> apply_step_validation(:precautions, socket.assigns.ticket_data)
 
-    socket
-    |> assign(:current_step, :informations)
-    |> assign(:form, to_form(changeset))
-    |> assign(:active_orbs, [%{disabilities: "inactive"}, %{allergens: "inactive"}, %{tshirt_size: "active"}, %{diet: "active"}, %{transport: "active"}, %{attended: "active"}, %{user: "active"}])
+    if changeset.valid? do
+      socket
+      |> assign(:current_step, :informations)
+      |> assign(:form, to_form(changeset))
+      |> assign(:active_orbs, [%{disabilities: "inactive"}, %{allergens: "inactive"}, %{tshirt_size: "active"}, %{diet: "active"}, %{transport: "active"}, %{attended: "active"}, %{user: "active"}])
+    else
+      socket
+      |> put_flash(:error, "Please complete all required fields before proceeding.")
+      |> push_patch(to: ~p"/checkout/precautions")
+    end
   end
 
   def apply_action(socket, :conclusion, _params) do
-    changeset = Tickets.change_ticket(%Ticket{}, socket.assigns.ticket_data)
+    changeset =
+      %Ticket{}
+      |> apply_step_validation(:informations, socket.assigns.ticket_data)
 
-    socket
-    |> assign(:current_step, :conclusion)
-    |> assign(:form, to_form(changeset))
-    |> assign(:active_orbs, [%{disabilities: "active"}, %{allergens: "active"}, %{tshirt_size: "active"}, %{diet: "active"}, %{transport: "active"}, %{attended: "active"}, %{user: "active"}])
+    if changeset.valid? do
+      socket
+      |> assign(:current_step, :conclusion)
+      |> assign(:form, to_form(changeset))
+      |> assign(:active_orbs, [%{disabilities: "active"}, %{allergens: "active"}, %{tshirt_size: "active"}, %{diet: "active"}, %{transport: "active"}, %{attended: "active"}, %{user: "active"}])
+    else
+      socket
+      |> put_flash(:error, "Please complete all required fields before proceeding to the conclusion.")
+      |> push_patch(to: ~p"/checkout/choose_ticket")
+    end
   end
 
   def handle_event("validate", params, socket) do

@@ -64,6 +64,14 @@ defmodule Pearl.Tickets do
     |> Repo.get!(id)
   end
 
+  def get_user_ticket(user_id) do
+    Ticket
+    |> where([t], t.user_id == ^user_id)
+    |> preload([:user, :ticket_type])
+    |> Repo.one()
+  end
+
+
   @doc """
   Creates a ticket.
 

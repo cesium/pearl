@@ -27,7 +27,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
       <div class="flex flex-col gap-10">
         <% selected_ticket_type = TicketTypes.get_ticket_type!(Map.get(assigns.ticket_data, "ticket_type_id")) %>
         <div>
-          <h2 class="font-extrabold text-2xl mb-2">Escolha o teu bilhete</h2>
+          <h2 class="font-extrabold text-lg mb-1">Escolha o teu bilhete</h2>
           <span>
             Os tipos de bilhetes incluem diferentes benefícios.
           </span>
@@ -62,23 +62,22 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
     ~H"""
     <div class="">
       <.simple_form phx-change="validate" for={@form} id="precautions-form">
-        <h2 class="font-extrabold text-2xl mb-2">Disabilities</h2>
+        <h2 class="font-extrabold text-lg mb-1">Disabilities</h2>
         <span class="mb-3 block">
-          Please describe any disability you have that we should be aware of so that we can tailor your experience.
+          Descreve qualquer incapacidade que tenhas que nós devamos saber para poder adaptar a tua experiência.
         </span>
         <.input
-          class="bg-[#EFEFED] border-none pl-0 text-base placeholder:text-base resize-none"
+          class="resize-none"
+          variant={:flushed}
           rows="3"
-          placeholder="Write here..."
+          placeholder="Escreve aqui..."
           type="textarea"
           field={@form[:disabilities]}
         />
 
-        <div class="w-full h-0.5 bg-black/5"></div>
-
-        <h2 class="font-extrabold text-2xl mb-2">Allergens*</h2>
+        <h2 class="font-extrabold text-lg mb-1">Allergens*</h2>
         <span class="mb-3 block">
-          If you have any food allergies, select the corresponding option and list the foods to which you are sensitive.
+          Se tiveres alguma alergia a alimentos, seleciona a opção correspondente e descrimina os alimentos a que és sensível.
         </span>
         <.input
           type="radio"
@@ -91,15 +90,15 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
         <%= if Phoenix.HTML.Form.input_value(@form, :has_allergens) == "yes" do %>
           <.input
-            class="bg-[#EFEFED] border-none pl-0 text-base placeholder:text-base resize-none"
+            class="resize-none"
+            variant={:flushed}
             rows="3"
-            placeholder="Write here..."
+            placeholder="Escreve aqui..."
             type="textarea"
             field={@form[:allergens]}
           />
         <% end %>
 
-        <div class="w-full h-0.5 bg-black/5"></div>
       </.simple_form>
     </div>
     """
@@ -109,7 +108,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
     ~H"""
     <div class="">
       <.simple_form phx-change="validate" for={@form} id="informations-form">
-        <h2 class="font-extrabold text-2xl mb-2">T-shirt size*</h2>
+        <h2 class="font-extrabold text-lg mb-1">T-shirt size*</h2>
         <span>
           For your convenience, please register the size of T-shirt you usually wear. In any case, you are not limited to the size you choose.
         </span>
@@ -119,7 +118,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
           options={[{"XS", "xs"}, {"S", "s"}, {"M", "m"}, {"L", "l"}, {"XL", "xl"}, {"XXL", "xxl"}]}
         />
 
-        <h2 class="font-extrabold text-2xl mb-2">Diet*</h2>
+        <h2 class="font-extrabold text-lg mb-1">Diet*</h2>
         <span>If you are vegetarian or vegan, we can take this into account in your meals.</span>
         <.input
           type="radio"
@@ -133,7 +132,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
         <div class="flex flex-col gap-5">
           <div>
-            <h2 class="font-extrabold text-2xl mb-2">How are you getting to ENEI?</h2>
+            <h2 class="font-extrabold text-lg mb-1">How are you getting to ENEI?</h2>
             <span>
               This question is optional and for statistical purposes only. What means of transportation do you intend to use for ENEI?
             </span>
@@ -164,7 +163,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
         <div class="flex flex-col gap-5">
           <div>
-            <h2 class="font-extrabold text-2xl mb-2">Have you been to ENEI before?</h2>
+            <h2 class="font-extrabold text-lg mb-1">Have you been to ENEI before?</h2>
             <span>
               This question is optional and for statistical purposes only. Have you ever participated in a previous edition of ENEI?
             </span>

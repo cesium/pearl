@@ -23,18 +23,12 @@
       </div>
     </div>
     <div class="sticky bottom-4 py-4 flex justify-end pointer-events-none">
-      <div class="flex gap-2 pointer-events-auto">
-        <.button phx-click="prev">
-          anterior
-        </.button>
+      <div class="flex pointer-events-auto">
+        <.secondary_button title="anterior" phx-click="prev"/>
         <%= if @live_action == :conclusion do %>
-          <.button phx-click="payment" disabled={!@verified_account}>
-            ir para pagamento
-          </.button>
+          <.primary_button title="ir para pagamento" phx-click="payment" disabled={!@verified_account} class="w-fit p-2!"/>
         <% else %>
-          <.button phx-click="next">
-            continuar
-          </.button>
+          <.primary_button title="continuar" phx-click="next"/>
         <% end %>
       </div>
     </div>

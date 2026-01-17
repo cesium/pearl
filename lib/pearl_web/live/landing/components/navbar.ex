@@ -74,13 +74,13 @@ defmodule PearlWeb.Landing.Components.Navbar do
                   class="ring-2 rounded-full ring-white"
                 />
               </:trigger_element>
-              <.dropdown_menu_item
+              <.dropdown_menu_link_item
                 :if={user_type?(@current_user, :staff)}
                 link_type="a"
                 to="/dashboard/scanner"
                 label="Dashboard"
               />
-              <.dropdown_menu_item
+              <.dropdown_menu_link_item
                 :if={user_type?(@current_user, :attendee)}
                 link_type="a"
                 to={
@@ -90,13 +90,13 @@ defmodule PearlWeb.Landing.Components.Navbar do
                 }
                 label="App"
               />
-              <.dropdown_menu_item
+              <.dropdown_menu_link_item
                 :if={user_type?(@current_user, :company)}
                 link_type="a"
                 to="/sponsor/scanner"
                 label="Scanner"
               />
-              <.dropdown_menu_item
+              <.dropdown_menu_link_item
                 link_type="a"
                 method="delete"
                 to="/users/log_out"

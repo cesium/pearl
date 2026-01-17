@@ -23,6 +23,12 @@ defmodule PearlWeb.Landing.TeamLive.Index do
   end
 
   @impl true
+  def handle_event("add_filter", %{"filter" => "all"}, socket) do
+    {:noreply,
+     socket
+     |> assign(filter_by: :all)}
+  end
+
   def handle_event("add_filter", %{"filter" => filter}, socket) do
     {:noreply,
      socket

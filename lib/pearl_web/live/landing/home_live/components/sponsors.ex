@@ -9,7 +9,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
     <div class="flex items-center justify-center flex-col py-14.5">
       <div class="flex flex-col gap-5 items-center text-black px-4 md:px-8">
         <h2 class="flex font-semibold justify-center text-center text-2xl md:text-3xl max-w-full md:max-w-[580px]">
-          {gettext("Um elenco de empresas que abre portas e janelas")}
+          {gettext("Contacta com empresas do melhor que há")}
         </h2>
         <p class="text-center max-w-full md:max-w-3xl lg:max-w-5xl">
           As empresas incríveis que nos patrocinam são quem possibilita o ENEI. Durante todo o evento, vais poder encontrá-las e falar com os seus representantes para as conheceres melhor.

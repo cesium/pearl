@@ -12,7 +12,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
           {gettext("Contacta com empresas do melhor que há")}
         </h2>
         <p class="text-center max-w-full md:max-w-3xl lg:max-w-5xl">
-          As empresas incríveis que nos patrocinam são quem possibilita o ENEI. Durante todo o evento, vais poder encontrá-las e falar com os seus representantes para as conheceres melhor.
+          Os nossos patrocinadores incríveis são quem possibilita o ENEI. Durante todo o evento, vais poder encontrar e falar com representantes de empresas inovadores para fazeres o melhor networking.
         </p>
       </div>
       <div class="flex flex-col gap-10 pt-10">

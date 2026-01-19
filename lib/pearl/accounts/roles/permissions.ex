@@ -10,6 +10,8 @@ defmodule Pearl.Accounts.Roles.Permissions do
       "staffs" => ["show", "edit", "roles_edit"],
       "challenges" => ["show", "edit", "delete"],
       "companies" => ["edit"],
+      "tickets" => ["edit"],
+      "discount_codes" => ["edit"],
       "enrolments" => ["show", "edit"],
       "products" => ["show", "edit", "delete"],
       "purchases" => ["show", "redeem", "refund"],

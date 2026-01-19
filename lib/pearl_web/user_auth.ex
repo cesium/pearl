@@ -188,6 +188,12 @@ defmodule PearlWeb.UserAuth do
     end
   end
 
+  def on_mount(:require_confirmed_email, _params, session, socket) do
+    {:cont, mount_current_user(socket, session)}
+
+    {:cont, socket}
+  end
+
   defp mount_current_user(socket, session) do
     socket =
       Phoenix.Component.assign_new(socket, :current_user, fn ->

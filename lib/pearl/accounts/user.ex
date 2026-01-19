@@ -35,6 +35,10 @@ defmodule Pearl.Accounts.User do
   schema "users" do
     field :name, :string
     field :email, :string
+    # field :notes, :string
+    # field :university, :string
+    # field :course, :string
+    # field :code, :string
     field :handle, :string
     field :picture, Pearl.Uploaders.UserPicture.Type
     field :password, :string, virtual: true, redact: true

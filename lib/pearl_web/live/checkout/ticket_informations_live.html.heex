@@ -1,0 +1,36 @@
+<div class="text-black flex w-full h-full gap-4" phx-hook="TicketData" id="ticket-checkout">
+  <div class="min-w-[420px]">
+    <div class="sticky top-6 min-w-[420px] h-[642px] bg-white rounded-4xl border border-gray-100 overflow-hidden">
+    </div>
+  </div>
+
+  <div class="flex flex-col justify-between gap-4 w-full">
+    <div class="">
+      <div class="text-black">
+        <.live_component
+          module={PearlWeb.Checkout.Components.TicketForm}
+          id="ticket-form"
+          step={@current_step}
+          form={@form}
+          ticket_data={@ticket_data}
+        />
+      </div>
+    </div>
+    <div class="sticky bottom-4 py-4 flex justify-end pointer-events-none">
+      <div class="flex gap-2 pointer-events-auto">
+        <.button phx-click="prev">
+          anterior
+        </.button>
+        <%= if @live_action == :conclusion do %>
+          <.button phx-click="payment" disabled={!@verified_account}>
+            ir para pagamento
+          </.button>
+        <% else %>
+          <.button phx-click="next">
+            continuar
+          </.button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

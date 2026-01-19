@@ -7,8 +7,7 @@ defmodule PearlWeb.Landing.HomeLive.Index do
     Partners,
     Pitch,
     Sponsors,
-    Speakers,
-    Scroller
+    Speakers
   }
 
   alias Pearl.{Activities, Event}

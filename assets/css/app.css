@@ -141,8 +141,6 @@
   --animate-slide-in: slide-in 1.5s ease-in-out;
   --animate-fade-in: fade-in 0.5s ease-in-out;
   --animate-fade-in-slow: fade-in 1.5s ease-in-out;
-
-  --animate-scroller: infinite-scroll 20s linear infinite;
 }
 
 @keyframes slide-in {
@@ -163,19 +161,6 @@
   100% {
     opacity: 1;
   }
-}
-
-@keyframes infinite-scroll {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-.group:hover .scroller-content {
-  animation-play-state: paused !important;
 }
 
 /* Add variants based on LiveView classes */

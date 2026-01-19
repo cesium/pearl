@@ -6,12 +6,6 @@
   />
   <.pitch :if={@has_schedule? || @has_highlighted_speakers? || @has_sponsors?} />
 </div>
-<div>
-  <.scroller
-    text={gettext("as inscrições abrem no dia 5 de janeiro")}
-    pausable={true}
-  />
-</div>
 <div class="bg-light px-5 md:px-32 xl:px-32 pt-20">
   <.live_component
     :if={@has_schedule?}

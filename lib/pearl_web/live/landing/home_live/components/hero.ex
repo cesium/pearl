@@ -2,8 +2,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Hero do
   @moduledoc false
   use PearlWeb, :component
 
-  import PearlWeb.Landing.Components.{JoinUs, Socials}
-
   attr :event_start_date, Date, required: true
   attr :event_end_date, Date, required: true
   attr :registrations_open?, :boolean, default: false
@@ -55,11 +53,11 @@ defmodule PearlWeb.Landing.HomeLive.Components.Hero do
         <div class="ticker-viewport flex-1">
           <div id="announcement-ticker" phx-hook="Ticker" class="ticker-track">
             <span class="ticker-item text-dark-muted">
-                <%= if @registrations_open? do %>
-                    <%= gettext("as inscrições já estão abertas!") %>
-                <% else %>
-                    <%= gettext("as inscrições abrem no dia 5 de janeiro") %>
-                <% end %>
+              <%= if @registrations_open? do %>
+                {gettext("as inscrições já estão abertas!")}
+              <% else %>
+                {gettext("as inscrições abrem no dia 5 de janeiro")}
+              <% end %>
             </span>
           </div>
         </div>

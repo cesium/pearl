@@ -55,7 +55,11 @@ defmodule PearlWeb.Landing.HomeLive.Components.Hero do
         <div class="ticker-viewport flex-1">
           <div id="announcement-ticker" phx-hook="Ticker" class="ticker-track">
             <span class="ticker-item text-dark-muted">
-              {gettext("as inscrições abrem no dia 5 de janeiro")}
+                <%= if @registrations_open? do %>
+                    <%= gettext("as inscrições já estão abertas!") %>
+                <% else %>
+                    <%= gettext("as inscrições abrem no dia 5 de janeiro") %>
+                <% end %>
             </span>
           </div>
         </div>
@@ -89,7 +93,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Hero do
                   <div class="left-1/2 top-0 -translate-x-1/2 -translate-y-[67%] absolute -z-10 w-[210%] h-[470%] bg-[radial-gradient(50%_50%_at_50%_50%,_#FFFFFF_50.48%,_rgba(255,255,255,0)_75%,_#FFFFFF_98%),radial-gradient(23.07%_57.76%_at_50%_50%,_#DC6526_65%,_#5028E1_75%,_#E9225C_100%)] opacity-20">
                   </div>
                   <img
-                    src="/images/venue.svg"
+                    src="/images/forum-braga.svg"
                     alt="Forum Braga"
                     class="w-full aspect-[16/9] lg:h-[250px] object-cover"
                   />

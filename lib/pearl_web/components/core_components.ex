@@ -103,7 +103,11 @@ defmodule PearlWeb.CoreComponents do
   attr :id, :string, doc: "the optional id of flash container"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil
-  attr :kind, :atom, values: [:info, :error], doc: "used for styling and flash lookup"
+
+  attr :kind, :atom,
+    values: [:info, :error, :success, :tip, :help],
+    doc: "used for styling and flash lookup"
+
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
@@ -118,21 +122,58 @@ defmodule PearlWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1",
-        @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
-        @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
+        "fixed top-8 right-4 w-80 sm:w-106 z-50 flex flex-col justify-between min-h-40 shadow-lg border-olive/10 border-2"
       ]}
       {@rest}
     >
-      <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
-        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" />
-        {@title}
-      </p>
-      <p class="mt-2 text-sm leading-5">{msg}</p>
-      <button type="button" class="group absolute top-1 right-1 p-2" aria-label={gettext("close")}>
-        <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
-      </button>
+      <div class="flex-1 flex flex-row justify-between bg-[#f9f9f8] py-4">
+        <div class="flex flex-col justify-center items-center mx-4">
+          <div class="flex flex-col size-15 bg-primary items-center justify-center">
+            <.icon name={get_flash_icon(@kind)} class="size-10 text-light" />
+          </div>
+        </div>
+        <div>
+          <div class="flex-1 flex flex-col justify-center">
+            <% final_title = @title || get_flash_title(@kind) %>
+
+            <%= if final_title do %>
+              <h3 class="font-bold text-dark text-xl">
+                {final_title}
+              </h3>
+              <p class="text-dark text-lg leading-snug">
+                {msg}
+              </p>
+            <% else %>
+              <p class="font-medium text-dark text-xl leading-snug">
+                {msg}
+              </p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="h-12 text-xl flex flex-row items-center my-auto bg-background justify-start px-4 gap-4">
+        <div :if={@kind == :help}>
+          <.link
+            navigate="/faqs"
+            class="flex items-center text-primary font-bold hover:underline"
+          >
+            <span class="mr-1">
+              <.icon name="hero-arrow-right" class="size-7" />
+            </span>
+            ir para Informação & Ajuda
+          </.link>
+        </div>
+
+        <button
+          type="button"
+          class="flex items-center text-primary hover:opacity-75 group"
+          aria-label={gettext("close")}
+          phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
+          phx-value-key={@kind}
+        >
+          <span class="mr-1"><.icon name="hero-x-mark" class="size-7" /></span> fechar
+        </button>
+      </div>
     </div>
     """
   end
@@ -150,8 +191,12 @@ defmodule PearlWeb.CoreComponents do
   def flash_group(assigns) do
     ~H"""
     <div id={@id}>
-      <.flash kind={:info} title={gettext("Success!")} flash={@flash} />
-      <.flash kind={:error} title={gettext("Error!")} flash={@flash} />
+      <.flash kind={:info} flash={@flash} />
+      <.flash kind={:success} flash={@flash} />
+      <.flash kind={:error} flash={@flash} />
+      <.flash kind={:tip} flash={@flash} />
+      <.flash kind={:help} flash={@flash} />
+
       <.flash
         id="client-error"
         kind={:error}
@@ -160,8 +205,10 @@ defmodule PearlWeb.CoreComponents do
         phx-connected={hide("#client-error")}
         hidden
       >
-        {gettext("Attempting to reconnect")}
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <span class="flex items-center gap-2">
+          {gettext("Attempting to reconnect")}
+          <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        </span>
       </.flash>
 
       <.flash
@@ -172,12 +219,25 @@ defmodule PearlWeb.CoreComponents do
         phx-connected={hide("#server-error")}
         hidden
       >
-        {gettext("Hang in there while we get back on track")}
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <span class="flex items-center gap-2">
+          {gettext("Hang in there while we get back on track")}
+          <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        </span>
       </.flash>
     </div>
     """
   end
+
+  defp get_flash_icon(:tip), do: "hero-light-bulb"
+  defp get_flash_icon(:help), do: "hero-question-mark-circle"
+  defp get_flash_icon(:success), do: "hero-check-circle"
+  defp get_flash_icon(:error), do: "hero-exclamation-triangle"
+  defp get_flash_icon(:info), do: "hero-information-circle"
+  defp get_flash_icon(_), do: "hero-information-circle"
+
+  defp get_flash_title(:tip), do: "Dica"
+  defp get_flash_title(:help), do: "Precisa de ajuda?"
+  defp get_flash_title(_), do: nil
 
   @doc """
   Renders a simple form.

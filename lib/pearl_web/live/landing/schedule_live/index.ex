@@ -12,7 +12,11 @@ defmodule PearlWeb.Landing.ScheduleLive.Index do
      |> assign(:current_page, :schedule)
      |> assign(:event_start_date, Event.get_event_start_date())
      |> assign(:event_end_date, Event.get_event_end_date())
-     |> assign(:registrations_open?, Event.registrations_open?())}
+     |> assign(:registrations_open?, Event.registrations_open?())
+     |> put_flash(
+       :tip,
+       "Desliza sobre as faixas para veres mais ou carrega nas imagens para veres o respetivo dia completo."
+     )}
   end
 
   @impl true

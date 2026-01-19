@@ -49,7 +49,7 @@ defmodule PearlWeb.Components.Button do
         :if={@icon != ""}
         class="flex items-center justify-center size-10 shrink-0 rounded-full bg-primary text-white transition-transform group-hover:scale-105"
       >
-        <.icon name={@icon} class="size-5" />
+        <.icon name={@icon} class="size-5 transition-transform group-hover:scale-105" />
       </div>
     </.link>
     """

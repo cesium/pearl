@@ -61,6 +61,7 @@
   --color-dark-muted: #71717a;
   --color-dark-shade: #27272a;
   --color-dark-blue: #04041c;
+  --color-dark-text: #1f1f1f;
 
   --color-background: var(--color-light);
   --color-background-muted: var(--color-light-muted);

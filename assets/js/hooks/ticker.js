@@ -9,6 +9,7 @@ export const Ticker = {
     const SPEED = 60
     let offset = 0
     let last = performance.now()
+    let paused = false
 
     const runWidth = original.offsetWidth
     const viewportWidth = track.parentElement.offsetWidth
@@ -25,15 +26,27 @@ export const Ticker = {
       const delta = (now - last) / 1000
       last = now
 
-      offset -= SPEED * delta
+      if (!paused) {
+        offset -= SPEED * delta
 
-      if (offset <= -runWidth) {
-        offset += runWidth
+        if (offset <= -runWidth) {
+          offset += runWidth
+        }
+
+        track.style.transform = `translate3d(${offset}px, 0, 0)`
       }
 
-      track.style.transform = `translate3d(${offset}px, 0, 0)`
       this.raf = requestAnimationFrame(tick)
     }
+
+    track.addEventListener('mouseenter', () => {
+      paused = true
+    })
+
+    track.addEventListener('mouseleave', () => {
+      paused = false
+      last = performance.now()
+    })
 
     this.raf = requestAnimationFrame(tick)
   },

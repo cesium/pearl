@@ -1,5 +1,5 @@
 defmodule PearlWeb.UserRegistrationLive do
-  use PearlWeb, :landing_view
+  use PearlWeb, :auth_view
 
   alias Pearl.Accounts
   alias Pearl.Accounts.User

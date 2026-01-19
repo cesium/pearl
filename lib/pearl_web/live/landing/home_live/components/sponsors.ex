@@ -15,7 +15,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
           Os nossos patrocinadores incríveis são quem possibilita o ENEI. Durante todo o evento, vais poder encontrar e falar com representantes de empresas inovadores para fazeres o melhor networking.
         </p>
       </div>
-      <div class="flex flex-col gap-10 pt-10">
+      <div class="flex flex-col gap-14 pt-10">
         <%= for tier <- @tiers do %>
           <.sponsor_segment tier={tier} sponsors={tier.companies} />
         <% end %>

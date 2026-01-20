@@ -9,11 +9,14 @@ defmodule PearlWeb.Components.Modal do
   attr :id, :string, required: true
   attr :show, :boolean, default: false
 
+  attr :backdrop_class, :string,
+    default: "backdrop-blur-md transition-opacity"
+
   attr :wrapper_class, :string, default: ""
 
   attr :body_class, :string,
     default:
-      "bg-light dark:bg-dark p-8 sm:p-14 shadow-zinc-700/10 shadow-lg border dark:border-darkShade rounded-2xl"
+      "bg-light dark:bg-dark p-8 sm:p-14 shadow-zinc-700/10 shadow-lg rounded-2xl"
 
   attr :on_cancel, JS, default: %JS{}
   attr :close_button, :boolean, default: true
@@ -32,7 +35,7 @@ defmodule PearlWeb.Components.Modal do
     >
       <div
         id={"#{@id}-bg"}
-        class="backdrop-blur-md fixed inset-0 transition-opacity"
+        class={[@backdrop_class, "fixed inset-0"]}
         aria-hidden="true"
       />
 

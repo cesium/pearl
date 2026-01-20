@@ -4,18 +4,24 @@
     registrations_open?={Pearl.Event.registrations_open?()}
   />
   <main>
-    <body>
-      <div class="flex w-full justify-center items-center flex-col py-48 font-terminal uppercase xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
-        <h5 class="z-0 w-full text-accent text-9xl">404</h5>
-        <h1 class="z-0 text-5xl text-white lg:text-8xl xl:text-8xl">
-          {gettext("You're in the wrong line of code, pal.")}
-        </h1>
+    <div class="flex w-full justify-center items-center flex-col py-32 xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
+      
+      <img src="/images/404_error.svg" alt="" class="max-w-xl h-auto mb-12" />
+      
+      <div class="flex flex-col items-center max-w-xl w-full gap-8">
+        <p class="text-center text-black/50 text-lg leading-relaxed">
+          {gettext("Lamentamos, mas a página que procuras parece não existir. Mas não te preocupes - há muito para ver neste site!")}
+        </p>
+        
+        <.link navigate={~p"/"}>
+          <.primary_button
+            title={gettext("ir para a página inicial")}
+            icon="hero-home"
+          />
+        </.link>
       </div>
-    </body>
+    </div>
   </main>
-  <.footer>
-    <:tip>
-      Okay, let's get you back on track. <.link class="underline" navigate={~p"/"}>Go home</.link>?
-    </:tip>
-  </.footer>
+  
+  <.footer />
 </div>

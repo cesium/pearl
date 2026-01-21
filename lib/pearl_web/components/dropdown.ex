@@ -151,11 +151,11 @@ defmodule PearlWeb.Components.Dropdown do
       ]}
     >
       <div class={[
-        "text-primary w-6 h-6",
+        "w-6 h-6",
         if @active do
-          "fa-circle-dot"
+          "fa-circle-dot text-primary"
         else
-          "fa-circle"
+          "fa-circle text-dark/10"
         end
       ]} />
       {render_slot(@inner_block)}

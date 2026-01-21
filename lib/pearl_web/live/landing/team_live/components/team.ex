@@ -39,7 +39,7 @@ defmodule PearlWeb.Landing.TeamLive.Components.Team do
           menu_items_wrapper_class="w-full! sm:w-1/2! border border-black/10 bg-white/60! shadow-[0_1px_20px_rgba(0,0,0,0.05)] backdrop-blur-[17px]"
         >
           <:trigger_element>
-            <div class="w-full px-4 py-3 flex items-center justify-between">
+            <div class="w-full px-4 py-3 flex items-center justify-between text-primary">
               <span>
                 <%= if @current_filter == :all do %>
                   Todos ({Enum.sum(Enum.map(@teams, fn team -> length(team.team_members) end))})

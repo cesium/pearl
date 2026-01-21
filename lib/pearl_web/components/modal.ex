@@ -9,7 +9,7 @@ defmodule PearlWeb.Components.Modal do
   attr :id, :string, required: true
   attr :show, :boolean, default: false
 
-  attr :backdrop_class, :string, default: "backdrop-blur-md transition-opacity"
+  attr :backdrop_class, :string, default: "backdrop-blur-md transition-opacity bg-dark/50"
 
   attr :wrapper_class, :string, default: ""
 

@@ -10,7 +10,7 @@ defmodule PearlWeb.Landing.FAQLive.Components.Faq do
 
   def faq(assigns) do
     ~H"""
-    <div id={@id} class="bg-white border-b-2 border-background-muted">
+    <div id={@id} class="bg-white border-b-2 border-background-muted group">
       <div class="w-full flex flex-row items-center">
         <div class="h-min py-4 pl-6">
           <p class="uppercase text-sm opacity-50">{@topic}</p>
@@ -26,14 +26,16 @@ defmodule PearlWeb.Landing.FAQLive.Components.Faq do
               in: {"", "opacity-0 max-h-0", "opacity-100 max-h-48"},
               out: {"", "opacity-100 max-h-48", "opacity-0 max-h-0"}
             )
-            |> JS.toggle(to: "#faq-answer-toggle-show-#{@id}")
-            |> JS.toggle(to: "#faq-answer-toggle-hide-#{@id}")
+            |> JS.toggle_class("rotate-90", to: ".faq-answer-toggle-#{@id}")
           }
         >
-          <.icon name="hero-arrow-right" class="mr-6 w-6 h-6 cursor-pointer opacity-50" />
+          <.icon
+            name="hero-arrow-right"
+            class={"mr-6 w-6 h-6 cursor-pointer opacity-50 transition-transform faq-answer-toggle-#{@id}"}
+          />
         </button>
       </div>
-      <div id={"faq-answer-#{@id}"} class="overflow-hidden pb-4" style="display: none;">
+      <div id={"faq-answer-#{@id}"} class="overflow-hidden pb-4 px-6" style="display: none;">
         <p>{@answer}</p>
       </div>
     </div>

@@ -3,21 +3,23 @@ defmodule PearlWeb.Landing.FAQLive.Components.Faq do
   use PearlWeb, :component
 
   attr :id, :string, required: true
+  attr :topic, :string, required: true
   attr :question, :string, required: true
   attr :answer, :string, required: true
+  attr :is_article, :boolean, default: false
 
   def faq(assigns) do
     ~H"""
-    <div id={@id} class="border-t-2 border-white py-4 text-white">
-      <h2 class="font-terminal uppercase mb-4 select-none text-2xl md:text-4xl">
-        {@question}
-      </h2>
-      <div id={"faq-answer-#{@id}"} class="overflow-hidden pb-4" style="display: none;">
-        <p>{@answer}</p>
-      </div>
-      <div class="flex items-center justify-end">
+    <div id={@id} class="bg-white border-b-2 border-background-muted">
+      <div class="w-full flex flex-row items-center">
+        <div class="h-min py-4 pl-6">
+          <p class="uppercase text-sm opacity-50">{@topic}</p>
+          <h2 class="select-none text-lg">
+            {@question}
+          </h2>
+        </div>
         <button
-          class="font-terminal uppercase w-16 select-none rounded-full bg-accent px-2 text-xl text-white hover:scale-110"
+          class="ml-auto"
           phx-click={
             JS.toggle(
               to: "#faq-answer-#{@id}",
@@ -28,9 +30,11 @@ defmodule PearlWeb.Landing.FAQLive.Components.Faq do
             |> JS.toggle(to: "#faq-answer-toggle-hide-#{@id}")
           }
         >
-          <span id={"faq-answer-toggle-show-#{@id}"}>+</span>
-          <span id={"faq-answer-toggle-hide-#{@id}"} style="display: none;">-</span>
+          <.icon name="hero-arrow-right" class="mr-6 w-6 h-6 cursor-pointer opacity-50" />
         </button>
+      </div>
+      <div id={"faq-answer-#{@id}"} class="overflow-hidden pb-4" style="display: none;">
+        <p>{@answer}</p>
       </div>
     </div>
     """

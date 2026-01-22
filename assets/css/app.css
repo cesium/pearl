@@ -196,7 +196,7 @@ select:-webkit-autofill:focus {
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 .bg-dotted {
-  --d: 4px;
+  --d: 3px;
 
   background: radial-gradient(
     circle at
@@ -206,7 +206,7 @@ select:-webkit-autofill:focus {
     rgba(0, 0, 0, 0.06) calc(var(--d) - 1px),
     transparent var(--d)
   )
-  0 0 / 50px 50px;
+  0 0 / 35px 35px;
 }
 
 .flip-clock-card-item-inner {

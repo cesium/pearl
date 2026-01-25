@@ -6,7 +6,17 @@ defmodule PearlWeb.Backoffice.TicketsLive.Index do
   alias Pearl.{Perks, Tickets, TicketTypes}
   alias Pearl.Tickets.{Perk, TicketType}
 
-  on_mount {PearlWeb.StaffRoles, index: %{"tickets" => ["edit"]}}
+  on_mount {PearlWeb.StaffRoles,
+            index: %{"tickets" => ["show"]},
+            new: %{"tickets" => ["edit"]},
+            edit: %{"tickets" => ["edit"]},
+            ticket_types: %{"tickets" => ["ticket_types_show"]},
+            ticket_types_new: %{"tickets" => ["ticket_types_edit"]},
+            ticket_types_edit: %{"tickets" => ["ticket_types_edit"]},
+            perks: %{"tickets" => ["perks_show"]},
+            perks_new: %{"tickets" => ["perks_show"]},
+            perks_edit: %{"tickets" => ["perks_edit"]},
+          }
 
   def mount(_params, _session, socket) do
     {:ok, socket}

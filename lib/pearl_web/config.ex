@@ -151,21 +151,21 @@ defmodule PearlWeb.Config do
         title: "Companies",
         icon: "hero-building-office",
         url: "/dashboard/companies",
-        scope: %{"companies" => ["edit"]}
+        scope: %{"companies" => ["show"]}
       },
       %{
         key: :tickets,
         title: "Tickets",
         icon: "hero-ticket",
         url: "/dashboard/tickets",
-        scope: %{"tickets" => ["edit"]}
+        scope: %{"tickets" => ["show"]}
       },
       %{
         key: :discount_codes,
         title: "Discount Codes",
         icon: "hero-tag",
         url: "/dashboard/discount_codes",
-        scope: %{"discount_codes" => ["edit"]}
+        scope: %{"discount_codes" => ["show"]}
       },
       %{
         key: :store,

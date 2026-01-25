@@ -4,8 +4,7 @@ defmodule PearlWeb.Backoffice.PrizeLive.Index do
   alias Pearl.Minigames
   alias Pearl.Minigames.Prize
 
-  import PearlWeb.Components.Table
-  import PearlWeb.Components.TableSearch
+  import PearlWeb.Components.{Table, TableSearch, Modal}
 
   on_mount {PearlWeb.StaffRoles,
             index: %{"minigames" => ["show"]}, new: %{"minigames" => ["edit"]}}

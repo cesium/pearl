@@ -5,8 +5,7 @@ defmodule PearlWeb.Backoffice.PurchaseLive.Index do
   alias Pearl.Store
 
   import PearlWeb.Helpers
-  import PearlWeb.Components.Table
-  import PearlWeb.Components.TableSearch
+  import PearlWeb.Components.{Table, TableSearch, Modal}
 
   on_mount {PearlWeb.StaffRoles,
             show: %{"purchases" => ["show"]},

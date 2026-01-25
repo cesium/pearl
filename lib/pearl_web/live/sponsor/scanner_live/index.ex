@@ -3,7 +3,7 @@ defmodule PearlWeb.Sponsor.ScannerLive.Index do
 
   alias Pearl.{Accounts, Contest}
 
-  import PearlWeb.Components.Button
+  import PearlWeb.Components.{Button, Modal}
 
   @impl true
   def render(assigns) do

@@ -3,7 +3,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.BadgeLive.Index do
 
   alias Pearl.{Accounts, Contest}
 
-  import PearlWeb.Components.Tabs
+  import PearlWeb.Components.{Tabs, Modal}
 
   @impl true
   def render(assigns) do

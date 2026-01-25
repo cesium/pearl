@@ -5,7 +5,7 @@ defmodule PearlWeb.Backoffice.StaffLive.Index do
   alias PearlWeb.Presence
   alias Phoenix.Socket.Broadcast
 
-  import PearlWeb.Components.{Table, TableSearch}
+  import PearlWeb.Components.{Table, TableSearch, Modal}
 
   alias Pearl.Accounts.User
   alias Pearl.Repo

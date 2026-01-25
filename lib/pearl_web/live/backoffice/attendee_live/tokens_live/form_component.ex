@@ -3,7 +3,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.TokensLive.FormComponent do
 
   alias Pearl.Accounts
   alias Pearl.Contest
-  import PearlWeb.Components.{Forms, Button}
+  import PearlWeb.Components.{Forms, Button, Modal}
 
   @impl true
   def render(assigns) do

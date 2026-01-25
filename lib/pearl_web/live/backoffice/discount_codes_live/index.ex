@@ -1,7 +1,7 @@
 defmodule PearlWeb.Backoffice.DiscountCodesLive.Index do
   use PearlWeb, :backoffice_view
 
-  import PearlWeb.Components.Table
+  import PearlWeb.Components.{Table, Modal}
 
   alias Pearl.DiscountCodes
   alias Pearl.DiscountCodes.DiscountCode

@@ -1,7 +1,7 @@
 defmodule PearlWeb.Backoffice.CompanyLive.Index do
   use PearlWeb, :backoffice_view
 
-  import PearlWeb.Components.{Table, TableSearch}
+  import PearlWeb.Components.{Table, TableSearch, Modal}
 
   alias Pearl.{Companies, Contest}
   alias Pearl.Companies.{Company, Tier}

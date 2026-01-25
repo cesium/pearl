@@ -3,7 +3,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Show do
 
   alias Pearl.{Accounts, Inventory}
 
-  import PearlWeb.Components.Tabs
+  import PearlWeb.Components.{Tabs, Modal}
 
   @impl true
   def render(assigns) do

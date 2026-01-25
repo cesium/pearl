@@ -3,16 +3,9 @@
 [license]: LICENSE
 [ci-style-status]: https://github.com/cesium/pearl/actions/workflows/style.yml/badge.svg
 [ci-style-workflow]: https://github.com/cesium/pearl/actions/workflows/style.yml
-[figma-design-2022]: https://www.figma.com/file/sPqEvYKlOqL8L7CC2AzxkN/SEI
-[figma-badge-2022]: https://img.shields.io/badge/-figma22-s?style=flat&logo=figma&color=black
-[figma-design-2021]: https://www.figma.com/file/1phER5eukGFC5p9tFGnfk7/SEI
-[figma-badge-2021]: https://img.shields.io/badge/-figma21-s?style=flat&logo=figma&color=black
 
-# ![SEI Banner](.github/brand/pearl-banner.png)
+<img style="width: 100%" src=".github/brand/enei-banner.png" alt="ENEI Banner" width="500" />
 
-[![CI Style][ci-style-status]][ci-style-workflow]
-[![Design 2022][figma-badge-2022]][figma-design-2022]
-[![Design 2021][figma-badge-2021]][figma-design-2021]
 
 ## 🤝 Contributing
 

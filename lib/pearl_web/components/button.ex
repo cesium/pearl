@@ -84,9 +84,9 @@ defmodule PearlWeb.Components.Button do
     ~H"""
     <button
       class={[
-        "flex items-center justify-center py-3",
-        if(@small, do: "w-13 h-13", else: ["w-27 px-12 h-9", @gap]),
-        "bg-primary text-white hover:bg-primary/80 disabled:opacity-50 disabled:cursor-not-allowed",
+        "flex items-center justify-center",
+        if(@small, do: "w-13 h-13", else: ["px-4 py-2.5", @gap]),
+        "bg-primary text-white hover:bg-primary/80 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
         @class
       ]}
       {@rest}
@@ -95,7 +95,7 @@ defmodule PearlWeb.Components.Button do
         <.icon name={@icon} class="w-5 h-5 shrink-0" />
       <% else %>
         <.icon name={@icon} class="w-4 h-4 shrink-0" />
-        <span class="text-base">{assigns.title}</span>
+        <span>{assigns.title}</span>
       <% end %>
     </button>
     """
@@ -108,10 +108,12 @@ defmodule PearlWeb.Components.Button do
 
       <.secondary_button title="Continue" />
       <.secondary_button title="Next" icon_position="left" />
+      <.secondary_button title="Help" no_icon />
   """
   attr :title, :string, required: true
   attr :icon, :string, default: "hero-arrow-left"
   attr :icon_position, :string, default: "right", values: ["left", "right"]
+  attr :no_icon, :boolean, default: false
   attr :gap, :string, default: "gap-1.5"
   attr :class, :string, default: nil
   attr :rest, :global, include: ~w(disabled phx-click phx-disable-with phx-target)
@@ -120,20 +122,23 @@ defmodule PearlWeb.Components.Button do
     ~H"""
     <button
       class={[
-        "flex items-center justify-center px-12 py-3",
-        @gap,
-        "bg-primary/10 text-primary hover:bg-primary/20 disabled:opacity-50 disabled:cursor-not-allowed",
-        "w-22 h-9",
+        "flex items-center justify-center py-2.5 px-4",
+        if(@no_icon, do: "", else: @gap),
+        "bg-primary/10 text-primary hover:bg-primary/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
         @class
       ]}
       {@rest}
     >
-      <%= if @icon_position == "left" do %>
-        <.icon name={@icon} class="w-4 h-4 shrink-0" />
-        <span class="text-base">{assigns.title}</span>
+      <%= if @no_icon do %>
+        <span>{assigns.title}</span>
       <% else %>
-        <span class="text-base">{assigns.title}</span>
-        <.icon name={@icon} class="w-4 h-4 shrink-0" />
+        <%= if @icon_position == "left" do %>
+          <.icon name={@icon} class="w-4 h-4 shrink-0" />
+          <span>{assigns.title}</span>
+        <% else %>
+          <span>{assigns.title}</span>
+          <.icon name={@icon} class="w-4 h-4 shrink-0" />
+        <% end %>
       <% end %>
     </button>
     """

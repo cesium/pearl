@@ -15,8 +15,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.Index do
             ticket_types_edit: %{"tickets" => ["ticket_types_edit"]},
             perks: %{"tickets" => ["perks_show"]},
             perks_new: %{"tickets" => ["perks_show"]},
-            perks_edit: %{"tickets" => ["perks_edit"]},
-          }
+            perks_edit: %{"tickets" => ["perks_edit"]}}
 
   def mount(_params, _session, socket) do
     {:ok, socket}

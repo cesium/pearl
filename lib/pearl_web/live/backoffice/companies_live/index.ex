@@ -6,11 +6,12 @@ defmodule PearlWeb.Backoffice.CompanyLive.Index do
   alias Pearl.{Companies, Contest}
   alias Pearl.Companies.{Company, Tier}
 
- on_mount {PearlWeb.StaffRoles,
+  on_mount {PearlWeb.StaffRoles,
             index: %{"companies" => ["show"]},
             new: %{"companies" => ["edit"]},
             tiers_edit: %{"companies" => ["tiers_edit"]},
             tiers_new: %{"companies" => ["tiers_new"]}}
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}

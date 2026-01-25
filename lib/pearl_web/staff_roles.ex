@@ -6,8 +6,7 @@ defmodule PearlWeb.StaffRoles do
     live_action = socket.assigns.live_action
 
     permissions = user.staff.role.permissions |> Enum.into(%{})
-    IO.inspect(scope)
-    IO.inspect(live_action)
+
     case Keyword.get(scope, live_action) do
       nil ->
         # No permissions required

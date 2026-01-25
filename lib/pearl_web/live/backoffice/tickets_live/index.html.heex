@@ -8,7 +8,10 @@
         path={~p"/dashboard/tickets"}
         placeholder={gettext("Search for users")}
       />
-      <.ensure_permissions user={@current_user} permissions={%{"tickets" => ["ticket_types_show"]}}>
+      <.ensure_permissions
+        user={@current_user}
+        permissions={%{"tickets" => ["ticket_types_show"]}}
+      >
         <.link patch={~p"/dashboard/tickets/ticket_types"}>
           <.backoffice_button>
             <.icon name="hero-inbox-stack" class="w-5 h-5" />

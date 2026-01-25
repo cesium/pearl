@@ -9,8 +9,7 @@ defmodule PearlWeb.Backoffice.DiscountCodesLive.Index do
   on_mount {PearlWeb.StaffRoles,
             index: %{"discount_codes" => ["show"]},
             new: %{"discount_codes" => ["edit"]},
-            edit: %{"discount_codes" => ["edit"]}
-          }
+            edit: %{"discount_codes" => ["edit"]}}
 
   def mount(_params, _session, socket) do
     {:ok, socket}

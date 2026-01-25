@@ -228,7 +228,7 @@ defmodule PearlWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class={"rounded border-zinc-300 text-accent focus:ring-0 #{@class}"}
+          class={"rounded border-zinc-300 text-primary focus:ring-0 #{@class}"}
           {@rest}
         />
         {@label}

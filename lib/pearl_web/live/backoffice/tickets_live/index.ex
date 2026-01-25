@@ -1,7 +1,7 @@
 defmodule PearlWeb.Backoffice.TicketsLive.Index do
   use PearlWeb, :backoffice_view
 
-  import PearlWeb.Components.{Table, TableSearch, Modal}
+  import PearlWeb.Components.{Table, TableSearch}
 
   alias Pearl.{Perks, Tickets, TicketTypes}
   alias Pearl.Tickets.{Perk, TicketType}

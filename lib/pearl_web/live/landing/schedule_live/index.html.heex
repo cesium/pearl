@@ -1,14 +1,12 @@
-<div class="py-14 sm:py-28 xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
-  <div class="mt-40">
-    <.live_component
-      id={:schedule}
-      module={PearlWeb.Landing.Components.Schedule}
-      event_start_date={@event_start_date}
-      event_end_date={@event_end_date}
-      url={~p"/schedule"}
-      has_filters?={true}
-      params={@params}
-      current_user={@current_user}
-    />
-  </div>
+<div class="pb-12 pl-8">
+  <.live_component
+    id={:schedule}
+    module={PearlWeb.Landing.Components.Schedule}
+    event_start_date={@event_start_date}
+    event_end_date={@event_end_date}
+    url={~p"/schedule"}
+    has_filters?={true}
+    params={@params}
+    current_user={@current_user}
+  />
 </div>

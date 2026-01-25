@@ -184,66 +184,92 @@ defmodule Pearl.Repo.Seeds.Activities do
 
   defp first_day_seed_data do
     [
+      # BEFORE 14:00 - Opening & Morning Sessions
       %{
         title: "Opening Ceremony",
         time_start: ~T[10:00:00],
-        time_end: ~T[11:00:00],
+        time_end: ~T[10:30:00],
         location: "CP2 - B1",
-        type: :none
+        type: :talk
       },
       %{
-        title: "Prizes and Contests",
-        time_start: ~T[11:00:00],
+        time_start: ~T[10:30:00],
         time_end: ~T[11:30:00],
         location: "CP2 - B1",
-        type: :none
+        type: :talk
       },
       %{
         title: "Coffee Break",
         time_start: ~T[11:30:00],
         time_end: ~T[12:00:00],
-        type: :break,
+        type: :break
       },
       %{
         time_start: ~T[12:00:00],
         time_end: ~T[13:00:00],
-        type: :talk,
+        location: "CP2 - B1",
+        type: :talk
       },
       %{
         title: "Lunch Break",
         time_start: ~T[13:00:00],
         time_end: ~T[14:00:00],
-        type: :break,
+        type: :break
       },
       %{
         time_start: ~T[14:00:00],
         time_end: ~T[15:00:00],
+        location: "CP2 - B1",
         type: :talk
       },
+      # AFTER 15:00 - Afternoon Sessions
       %{
         time_start: ~T[15:00:00],
         time_end: ~T[16:00:00],
+        location: "CP2 - B1",
         type: :talk
       },
       %{
-        title: "Coffee Break",
         time_start: ~T[16:00:00],
         time_end: ~T[16:30:00],
-        type: :break,
+        title: "Coffee Break",
+        type: :break
       },
       %{
         time_start: ~T[16:30:00],
-        time_end: ~T[16:45:00],
-        type: :pitch,
+        time_end: ~T[17:30:00],
+        location: "CP2 - B1",
+        type: :talk
       },
       %{
-        time_start: ~T[16:45:00],
-        time_end: ~T[17:00:00],
-        type: :pitch,
-      },
-      %{
-        time_start: ~T[17:00:00],
+        time_start: ~T[17:30:00],
         time_end: ~T[18:00:00],
+        location: "CP2 - B1",
+        type: :pitch
+      },
+      %{
+        time_start: ~T[18:00:00],
+        time_end: ~T[18:30:00],
+        location: "CP2 - B1",
+        type: :pitch
+      },
+      %{
+        time_start: ~T[18:30:00],
+        time_end: ~T[19:00:00],
+        location: "CP2 - B1",
+        type: :talk
+      },
+      %{
+        title: "Dinner Break",
+        time_start: ~T[19:00:00],
+        time_end: ~T[20:00:00],
+        type: :break
+      },
+      %{
+        title: "Evening Gameshow",
+        time_start: ~T[20:30:00],
+        time_end: ~T[21:30:00],
+        location: "CP2 - B1",
         type: :gameshow
       }
     ]
@@ -251,6 +277,7 @@ defmodule Pearl.Repo.Seeds.Activities do
 
   defp last_days_seed_data do
     [
+      # BEFORE 14:00 - Morning Workshops & Sessions
       %{
         time_start: ~T[09:00:00],
         time_end: ~T[11:00:00],
@@ -273,7 +300,7 @@ defmodule Pearl.Repo.Seeds.Activities do
         title: "Coffee Break",
         time_start: ~T[11:00:00],
         time_end: ~T[11:30:00],
-        type: :break,
+        type: :break
       },
       %{
         time_start: ~T[11:30:00],
@@ -285,38 +312,57 @@ defmodule Pearl.Repo.Seeds.Activities do
         title: "Lunch Break",
         time_start: ~T[12:30:00],
         time_end: ~T[14:00:00],
-        type: :break,
+        type: :break
       },
-      %{
-        time_start: ~T[14:00:00],
-        time_end: ~T[15:00:00],
-        type: :talk
-      },
+      # AFTER 15:00 - Afternoon Sessions
       %{
         time_start: ~T[15:00:00],
         time_end: ~T[16:00:00],
+        location: "CP2 - B1",
         type: :talk
       },
       %{
         title: "Coffee Break",
         time_start: ~T[16:00:00],
         time_end: ~T[16:30:00],
-        type: :break,
+        type: :break
       },
       %{
         time_start: ~T[16:30:00],
-        time_end: ~T[16:45:00],
-        type: :pitch
-      },
-      %{
-        time_start: ~T[16:45:00],
-        time_end: ~T[17:00:00],
-        type: :pitch
-      },
-      %{
-        time_start: ~T[17:00:00],
-        time_end: ~T[18:00:00],
+        time_end: ~T[17:30:00],
+        location: "CP2 - B1",
         type: :talk
+      },
+      %{
+        time_start: ~T[17:30:00],
+        time_end: ~T[18:00:00],
+        location: "CP2 - B1",
+        type: :pitch
+      },
+      %{
+        time_start: ~T[18:00:00],
+        time_end: ~T[18:30:00],
+        location: "CP2 - B1",
+        type: :pitch
+      },
+      %{
+        time_start: ~T[18:30:00],
+        time_end: ~T[19:00:00],
+        location: "CP2 - B1",
+        type: :talk
+      },
+      %{
+        title: "Dinner Break",
+        time_start: ~T[19:00:00],
+        time_end: ~T[20:00:00],
+        type: :break
+      },
+      %{
+        title: "Evening Gameshow",
+        time_start: ~T[20:30:00],
+        time_end: ~T[21:30:00],
+        location: "CP2 - B1",
+        type: :gameshow
       }
     ]
   end

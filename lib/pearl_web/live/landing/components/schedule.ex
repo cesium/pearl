@@ -1,6 +1,6 @@
 defmodule PearlWeb.Landing.Components.Schedule do
   @moduledoc """
-  Schedule component.
+  Schedule component with Calendar and Day views.
   """
   use PearlWeb, :live_component
 
@@ -14,379 +14,57 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
   @impl true
   def update(assigns, socket) do
-    {:ok, socket |> assign(assigns) |> assign(enrolments: get_enrolments(assigns.current_user))}
+    params = Map.get(assigns, :params, %{})
+    user = Map.get(assigns, :current_user)
+    filters = Map.get(params, "filters", [])
+    view_mode = determine_view_mode(params)
+
+    current_date =
+      determine_current_date(
+        Map.get(params, "date"),
+        assigns.event_start_date,
+        assigns.event_end_date
+      )
+
+    view_data = prepare_view_data(view_mode, current_date, filters, assigns)
+
+    socket
+    |> assign(assigns)
+    |> assign(
+      view_mode: view_mode,
+      current_date: current_date,
+      filters: filters,
+      user_role: get_user_role(user),
+      enrolments: get_enrolments(user)
+    )
+    |> assign(view_data)
+    |> then(&{:ok, &1})
   end
 
   @impl true
-  def render(assigns) do
-    ~H"""
-    <div class="xl:grid 2xl:grid-cols-2 gap-8 relative select-none">
-      <div class="mb-20 2xl:mb-0">
-        <div class="sticky top-12">
-          <.schedule_day
-            date={
-              get_day(
-                fetch_current_date_from_params(assigns.params),
-                assigns.event_start_date,
-                assigns.event_end_date
-              )
-            }
-            url={@url}
-            params={@params}
-            filters={fetch_filters_from_params(assigns.params)}
-            event_start_date={@event_start_date}
-            event_end_date={@event_end_date}
-          />
-          <.filters
-            :if={@has_filters?}
-            url={@url}
-            current_day={
-              get_day(
-                fetch_current_date_from_params(assigns.params),
-                assigns.event_start_date,
-                assigns.event_end_date
-              )
-            }
-            filters={fetch_filters_from_params(assigns.params)}
-          />
-        </div>
-      </div>
-      <div>
-        <.schedule_table
-          date={
-            get_day(
-              fetch_current_date_from_params(assigns.params),
-              assigns.event_start_date,
-              assigns.event_end_date
-            )
-          }
-          filters={fetch_filters_from_params(assigns.params)}
-          user_role={get_user_role(assigns.current_user)}
-          enrolments={assigns.enrolments}
-          myself={assigns.myself}
-        />
-      </div>
-    </div>
-    """
-  end
+  def handle_event("enrol", %{"activity_id" => id}, socket) do
+    user = socket.assigns.current_user
 
-  defp filters(assigns) do
-    ~H"""
-    <div class="block relative mt-8">
-      <span class="w-full font-iregular text-lg uppercase">{gettext("Filter by")}</span>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 pt-4">
-        <%= for category <- fetch_categories() do %>
-          <.link
-            class={
-              if Enum.member?(@filters, category.id),
-                do:
-                  "text-md m-1 items-center rounded-full border-2 px-12 py-2 text-center font-bold text-accent border-accent shadow-sm hover:opacity-60",
-                else:
-                  "text-md m-1 items-center rounded-full border-2 py-2 text-center font-bold text-white shadow-sm hover:bg-white/20 px-8 transition-colors"
-            }
-            patch={filter_url(@url, @current_day, @filters, category.id)}
-          >
-            {category.name}
-          </.link>
-        <% end %>
-      </div>
-    </div>
-    """
-  end
-
-  defp schedule_table(assigns) do
-    ~H"""
-    <div>
-      <%= for activity_section <- fetch_daily_activities(@date, @filters) do %>
-        <div class="flex lg:flex-row flex-col sm:w-full">
-          <%= for activity <- activity_section do %>
-            <%= if activity.category && activity.category.name == "Break" do %>
-              <.schedule_break activity={activity} />
-            <% else %>
-              <.schedule_activity
-                activity={activity}
-                user_role={@user_role}
-                enrolments={@enrolments}
-                myself={@myself}
-              />
-            <% end %>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-    """
-  end
-
-  defp schedule_activity(assigns) do
-    ~H"""
-    <div id={@activity.id} class="mx-2 sm:w-full border-t border-white p-[10px] ml-[10px] relative">
-      <div class="relative h-full">
-        <!-- Times -->
-        <p class="text-lg font-iregular font-bold text-white xs:text-xl">
-          {"#{@activity.time_start |> Timex.format!("{h24}:{m}")} - #{@activity.time_end |> Timex.format!("{h24}:{m}")}"}
-        </p>
-        <!-- Title -->
-        <p class="font-iregular text-xl text-white">
-          <span :if={@activity.category} class="font-iregular font-bold">
-            {@activity.category.name}
-          </span>
-          <span class={!@activity.category && "font-bold"}>
-            {@activity.title}
-          </span>
-        </p>
-        <!-- Speakers -->
-        <ul class="my-[0.4em] flex font-iregular text-sm text-gray-400 z-10 gap-2 xl:gap-0">
-          <li
-            :for={{speaker, index} <- Enum.with_index(@activity.speakers, fn el, i -> {el, i} end)}
-            class="list-none xl:float-left"
-          >
-            <%= if index == length(@activity.speakers) - 1 and length(@activity.speakers) != 1 do %>
-              <bdi class="ml-[5px] hidden xl:inline">
-                {gettext("and")}
-              </bdi>
-            <% else %>
-              <span class="hidden xl:inline">
-                {if index != 0, do: ","}
-              </span>
-            <% end %>
-            <!-- Must be an <a> tag as to force page to reload completely so the #id rerouting works -->
-            <a
-              href={"/speakers?date=#{@activity.date}&speaker_id=#{speaker.id}#sp-#{speaker.id}-#{@activity.id}"}
-              class="my-[0.4em] hover:underline"
-            >
-              {speaker.name}
-            </a>
-          </li>
-        </ul>
-
-        <p id={"schedule-#{@activity.id}"} class="overflow-hidden pb-4" style="display: none;">
-          {@activity.description}
-        </p>
-        <!-- Spacing -->
-        <div class="h-20 w-2"></div>
-
-        <div class="absolute bottom-0 mt-auto w-full py-3">
-          <div class="flex flex-wrap justify-center">
-            <!-- Location -->
-            <div class="flex w-auto items-center">
-              <p class="float-right font-iregular text-sm text-gray-400">
-                {@activity.location}
-              </p>
-            </div>
-            <!-- Enrol -->
-            <div class="float-right mr-5 flex flex-1 items-center justify-end">
-              <p
-                :if={enrolments_enabled(@activity, @user_role, @enrolments)}
-                class="relative hover:underline cursor-pointer -mr-3 font-iregular text-lg text-accent sm:mr-1"
-                phx-click="enrol"
-                phx-target={@myself}
-                data-confirm={"#{gettext("You are enrolling for")} #{@activity.title}. #{gettext("This action cannot be undone. Are you sure?")}"}
-                phx-value-activity_id={@activity.id}
-              >
-                {gettext("Enrol")}
-              </p>
-              <p
-                :if={already_enrolled(@activity, @enrolments)}
-                class="relative -mr-3 font-iregular text-lg text-accent sm:mr-1"
-                phx-value-activity_id={@activity.id}
-              >
-                {gettext("Enrolled")}
-              </p>
-            </div>
-            <!-- Expand -->
-            <button
-              :if={not is_nil(@activity.description) and @activity.description != ""}
-              class="font-terminal uppercase w-16 select-none rounded-full px-2 text-xl text-white border border-white hover:bg-white/20 transition-colors"
-              phx-click={
-                JS.toggle(
-                  to: "#schedule-#{@activity.id}",
-                  in: {"", "opacity-0 max-h-0", "opacity-100 max-h-48"},
-                  out: {"", "opacity-100 max-h-48", "opacity-0 max-h-0"}
-                )
-                |> JS.toggle(to: "#schedule-toggle-show-#{@activity.id}")
-                |> JS.toggle(to: "#schedule-toggle-hide-#{@activity.id}")
-              }
-            >
-              <span id={"schedule-toggle-show-#{@activity.id}"}>+</span>
-              <span id={"schedule-toggle-hide-#{@activity.id}"} style="display: none;">-</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    """
-  end
-
-  defp schedule_break(assigns) do
-    ~H"""
-    <div id={@activity.id} class="mx-2 sm:w-full border-t border-white p-[10px] ml-[10px] relative">
-      <div class="relative h-full flex flex-row justify-between items-center">
-        <p class="font-iregular text-xl text-white font-bold">
-          {@activity.title}
-        </p>
-        <div>
-          <%= if (@activity.title |> String.downcase() |> String.contains?("lunch")) do %>
-            <img src={~p"/images/breaks/lunch.svg"} class="w-8 h-8" />
-          <% else %>
-            <img src={~p"/images/breaks/coffee.svg"} class="w-8 h-8" />
-          <% end %>
-        </div>
-      </div>
-    </div>
-    """
-  end
-
-  defp schedule_day(assigns) do
-    ~H"""
-    <div class="flex sm:w-full select-none justify-center">
-      <div class="flex w-full justify-between text-4xl xs:text-5xl sm:text-7xl lg:text-8xl xl:mx-20 xl:text-7xl">
-        <div class="right relative flex items-center justify-center mt-[0.15em]">
-          <.link
-            :if={Date.compare(@date, @event_start_date) in [:gt]}
-            class="cursor-pointer"
-            patch={day_url(@url, @date, -1, @filters)}
-          >
-            <.left_arrow />
-          </.link>
-        </div>
-
-        <div class="-mt-8 md:-mt-10">
-          <h5 class="font-terminal uppercase text-2xl text-accent md:text-3xl">
-            {@date |> Timex.format!("{D} {Mshort}")}
-          </h5>
-          <h2 class="font-terminal uppercase">
-            {@date |> Timex.format!("{WDfull}")}
-          </h2>
-        </div>
-
-        <div class="left relative flex items-center justify-center mt-[0.15em]">
-          <.link
-            :if={Date.compare(@date, @event_end_date) in [:lt]}
-            class="cursor-pointer"
-            patch={day_url(@url, @date, 1, @filters)}
-          >
-            <.right_arrow />
-          </.link>
-        </div>
-      </div>
-    </div>
-    """
-  end
-
-  defp right_arrow(assigns) do
-    ~H"""
-    <svg
-      class="h-[0.8em] w-[0.8em] fill-transparent transition-all hover:fill-white"
-      width="42"
-      height="65"
-      viewBox="0 0 42 65"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g filter="url(#filter0_d)">
-        <path
-          d="M23.4299 28.0481L5.02799 7.62693L12.4568 0.932693L37.1704 28.3582L12.5527 55.8698L5.10057 49.2016L23.4311 28.7162L23.7304 28.3817L23.4299 28.0481Z"
-          stroke="white"
-        />
-      </g>
-      <defs>
-        <filter
-          id="filter0_d"
-          x="0.309082"
-          y="0.182373"
-          width="41.5826"
-          height="64.4078"
-          filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
-        >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
-          <feColorMatrix
-            in="SourceAlpha"
-            type="matrix"
-            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-          />
-          <feOffset dy="4" />
-          <feGaussianBlur stdDeviation="2" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
-          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
-        </filter>
-      </defs>
-    </svg>
-    """
-  end
-
-  defp left_arrow(assigns) do
-    ~H"""
-    <svg
-      class="h-[0.8em] w-[0.8em] fill-transparent transition-all hover:fill-white"
-      width="42"
-      height="65"
-      viewBox="0 0 42 65"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g filter="url(#filter0_d)">
-        <path
-          d="M37.3861 49.2873L29.9456 55.9686L5.27991 28.5L29.9456 1.03139L37.3861 7.71264L19.0199 28.1659L18.7199 28.5L19.0199 28.8341L37.3861 49.2873Z"
-          stroke="white"
-        />
-      </g>
-      <defs>
-        <filter
-          id="filter0_d"
-          x="0.60791"
-          y="0.325317"
-          width="41.4843"
-          height="64.3494"
-          filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
-        >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
-          <feColorMatrix
-            in="SourceAlpha"
-            type="matrix"
-            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-          />
-          <feOffset dy="4" />
-          <feGaussianBlur stdDeviation="2" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
-          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
-        </filter>
-      </defs>
-    </svg>
-    """
-  end
-
-  @impl true
-  def handle_event("enrol", %{"activity_id" => activity_id}, socket) do
-    if is_nil(socket.assigns.current_user) do
-      {:noreply,
-       socket
-       |> put_flash(:error, gettext("You must be logged in to enrol in activities"))
-       |> redirect(to: ~p"/users/log_in?action=enrol&action_id=#{activity_id}&return_to=/")}
-    else
-      if socket.assigns.current_user.type == :attendee do
-        actual_enrol(activity_id, socket)
-      else
+    case {user, user && user.type} do
+      {nil, _} ->
         {:noreply,
          socket
-         |> put_flash(:error, gettext("Only attendees can enrol in activities"))}
-      end
+         |> put_flash(:error, gettext("You must be logged in to enrol in activities"))
+         |> redirect(to: ~p"/users/log_in?action=enrol&action_id=#{id}&return_to=/")}
+
+      {%{type: type}, _} when type != :attendee ->
+        {:noreply, put_flash(socket, :error, gettext("Only attendees can enrol in activities"))}
+
+      {%{attendee: attendee}, :attendee} ->
+        perform_enrolment(attendee.id, id, socket)
     end
   end
 
-  defp actual_enrol(activity_id, socket) do
-    case Activities.enrol(socket.assigns.current_user.attendee.id, activity_id) do
+  defp perform_enrolment(attendee_id, activity_id, socket) do
+    case Activities.enrol(attendee_id, activity_id) do
       {:ok, _} ->
         send(self(), {:update_flash, {:info, gettext("Successfully enrolled")}})
-
-        {:noreply,
-         socket
-         |> assign(
-           :enrolments,
-           Activities.get_attendee_enrolments(socket.assigns.current_user.attendee.id)
-         )}
+        {:noreply, assign(socket, :enrolments, Activities.get_attendee_enrolments(attendee_id))}
 
       {:error, _} ->
         send(self(), {:update_flash, {:info, gettext("Unable to enrol")}})
@@ -394,127 +72,483 @@ defmodule PearlWeb.Landing.Components.Schedule do
     end
   end
 
-  defp get_enrolments(user) do
-    if is_nil(user) or user.type != :attendee do
-      []
-    else
-      Activities.get_attendee_enrolments(user.attendee.id)
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div class="w-full select-none min-h-screen">
+      <.schedule_header
+        url={@url}
+        view_mode={@view_mode}
+        current_date={@current_date}
+        filters={@filters}
+      />
+
+      <.render_view
+        view_mode={@view_mode}
+        url={@url}
+        days={Map.get(assigns, :days, [])}
+        activity_groups={Map.get(assigns, :activity_groups, [])}
+        filters={@filters}
+        user_role={@user_role}
+        enrolments={@enrolments}
+        myself={@myself}
+      />
+    </div>
+    """
+  end
+
+  attr :view_mode, :atom, required: true
+  attr :url, :string, required: true
+  attr :days, :list, default: []
+  attr :activity_groups, :list, default: []
+  attr :filters, :list, default: []
+  attr :user_role, :atom, required: true
+  attr :enrolments, :list, default: []
+  attr :myself, :any, required: true
+
+  defp render_view(%{view_mode: :calendar} = assigns) do
+    ~H"""
+    <.calendar_view url={@url} days={@days} filters={@filters} />
+    """
+  end
+
+  defp render_view(%{view_mode: :day} = assigns) do
+    ~H"""
+    <.day_view
+      activity_groups={@activity_groups}
+      user_role={@user_role}
+      enrolments={@enrolments}
+      myself={@myself}
+    />
+    """
+  end
+
+  attr :url, :string, required: true
+  attr :view_mode, :atom, required: true
+  attr :current_date, Date, required: true
+  attr :filters, :list, default: []
+
+  defp schedule_header(%{view_mode: :day} = assigns) do
+    ~H"""
+    <div class="mb-10">
+      <div class="text-5xl font-bold text-dark mb-4">
+        <div class="flex items-center gap-3">
+          <.link patch={view_url(@url, :calendar, @current_date, @filters)} class="hover:opacity-70">
+            <.icon name="hero-arrow-left" class="size-8" />
+          </.link>
+          <span>
+            Dia {@current_date |> Timex.format!("{D}")}
+            <span class="ml-6 font-light">
+              {@current_date |> Timex.format!("{WDfull}")}
+            </span>
+          </span>
+        </div>
+      </div>
+      <div class="text-lightMuted text-xl leading-relaxed">
+        {gettext(
+          "Durante o ENEI, nunca te faltará o que fazer. Conhece nesta página o calendário detalhado e todas as atividades que temos para te oferecer."
+        )}
+      </div>
+    </div>
+    """
+  end
+
+  defp schedule_header(%{view_mode: :calendar} = assigns) do
+    ~H"""
+    <div class="mb-10">
+      <div class="text-5xl font-bold text-dark mb-4">
+        {gettext("Calendário")}
+      </div>
+      <div class="text-lightMuted text-xl leading-relaxed">
+        {gettext(
+          "Durante o ENEI, nunca te faltará o que fazer. Conhece nesta página o calendário detalhado e todas as atividades que temos para te oferecer."
+        )}
+      </div>
+    </div>
+    """
+  end
+
+  attr :url, :string, required: true
+  attr :days, :list, required: true
+  attr :filters, :list, required: true
+
+  defp calendar_view(assigns) do
+    ~H"""
+    <div class="flex flex-col gap-6">
+      <%= for day <- @days do %>
+        <div class="flex flex-row gap-6">
+          <.day_card url={@url} day={day} filters={@filters} />
+
+          <div class="flex flex-1 py-3 pr-6 bg-light overflow-x-auto scrollbar-hide">
+            <div class="flex flex-row gap-1">
+              <%= for time_slot <- fetch_and_group_activities(day, @filters) do %>
+                <.time_slot_cell time_slot={time_slot} variant={:calendar} />
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    """
+  end
+
+  attr :activity_groups, :list, required: true
+  attr :user_role, :atom, required: true
+  attr :enrolments, :list, default: []
+  attr :myself, :any, required: true
+
+  defp day_view(assigns) do
+    ~H"""
+    <div class="bg-light rounded-[3.5rem] p-10 shadow-sm min-h-[600px]">
+      <div class="space-y-8">
+        <%= for time_slot <- @activity_groups do %>
+          <.time_slot_cell
+            time_slot={time_slot}
+            variant={:day}
+            user_role={@user_role}
+            enrolments={@enrolments}
+            myself={@myself}
+          />
+        <% end %>
+      </div>
+    </div>
+    """
+  end
+
+  attr :url, :string, required: true
+  attr :day, Date, required: true
+  attr :filters, :list, required: true
+
+  defp day_card(assigns) do
+    is_today = Date.compare(assigns.day, Date.utc_today()) == :eq
+    assigns = assign(assigns, :is_today, is_today)
+
+    ~H"""
+    <.link
+      patch={view_url(@url, :day, @day, @filters)}
+      class="w-120 shrink-0 h-80 relative group cursor-pointer"
+    >
+      <div class="relative h-full flex flex-col justify-between p-6 bg-dark rounded-3xl text-light">
+        <%= if @is_today do %>
+          <span class="inline-flex w-fit px-3 py-1 rounded-full text-sm font-bold bg-light/20 uppercase">
+            — {gettext("HOJE")}
+          </span>
+        <% end %>
+        <div class="flex items-end justify-between w-full mt-auto">
+          <div>
+            <div class="text-4xl font-bold leading-none mb-2">Dia {@day |> Timex.format!("{D}")}</div>
+            <div class="text-2xl text-lightMuted leading-none">
+              {@day |> Timex.format!("{WDfull}")}
+            </div>
+          </div>
+          <div class="w-12 h-12 rounded-full border border-light/30 flex items-center justify-center group-hover:bg-light group-hover:text-dark transition-colors">
+            <.icon name="hero-arrow-right" class="size-6" />
+          </div>
+        </div>
+      </div>
+    </.link>
+    """
+  end
+
+  attr :time_slot, :list, required: true
+  attr :variant, :atom, required: true
+  attr :user_role, :atom, default: :guest
+  attr :enrolments, :list, default: []
+  attr :myself, :any, default: nil
+
+  defp time_slot_cell(%{variant: :calendar} = assigns) do
+    first_activity = List.first(assigns.time_slot)
+    category_name = get_category_name(first_activity)
+    is_break = category_name == "Break"
+
+    assigns =
+      assigns
+      |> assign(:first_activity, first_activity)
+      |> assign(:is_break, is_break)
+
+    ~H"""
+    <div class="flex flex-col px-6 pt-3 h-full shrink-0">
+      <div class="border-olive/10 border-b-3 w-full pb-3 mb-4">
+        <%= if @is_break do %>
+          <div class="size-9">
+            <.break_icon activity={@first_activity} />
+          </div>
+        <% else %>
+          <div class="text-3xl font-bold text-dark">
+            {@first_activity.time_start |> Timex.format!("{h24}:{m}")}-{@first_activity.time_end
+            |> Timex.format!("{h24}:{m}")}
+          </div>
+        <% end %>
+      </div>
+      <div class="flex flex-row gap-6">
+        <%= for activity <- @time_slot do %>
+          <span class="min-w-67">
+            <.activity_cell activity={activity} variant={:calendar} />
+          </span>
+        <% end %>
+      </div>
+    </div>
+    """
+  end
+
+  defp time_slot_cell(%{variant: :day} = assigns) do
+    first_activity = List.first(assigns.time_slot)
+    category_name = get_category_name(first_activity)
+    is_break = category_name == "Break"
+
+    assigns =
+      assigns
+      |> assign(:first_activity, first_activity)
+      |> assign(:is_break, is_break)
+
+    ~H"""
+    <div class="flex flex-row gap-10 group">
+      <div class="w-50 shrink-0 pt-1">
+        <%= if @is_break do %>
+          <.break_icon activity={@first_activity} />
+        <% else %>
+          <div class="text-3xl font-bold text-dark">
+            {@first_activity.time_start |> Timex.format!("{h24}:{m}")}-{@first_activity.time_end
+            |> Timex.format!("{h24}:{m}")}
+          </div>
+        <% end %>
+      </div>
+
+      <div class="flex-1 flex flex-col gap-8 border-l-3 pl-6 border-olive/10">
+        <%= for activity <- @time_slot do %>
+          <.activity_cell
+            activity={activity}
+            variant={:day}
+            user_role={@user_role}
+            enrolments={@enrolments}
+            myself={@myself}
+          />
+        <% end %>
+      </div>
+    </div>
+    """
+  end
+
+  attr :activity, :map, required: true
+  attr :variant, :atom, required: true
+  attr :user_role, :atom, default: :guest
+  attr :enrolments, :list, default: []
+  attr :myself, :any, default: nil
+
+  defp activity_cell(assigns) do
+    category_name = get_category_name(assigns.activity)
+    is_break = category_name == "Break"
+
+    assigns =
+      assigns
+      |> assign(:category_name, category_name)
+      |> assign(:is_break, is_break)
+
+    case is_break do
+      true -> render_break_cell(assigns)
+      false -> render_activity_cell(assigns)
     end
   end
 
-  defp get_user_role(user) do
-    if is_nil(user) do
-      :attendee
-    else
-      user.type
-    end
+  defp render_break_cell(assigns) do
+    ~H"""
+    <div class="flex flex-col" id={"activity-#{@activity.id}"}>
+      <div class="text-2xl font-bold text-dark">{@activity.title}</div>
+      <div class="text-lg text-lightMuted">{@activity.location}</div>
+    </div>
+    """
   end
 
-  defp fetch_current_date_from_params(params) do
-    case Map.get(params, "date") do
-      nil ->
-        nil
+  defp render_activity_cell(assigns) do
+    has_speakers = length(assigns.activity.speakers) > 0
+    show_actions = assigns.variant == :day
 
-      day ->
-        case Date.from_iso8601(day) do
-          {:ok, date} -> date
-          _ -> nil
-        end
-    end
+    can_enrol =
+      show_actions and can_enrol?(assigns.activity, assigns.user_role, assigns.enrolments)
+
+    is_enrolled = show_actions and already_enrolled?(assigns.activity, assigns.enrolments)
+
+    assigns =
+      assigns
+      |> assign(:has_speakers, has_speakers)
+      |> assign(:show_actions, show_actions)
+      |> assign(:can_enrol, can_enrol)
+      |> assign(:is_enrolled, is_enrolled)
+
+    ~H"""
+    <div class="flex flex-col" id={"activity-#{@activity.id}"}>
+      <div class="flex flex-col items-start justify-between gap-2">
+        <div class="flex-1">
+          <span class="text-2xl text-lightMuted font-medium mb-3">{@category_name}</span>
+          <span class="text-2xl font-bold text-dark">{@activity.title}</span>
+
+          <%= if @has_speakers do %>
+            <div class="text-lg text-dark mt-5">
+              {case @activity.speakers do
+                [] ->
+                  ""
+
+                [one] ->
+                  one.name
+
+                list ->
+                  names = Enum.map(list, & &1.name)
+                  Enum.join(Enum.drop(names, -1), ", ") <> " e " <> List.last(names)
+              end}
+            </div>
+          <% end %>
+
+          <div class="text-lg text-lightMuted">{@activity.location}</div>
+        </div>
+
+        <%= if @show_actions do %>
+          <div class="flex flex-col items-end gap-3 shrink-0">
+            <button class="flex items-center gap-2 text-base text-primary/70 hover:text-primary font-medium transition-colors">
+              <.icon name="hero-information-circle" class="size-5" />
+              {gettext("ver informações")}
+            </button>
+
+            <%= if @can_enrol do %>
+              <button
+                phx-click="enrol"
+                phx-target={@myself}
+                phx-value-activity_id={@activity.id}
+                data-confirm={gettext("Are you sure you want to enrol?")}
+                class="mt-2 px-5 py-2 bg-dark text-light text-base font-bold rounded-full hover:bg-dark transition-colors"
+              >
+                {gettext("Inscrever")}
+              </button>
+            <% end %>
+
+            <%= if @is_enrolled do %>
+              <span class="mt-2 text-base font-bold text-green-600">
+                {gettext("Inscrito")}
+              </span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    """
   end
 
-  defp get_day(params_date, start_date, end_date) do
-    now = Date.utc_today()
+  attr :activity, :map, required: true
 
-    cond do
-      not is_nil(params_date) ->
-        params_date
+  defp break_icon(assigns) do
+    name = String.downcase(assigns.activity.title)
+    is_meal = String.contains?(name, ["lunch", "dinner"])
 
-      Date.compare(now, start_date) == :lt ->
-        start_date
+    assigns = assign(assigns, :is_meal, is_meal)
 
-      Date.compare(now, end_date) == :gt ->
-        end_date
-
-      true ->
-        now
-    end
+    ~H"""
+    <%= if @is_meal do %>
+      <div class="text-dark">
+        <img src={~p"/images/breaks/lunch.svg"} class="size-12" style="filter: brightness(0);" />
+      </div>
+    <% else %>
+      <div class="text-dark">
+        <img src={~p"/images/breaks/coffee.svg"} class="size-12" style="filter: brightness(0);" />
+      </div>
+    <% end %>
+    """
   end
 
-  defp fetch_filters_from_params(params) do
-    Map.get(params, "filters", [])
+  defp prepare_view_data(:calendar, _date, _filters, assigns) do
+    [days: Date.range(assigns.event_start_date, assigns.event_end_date) |> Enum.to_list()]
   end
 
-  defp day_url(url, current_day, shift, filters) do
-    query = %{"date" => Timex.shift(current_day, days: shift), "filters" => filters}
-
-    "#{url}?#{Query.encode(query)}"
+  defp prepare_view_data(:day, date, filters, _assigns) do
+    [activity_groups: fetch_and_group_activities(date, filters)]
   end
 
-  defp filter_url(url, current_day, filters, category_id) do
-    new_filters = toggle_filter(filters, category_id)
-    query = %{"date" => current_day, "filters" => new_filters}
-
-    "#{url}?#{Query.encode(query)}"
-  end
-
-  defp toggle_filter(filters, category_id) do
-    if Enum.member?(filters, category_id) do
-      List.delete(filters, category_id)
-    else
-      filters ++ [category_id]
-    end
-  end
-
-  defp fetch_daily_activities(day, filters) do
+  defp fetch_and_group_activities(day, filters) do
     Activities.list_daily_activities(day)
     |> Enum.filter(fn at -> filters == [] or at.category_id in filters end)
-    |> group_activities()
+    |> group_activities_by_start_time()
   end
 
-  defp fetch_categories do
-    Activities.list_activity_categories()
-  end
-
-  defp group_activities(activities) do
+  defp group_activities_by_start_time(activities) do
     Enum.reduce(activities, [], fn activity, acc ->
       case acc do
         [] ->
           [[activity]]
 
-        [[head | tail] | rest] = grouped ->
-          if activity.time_start == head.time_start do
-            [[activity, head | tail] | rest]
-          else
-            [[activity] | grouped]
+        [[head | _tail] | _rest] = groups ->
+          case activity.time_start == head.time_start do
+            true -> prepend_to_first_group(activity, groups)
+            false -> [[activity] | groups]
           end
       end
     end)
     |> Enum.reverse()
   end
 
-  defp already_enrolled(activity, enrolments) do
-    Enum.member?(Enum.map(enrolments, & &1.activity_id), activity.id)
+  defp prepend_to_first_group(activity, [[head | tail] | rest]) do
+    [[activity, head | tail] | rest]
   end
 
-  defp enrolments_enabled(activity, user_role, enrolments) do
+  defp can_enrol?(activity, user_role, enrolments) do
     not_full = activity.max_enrolments > activity.enrolment_count
-    is_staff = user_role == :staff
+    not_staff = user_role != :staff
 
-    # This assumes the event happens in Portugal
-    already_happened =
-      NaiveDateTime.new!(activity.date, activity.time_end)
-      |> Timex.to_datetime("Europe/Lisbon")
-      |> DateTime.compare(DateTime.utc_now()) == :lt
+    activity_start =
+      NaiveDateTime.new!(activity.date, activity.time_end) |> Timex.to_datetime("Europe/Lisbon")
 
-    enrolled_at_same_time =
+    future_event = DateTime.compare(activity_start, DateTime.utc_now()) != :lt
+
+    has_conflict =
       Enum.any?(enrolments, fn e ->
         Time.compare(e.activity.time_start, activity.time_end) == :lt and
           Time.compare(e.activity.time_end, activity.time_start) == :gt and
           e.activity.date == activity.date
       end)
 
-    not_full and activity.has_enrolments and not enrolled_at_same_time and not is_staff and
-      not already_happened
+    activity.has_enrolments and not_full and not_staff and future_event and not has_conflict
+  end
+
+  defp already_enrolled?(activity, enrolments) do
+    activity_ids = Enum.map(enrolments, & &1.activity_id)
+    activity.id in activity_ids
+  end
+
+  defp determine_view_mode(%{"view" => "day"}), do: :day
+  defp determine_view_mode(_params), do: :calendar
+
+  defp determine_current_date(param_date, start_date, end_date)
+       when is_binary(param_date) do
+    case Date.from_iso8601(param_date) do
+      {:ok, date} -> date
+      _ -> default_date(start_date, end_date)
+    end
+  end
+
+  defp determine_current_date(_param_date, start_date, end_date) do
+    default_date(start_date, end_date)
+  end
+
+  defp default_date(start_date, end_date) do
+    today = Date.utc_today()
+
+    cond do
+      Date.compare(today, start_date) == :lt -> start_date
+      Date.compare(today, end_date) == :gt -> end_date
+      true -> today
+    end
+  end
+
+  defp get_category_name(%{category: %{name: name}}), do: name
+  defp get_category_name(_), do: "Event"
+
+  defp get_user_role(nil), do: :attendee
+  defp get_user_role(%{type: type}), do: type
+
+  defp get_enrolments(%{type: :attendee, attendee: %{id: id}}),
+    do: Activities.get_attendee_enrolments(id)
+
+  defp get_enrolments(_), do: []
+
+  defp view_url(base_url, view_mode, current_date, filters) do
+    query = %{"view" => view_mode, "date" => current_date, "filters" => filters}
+    "#{base_url}?#{Query.encode(query)}"
   end
 end

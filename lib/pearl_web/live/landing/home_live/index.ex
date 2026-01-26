@@ -2,7 +2,14 @@ defmodule PearlWeb.Landing.HomeLive.Index do
   alias Pearl.Companies
   use PearlWeb, :landing_view
 
-  import PearlWeb.Landing.HomeLive.Components.{Hero, Partners, Sponsors, Speakers, Activities}
+  import PearlWeb.Landing.HomeLive.Components.{
+    Hero,
+    Partners,
+    Sponsors,
+    Speakers,
+    Activities,
+    InfoSection
+  }
 
   alias Pearl.{Activities, Event}
 

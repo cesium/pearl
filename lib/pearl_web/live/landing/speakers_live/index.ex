@@ -20,4 +20,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Index do
   def handle_params(params, _url, socket) do
     {:noreply, socket |> assign(:params, params)}
   end
+
+  def handle_event("see_more", _params, socket) do
+  end
 end

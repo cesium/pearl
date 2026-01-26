@@ -310,12 +310,16 @@ defmodule Pearl.Activities do
 
   def list_speakers(params) do
     Speaker
+    |> join(:left, [s], a in assoc(s, :activities), as: :activities)
+    |> preload([activities: a], activities: a)
     |> Flop.validate_and_run(params, for: Speaker)
   end
 
   def list_speakers(%{} = params, opts) when is_list(opts) do
     Speaker
     |> apply_filters(opts)
+    |> join(:left, [s], a in assoc(s, :activities), as: :activities)
+    |> preload([activities: a], activities: a)
     |> Flop.validate_and_run(params, for: Speaker)
   end
 

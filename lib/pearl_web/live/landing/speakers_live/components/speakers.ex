@@ -14,7 +14,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
 
   def speakers(assigns) do
     ~H"""
-    <div class="xl:grid 2xl:grid-cols-2 gap-8 relative select-none">
+    <div class="flex flex-col gap-8 relative select-none w-full">
       <div class="mb-20 2xl:mb-0">
         <div class="sticky top-12">
           <.schedule_day
@@ -38,7 +38,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
 
   defp schedule_table(assigns) do
     ~H"""
-    <div>
+    <div class="space-y-2">
       <%= for %{speaker: speaker, activity: activity} <- Activities.list_daily_speakers(@date) do %>
         <.speaker speaker={speaker} activity={activity} selected={speaker.id == @selected_speaker_id} />
       <% end %>
@@ -50,88 +50,82 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
     ~H"""
     <div
       id={"sp-#{@speaker.id}-#{@activity.id}"}
-      class="border-t-2 border-white py-4 text-white transition-all"
+      class="flex flex-col w-full md:flex-row px-5 md:px-0 bg-white text-dark"
     >
-      <div class="mb-2 flex sm:flex-nowrap flex-wrap gap-8">
-        <img
-          alt={@speaker.name}
-          width="150"
-          height="150"
-          class="select-none m-auto sm:m-0 sm:mb-auto mb-4"
-          src={
-            if @speaker.picture do
-              Uploaders.Speaker.url({@speaker.picture, @speaker}, :original, signed: true)
-            else
-              "https://github.com/identicons/#{@speaker.name |> String.slice(0..2)}.png"
-            end
-          }
-        />
-        <div class="flex w-full flex-col justify-between">
-          <div class="flex justify-between">
-            <div>
-              <h2 class="font-terminal uppercase text-xl">{@speaker.name}</h2>
-              <p class="">{@speaker.title}</p>
-              <p class="">{@speaker.company}</p>
-            </div>
-            <div class="ml-4 flex gap-2">
+      <img
+        alt={@speaker.name}
+        width="150"
+        height="150"
+        class="select-none h-full"
+        src={
+          if @speaker.picture do
+            Uploaders.Speaker.url({@speaker.picture, @speaker}, :original, signed: true)
+          else
+            "https://github.com/identicons/#{@speaker.name |> String.slice(0..2)}.png"
+          end
+        }
+      />
+
+      <div class="flex w-full flex-col gap-2 pt-4 pb-5 md:px-5 min-w-0">
+        <div class="space-y-4 w-full min-w-0">
+          <div class="flex w-full justify-between items-center">
+            <h2 class="font-semibold text-xl">{@speaker.name}</h2>
+            <div class="flex gap-2 mb-1">
               <.social platform="github" profile={@speaker.socials.github} />
               <.social platform="linkedin" profile={@speaker.socials.linkedin} />
               <.social platform="website" profile={@speaker.socials.website} />
               <.social platform="x" profile={@speaker.socials.x} />
             </div>
           </div>
-          <div
-            id={"speaker-#{@speaker.id}-#{@activity.id}"}
-            class="overflow-hidden pb-4 mt-8"
-            style={if not @selected, do: "display: none;"}
-          >
-            <p>{@speaker.biography}</p>
-          </div>
-          <div class="z-50 flex select-none items-center justify-end">
-            <p class="w-28 grow text-gray-400">
-              {@activity.title} {format_time(@activity.time_start)}
+
+          <div class="flex flex-col lg:flex-row w-full gap-1 lg:gap-8 min-w-0">
+            <p class="truncate lg:whitespace-nowrap lg:overflow-visible">
+              {@speaker.title} <span class="text-dark/50">@</span> {@speaker.company}
             </p>
-            <button
-              :if={@speaker.biography}
-              class="ml-4 font-terminal uppercase w-16 select-none rounded-full px-2 text-xl text-white border border-white hover:bg-white/20 transition-colors"
-              phx-click={
-                if @selected do
-                  JS.toggle(
-                    to: "#speaker-#{@speaker.id}-#{@activity.id}",
-                    in: {"", "opacity-100 max-h-48", "opacity-0 max-h-0"},
-                    out: {"", "opacity-0 max-h-0", "opacity-100 max-h-48"}
-                  )
-                else
-                  JS.toggle(
-                    to: "#speaker-#{@speaker.id}-#{@activity.id}",
-                    in: {"", "opacity-0 max-h-0", "opacity-100 max-h-48"},
-                    out: {"", "opacity-100 max-h-48", "opacity-0 max-h-0"}
-                  )
-                end
-                |> JS.toggle(to: "#speaker-toggle-show-#{@speaker.id}-#{@activity.id}")
-                |> JS.toggle(to: "#speaker-toggle-hide-#{@speaker.id}-#{@activity.id}")
-              }
-            >
-              <span
-                id={"speaker-toggle-show-#{@speaker.id}-#{@activity.id}"}
-                style={if @selected, do: "display: none;"}
-              >
-                +
-              </span>
-              <span
-                id={"speaker-toggle-hide-#{@speaker.id}-#{@activity.id}"}
-                style={if not @selected, do: "display: none;"}
-              >
-                -
-              </span>
-            </button>
+
+            <div class="flex items-start md:items-center text-primary gap-1 min-w-0">
+              <.icon name="hero-calendar" class="w-5 h-5 mt-0.5 md:mt-0" />
+              <p class="whitespace-normal sm:truncate w-full">
+                {format_date(@activity.date, @activity.time_start, @activity.time_end)} - {@activity.title}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <p class="transition-max-height overflow-hidden duration-300 max-h-0">
-          {@speaker.biography}
-        </p>
+
+        <div
+          id={"speaker-#{@speaker.id}-#{@activity.id}"}
+          class="overflow-hidden relative"
+        >
+          <p>{@speaker.biography}</p>
+          <div class="absolute bottom-0 left-0 bg-linear-to-t from-white to-transparent w-full h-full" />
+        </div>
+
+        <div>
+          <button
+            :if={@speaker.biography}
+            class="select-none text-primary cursor-pointer hover:opacity-70 transition-opacity duration-300"
+            phx-click={
+              if @selected do
+                JS.toggle(
+                  to: "#speaker-#{@speaker.id}-#{@activity.id}",
+                  in: {"", "opacity-100 max-h-48", "opacity-0 max-h-0"},
+                  out: {"", "opacity-0 max-h-0", "opacity-100 max-h-48"}
+                )
+              else
+                JS.toggle(
+                  to: "#speaker-#{@speaker.id}-#{@activity.id}",
+                  in: {"", "opacity-0 max-h-0", "opacity-100 max-h-48"},
+                  out: {"", "opacity-100 max-h-48", "opacity-0 max-h-0"}
+                )
+              end
+              |> JS.toggle(to: "#speaker-toggle-show-#{@speaker.id}-#{@activity.id}")
+              |> JS.toggle(to: "#speaker-toggle-hide-#{@speaker.id}-#{@activity.id}")
+            }
+          >
+            <.icon name={"hero-arrow-#{if @selected, do: "up", else: "down"}"} class="w-5 h-5" />
+            ler mais
+          </button>
+        </div>
       </div>
     </div>
     """
@@ -143,9 +137,11 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
       :if={not is_nil(@profile)}
       href={social_media_link(@platform, @profile)}
       target="_blank"
-      class="hover:text-accent"
     >
-      <.icon name={social_media_icon(@platform)} class="h-5 w-5" />
+      <.icon
+        name={social_media_icon(@platform)}
+        class="h-5 w-5 text-dark/50 hover:text-primary transition-colors duration-300"
+      />
     </.link>
     """
   end
@@ -325,5 +321,9 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
     hour = if time.hour < 10, do: "0#{time.hour}", else: "#{time.hour}"
     minute = if time.minute < 10, do: "0#{time.minute}", else: "#{time.minute}"
     "#{hour}:#{minute}"
+  end
+
+  defp format_date(date, time_start, time_end) do
+    "Dia #{date.day} ,#{format_time(time_start)}-#{format_time(time_end)}"
   end
 end

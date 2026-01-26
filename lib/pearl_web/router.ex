@@ -26,6 +26,7 @@ defmodule PearlWeb.Router do
     live_session :default, on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
       live "/", HomeLive.Index, :index
       live "/faqs", FAQLive.Index, :index
+      live "/faqs/:slug", FAQLive.Show, :show
       live "/team", TeamLive.Index, :index
       live "/schedule", ScheduleLive.Index, :index
       live "/challenges", ChallengesLive.Index, :index

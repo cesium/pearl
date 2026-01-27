@@ -10,7 +10,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.InfoSection do
     ~H"""
     <div
       :if={@landing_page_message != ""}
-      class="sticky top-0 z-20 bg-light/90 backdrop-blur border-b overflow-hidden"
+      class="bg-light/90 backdrop-blur border-b overflow-hidden"
     >
       <div class="px-9 py-6 h-17.5 flex items-center justify-between gap-8">
         <div class="ticker-viewport flex-1 mx-auto">
@@ -27,7 +27,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.InfoSection do
 
   def info_section(assigns) do
     ~H"""
-    <section class="bg-light pt-20">
+    <section class="bg-light pt-8 lg:pt-16">
       <div class="relative isolate overflow-hidden">
         <div class="w-full mx-auto px-6.5 md:px-16 mb-20">
           <div class="relative z-10">
@@ -51,7 +51,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.InfoSection do
                 </div>
               </div>
               <div class="relative isolate overflow-visible">
-                <div class="absolute left-1/2 -translate-x-1/2 translate-y-2 md:translate-y-10 lg:left-auto lg:translate-x-0 lg:right-0 -top-13 md:-top-30 lg:-top-100 w-[84%] lg:w-[46%] bg-light p-5 lg:p-6 lg:pr-16">
+                <div class="absolute left-1/2 -translate-x-1/2 translate-y-2 md:translate-y-15 lg:left-auto lg:translate-x-0 lg:right-0 -top-13 md:-top-30 lg:-top-100 w-[84%] lg:w-[46%] bg-light p-5 lg:p-6 lg:pr-16">
                   <div class="text-dark leading-relaxed space-y-4">
                     <p>
                       {gettext("O Encontro Nacional de Estudantes de Informática é um evento anual

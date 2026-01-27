@@ -8,7 +8,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Hero do
   def hero(assigns) do
     ~H"""
     <div class="px-5 pb-5 sm:px-6 sm:pb-6">
-      <div class="relative rounded-3xl sm:rounded-4xl overflow-hidden h-[calc(100dvh-116px)] sm:h-[calc(100dvh-128px)]">
+      <div class="relative rounded-3xl sm:rounded-4xl overflow-hidden h-[calc(100dvh-116px)]  xl:h-[calc(100dvh-132px)]">
         <img
           src="/images/landing.webp"
           alt=""

@@ -8,7 +8,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.InfoSection do
       |> assign(:landing_page_message, Pearl.Event.get_landing_page_message!())
 
     ~H"""
-    <div class="sticky top-0 z-20 bg-light/90 backdrop-blur border-b overflow-hidden">
+    <div
+      :if={@landing_page_message != ""}
+      class="sticky top-0 z-20 bg-light/90 backdrop-blur border-b overflow-hidden"
+    >
       <div class="px-9 py-6 h-17.5 flex items-center justify-between gap-8">
         <div class="ticker-viewport flex-1 mx-auto">
           <div id="announcement-ticker" phx-hook="Ticker" class="ticker-track">
@@ -37,16 +40,14 @@ defmodule PearlWeb.Landing.HomeLive.Components.InfoSection do
                 </span>
               </h2>
             </div>
-            <div class="relative">
+            <div>
               <div class="relative ">
+                <img
+                  src="/images/forum-braga.webp"
+                  alt="Forum Braga"
+                  class="w-full object-cover sm:object-[20%_70%] hover:scale-101 hover:shadow-2xl hover:translate-y-1 transition-all duration-300 h-46 lg:h-[190px]"
+                />
                 <div class="left-1/2 top-0 -translate-x-1/2 -translate-y-[67%] absolute -z-10 w-[210%] h-[470%] bg-[radial-gradient(50%_50%_at_50%_50%,#FFFFFF_50.48%,rgba(255,255,255,0)_75%,#FFFFFF_98%),radial-gradient(23.07%_57.76%_at_50%_50%,#DC6526_65%,#5028E1_75%,#E9225C_100%)] opacity-20">
-                </div>
-                <div class="relative hover:scale-101 hover:shadow-2xl hover:translate-y-1 transition-all duration-300 h-46 lg:h-[190px]">
-                  <img
-                    src="/images/forum-braga.webp"
-                    alt="Forum Braga"
-                    class="w-full h-full object-cover sm:object-[20%_70%]"
-                  />
                 </div>
               </div>
               <div class="relative isolate overflow-visible">

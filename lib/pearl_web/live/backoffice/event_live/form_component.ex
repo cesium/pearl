@@ -48,7 +48,15 @@ defmodule PearlWeb.Backoffice.EventLive.FormComponent do
               />
             </div>
             <!-- Other -->
-            <.field field={@form[:start_time]} type="datetime-local" label="Start Date/Time" required />
+            <div>
+              <.field
+                field={@form[:start_time]}
+                type="datetime-local"
+                label="Start Date/Time"
+                required
+              />
+              <.field field={@form[:landing_page_message]} type="text" label="Landing Page Message" />
+            </div>
           </div>
           <:actions>
             <.backoffice_button
@@ -86,6 +94,8 @@ defmodule PearlWeb.Backoffice.EventLive.FormComponent do
            Event.change_registrations_open(Helpers.string_to_bool(params["registrations_open"])),
          {:ok, _start_time} <-
            Event.change_event_start_time(Helpers.parse_date(params["start_time"])),
+         {:ok, _landing_page_message} <-
+           Event.change_landing_page_message(params["landing_page_message"]),
          :ok <-
            Event.change_feature_flags(flags) do
       {:noreply,

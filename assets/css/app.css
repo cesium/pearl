@@ -164,6 +164,47 @@
   }
 }
 
+.ticker-viewport {
+  overflow: hidden;
+  position: relative;
+
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.ticker-item {
+  white-space: nowrap;
+  padding-right: 3rem;
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--w));
+  }
+}
+
 /* Add variants based on LiveView classes */
 @custom-variant phx-no-feedback (.phx-no-feedback&, .phx-no-feedback &);
 @custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);

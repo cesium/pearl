@@ -20,7 +20,9 @@ defmodule PearlWeb.Components.Modal do
   attr :close_button, :boolean, default: true
   attr :close_button_class, :string, default: "absolute top-6 right-5"
   attr :close_button_icon_class, :string, default: "size-5"
-  attr :close_button_button_class, :string, default: "-m-3 flex-none p-3 opacity-20 text-dark dark:text-light hover:opacity-40"
+
+  attr :close_button_button_class, :string,
+    default: "-m-3 flex-none p-3 opacity-20 text-dark dark:text-light hover:opacity-40"
 
   slot :inner_block, required: true
 

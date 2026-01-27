@@ -131,11 +131,22 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
           <div class="flex flex-row space-x-2">
             <%= for speaker <- @selected_activity.speakers do %>
-              <img
+              <div
                 :if={speaker.picture}
-                src={Uploaders.Speaker.url({speaker.picture, speaker}, :original, signed: true)}
-                class="size-30 mt-6 mb-4 object-cover animate-[fade_in_0.5s_ease-out]"
-              />
+                class="relative inline-block group"
+              >
+                <img
+                  src={Uploaders.Speaker.url({speaker.picture, speaker}, :original, signed: true)}
+                  alt={speaker.name}
+                  class="size-30 mt-6 mb-4 object-cover animate-[fade_in_0.5s_ease-out]"
+                />
+
+                <span class="absolute w-[95%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+               bg-dark/70 text-light text-sm px-2 py-1 rounded
+               opacity-0 group-hover:opacity-100 transition">
+                  {speaker.name}
+                </span>
+              </div>
             <% end %>
           </div>
 

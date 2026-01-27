@@ -43,18 +43,18 @@ defmodule PearlWeb.Landing.FAQLive.Components.Contacts do
     <div>
       <h2 class="text-2xl font-semibold">{gettext("Contacta-nos")}</h2>
       <p class="py-1">{gettext("Para qualquer problema, fala connosco.")}</p>
-      <div class="grid grid-cols-3 gap-2.5 pt-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-2.5 pt-6">
         <%= for contact <- @contacts do %>
           <.link
             href={contact.link}
             target="_blank"
-            class="bg-white rounded-4xl py-6 px-6 flex flex-col justify-between gap-3"
+            class="lg:bg-white rounded-4xl py-2 lg:py-6 lg:px-6 flex flex-col justify-between gap-3"
           >
             <div>
               <p class="font-medium">{contact.name}</p>
               <p class="pt-2">{contact.description}</p>
             </div>
-            <div class="rounded-full bg-[#EFEFED] flex flex-row items-center px-2 py-2 w-min">
+            <div class="rounded-full lg:bg-[#EFEFED] bg-white flex flex-row items-center px-2 py-2 w-min">
               <div
                 class="rounded-full w-12 h-12 flex items-center justify-center"
                 style={"background-color: #{contact.accent};"}

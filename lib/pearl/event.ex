@@ -357,6 +357,7 @@ defmodule Pearl.Event do
   def update_faq(%Faq{} = faq, attrs) do
     faq
     |> Faq.changeset(attrs)
+    |> IO.inspect()
     |> Repo.update()
   end
 

@@ -3,7 +3,7 @@ defmodule PearlWeb.Landing.FAQLive.Index do
 
   alias Pearl.Event
   import PearlWeb.Components.Ticket
-  import PearlWeb.Landing.FAQLive.Components.{Contacts, Faq, FindUs}
+  import PearlWeb.Landing.FAQLive.Components.{Contacts, Faq}
 
   on_mount {PearlWeb.VerifyFeatureFlag, "faqs_enabled"}
 

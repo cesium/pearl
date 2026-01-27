@@ -7,6 +7,8 @@ defmodule PearlWeb.Landing.Components.Schedule do
   alias Pearl.Activities
   alias Plug.Conn.Query
 
+  import PearlWeb.Components.Modal
+
   @impl true
   def mount(socket) do
     {:ok, socket}
@@ -35,10 +37,17 @@ defmodule PearlWeb.Landing.Components.Schedule do
       current_date: current_date,
       filters: filters,
       user_role: get_user_role(user),
-      enrolments: get_enrolments(user)
+      enrolments: get_enrolments(user),
+      selected_activity: nil
     )
     |> assign(view_data)
     |> then(&{:ok, &1})
+  end
+
+  @impl true
+  def handle_event("show_details", %{"activity_id" => id}, socket) do
+    activity = Activities.get_activity!(id) |> Pearl.Repo.preload(:speakers)
+    {:noreply, assign(socket, :selected_activity, activity)}
   end
 
   @impl true
@@ -60,6 +69,11 @@ defmodule PearlWeb.Landing.Components.Schedule do
     end
   end
 
+  @impl true
+  def handle_event("modal_closed", _params, socket) do
+    {:noreply, assign(socket, :selected_activity, nil)}
+  end
+
   defp perform_enrolment(attendee_id, activity_id, socket) do
     case Activities.enrol(attendee_id, activity_id) do
       {:ok, _} ->
@@ -75,12 +89,19 @@ defmodule PearlWeb.Landing.Components.Schedule do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="w-full select-none min-h-screen">
+    <div class={[
+      "w-full select-none min-h-screen",
+      case @view_mode do
+        :calendar -> "pl-8"
+        :day -> "px-8"
+      end
+    ]}>
       <.schedule_header
         url={@url}
         view_mode={@view_mode}
         current_date={@current_date}
         filters={@filters}
+        activity_groups={Map.get(assigns, :activity_groups, [])}
       />
 
       <.render_view
@@ -93,6 +114,89 @@ defmodule PearlWeb.Landing.Components.Schedule do
         enrolments={@enrolments}
         myself={@myself}
       />
+
+      <.modal
+        id="activity-modal"
+        on_cancel={JS.push("modal_closed", target: @myself)}
+        backdrop_class="backdrop-blur-xl bg-light/20"
+        body_class="bg-transparent"
+        close_button_class="absolute top-2 right-2"
+        close_button_button_class="-m-3 flex-none p-3 text-dark hover:opacity-70"
+        close_button_icon_class="size-10"
+      >
+        <div :if={@selected_activity} class="flex flex-col gap-2 pt-4 w-full">
+          <span class="text-4xl font-bold text-dark">
+            Informações
+          </span>
+
+          <div class="flex flex-row space-x-2">
+            <%= for speaker <- @selected_activity.speakers do %>
+              <img
+                :if={speaker.picture}
+                src={Uploaders.Speaker.url({speaker.picture, speaker}, :original, signed: true)}
+                class="size-30 mt-6 mb-4 object-cover animate-[fade_in_0.5s_ease-out]"
+              />
+            <% end %>
+          </div>
+
+          <%!-- Activity Type --%>
+          <div class="text-xl text-lightMuted font-normal">
+            {get_category_name(@selected_activity)}
+          </div>
+
+          <%!-- Activity Name --%>
+          <h2 class="text-3xl font-bold text-dark leading-tight mb-2 tracking-tight">
+            {@selected_activity.title}
+          </h2>
+
+          <%!-- Speaker Info --%>
+          <%= if length(@selected_activity.speakers) > 0 do %>
+            <div class="flex flex-col items-baseline gap-x-2  text-lg -mb-2">
+              <%= for speaker <- @selected_activity.speakers do %>
+                <div class="flex items-baseline gap-2">
+                  <span class="font-semibold text-primary">
+                    {speaker.name}
+                  </span>
+                  <span class="text-primary/80">
+                    {case {Map.get(speaker, :role), Map.get(speaker, :company)} do
+                      {role, company} when is_binary(role) and is_binary(company) ->
+                        "#{role} @ #{company}"
+
+                      {role, _} when is_binary(role) ->
+                        role
+
+                      {_, company} when is_binary(company) ->
+                        "@ #{company}"
+
+                      _ ->
+                        ""
+                    end}
+                  </span>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+
+          <%!-- Date and Location --%>
+          <div class="text-4 font-normal text-dark">
+            Dia {@selected_activity.date |> Timex.format!("{D}")}, {@selected_activity.time_start
+            |> Timex.format!("{h24}:{m}")}-{@selected_activity.time_end
+            |> Timex.format!("{h24}:{m}")}
+            <span class="mx-1">•</span>
+            {@selected_activity.location}
+          </div>
+
+          <%!-- Description --%>
+          <div>
+            <h3 class="text-lg font-bold text-dark mb-2">
+              {gettext("Descrição")}
+            </h3>
+            <div class="text-lightMuted text-4 w-full leading-relaxed">
+              {@selected_activity.description || gettext("Sem descrição disponível.")}
+            </div>
+          </div>
+        </div>
+      </.modal>
     </div>
     """
   end
@@ -127,8 +231,23 @@ defmodule PearlWeb.Landing.Components.Schedule do
   attr :view_mode, :atom, required: true
   attr :current_date, Date, required: true
   attr :filters, :list, default: []
+  attr :activity_groups, :list, default: []
 
   defp schedule_header(%{view_mode: :day} = assigns) do
+    activities = List.flatten(assigns.activity_groups)
+
+    counts =
+      Enum.reduce(activities, %{workshops: 0, talks: 0, pitches: 0}, fn activity, acc ->
+        case String.downcase(get_category_name(activity)) do
+          "workshop" -> %{acc | workshops: acc.workshops + 1}
+          "talk" -> %{acc | talks: acc.talks + 1}
+          "pitch" -> %{acc | pitches: acc.pitches + 1}
+          _ -> acc
+        end
+      end)
+
+    assigns = assign(assigns, :counts, counts)
+
     ~H"""
     <div class="mb-10">
       <div class="text-5xl font-bold text-dark mb-4">
@@ -145,9 +264,8 @@ defmodule PearlWeb.Landing.Components.Schedule do
         </div>
       </div>
       <div class="text-lightMuted text-xl leading-relaxed">
-        {gettext(
-          "Durante o ENEI, nunca te faltará o que fazer. Conhece nesta página o calendário detalhado e todas as atividades que temos para te oferecer."
-        )}
+        {(@view_mode == :calendar && gettext("Durante o ENEI, nunca te faltará o que fazer...")) ||
+          get_day_summary(@current_date, @counts)}
       </div>
     </div>
     """
@@ -199,7 +317,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
   defp day_view(assigns) do
     ~H"""
-    <div class="bg-light rounded-[3.5rem] p-10 shadow-sm min-h-[600px]">
+    <div class="bg-light rounded-[3.5rem] p-10 shadow-sm min-h-150">
       <div class="space-y-8">
         <%= for time_slot <- @activity_groups do %>
           <.time_slot_cell
@@ -403,7 +521,15 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
         <%= if @show_actions do %>
           <div class="flex flex-col items-end gap-3 shrink-0">
-            <button class="flex items-center gap-2 text-base text-primary/70 hover:text-primary font-medium transition-colors">
+            <button
+              type="button"
+              phx-click={
+                JS.push("show_details", value: %{activity_id: @activity.id})
+                |> show_modal("activity-modal")
+              }
+              phx-target={@myself}
+              class="flex items-center gap-2 text-base text-primary/70 hover:text-primary font-medium transition-colors"
+            >
               <.icon name="hero-information-circle" class="size-5" />
               {gettext("ver informações")}
             </button>
@@ -546,6 +672,38 @@ defmodule PearlWeb.Landing.Components.Schedule do
     do: Activities.get_attendee_enrolments(id)
 
   defp get_enrolments(_), do: []
+
+  defp get_day_summary(date, counts) do
+    day_name = Timex.format!(date, "{WDfull}") |> String.downcase()
+
+    parts =
+      [
+        {counts.workshops, "workshop", "workshops"},
+        {counts.talks, "talk", "talks"},
+        {counts.pitches, "pitch", "pitches"}
+      ]
+      |> Enum.reject(fn {count, _, _} -> count == 0 end)
+      |> Enum.map(fn {count, singular, plural} ->
+        "#{count} #{if count == 1, do: singular, else: plural}"
+      end)
+
+    case parts do
+      [] ->
+        gettext(
+          "Durante o ENEI, nunca te faltará o que fazer. Conhece nesta página o calendário detalhado."
+        )
+
+      _ ->
+        summary =
+          case Enum.reverse(parts) do
+            [last] -> last
+            [last, first] -> "#{first} e #{last}"
+            [last | rest] -> "#{rest |> Enum.reverse() |> Enum.join(", ")} e #{last}"
+          end
+
+        "Na #{day_name}, tens #{summary} e mais atividades."
+    end
+  end
 
   defp view_url(base_url, view_mode, current_date, filters) do
     query = %{"view" => view_mode, "date" => current_date, "filters" => filters}

@@ -13,7 +13,6 @@ defmodule Pearl.Activities.Speaker do
     Flop.Schema,
     filterable: [:name, :activity_date],
     sortable: [:name, :company],
-    default_limit: 3,
     adapter_opts: [
       join_fields: [
         activity_date: [

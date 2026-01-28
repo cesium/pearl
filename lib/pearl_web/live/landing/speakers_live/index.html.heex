@@ -8,12 +8,14 @@
     </p>
   </div>
 
-  <div class="w-full h-full bg-red-200 px-5 md:px-12.5 flex gap-4">
+  <div class="w-full h-full px-5 pb-22.5 md:px-12.5 flex gap-4">
     <.speakers
       event_start_date={@event_start_date}
       event_end_date={@event_end_date}
-      url={~p"/speakers"}
-      params={@params}
+      all_speakers={@all_speakers}
+      speakers={@speakers}
+      meta={@meta}
+      current_filter={@current_filter}
     />
   </div>
 </div>

@@ -43,6 +43,7 @@ defmodule Pearl.MixProject do
       {:phoenix_ecto, "~> 4.7.0"},
       {:postgrex, ">= 0.0.0"},
       {:flop, "~> 0.26.3"},
+      {:flop_phoenix, "~> 0.20"},
 
       # security
       {:bcrypt_elixir, "~> 3.3.2"},

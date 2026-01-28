@@ -53,6 +53,6 @@ defmodule PearlWeb.Landing.SpeakersLive.Index do
   def handle_event("clear-filter", _params, socket) do
     {:noreply,
      socket
-     |> push_patch(to: "/speakers")}
+     |> push_patch(to: ~p"/speakers")}
   end
 end

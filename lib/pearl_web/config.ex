@@ -15,7 +15,7 @@ defmodule PearlWeb.Config do
         feature_flag: "schedule_enabled"
       },
       %{
-        title: "Oradores & Patrocínios",
+        title: "Oradores",
         url: "/speakers",
         feature_flag: "team_enabled"
       },

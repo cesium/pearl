@@ -116,7 +116,7 @@ defmodule PearlWeb.Landing.Components.Footer do
     [
       %{title: "Página Inicial", url: "/", enabled: true},
       %{title: "Calendário", url: "/schedule", enabled: true},
-      %{title: "Oradores & Patrocínios", url: "/speakers", enabled: true},
+      %{title: "Oradores", url: "/speakers", enabled: true},
       %{title: "Desafios", url: "/challenges", enabled: true},
       %{title: "Equipa", url: "/team", enabled: true},
       %{title: "Informações & Ajuda", url: "/faqs", enabled: true}

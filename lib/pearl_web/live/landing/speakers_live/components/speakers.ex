@@ -28,7 +28,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
             <div class="w-full flex items-center gap-2 text-primary cursor-pointer">
               <.icon name="hero-bars-3-bottom-left" class="w-5 h-5" />
               <p>
-                opções de filtragem
+                {gettext("opções de filtragem")}
               </p>
             </div>
           </:trigger_element>
@@ -40,7 +40,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
               active={@current_filter == filter}
             >
               <p class="text-dark">
-                {if filter == :name, do: "Filtrar por nome", else: "Filtrar por dia"}
+                {if filter == :name, do: gettext("Filtrar por nome"), else: gettext("Filtrar por dia")}
               </p>
             </.dropdown_selectable_item>
           <% end %>
@@ -51,7 +51,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
           phx-click="clear-filter"
           class="bg-primary p-2 hover:bg-primary/70 transition-colors duration-200 cursor-pointer"
         >
-          Limpar
+          {gettext("Limpar")}
         </button>
       </div>
 
@@ -157,8 +157,10 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
             name="hero-arrow-up"
             class="w-5 h-5 hidden"
           />
-          <span id={"show-more-#{@speaker.id}-#{@activity.id}"}>ler mais</span>
-          <span id={"show-less-#{@speaker.id}-#{@activity.id}"} class="hidden">ler menos</span>
+          <span id={"show-more-#{@speaker.id}-#{@activity.id}"}>{gettext("ler mais")}</span>
+          <span id={"show-less-#{@speaker.id}-#{@activity.id}"} class="hidden">
+            {gettext("ler menos")}
+          </span>
         </button>
       </div>
     </div>

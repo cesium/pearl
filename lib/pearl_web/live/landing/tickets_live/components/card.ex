@@ -8,10 +8,10 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
   def card(assigns) do
     ~H"""
     <div
-      class="w-fit min-h-[476px] p-0.5"
+      class="w-full min-h-[476px] h-full p-0.5"
       style="background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 10%, transparent 60%);"
     >
-      <div class="w-full min-h-[476px] flex flex-col gap-5 justify-between bg-white overflow-hidden p-7 border-dark/20">
+      <div class="w-full min-h-[476px] h-full flex flex-col gap-5 justify-between bg-white overflow-hidden p-7 border-dark/20">
         <div class="flex flex-col gap-8">
           <div class="flex">
             <%= for {perk, i} <- Enum.with_index(@ticket_type.perks) do %>
@@ -36,7 +36,7 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
             </div>
           </div>
         </div>
-        <div class="flex gap-4 items-center justify-center">
+        <div class="flex gap-4 items-center justify-start">
           <span class="text-black text-4xl font-extrabold">
             {Number.Currency.number_to_currency(@ticket_type.price,
               unit: "€",

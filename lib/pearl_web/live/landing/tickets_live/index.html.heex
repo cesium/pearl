@@ -17,7 +17,7 @@
   </div>
   <div class="pb-14 sm:pb-28 px-6.5 md:px-10 xl:px-16 bg-white relative">
     <div class="relative z-20 flex flex-col justify-between lg:h-3/4"></div>
-    <div class="mt-16 grid md:grid-cols-2 2xl:grid-cols-4 md:justify-between place-items-start gap-8">
+    <div class="mt-16 grid sm:grid-cols-2 xl:grid-cols-3 md:justify-between place-items-start gap-8">
       <.card :for={ticket_type <- @ticket_types} ticket_type={ticket_type} />
     </div>
   </div>

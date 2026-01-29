@@ -26,6 +26,7 @@ defmodule Pearl.TicketsTest do
         description: "some description",
         color: "some color",
         icon: "some icon",
+        priority: "1",
         active: true
       }
 

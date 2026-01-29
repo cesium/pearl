@@ -70,6 +70,9 @@ defmodule PearlWeb.UserRegistrationLive do
          |> assign_form(changeset)
          |> redirect(to: "/users/log_in")}
 
+      {:error, :user, changeset, _} ->
+        {:noreply, socket |> assign(check_errors: true) |> assign_form(changeset)}
+
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, socket |> assign(check_errors: true) |> assign_form(changeset)}
     end

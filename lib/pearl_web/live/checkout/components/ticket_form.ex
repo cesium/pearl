@@ -245,7 +245,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
   defp humanize_value("no_restrictions"), do: "Sem restrições"
   defp humanize_value("vegetarian"), do: "Vegetariana"
-  defp humanize_value("vegan"), do: "Vegana"
+  defp humanize_value("vegan"), do: "Vegan"
   defp humanize_value("xs"), do: "XS"
   defp humanize_value("s"), do: "S"
   defp humanize_value("m"), do: "M"

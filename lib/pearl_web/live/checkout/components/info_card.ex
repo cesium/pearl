@@ -10,7 +10,7 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
   def render(assigns) do
     ~H"""
     <div class="sticky top-0 h-full w-full md:w-[420px] lg:min-w-[420px]">
-      <div class="h-[353px] md:h-[642px] bg-white rounded-4xl border border-gray-100 overflow-hidden">
+      <div class="h-[353px] md:h-[660px] bg-white rounded-4xl border border-gray-100 overflow-hidden">
         <div class="flex flex-col justify-between w-full h-full p-6 sm:p-8">
           <div class="">
             <%= if @step != :confirm_email do %>
@@ -68,7 +68,7 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                   <div class="absolute inset-0 flex items-center justify-center">
                     <div class="relative w-32 h-32 md:w-[170px] md:h-[170px] rounded-full bg-linear-to-b from-[#D9D9D9] to-[#919191] shadow-[0_0_60px_0_rgba(0,0,0,0.2)]">
                       <div class="absolute inset-0 flex items-center justify-center">
-                        <span class="text-white text-6xl font-bold uppercase tracking-widest select-none">
+                        <span class="text-white text-4xl md:text-6xl font-bold uppercase tracking-widest select-none">
                           {get_initials(Map.get(@current_user, :name, nil))}
                         </span>
                       </div>
@@ -116,9 +116,6 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                 <span class="text-3xl font-bold">
                   {get_formated_price(Map.get(@ticket, :price))}
                 </span>
-              </div>
-              <div>
-                <span class="text-gray-400 font-semibold">INCL. IVA</span>
               </div>
             </div>
           <% else %>

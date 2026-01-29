@@ -36,19 +36,16 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
             </div>
           </div>
         </div>
-        <div class="flex gap-4">
-          <div class="flex flex-col gap-2">
-            <span class="text-black text-4xl font-extrabold">
-              {Number.Currency.number_to_currency(@ticket_type.price,
-                unit: "€",
-                format: "%n%u",
-                precision: 2,
-                delimiter: ".",
-                separator: ","
-              )}
-            </span>
-            <span class="text-dark/50">INCL. IVA</span>
-          </div>
+        <div class="flex gap-4 items-center justify-center">
+          <span class="text-black text-4xl font-extrabold">
+            {Number.Currency.number_to_currency(@ticket_type.price,
+              unit: "€",
+              format: "%n%u",
+              precision: 2,
+              delimiter: ".",
+              separator: ","
+            )}
+          </span>
           <div>
             <.primary_button
               phx-value-ticket_type_id={@ticket_type.id}

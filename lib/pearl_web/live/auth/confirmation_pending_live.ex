@@ -34,7 +34,7 @@ defmodule PearlWeb.ConfirmationPendingLive do
         <.action_button
           title={gettext("Re-send Verification Email")}
           phx-click="resend"
-          class="h-14! rounded-none border-dark-muted/30!"
+          class="h-14! rounded-none border-primary! hover:bg-primary/10"
           title_class="text-lg text-primary !normal-case"
         />
       </div>

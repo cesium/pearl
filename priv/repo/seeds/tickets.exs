@@ -12,9 +12,9 @@ defmodule Pearl.Repo.Seeds.Tickets do
   ]
 
   @ticket_types [
-    %{name: "Passe Geral", description: "A nice ticket", price: 32, active: true, product_key: "XxXxX", priority: 0, perks: ["Entry"]},
-    %{name: "Passe Geral com Refeições", description: "A much nicer ticket", price: 33, active: true, product_key: "XxXxX", priority: 1, perks: ["Entry", "Meals"]},
-    %{name: "Passe Geral com Refeições e Alojamento da Universidade do Minho", description: "An awesome ticket", price: 38, active: true, product_key: "XxXxX", priority: 2, perks: ["Entry", "Meals", "Accommodation"]},
+    %{name: "Passe Geral", description: "A nice ticket", price: 32, active: true, product_key: "b757d845-bbcd-4c10-ad6f-4effe3406a3c", priority: 0, perks: ["Entry"]},
+    %{name: "Passe Geral com Refeições", description: "A much nicer ticket", price: 33, active: true, product_key: "021743b2-6ff1-4666-b70c-977c303a5da1", priority: 1, perks: ["Entry", "Meals"]},
+    %{name: "Passe Geral com Refeições e Alojamento da Universidade do Minho", description: "An awesome ticket", price: 38, active: true, product_key: "0ff1e663-481a-4e42-9a52-a4ac02b72437", priority: 2, perks: ["Entry", "Meals", "Accommodation"]},
   ]
 
   def run do
@@ -106,6 +106,9 @@ defmodule Pearl.Repo.Seeds.Tickets do
         insert_ticket(%{
           user_id: user.id,
           ticket_type_id: ticket_type.id,
+          diet: "vegan",
+          allergens: "none",
+          tshirt_size: "XL",
           paid: rem(index, 3) != 0
         })
       end)

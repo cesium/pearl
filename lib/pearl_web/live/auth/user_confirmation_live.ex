@@ -15,18 +15,18 @@ defmodule PearlWeb.UserConfirmationLive do
           <.icon name="hero-check" class="w-10 h-10 sm:w-16 sm:h-16" />
         </span>
       </div>
-      <h1 class="px-4 font-terminal uppercase text-3xl text-center mt-8 sm:mt-10">
+      <h1 class="px-4 font-terminal uppercase text-3xl text-center text-primary mt-8 sm:mt-10">
         {gettext("Email address has been verified!")}
       </h1>
-      <p class="text-center mt-6 px-4">
+      <p class="text-center text-primary mt-6 px-4">
         {gettext("Your account has been activated successfully.")}
       </p>
-      <p class="text-center mt-4 px-4">
-        {gettext("Redirecting you to the app...")}
+      <p class="text-center text-primary mt-4 px-4">
+        {gettext("Redirecting you to the checkout...")}
       </p>
       <.link
         navigate={~p"/app"}
-        class="text-sm sm:text-md text-center mt-8 opacity-80 px-4 hover:underline"
+        class="text-sm sm:text-md text-center mt-8 opacity-80 px-4 hover:underline text-primary"
       >
         {gettext("Not working? Click here.")}
       </.link>

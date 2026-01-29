@@ -52,7 +52,7 @@ defmodule PearlWeb.UserRegistrationLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element("a[href='/users/log_in'].font-semibold")
+        |> element("a[href='/users/log_in']", "Log in")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log_in")
 

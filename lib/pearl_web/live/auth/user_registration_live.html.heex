@@ -1,4 +1,4 @@
-<div class="text-black flex flex-col md:flex-row w-full h-full gap-4">
+<div class="text-black flex flex-col md:flex-row w-full h-fit gap-4">
   <.live_component
     module={PearlWeb.Checkout.Components.InfoCard}
     step={@live_action}
@@ -11,169 +11,171 @@
       id="registration_form"
       phx-change="validate"
       phx-submit="save"
-      class="px-4 lg:px-10 mt-4 space-y-8"
+      class="px-4 lg:px-10 mt-4 space-y-8 flex flex-col h-full justify-between"
     >
-      <div class="space-y-3">
-        <.input
-          field={@form[:name]}
-          label="Nome"
-          label_class="block text-lg! font-bold text-dark"
-          placeholder="Nome completo"
-          variant={:flushed}
-          wrapper_class="grid grid-cols-1 lg:grid-cols-[150px_1fr] xl:gap-25 items-baseline"
-          class="text-lg!"
-          required
-        />
+      <div>
+        <div class="space-y-3">
+          <.input
+            field={@form[:name]}
+            label="Nome"
+            label_class="block text-lg! font-bold text-dark"
+            placeholder="Nome completo"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg!"
+            required
+          />
 
-        <.input
-          field={@form[:email]}
-          type="email"
-          label="Email"
-          label_class="block text-lg! font-bold text-dark"
-          placeholder="Endereço de email"
-          variant={:flushed}
-          wrapper_class="grid grid-cols-1 lg:grid-cols-[150px_1fr] xl:gap-25 items-baseline"
-          class="text-lg!"
-          required
-        />
+          <.input
+            field={@form[:email]}
+            type="email"
+            label="Email"
+            label_class="block text-lg! font-bold text-dark"
+            placeholder="Endereço de email"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg!"
+            required
+          />
 
-        <.input
-          field={@form[:handle]}
-          label="Handle"
-          label_class="block text-lg! font-bold text-dark"
-          placeholder="John Doe"
-          type="handle"
-          variant={:flushed}
-          wrapper_class="grid grid-cols-1 lg:grid-cols-[150px_1fr] xl:gap-25 items-baseline"
-          class="text-lg!"
-          required
-        />
+          <.input
+            field={@form[:handle]}
+            label="Handle"
+            label_class="block text-lg! font-bold text-dark"
+            placeholder="John Doe"
+            type="handle"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg!"
+            required
+          />
 
-        <.input
-          field={@form[:password]}
-          label="Password"
-          label_class="block text-lg! font-bold text-dark"
-          type="password"
-          placeholder="VeryStrongPassword1234@"
-          variant={:flushed}
-          wrapper_class="grid grid-cols-1 lg:grid-cols-[150px_1fr] xl:gap-25 items-baseline"
-          class="text-lg!"
-          required
-        />
+          <.input
+            field={@form[:password]}
+            label="Palavra-passe"
+            label_class="block text-lg! font-bold text-dark"
+            type="password"
+            placeholder="Palavra-passe"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg!"
+            required
+          />
 
-        <div class="grid grid-cols-1 lg:grid-cols-[150px_1fr] xl:gap-25 items-baseline">
-          <label class="block text-lg! font-bold text-dark">
-            Data de Nascimento
-          </label>
+          <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline">
+            <label class="block text-lg! font-bold text-dark">
+              Data de Nascimento
+            </label>
 
-          <% field = @form[:birth_date] %>
-          <% value = Phoenix.HTML.Form.input_value(@form, :birth_date) %>
+            <% field = @form[:birth_date] %>
+            <% value = Phoenix.HTML.Form.input_value(@form, :birth_date) %>
 
-          <div class="flex gap-5 ">
-            <div class="w-25">
-              <select
-                name={field.name <> "[day]"}
-                id={field.id <> "_day"}
-                class="w-full bg-transparent border-0 border-b border-dark-muted/30 pl-0 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
-              >
-                <option value="">Dia</option>
-                <%= for d <- @days do %>
-                  <% selected =
-                    value &&
-                      ((is_map(value) && value["day"] == to_string(d)) ||
-                         (is_struct(value) && value.day == d)) %>
-                  <option value={d} selected={selected}>{d}</option>
-                <% end %>
-              </select>
+            <div class="flex gap-5 ">
+              <div class="w-25">
+                <select
+                  name={field.name <> "[day]"}
+                  id={field.id <> "_day"}
+                  class="w-full bg-transparent border-0 border-b border-dark-muted/30 pl-0 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
+                >
+                  <option value="">Dia</option>
+                  <%= for d <- @days do %>
+                    <% selected =
+                      value &&
+                        ((is_map(value) && value["day"] == to_string(d)) ||
+                           (is_struct(value) && value.day == d)) %>
+                    <option value={d} selected={selected}>{d}</option>
+                  <% end %>
+                </select>
+              </div>
+
+              <div class="w-40">
+                <select
+                  name={field.name <> "[month]"}
+                  id={field.id <> "_month"}
+                  class="w-full bg-transparent border-0 border-b border-dark-muted/30 pl-0 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
+                >
+                  <option value="">Mês</option>
+                  <%= for {name, m} <- @months do %>
+                    <% selected =
+                      value &&
+                        ((is_map(value) && value["month"] == to_string(m)) ||
+                           (is_struct(value) && value.month == m)) %>
+                    <option value={m} selected={selected}>{name}</option>
+                  <% end %>
+                </select>
+              </div>
+
+              <div class="w-30">
+                <select
+                  name={field.name <> "[year]"}
+                  id={field.id <> "_year"}
+                  class="w-full bg-transparent border-0 border-b border-dark-muted/30 pl-0 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
+                >
+                  <option value="">Ano</option>
+                  <%= for y <- @years do %>
+                    <% selected =
+                      value &&
+                        ((is_map(value) && value["year"] == to_string(y)) ||
+                           (is_struct(value) && value.year == y)) %>
+                    <option value={y} selected={selected}>{y}</option>
+                  <% end %>
+                </select>
+              </div>
             </div>
+            <.error :for={msg <- field.errors}>{msg}</.error>
+          </div>
 
-            <div class="w-40">
-              <select
-                name={field.name <> "[month]"}
-                id={field.id <> "_month"}
-                class="w-full bg-transparent border-0 border-b border-dark-muted/30 pl-0 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
-              >
-                <option value="">Mês</option>
-                <%= for {name, m} <- @months do %>
-                  <% selected =
-                    value &&
-                      ((is_map(value) && value["month"] == to_string(m)) ||
-                         (is_struct(value) && value.month == m)) %>
-                  <option value={m} selected={selected}>{name}</option>
-                <% end %>
-              </select>
-            </div>
-
-            <div class="w-30">
-              <select
-                name={field.name <> "[year]"}
-                id={field.id <> "_year"}
-                class="w-full bg-transparent border-0 border-b border-dark-muted/30 pl-0 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
-              >
-                <option value="">Ano</option>
-                <%= for y <- @years do %>
-                  <% selected =
-                    value &&
-                      ((is_map(value) && value["year"] == to_string(y)) ||
-                         (is_struct(value) && value.year == y)) %>
-                  <option value={y} selected={selected}>{y}</option>
-                <% end %>
-              </select>
+          <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline">
+            <label class="block text-lg! font-bold text-dark">Telefone</label>
+            <div class="flex gap-5">
+              <div class="w-40">
+                <.input
+                  field={@form[:phone_prefix]}
+                  type="select"
+                  options={[{"PT (+351)", "+351"}, {"ES (+34)", "+34"}]}
+                  variant={:flushed}
+                  label=""
+                  class="text-lg! text-dark-muted"
+                />
+              </div>
+              <div class="flex-1">
+                <.input
+                  field={@form[:phone_number]}
+                  placeholder="Número de telefone"
+                  variant={:flushed}
+                  label=""
+                  class="text-lg! text-dark-muted"
+                />
+              </div>
             </div>
           </div>
-          <.error :for={msg <- field.errors}>{msg}</.error>
+
+          <.input
+            field={@form[:university]}
+            type="select"
+            label="Universidade"
+            label_class="block! text-lg! font-bold! text-dark!"
+            options={@universities}
+            prompt="Selecionar instituição"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg! text-dark-muted"
+            required
+          />
+
+          <.input
+            field={@form[:city]}
+            type="select"
+            label="Cidade"
+            label_class="block! text-lg! font-bold! text-dark!"
+            options={@cities}
+            prompt="Selecionar cidade"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg! text-dark-muted"
+            required
+          />
         </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-[150px_1fr] xl:gap-25 items-baseline">
-          <label class="block text-lg! font-bold text-dark">Telefone</label>
-          <div class="flex gap-5">
-            <div class="w-40">
-              <.input
-                field={@form[:phone_prefix]}
-                type="select"
-                options={[{"PT (+351)", "+351"}, {"ES (+34)", "+34"}]}
-                variant={:flushed}
-                label=""
-                class="text-lg! text-dark-muted"
-              />
-            </div>
-            <div class="flex-1">
-              <.input
-                field={@form[:phone_number]}
-                placeholder="Número de telefone"
-                variant={:flushed}
-                label=""
-                class="text-lg!"
-              />
-            </div>
-          </div>
-        </div>
-
-        <.input
-          field={@form[:university]}
-          type="select"
-          label="Universidade"
-          label_class="block! text-lg! font-bold! text-dark!"
-          options={@universities}
-          prompt="Selecionar instituição"
-          variant={:flushed}
-          wrapper_class="grid grid-cols-1 lg:grid-cols-[150px_1fr] xl:gap-25 items-baseline"
-          class="text-base! text-dark-muted"
-          required
-        />
-
-        <.input
-          field={@form[:city]}
-          type="select"
-          label="Cidade"
-          label_class="block! text-lg! font-bold! text-dark!"
-          options={@cities}
-          prompt="Selecionar cidade"
-          variant={:flushed}
-          wrapper_class="grid grid-cols-1 lg:grid-cols-[150px_1fr] xl:gap-25 items-baseline"
-          class="text-lg! text-dark-muted"
-          required
-        />
       </div>
       <div class="sticky bottom-4 py-4 flex justify-end pointer-events-none">
         <div class="flex gap-2 pointer-events-auto">

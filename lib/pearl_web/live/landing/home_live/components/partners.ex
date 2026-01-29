@@ -7,11 +7,11 @@ defmodule PearlWeb.Landing.HomeLive.Components.Partners do
     <div class="flex items-center justify-center flex-col py-14.5 bg-[#EFEFED]">
       <div class="flex flex-col gap-5 items-center text-black px-4 md:px-8">
         <h2 class="flex font-semibold justify-center text-center text-2xl md:text-3xl max-w-full md:max-w-[580px]">
-        {gettext("Parceiros que fizeram isto possível")}
-      </h2>
-      <p class="text-center max-w-full md:max-w-3xl lg:max-w-5xl">
-        Os nossos parceiros são entidades que colaboram connosco para tornar o ENEI possível. Através do seu apoio e contributo, ajudam a enriquecer a experiência do evento e a criar mais valor para todos os participantes.
-      </p>
+          {gettext("Parceiros que fizeram isto possível")}
+        </h2>
+        <p class="text-center max-w-full md:max-w-3xl lg:max-w-5xl">
+          Os nossos parceiros são entidades que colaboram connosco para tornar o ENEI possível. Através do seu apoio e contributo, ajudam a enriquecer a experiência do evento e a criar mais valor para todos os participantes.
+        </p>
       </div>
       <div class="my-10 flex flex-wrap items-center justify-center gap-10">
         <div
@@ -19,7 +19,11 @@ defmodule PearlWeb.Landing.HomeLive.Components.Partners do
           class="m-auto w-40 select-none opacity-80 hover:opacity-100 hover:scale-105 duration-500 transition-all"
         >
           <.link href={partner.url} target="_blank" rel="noreferrer">
-            <img src={"/images/partners/#{partner.logo}"} class={["w-full h-40", partner.style]} alt={partner.name} />
+            <img
+              src={"/images/partners/#{partner.logo}"}
+              class={["w-full h-40", partner.style]}
+              alt={partner.name}
+            />
           </.link>
         </div>
       </div>

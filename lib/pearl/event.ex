@@ -85,6 +85,40 @@ defmodule Pearl.Event do
   end
 
   @doc """
+  Changes the landing page message.
+
+  ## Examples
+
+      iex> change_landing_page_message("Welcome to ENEI!")
+      :ok
+  """
+  def change_landing_page_message(message) do
+    result = Constants.set("landing_page_message", message)
+    broadcast_start_time_update("landing_page_message", message)
+    result
+  end
+
+  @doc """
+  Returns the landing page message.
+
+  ## Examples
+
+      iex> get_landing_page_message!()
+      "Welcome to ENEI!"
+  """
+  def get_landing_page_message! do
+    case Constants.get("landing_page_message") do
+      {:ok, message} ->
+        message
+
+      {:error, _} ->
+        default_message = ""
+        change_landing_page_message(default_message)
+        default_message
+    end
+  end
+
+  @doc """
   Subscribes the caller to the start time's updates.
 
   ## Examples

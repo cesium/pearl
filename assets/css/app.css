@@ -61,6 +61,7 @@
   --color-dark-muted: #71717a;
   --color-dark-shade: #27272a;
   --color-dark-blue: #04041c;
+  --color-dark-text: #1f1f1f;
 
   --color-background: var(--color-light);
   --color-background-muted: var(--color-light-muted);
@@ -160,6 +161,47 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+.ticker-viewport {
+  overflow: hidden;
+  position: relative;
+
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.ticker-item {
+  white-space: nowrap;
+  padding-right: 3rem;
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--w));
   }
 }
 

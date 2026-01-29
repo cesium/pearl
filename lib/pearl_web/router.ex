@@ -70,37 +70,39 @@ defmodule PearlWeb.Router do
       live "/users/reset_password", UserForgotPasswordLive, :new
 
       pipe_through :registrations_open
-      live "/users/register", UserRegistrationLive, :new
+      live "/users/register", UserRegistrationLive, :registration
       post "/users/register", UserSessionController, :new
       live "/users/confirm_email", UserConfirmationInstructionsLive, :confirm_email
     end
   end
 
+  scope "/checkout", PearlWeb do
+    pipe_through [:browser, :require_authenticated_user]
 
-scope "/checkout", PearlWeb do
-  pipe_through [:browser, :require_authenticated_user]
+    get "/init", TicketCheckoutController, :init
 
-  get "/init", TicketCheckoutController, :init
+    live_session :checkout,
+      on_mount: [
+        {PearlWeb.UserAuth, :mount_current_user},
+        {PearlWeb.UserTicket, :redirect_if_user_has_unpaid_ticket}
+      ] do
+      pipe_through [:require_confirmed_user]
 
-  live_session :checkout,
-    on_mount: [
-      {PearlWeb.UserAuth, :mount_current_user},
-      {PearlWeb.UserTicket, :redirect_if_user_has_unpaid_ticket}
-    ] do
-    live "/choose_ticket", Checkout.TicketInformationsLive, :choose_ticket
-    live "/precautions", Checkout.TicketInformationsLive, :precautions
-    live "/informations", Checkout.TicketInformationsLive, :informations
-    live "/conclusion", Checkout.TicketInformationsLive, :conclusion
+      live "/choose_ticket", Checkout.TicketInformationsLive, :choose_ticket
+      live "/precautions", Checkout.TicketInformationsLive, :precautions
+      live "/informations", Checkout.TicketInformationsLive, :informations
+      live "/conclusion", Checkout.TicketInformationsLive, :conclusion
+    end
+
+    live_session :payment,
+      on_mount: [
+        {PearlWeb.UserAuth, :mount_current_user},
+        {PearlWeb.UserTicket, :redirect_if_user_has_paid_ticket}
+      ] do
+      live "/payment", Checkout.PaymentLive, :payment
+    end
   end
 
-  live_session :checkout_payment,
-    on_mount: [
-      {PearlWeb.UserAuth, :mount_current_user},
-      {PearlWeb.UserTicket, :redirect_if_user_has_paid_ticket}
-    ] do
-    live "/payment", Checkout.PaymentLive, :conclusion
-  end
-end
   scope "/", PearlWeb do
     pipe_through [:browser, :require_authenticated_user]
 
@@ -109,14 +111,14 @@ end
         {PearlWeb.UserAuth, :ensure_authenticated},
         {PearlWeb.Spotlight, :fetch_current_spotlight}
       ] do
-      live "/users/confirmation_pending", ConfirmationPendingLive, :index
+      live "/users/confirmation_pending", ConfirmationPendingLive, :confirmation_pending
 
       live "/users/settings/confirm_email/:token", UserUpdateEmailConfirmation
 
       live "/attendee/:credential_id", AttendeeLive.Index, :index
 
       scope "/app", App do
-        pipe_through [:require_confirmed_user, :require_attendee_user]
+        pipe_through [:require_confirmed_user, :require_attendee_user, :require_paid_ticket]
 
         live "/waiting", WaitingLive.Index, :index
 

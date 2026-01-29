@@ -10,33 +10,32 @@ defmodule PearlWeb.ConfirmationPendingLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-lg py-12">
+    <div class="mx-auto max-w-lg py-12 text-primary">
       <div class="w-full flex items-center justify-center">
-        <span class="ring-2 sm:ring-4 ring-white rounded-full p-4 sm:p-6">
-          <.icon name="hero-envelope" class="w-10 h-10 sm:w-16 sm:h-16" />
+        <span class="">
+          <.icon name="hero-envelope" class="w-10 h-10 sm:w-12 sm:h-12 text-primary" />
         </span>
       </div>
-      <h1 class="px-4 font-terminal uppercase text-3xl text-center mt-8 sm:mt-10">
+      <h1 class="px-4 uppercase text-3xl text-center mt-8 sm:mt-10 text-primary">
         {gettext("We need to verify your email address!")}
       </h1>
-      <p class="text-center mt-6 px-4">
-        {gettext(
-          "We have sent an email to %{user_email} containing instructions on how to verify your account.",
-          user_email: @current_user.email
-        )}
+      <p class="text-center mt-6 px-4 text-dark-muted!">
+        {gettext("We have sent an email to")}
+        <span class="font-bold text-primary">{@current_user.email}</span>
+        {gettext("containing instructions on how to verify your account.")}
       </p>
-      <p class="text-center mt-4 px-4">
+      <p class="text-center mt-4 px-4 text-dark-muted!">
         {gettext("If you don't see it, you may need to check your spam folder.")}
       </p>
-      <p class="text-center mt-4 px-4">
+      <p class="text-center mt-4 px-4 text-dark-muted!">
         {gettext("Still can't find it?")}
       </p>
-      <div class="font-terminal px-4 sm:px-24 text-center text-2xl sm:text-4xl mt-12">
+      <div class="px-4 sm:px-24 text-center text-2xl sm:text-4xl mt-12">
         <.action_button
           title={gettext("Re-send Verification Email")}
           phx-click="resend"
-          class="!h-14"
-          title_class="text-lg !font-iregular !normal-case"
+          class="h-14! rounded-none border-dark-muted/30!"
+          title_class="text-lg text-primary !normal-case"
         />
       </div>
       <p class="text-sm sm:text-md text-center mt-8 opacity-80 px-4">

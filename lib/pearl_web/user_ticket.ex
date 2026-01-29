@@ -16,20 +16,19 @@ defmodule PearlWeb.UserTicket do
           conn
 
         ticket ->
-          if not ticket.paid do
-            conn
-          else
+          if ticket.paid do
             conn
             |> put_flash(:error, "You already have a ticket.")
             |> redirect(to: ~p"/checkout/payment")
             |> halt()
+          else
+            conn
           end
       end
     else
       conn
     end
   end
-
 
   def redirect_if_user_has_unpaid_ticket(conn, _opts) do
     if conn.assigns[:current_user] do
@@ -59,15 +58,15 @@ defmodule PearlWeb.UserTicket do
           {:cont, socket}
 
         ticket ->
-          if not ticket.paid do
-            {:cont, socket}
-          else
+          if ticket.paid do
             socket =
               socket
               |> Phoenix.LiveView.put_flash(:error, "You already have a ticket.")
               |> Phoenix.LiveView.redirect(to: ~p"/app")
 
             {:halt, socket}
+          else
+            {:cont, socket}
           end
       end
     else
@@ -87,7 +86,10 @@ defmodule PearlWeb.UserTicket do
           else
             socket =
               socket
-              |> Phoenix.LiveView.put_flash(:error, "You have an unpaid ticket. Please complete your payment.")
+              |> Phoenix.LiveView.put_flash(
+                :error,
+                "You have an unpaid ticket. Please complete your payment."
+              )
               |> Phoenix.LiveView.redirect(to: ~p"/checkout/payment")
 
             {:halt, socket}

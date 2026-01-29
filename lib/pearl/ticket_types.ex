@@ -7,7 +7,7 @@ defmodule Pearl.TicketTypes do
   import Ecto.Query, warn: false
   alias Pearl.Repo
 
-  alias Pearl.Tickets.TicketType
+  alias Pearl.Tickets.{Perk, TicketType}
 
   @doc """
   Returns the list of ticket types.
@@ -21,8 +21,8 @@ defmodule Pearl.TicketTypes do
   def list_ticket_types do
     TicketType
     |> order_by(:priority)
-    |> preload(:perks)
     |> Repo.all()
+    |> Repo.preload(perks: from(p in Perk, order_by: [asc: p.priority]))
   end
 
   @doc """
@@ -39,8 +39,8 @@ defmodule Pearl.TicketTypes do
     TicketType
     |> where([t], t.active == true)
     |> order_by(:priority)
-    |> preload(:perks)
     |> Repo.all()
+    |> Repo.preload(perks: from(p in Perk, order_by: [asc: p.priority]))
   end
 
   @doc """
@@ -60,10 +60,7 @@ defmodule Pearl.TicketTypes do
   def get_ticket_type!(id) do
     TicketType
     |> Repo.get!(id)
-    |> Repo.preload(:perks)
-    TicketType
-    |> Repo.get!(id)
-    |> Repo.preload(:perks)
+    |> Repo.preload(perks: from(p in Perk, order_by: [asc: p.priority]))
   end
 
   @doc """

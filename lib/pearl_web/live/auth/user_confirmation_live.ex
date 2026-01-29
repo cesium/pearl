@@ -59,7 +59,8 @@ defmodule PearlWeb.UserConfirmationLive do
         # a warning message.
         case socket.assigns do
           %{current_user: %{confirmed_at: confirmed_at}} when not is_nil(confirmed_at) ->
-            {:noreply, push_event(socket, "redirect", %{url: ~p"/checkout/choose_ticket", time: 1200})}
+            {:noreply,
+             push_event(socket, "redirect", %{url: ~p"/checkout/choose_ticket", time: 1200})}
 
           %{} ->
             {:noreply,

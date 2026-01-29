@@ -3,12 +3,11 @@ defmodule PearlWeb.Landing.TicketsLive.Index do
 
   on_mount {PearlWeb.VerifyFeatureFlag, "tickets_enabled"}
 
+  alias Pearl.TicketTypes
   import PearlWeb.Landing.TicketsLive.Components.Card
 
-  alias Pearl.TicketTypes
-
   def mount(_params, _session, socket) do
-    ticket_types = TicketTypes.list_ticket_types()
+    ticket_types = TicketTypes.list_active_ticket_types()
 
     {:ok, socket |> assign(:ticket_types, ticket_types)}
   end

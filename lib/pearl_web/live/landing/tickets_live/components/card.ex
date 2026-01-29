@@ -3,32 +3,33 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
   Tickets component.
   """
   use PearlWeb, :component
+  import PearlWeb.Components.Button
 
   def card(assigns) do
     ~H"""
     <div
-      class="w-full h-[476px] max-w-95 p-0.5"
-      style="background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 40%, transparent 46%);"
+      class="w-fit min-h-[476px] p-0.5"
+      style="background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 10%, transparent 60%);"
     >
-      <div class="w-full h-full flex flex-col gap-5 justify-between bg-white overflow-hidden p-5 border-dark/20">
-        <div class="flex flex-col gap-4">
+      <div class="w-full min-h-[476px] flex flex-col gap-5 justify-between bg-white overflow-hidden p-7 border-dark/20">
+        <div class="flex flex-col gap-8">
           <div class="flex">
-            <div
-              :for={perk <- @ticket_type.perks}
-              class="flex w-15 h-15 items-center place-content-center gap-2 p-2"
-              style={"background-color: #{perk.color};"}
-            >
-              <.icon class="w-10 h-10" name={perk.icon} />
-            </div>
+            <%= for {perk, i} <- Enum.with_index(@ticket_type.perks) do %>
+              <.live_component
+                module={PearlWeb.Checkout.Components.PrettyIcon}
+                id={"perk-icon-#{@ticket_type.id}-#{i}"}
+                perk={perk}
+              />
+            <% end %>
           </div>
           <div class="flex flex-col gap-3">
-            <span class="text-black text-2xl font-extrabold">{@ticket_type.name}</span>
+            <span class="text-black text-3xl font-extrabold">{@ticket_type.name}</span>
             <div class="flex flex-col gap-3">
               <div :for={perk <- @ticket_type.perks} class="flex gap-2">
                 <img
                   src={~p"/images/check.svg"}
                   alt={gettext("Check")}
-                  class=""
+                  class="max-w-fit"
                 />
                 <span class="text-black text-lg">{perk.description}</span>
               </div>
@@ -49,13 +50,12 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
             <span class="text-dark/50">INCL. IVA</span>
           </div>
           <div>
-            <.button
+            <.primary_button
               phx-value-ticket_type_id={@ticket_type.id}
               phx-click="select_ticket"
               class="w-16 h-16 rounded-none bg-primary hover:bg-primary/90 cursor-pointer"
-            >
-              <.icon name="hero-arrow-right" />
-            </.button>
+              small
+            />
           </div>
         </div>
       </div>

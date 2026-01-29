@@ -1,20 +1,107 @@
-<div class="text-black flex w-full h-full gap-4" phx-hook="TicketData" id="ticket-checkout">
-  <div class="min-w-[420px] h-[642px] bg-white rounded-4xl"></div>
+<div class="text-black flex flex-col md:flex-row w-full gap-8 md:gap-2">
+  <.live_component
+    module={PearlWeb.Checkout.Components.InfoCard}
+    id="ticket-form"
+    current_user={@current_user}
+    step={@live_action}
+    ticket_data={@ticket}
+    ticket_type={@ticket_type}
+  />
 
-  <div class="flex flex-col justify-between gap-4 w-full">
-    <div>
-      <h2>Some text</h2>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum ipsum omnis, eveniet sunt, dolore alias voluptate eligendi inventore fuga in corporis consectetur perferendis cum, recusandae expedita aperiam incidunt! Velit, sunt.
-      </p>
-    </div>
-    <div class="flex gap-4">
-      <div class="">
-        <.button>Multibanco</.button>
-      </div>
-      <div class="">
-        <.button>MBWay</.button>
-      </div>
+  <div class="flex flex-col justify-between gap-4 w-full h-full">
+    <div class="px-4 lg:px-10 pb-8">
+      <.form for={} phx-change="validate-payment" phx-submit="submit-payment">
+        <div class="flex flex-col lg:flex-row gap-8 min-h-[650px]">
+          <div class="w-full">
+            <h2 class="text-xl pb-2">Contact information</h2>
+            <div class="w-full flex flex-col gap-4 pb-6">
+              <.input
+                name="name"
+                label="Name"
+                value={@current_user.name}
+                type="text"
+                readonly
+                variant={:flushed}
+              />
+              <.input
+                name="email"
+                label="Email address"
+                value={@current_user.email}
+                type="email"
+                readonly
+                variant={:flushed}
+              />
+            </div>
+            <h2 class="text-xl pb-2">Billing information</h2>
+            <div class="flex items-center gap-2">
+              <input
+                id="include-invoice-info"
+                type="checkbox"
+                class="checkbox checkbox-primary"
+                phx-click="toggle-invoice-info"
+                checked={@include_invoice_info}
+              />
+              <label for="include-invoice-info" class="text-sm">
+                Include invoice info
+              </label>
+            </div>
+            <div :if={@include_invoice_info} class="mt-4">
+              <.input
+                field={@payment_form[:iva_number]}
+                label="NIF"
+                variant={:flushed}
+                placeholder="212345678"
+                type="text"
+                variant={:flushed}
+              />
+            </div>
+            <h2 class="text-xl pb-2 mt-6">Payment method</h2>
+            <div class="flex items-start gap-2">
+              <input
+                id="payment-method-mb-way"
+                type="radio"
+                name="payment_method"
+                class="radio radio-primary mt-1"
+                value="mb_way"
+                checked={@payment_method == "mb_way"}
+              />
+              <label for="payment-method-mb-way" class="text-sm">
+                <img src="/images/mbway.svg" alt="Mb Way" class="inline h-8 ml-1 mr-2 mb-1" />
+              </label>
+            </div>
+            <div class="mt-4">
+              <.input
+                name="phone_number"
+                value="phone_number"
+                label="Phone number"
+                type="tel"
+                placeholder="912345678"
+                phx-debounce="300"
+                variant={:flushed}
+              />
+            </div>
+          </div>
+          <div class="w-full">
+            <h2 class="text-xl pb-2">Order summary</h2>
+            <div class="mt-4 p-4 border border-dark-muted/20">
+              <div class="flex flex-row justify-between mb-2">
+                <div>
+                  <p>{@ticket_type.price}× ENEI 2026 Ticket</p>
+                </div>
+              </div>
+              <div class="flex flex-row justify-between font-bold border-t border-gray-700 pt-2">
+                <p>Total</p>
+                <p>€{@ticket_type.price}</p>
+              </div>
+            </div>
+            <.primary_button
+              title="completar pagamento"
+              class="btn btn-primary h-fit w-full mt-6"
+              disabled={false}
+            />
+          </div>
+        </div>
+      </.form>
     </div>
   </div>
 </div>

@@ -7,10 +7,10 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
   def render(assigns) do
     ~H"""
-    <div class="px-10">
+    <div class="px-4 lg:px-10 pb-8">
       <%= case @step do %>
         <% :choose_ticket -> %>
-          <.choose_ticket_step form={@form} ticket_data={@ticket_data} ticket_types={@ticket_types}/>
+          <.choose_ticket_step form={@form} ticket_data={@ticket_data} ticket_types={@ticket_types} />
         <% :precautions -> %>
           <.precautions_step form={@form} />
         <% :informations -> %>
@@ -24,37 +24,38 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
   defp choose_ticket_step(assigns) do
     ~H"""
-      <div class="flex flex-col gap-10">
-        <% selected_ticket_type = TicketTypes.get_ticket_type!(Map.get(assigns.ticket_data, "ticket_type_id")) %>
-        <div>
-          <h2 class="font-extrabold text-lg mb-1">Escolha o teu bilhete</h2>
-          <span>
-            Os tipos de bilhetes incluem diferentes benefícios.
-          </span>
-          <.simple_form phx-change="validate" for={@form} id="choose_ticket-form">
-            <.input
-              field={@form[:ticket_type_id]}
-              type="select"
-              options={@ticket_types |> Enum.map(&{&1.name, &1.id})}
-              variant={:flushed}
-              label=""
-            />
-          </.simple_form>
-        </div>
-        <div>
-          <h2 class="font-semibold text-lg mb-2">Benefícios deste bilhete:</h2>
-          <ul class="flex flex-col gap-2">
-            <%= for perk <- selected_ticket_type.perks do %>
-              <li class="flex items-center gap-2">
-                <span class="flex" style={"color: #{perk.color};"}>
-                  <.icon name="hero-check" class="size-4"/>
-                </span>
-                <span class="text-lg">{perk.description}</span>
-              </li>
-            <% end %>
-          </ul>
-        </div>
+    <div class="flex flex-col gap-10">
+      <% selected_ticket_type =
+        TicketTypes.get_ticket_type!(Map.get(assigns.ticket_data, "ticket_type_id")) %>
+      <div>
+        <h2 class="font-extrabold text-lg mb-1">Escolha o teu bilhete</h2>
+        <span>
+          Os tipos de bilhetes incluem diferentes benefícios.
+        </span>
+        <.simple_form phx-change="validate" for={@form} id="choose_ticket-form">
+          <.input
+            field={@form[:ticket_type_id]}
+            type="select"
+            options={@ticket_types |> Enum.map(&{&1.name, &1.id})}
+            variant={:flushed}
+            label=""
+          />
+        </.simple_form>
       </div>
+      <div>
+        <h2 class="font-semibold text-lg mb-2">Benefícios deste bilhete:</h2>
+        <ul class="flex flex-col gap-2">
+          <%= for perk <- selected_ticket_type.perks do %>
+            <li class="flex items-center gap-2">
+              <span class="flex" style={"color: #{perk.color};"}>
+                <.icon name="hero-check" class="size-4" />
+              </span>
+              <span class="text-lg">{perk.description}</span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
     """
   end
 
@@ -62,7 +63,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
     ~H"""
     <div class="">
       <.simple_form phx-change="validate" for={@form} id="precautions-form">
-        <h2 class="font-extrabold text-lg mb-1">Disabilities</h2>
+        <h2 class="font-extrabold text-lg mb-1">Incapacidades</h2>
         <span class="mb-3 block">
           Descreve qualquer incapacidade que tenhas que nós devamos saber para poder adaptar a tua experiência.
         </span>
@@ -75,16 +76,17 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
           field={@form[:disabilities]}
         />
 
-        <h2 class="font-extrabold text-lg mb-1">Allergens*</h2>
+        <h2 class="font-extrabold text-lg mb-1">Alergénios*</h2>
         <span class="mb-3 block">
           Se tiveres alguma alergia a alimentos, seleciona a opção correspondente e descrimina os alimentos a que és sensível.
         </span>
         <.input
           type="radio"
           field={@form[:has_allergens]}
+          class="text-base!"
           options={[
-            {"I don't have any allergies", "no"},
-            {"I'm allergic to the following foods: ", "yes"}
+            {"Não tenho nenhuma alergia", "no"},
+            {"Sou alérgico(a) aos seguintes alimentos: ", "yes"}
           ]}
         />
 
@@ -98,7 +100,6 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
             field={@form[:allergens]}
           />
         <% end %>
-
       </.simple_form>
     </div>
     """
@@ -108,45 +109,49 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
     ~H"""
     <div class="">
       <.simple_form phx-change="validate" for={@form} id="informations-form">
-        <h2 class="font-extrabold text-lg mb-1">T-shirt size*</h2>
+        <h2 class="font-extrabold text-lg mb-1">Tamanho de T-shirt*</h2>
         <span>
-          For your convenience, please register the size of T-shirt you usually wear. In any case, you are not limited to the size you choose.
+          Para a tua conveniência, deixa já registado o tamanho de T-Shirt que costumas vestir. Em todo o caso, não ficas limitado ao tamanho que escolheres.
         </span>
         <.input
-          type="radio"
+          type="segmented-radio"
           field={@form[:tshirt_size]}
           options={[{"XS", "xs"}, {"S", "s"}, {"M", "m"}, {"L", "l"}, {"XL", "xl"}, {"XXL", "xxl"}]}
         />
 
         <h2 class="font-extrabold text-lg mb-1">Diet*</h2>
-        <span>If you are vegetarian or vegan, we can take this into account in your meals.</span>
+        <span>
+          Caso sejas vegetariano ou vegan, podemos ter isso em atenção.
+        </span>
         <.input
           type="radio"
           field={@form[:diet]}
+          class="text-base!"
           options={[
-            {"Diet without restrictions", "no_restrictions"},
-            {"Vegetarian diet", "vegetarian"},
-            {"Vegan diet", "vegan"}
+            {"Dieta sem restrições", "no_restrictions"},
+            {"Dieta vegetariana", "vegetarian"},
+            {"Dieta vegan", "vegan"}
           ]}
         />
 
         <div class="flex flex-col gap-5">
           <div>
-            <h2 class="font-extrabold text-lg mb-1">How are you getting to ENEI?</h2>
+            <h2 class="font-extrabold text-lg mb-1">Como vens para o ENEI?</h2>
             <span>
-              This question is optional and for statistical purposes only. What means of transportation do you intend to use for ENEI?
+              Esta pergunta é opcional e destina-se apenas a fins estatísticos. Que meio de transporte pretendes utilizar para o ENEI?
             </span>
 
             <.input
               type="radio"
               field={@form[:intended_transport_to_enei]}
+              class="text-base!"
               options={[
-                {"I'll go in my own vehicle", "own_vehicle"},
-                {"I'm getting a ride in someone else's vehicle", "someone_else"},
-                {"I will be traveling by public transportation outside of ENEI (bus, train, or plane)",
+                {"Vou no meu próprio veículo", "own_vehicle"},
+                {"Vou de boleia no veículo de outra pessoa", "someone_else"},
+                {"Vou de transporte coletivo externo ao ENEI (autocarro, comboio ou avião)",
                  "external"},
-                {"I will use a taxi or private hire car service.", "taxi_or_tvde"},
-                {"I'm walking", "walking"}
+                {"Vou recorrer a um serviço de táxi ou TVDE", "taxi_or_tvde"},
+                {"Vou a pé", "walking"}
               ]}
             />
           </div>
@@ -157,24 +162,25 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
             phx-click="remove_response"
             disabled={is_nil(@form.params["intended_transport_to_enei"])}
           >
-            <.icon name="hero-backspace" class="w-5 h-5" /> remove response
+            <.icon name="hero-backspace" class="w-5 h-5" /> remover resposta
           </.button>
         </div>
 
         <div class="flex flex-col gap-5">
           <div>
-            <h2 class="font-extrabold text-lg mb-1">Have you been to ENEI before?</h2>
+            <h2 class="font-extrabold text-lg mb-1">Já vieste ao ENEI antes?</h2>
             <span>
-              This question is optional and for statistical purposes only. Have you ever participated in a previous edition of ENEI?
+              Esta pergunta é de resposta opcional e apenas para fins estatísticos.  Já alguma vez participaste numa edição anterior do ENEI?
             </span>
 
             <.input
               type="radio"
               field={@form[:has_attended_enei_before]}
+              class="text-base!"
               options={[
-                {"No", "no"},
-                {"Yes, including one or more editions in Braga", "yes_elsewhere"},
-                {"Yes, but never an edition in Braga", "yes_braga"}
+                {"Não", "no"},
+                {"Sim, incluindo uma ou mais edições em Braga", "yes_elsewhere"},
+                {"Sim, mas nunca uma edição em Braga", "yes_braga"}
               ]}
             />
           </div>
@@ -185,7 +191,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
             phx-click="remove_response"
             disabled={is_nil(@form.params["has_attended_enei_before"])}
           >
-            <.icon name="hero-backspace" class="w-5 h-5" /> remove response
+            <.icon name="hero-backspace" class="w-5 h-5" /> remover resposta
           </.button>
         </div>
       </.simple_form>
@@ -196,9 +202,9 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
   defp conclusion_step(assigns) do
     ~H"""
     <div class="py-8">
-      <h2 class="text-3xl font-bold mb-2">The data you will submit</h2>
+      <h2 class="text-2xl sm:text-3xl font-bold mb-2">The data you will submit</h2>
       <div>
-        <%= for {key, value} <- @ticket_data do %>
+        <%= for {key, value} <- filter_data(@ticket_data) do %>
           <.data_line key={humanize_key(key)} value={humanize_value(value)} />
         <% end %>
       </div>
@@ -206,43 +212,57 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
     """
   end
 
+  defp filter_data(ticket_data) do
+    has_allergens = Map.get(ticket_data, "has_allergens")
+
+    ticket_data
+    |> Enum.reject(fn {key, value} ->
+      String.starts_with?(to_string(key), "_unused") ||
+        key == "ticket_type_id" ||
+        value == "" ||
+        (key == "allergens" and has_allergens == "no") ||
+        (key == "has_allergens" and has_allergens == "yes")
+    end)
+  end
+
   defp data_line(assigns) do
     ~H"""
-    <div class="flex w-full place-items-center">
-      <span class="w-1/2">{assigns.key}</span>
-      <p class="text-sm">{assigns.value}</p>
+    <div class="flex flex-col lg:flex-row w-full place-items-start">
+      <span class="min-w-1/2 font-bold">{@key}:</span>
+      <p class="lg:self-center">{@value}</p>
     </div>
     """
   end
 
-  defp humanize_key("disabilities"), do: "Disabilities"
-  defp humanize_key("allergens"), do: "Allergens"
-  defp humanize_key("tshirt_size"), do: "T-shirt size"
-  defp humanize_key("diet"), do: "Diet"
-  defp humanize_key("intended_transport_to_enei"), do: "How are you getting to ENEI?"
-  defp humanize_key("has_attended_enei_before"), do: "Have you been to ENEI before?"
+  defp humanize_key("disabilities"), do: "Incapacidades"
+  defp humanize_key("allergens"), do: "Alergénios"
+  defp humanize_key("has_allergens"), do: "Alergénios"
+  defp humanize_key("tshirt_size"), do: "Tamanho de T-shirt"
+  defp humanize_key("diet"), do: "Dieta"
+  defp humanize_key("intended_transport_to_enei"), do: "Como vai deslocar-se para o ENEI?"
+  defp humanize_key("has_attended_enei_before"), do: "Já participou no ENEI anteriormente?"
   defp humanize_key(key), do: key
 
-  defp humanize_value("no_restrictions"), do: "No restrictions"
-  defp humanize_value("vegetarian"), do: "Vegetarian"
-  defp humanize_value("vegan"), do: "Vegan"
+  defp humanize_value("no_restrictions"), do: "Sem restrições"
+  defp humanize_value("vegetarian"), do: "Vegetariana"
+  defp humanize_value("vegan"), do: "Vegana"
   defp humanize_value("xs"), do: "XS"
   defp humanize_value("s"), do: "S"
   defp humanize_value("m"), do: "M"
   defp humanize_value("l"), do: "L"
   defp humanize_value("xl"), do: "XL"
   defp humanize_value("xxl"), do: "XXL"
-  defp humanize_value("own_vehicle"), do: "I'll go in my own vehicle"
-  defp humanize_value("someone_else"), do: "I'm getting a ride in someone else's vehicle"
+  defp humanize_value("own_vehicle"), do: "Vou no meu próprio veículo"
+  defp humanize_value("someone_else"), do: "Vou de boleia no veículo de outra pessoa"
 
   defp humanize_value("external"),
-    do: "I will be traveling by public transportation outside of ENEI (bus, train, or plane)"
+    do: "Vou de transporte coletivo externo ao ENEI (autocarro, comboio ou avião)"
 
-  defp humanize_value("taxi_or_tvde"), do: "I will use a taxi or private hire car service."
-  defp humanize_value("walking"), do: "I'm walking"
-  defp humanize_value("no"), do: "No"
-  defp humanize_value("yes_elsewhere"), do: "Yes, including one or more editions in Braga"
-  defp humanize_value("yes_braga"), do: "Yes, but never an edition in Braga"
+  defp humanize_value("taxi_or_tvde"), do: "Vou recorrer a um serviço de táxi ou TVDE"
+  defp humanize_value("walking"), do: "Vou a pé"
+  defp humanize_value("no"), do: "Não"
+  defp humanize_value("yes_elsewhere"), do: "Sim, incluindo uma ou mais edições em Braga"
+  defp humanize_value("yes_braga"), do: "Sim, mas nunca uma edição em Braga"
   defp humanize_value(nil), do: "No data"
   defp humanize_value(value), do: value
 end

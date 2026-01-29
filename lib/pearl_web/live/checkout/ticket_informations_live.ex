@@ -16,9 +16,12 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
             [head | _] -> head.id
             [] -> nil
           end
-        id -> id
-    end
-  ticket_data = %{"ticket_type_id" => ticket_type_id}
+
+        id ->
+          id
+      end
+
+    ticket_data = %{"ticket_type_id" => ticket_type_id}
 
     {:ok,
      socket
@@ -69,7 +72,15 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       socket
       |> assign(:current_step, :informations)
       |> assign(:form, to_form(changeset))
-      |> assign(:active_orbs, [%{disabilities: "inactive"}, %{allergens: "inactive"}, %{tshirt_size: "active"}, %{diet: "active"}, %{transport: "active"}, %{attended: "active"}, %{user: "active"}])
+      |> assign(:active_orbs, [
+        %{disabilities: "inactive"},
+        %{allergens: "inactive"},
+        %{tshirt_size: "active"},
+        %{diet: "active"},
+        %{transport: "active"},
+        %{attended: "active"},
+        %{user: "active"}
+      ])
     else
       socket
       |> put_flash(:error, "Please complete all required fields before proceeding.")
@@ -86,10 +97,21 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       socket
       |> assign(:current_step, :conclusion)
       |> assign(:form, to_form(changeset))
-      |> assign(:active_orbs, [%{disabilities: "active"}, %{allergens: "active"}, %{tshirt_size: "active"}, %{diet: "active"}, %{transport: "active"}, %{attended: "active"}, %{user: "active"}])
+      |> assign(:active_orbs, [
+        %{disabilities: "active"},
+        %{allergens: "active"},
+        %{tshirt_size: "active"},
+        %{diet: "active"},
+        %{transport: "active"},
+        %{attended: "active"},
+        %{user: "active"}
+      ])
     else
       socket
-      |> put_flash(:error, "Please complete all required fields before proceeding to the conclusion.")
+      |> put_flash(
+        :error,
+        "Please complete all required fields before proceeding to the conclusion."
+      )
       |> push_patch(to: ~p"/checkout/choose_ticket")
     end
   end

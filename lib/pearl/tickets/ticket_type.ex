@@ -4,12 +4,10 @@ defmodule Pearl.Tickets.TicketType do
   """
   use Pearl.Schema
 
-  alias Pearl.Tickets.Perk
   alias Pearl.DiscountCodes.DiscountCode
-  alias Pearl.Tickets.Perk
-  alias Pearl.Tickets.Ticket
+  alias Pearl.Tickets.{Perk, Ticket}
 
-  @required_fields ~w(name priority price active)a
+  @required_fields ~w(name priority product_key price active)a
   @optional_fields ~w()a
 
   @derive {Flop.Schema, sortable: [:priority], filterable: []}

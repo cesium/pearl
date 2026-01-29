@@ -254,6 +254,7 @@ defmodule PearlWeb.CoreComponents do
   attr :id, :any, default: nil
   attr :name, :any
   attr :label, :string, default: nil
+  attr :label_class, :string, default: nil
   attr :value, :any
 
   # Add this new attribute
@@ -262,7 +263,7 @@ defmodule PearlWeb.CoreComponents do
   attr :type, :string,
     default: "text",
     values: ~w(checkbox color date datetime-local email file month number password
-               range radio search select tel text textarea time url week handle)
+               range radio segmented-radio search select tel text textarea time url week handle)
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
@@ -320,7 +321,7 @@ defmodule PearlWeb.CoreComponents do
   def input(%{type: "radio"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
-      <.label for={@id}>{@label}</.label>
+      <.label for={@id} class={@label_class}>{@label}</.label>
       <div class="mt-5 flex flex-col gap-3">
         <label :for={{label, value} <- @options} class="flex items-center gap-2 cursor-pointer">
           <% is_checked = to_string(@value) == to_string(value) %>
@@ -339,7 +340,7 @@ defmodule PearlWeb.CoreComponents do
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity duration-50 pointer-events-none">
             </div>
           </div>
-          <span class="text-sm text-gray-900">{label}</span>
+          <span class={"text-sm text-gray-900 #{@class}"}>{label}</span>
         </label>
       </div>
       <.error :for={msg <- @errors}>{msg}</.error>
@@ -350,7 +351,7 @@ defmodule PearlWeb.CoreComponents do
   def input(%{type: "select"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
-      <.label for={@id}>{@label}</.label>
+      <.label for={@id} class={@label_class}>{@label}</.label>
       <div class="w-full">
         <select
           id={@id}
@@ -374,7 +375,7 @@ defmodule PearlWeb.CoreComponents do
   def input(%{type: "textarea"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
-      <.label for={@id}>{@label}</.label>
+      <.label for={@id} class={@label_class}>{@label}</.label>
       <div class="w-full">
         <textarea
           id={@id}
@@ -393,10 +394,42 @@ defmodule PearlWeb.CoreComponents do
     """
   end
 
+  def input(%{type: "segmented-radio"} = assigns) do
+    ~H"""
+    <div phx-feedback-for={@name} class={@wrapper_class}>
+      <.label :if={@label} for={@id}>{@label}</.label>
+      <div
+        class={["inline-flex rounded-full border border-gray-300 bg-gray-50 p-1 mt-2", @class]}
+        role="group"
+      >
+        <%= for {label, value} <- @options do %>
+          <% is_checked = to_string(@value) == to_string(value) %>
+          <label class={[
+            "relative cursor-pointer px-4 py-2 text-sm text-primary font-medium transition-all rounded-full",
+            if(is_checked, do: "bg-primary/10 shadow-sm", else: " hover:text-primary/40")
+          ]}>
+            <input
+              type="radio"
+              id={"#{@id}_#{value}"}
+              name={@name}
+              value={value}
+              checked={is_checked}
+              class="sr-only"
+              {@rest}
+            />
+            {label}
+          </label>
+        <% end %>
+      </div>
+      <.error :for={msg <- @errors}>{msg}</.error>
+    </div>
+    """
+  end
+
   def input(assigns) do
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
-      <.label for={@id}>{@label}</.label>
+      <.label for={@id} class={@label_class}>{@label}</.label>
       <div class="w-full">
         <input
           type={@type}

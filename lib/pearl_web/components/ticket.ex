@@ -3,6 +3,7 @@ defmodule PearlWeb.Components.Ticket do
 
   use PearlWeb, :component
 
+  attr :svg_class, :string, default: ""
   attr :class, :string, default: ""
   attr :attendee, :string, default: nil
   attr :ticket_type, :string, default: nil
@@ -16,6 +17,7 @@ defmodule PearlWeb.Components.Ticket do
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         viewBox="0 0 917 350"
+        class={@svg_class}
       >
         <defs>
           <style>

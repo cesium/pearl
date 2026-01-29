@@ -6,13 +6,21 @@
   />
   <main>
     <.flash_group flash={@flash} />
-    <div class="bg-[#EFEFED] h-full">
+    <div class="bg-[#EFEFED] h-full overflow-hidden">
       <div class="flex gap-8 place-items-center px-10">
-        <h1 class="text-black font-bold">Registration</h1>
+        <h1 class="text-black font-bold">Inscrição</h1>
         <.live_component
           module={PearlWeb.Checkout.Components.StepTabs}
           id="ticket-checkout-step-tabs"
-          tabs={[:new, :confirm_email, :choose_ticket, :precautions, :informations, :conclusion]}
+          tabs={[
+            :registration,
+            :confirmation_pending,
+            :choose_ticket,
+            :precautions,
+            :informations,
+            :conclusion,
+            :payment
+          ]}
           action={@live_action}
           patch={~p"/checkout/precautions"}
         />

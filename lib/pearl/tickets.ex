@@ -7,7 +7,7 @@ defmodule Pearl.Tickets do
   import Ecto.Query, warn: false
   alias Pearl.Repo
 
-  alias Pearl.Tickets.Ticket
+  alias Pearl.Tickets.{Perk, Ticket}
 
   @doc """
   Returns the list of tickets.
@@ -70,7 +70,6 @@ defmodule Pearl.Tickets do
     |> preload([:user, :ticket_type])
     |> Repo.one()
   end
-
 
   @doc """
   Creates a ticket.
@@ -149,7 +148,9 @@ defmodule Pearl.Tickets do
 
   """
   def list_perks do
-    Repo.all(Perk)
+    Perk
+    |> order_by(:priority)
+    |> Repo.all()
   end
 
   @doc """

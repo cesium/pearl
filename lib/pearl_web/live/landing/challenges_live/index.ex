@@ -1,13 +1,16 @@
 defmodule PearlWeb.Landing.ChallengesLive.Index do
   @moduledoc false
-
   use PearlWeb, :landing_view
-  import PearlWeb.Components.Markdown
-
-  on_mount {PearlWeb.VerifyFeatureFlag, "challenges_enabled"}
 
   alias Pearl.Challenges
-  alias PearlWeb.Helpers
+
+  import PearlWeb.Landing.ChallengesLive.Components.Hero
+  import PearlWeb.Landing.ChallengesLive.Components.DesktopSidebar
+  import PearlWeb.Landing.ChallengesLive.Components.ChallengeCard
+  import PearlWeb.Landing.ChallengesLive.Components.MobileList
+  import PearlWeb.Landing.ChallengesLive.Components.MobileDetail
+
+  on_mount {PearlWeb.VerifyFeatureFlag, "challenges_enabled"}
 
   @impl true
   def mount(_params, _session, socket) do
@@ -21,7 +24,8 @@ defmodule PearlWeb.Landing.ChallengesLive.Index do
     {:noreply,
      socket
      |> assign(:challenges, challenges)
-     |> assign(:selected_challenge, Enum.at(challenges, 0))}
+     |> assign(:selected_challenge, Enum.at(challenges, 0))
+     |> assign(:mobile_selected_challenge, nil)}
   end
 
   @impl true
@@ -32,5 +36,20 @@ defmodule PearlWeb.Landing.ChallengesLive.Index do
        :selected_challenge,
        Enum.find(socket.assigns.challenges, fn c -> c.id == challenge_id end)
      )}
+  end
+
+  @impl true
+  def handle_event("mobile_select_challenge", %{"challenge_id" => challenge_id}, socket) do
+    {:noreply,
+     socket
+     |> assign(
+       :mobile_selected_challenge,
+       Enum.find(socket.assigns.challenges, fn c -> c.id == challenge_id end)
+     )}
+  end
+
+  @impl true
+  def handle_event("mobile_back", _params, socket) do
+    {:noreply, assign(socket, :mobile_selected_challenge, nil)}
   end
 end

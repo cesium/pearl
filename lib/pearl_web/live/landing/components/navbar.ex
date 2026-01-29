@@ -7,6 +7,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
   attr :pages, :list, default: []
   attr :registrations_open?, :boolean, default: false
   attr :current_user, :map, default: nil
+  attr :dark_mode, :boolean, default: false
 
   def navbar(assigns) do
     ~H"""
@@ -18,7 +19,9 @@ defmodule PearlWeb.Landing.Components.Navbar do
               <.link href="/">
                 <div class="block select-none h-full pb-1">
                   <img
-                    src="/images/enei-logo.svg"
+                    src={
+                      if @dark_mode, do: "/images/enei-logo-white.svg", else: "/images/enei-logo.svg"
+                    }
                     width={75}
                     alt="ENEI Logo"
                     class="cursor-pointer h-full"
@@ -32,7 +35,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
                 <%= for page <- @pages do %>
                   <.link
                     navigate={page.url}
-                    class="text-sm text-primary transition-colors duration-200 ease-in hover:text-primary/70 whitespace-nowrap"
+                    class={"text-sm transition-colors duration-200 ease-in whitespace-nowrap #{if @dark_mode, do: "text-white hover:text-white/70", else: "text-primary hover:text-primary/70"}"}
                   >
                     {page.title}
                   </.link>
@@ -47,7 +50,16 @@ defmodule PearlWeb.Landing.Components.Navbar do
               navigate={~p"/users/log_in"}
               phx-click={hide_mobile_navbar()}
             >
-              <.secondary_button title="entrar" icon_position="left" icon="hero-user" class="text-sm" />
+              <.secondary_button
+                title="entrar"
+                icon_position="left"
+                icon="hero-user"
+                class={
+                  if @dark_mode,
+                    do: "text-sm text-white bg-white/20 hover:bg-white/10",
+                    else: "text-sm"
+                }
+              />
             </.link>
             <.link
               :if={@registrations_open? && !@current_user}
@@ -106,7 +118,10 @@ defmodule PearlWeb.Landing.Components.Navbar do
           </div>
 
           <div class="block xl:hidden">
-            <span class="cursor-pointer text-primary" phx-click={show_mobile_navbar()}>
+            <span
+              class={"cursor-pointer #{if @dark_mode, do: "text-white", else: "text-primary"}"}
+              phx-click={show_mobile_navbar()}
+            >
               <.icon name="hero-bars-3" class="w-7 h-7" />
             </span>
           </div>

@@ -74,18 +74,35 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
     ~H"""
     <div class="space-y-2 min-w-0">
       <%= for speaker <- @speakers do %>
-        <%= for activity <- speaker.activities do %>
-          <.speaker speaker={speaker} activity={activity} />
+        <%= if speaker.activities == [] do %>
+          <.speaker speaker={speaker} />
+        <% else %>
+          <%= for activity <- speaker.activities do %>
+            <.speaker speaker={speaker} activity={activity} />
+          <% end %>
         <% end %>
       <% end %>
     </div>
     """
   end
 
+  attr :activity, :map, default: nil
+
   defp speaker(assigns) do
+    assigns =
+      assign(
+        assigns,
+        :card_id,
+        if assigns.activity do
+          "#{assigns.speaker.id}-#{assigns.activity.id}"
+        else
+          assigns.speaker.id
+        end
+      )
+
     ~H"""
     <div
-      id={"sp-#{@speaker.id}-#{@activity.id}"}
+      id={"card-#{@card_id}"}
       class="flex flex-col w-full md:flex-row px-5 md:px-0 bg-white text-dark"
     >
       <img
@@ -119,7 +136,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
               {@speaker.title} <span class="text-dark/50">@</span> {@speaker.company}
             </p>
 
-            <div class="flex items-start md:items-center text-primary gap-1 min-w-0">
+            <div :if={@activity} class="flex items-start md:items-center text-primary gap-1 min-w-0">
               <.icon name="hero-calendar" class="w-5 h-5 mt-0.5 md:mt-0" />
               <p class="whitespace-normal sm:truncate w-full">
                 {format_date(@activity.date, @activity.time_start, @activity.time_end)} - {@activity.title}
@@ -130,7 +147,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
 
         <div
           class="overflow-hidden hidden sm:block relative max-h-0 transition-all duration-300"
-          id={"speaker-#{@speaker.id}-#{@activity.id}"}
+          id={"speaker-#{@card_id}"}
         >
           <p>{@speaker.biography}</p>
         </div>
@@ -138,27 +155,27 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
         <button
           class="select-none hidden sm:flex text-primary cursor-pointer hover:opacity-70 transition-opacity duration-300 items-center gap-2"
           phx-click={
-            JS.toggle_class("max-h-0", to: "#speaker-#{@speaker.id}-#{@activity.id}")
-            |> JS.toggle_class("max-h-50", to: "#speaker-#{@speaker.id}-#{@activity.id}")
-            |> JS.toggle_class("hidden", to: "#arrow-down-#{@speaker.id}-#{@activity.id}")
-            |> JS.toggle_class("hidden", to: "#arrow-up-#{@speaker.id}-#{@activity.id}")
-            |> JS.toggle_class("hidden", to: "#show-more-#{@speaker.id}-#{@activity.id}")
-            |> JS.toggle_class("hidden", to: "#show-less-#{@speaker.id}-#{@activity.id}")
-            |> JS.toggle_class("opacity-0", to: "#fade-gradient-#{@speaker.id}-#{@activity.id}")
+            JS.toggle_class("max-h-0", to: "#speaker-#{@card_id}")
+            |> JS.toggle_class("max-h-50", to: "#speaker-#{@card_id}")
+            |> JS.toggle_class("hidden", to: "#arrow-down-#{@card_id}")
+            |> JS.toggle_class("hidden", to: "#arrow-up-#{@card_id}")
+            |> JS.toggle_class("hidden", to: "#show-more-#{@card_id}")
+            |> JS.toggle_class("hidden", to: "#show-less-#{@card_id}")
+            |> JS.toggle_class("opacity-0", to: "#fade-gradient-#{@card_id}")
           }
         >
           <.icon
-            id={"arrow-down-#{@speaker.id}-#{@activity.id}"}
+            id={"arrow-down-#{@card_id}"}
             name="hero-arrow-down"
             class="w-5 h-5"
           />
           <.icon
-            id={"arrow-up-#{@speaker.id}-#{@activity.id}"}
+            id={"arrow-up-#{@card_id}"}
             name="hero-arrow-up"
             class="w-5 h-5 hidden"
           />
-          <span id={"show-more-#{@speaker.id}-#{@activity.id}"}>{gettext("ler mais")}</span>
-          <span id={"show-less-#{@speaker.id}-#{@activity.id}"} class="hidden">
+          <span id={"show-more-#{@card_id}"}>{gettext("ler mais")}</span>
+          <span id={"show-less-#{@card_id}"} class="hidden">
             {gettext("ler menos")}
           </span>
         </button>

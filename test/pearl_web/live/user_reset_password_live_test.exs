@@ -23,14 +23,16 @@ defmodule PearlWeb.UserResetPasswordLiveTest do
     test "renders reset password with valid token", %{conn: conn, token: token} do
       {:ok, _lv, html} = live(conn, ~p"/users/reset_password/#{token}")
 
-      assert html =~ "Reset Password"
+      assert html =~ "Redefinir palavra-passe"
     end
 
     test "does not render reset password with invalid token", %{conn: conn} do
       {:error, {:redirect, to}} = live(conn, ~p"/users/reset_password/invalid")
 
       assert to == %{
-               flash: %{"error" => "Reset password link is invalid or it has expired."},
+               flash: %{
+                 "error" => "O link de redefinição de palavra-passe é inválido ou expirou."
+               },
                to: ~p"/"
              }
     end
@@ -66,7 +68,10 @@ defmodule PearlWeb.UserResetPasswordLiveTest do
         |> follow_redirect(conn, ~p"/users/log_in")
 
       refute get_session(conn, :user_token)
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Password reset successfully"
+
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
+               "Palavra-passe redefinida com sucesso"
+
       assert Accounts.get_user_by_email_and_password(user.email, "new valid password")
     end
 
@@ -83,7 +88,7 @@ defmodule PearlWeb.UserResetPasswordLiveTest do
         )
         |> render_submit()
 
-      assert result =~ "Reset Password"
+      assert result =~ "Redefinir palavra-passe"
       assert result =~ "should be at least 12 character(s)"
       assert result =~ "does not match password"
     end

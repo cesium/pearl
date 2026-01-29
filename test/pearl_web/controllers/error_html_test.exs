@@ -7,7 +7,7 @@ defmodule PearlWeb.ErrorHTMLTest do
   test "renders 404.html" do
     html = render_to_string(PearlWeb.ErrorHTML, "404", "html", [])
     assert html =~ "404"
-    assert html =~ "in the wrong line of code, pal."
+    assert html =~ "a página que procuras parece não existir"
   end
 
   test "renders 500.html" do

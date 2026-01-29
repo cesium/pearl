@@ -10,7 +10,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.Index do
     <div>
       <.page title={@title}>
         <:actions>
-          <.ensure_permissions user={@current_user} permissions={%{"tickets" => ["edit"]}}>
+          <.ensure_permissions user={@current_user} permissions={%{"tickets" => ["perks_edit"]}}>
             <.link navigate={~p"/dashboard/tickets/ticket_types/perks/new"}>
               <.backoffice_button>New Perk</.backoffice_button>
             </.link>
@@ -35,7 +35,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.Index do
               <% end %>
             </div>
             <p class="text-dark dark:text-light flex flex-row justify-between gap-2">
-              <.ensure_permissions user={@current_user} permissions={%{"tickets" => ["edit"]}}>
+              <.ensure_permissions user={@current_user} permissions={%{"tickets" => ["perks_edit"]}}>
                 <.link navigate={~p"/dashboard/tickets/ticket_types/perks/#{perk.id}/edit"}>
                   <.icon name="hero-pencil" class="w-5 h-4" />
                 </.link>

@@ -2,7 +2,14 @@ defmodule PearlWeb.Landing.HomeLive.Index do
   alias Pearl.Companies
   use PearlWeb, :landing_view
 
-  import PearlWeb.Landing.HomeLive.Components.{Hero, Partners, Pitch, Sponsors, Speakers}
+  import PearlWeb.Landing.HomeLive.Components.{
+    Hero,
+    Partners,
+    Sponsors,
+    Speakers,
+    Activities,
+    InfoSection
+  }
 
   alias Pearl.{Activities, Event}
 
@@ -17,7 +24,6 @@ defmodule PearlWeb.Landing.HomeLive.Index do
      |> assign(:event_start_date, Event.get_event_start_date())
      |> assign(:event_end_date, Event.get_event_end_date())
      |> assign(:has_highlighted_speakers?, speakers != [])
-     |> assign(:registrations_open?, Event.registrations_open?())
      |> assign(:has_sponsors?, Companies.get_companies_count() > 0)
      |> assign(:has_schedule?, Activities.get_activities_count() > 0)
      |> stream(:speakers, speakers |> Enum.shuffle())}

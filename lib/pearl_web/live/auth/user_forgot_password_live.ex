@@ -1,38 +1,58 @@
 defmodule PearlWeb.UserForgotPasswordLive do
-  use PearlWeb, :landing_view
+  use PearlWeb, :auth_view
 
   alias Pearl.Accounts
-
-  import PearlWeb.Components.Button
+  alias PearlWeb.Components.Button
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm my-32 px-4">
-      <.header class="text-center">
-        Forgot your password?
-        <:subtitle>We'll send a password reset link to your inbox</:subtitle>
-      </.header>
+    <div class="flex items-center justify-center min-h-screen px-4 py-8">
+      <div class="w-full max-w-[1000px] relative">
+        <div class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-full z-10 -mb-2.5">
+          <img src="/images/braga_door.svg" alt="" class="w-16 h-auto" />
+        </div>
 
-      <.simple_form for={@form} id="reset_password_form" phx-submit="send_email">
-        <.input
-          field={@form[:email]}
-          type="email"
-          placeholder="john.doe@cesium.pt"
-          label="Email"
-          required
-        />
-        <:actions>
-          <.action_button
-            title={gettext("Send password reset instructions")}
-            title_class="text-lg !font-iregular !normal-case"
-            class="!h-14"
-          />
-        </:actions>
-      </.simple_form>
-      <p class="text-center text-sm mt-8">
-        <.link href={~p"/users/register"} class="hover:underline">Register</.link>
-        | <.link href={~p"/users/log_in"} class="hover:underline">Log in</.link>
-      </p>
+        <div class="bg-white rounded-4xl px-8 sm:px-12 md:px-16 py-10 md:py-14 shadow-lg min-h-[420px] flex flex-col">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 grow">
+            <div>
+              <h1 class="text-3xl md:text-4xl font-semibold text-black leading-tight mb-6 md:mb-8 wrap-break-word">
+                {gettext("Recuperar palavra-passe")}
+              </h1>
+
+              <p class="text-sm md:text-base text-black/60 leading-relaxed">
+                {gettext("Enviaremos um link de recuperação para o teu email")}
+              </p>
+            </div>
+
+            <div class="flex flex-col h-full">
+              <.simple_form
+                for={@form}
+                id="reset_password_form"
+                phx-submit="send_email"
+                class="flex flex-col h-full"
+                wrapper_class="flex flex-col justify-between h-full"
+              >
+                <div>
+                  <.input
+                    field={@form[:email]}
+                    type="email"
+                    placeholder={gettext("E-mail")}
+                    required
+                  />
+                </div>
+
+                <div class="flex justify-end pt-8">
+                  <Button.primary_button
+                    title={gettext("continuar")}
+                    icon="hero-arrow-right"
+                    type="submit"
+                  />
+                </div>
+              </.simple_form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     """
   end
@@ -50,7 +70,9 @@ defmodule PearlWeb.UserForgotPasswordLive do
     end
 
     info =
-      "If your email is in our system, you will receive instructions to reset your password shortly."
+      gettext(
+        "Se o teu email estiver no nosso sistema, receberás instruções para redefinir a tua palavra-passe em breve."
+      )
 
     {:noreply,
      socket

@@ -3,7 +3,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.Show do
 
   alias Pearl.Accounts
 
-  import PearlWeb.Components.Button
+  import PearlWeb.Components.{Button, Modal}
 
   on_mount {PearlWeb.StaffRoles,
             show: %{"attendees" => ["show"]}, edit: %{"attendees" => ["edit"]}}

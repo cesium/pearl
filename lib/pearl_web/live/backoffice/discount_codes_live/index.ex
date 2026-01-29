@@ -1,12 +1,15 @@
 defmodule PearlWeb.Backoffice.DiscountCodesLive.Index do
   use PearlWeb, :backoffice_view
 
-  import PearlWeb.Components.Table
+  import PearlWeb.Components.{Table, Modal}
 
   alias Pearl.DiscountCodes
   alias Pearl.DiscountCodes.DiscountCode
 
-  on_mount {PearlWeb.StaffRoles, index: %{"discount_codes" => ["edit"]}}
+  on_mount {PearlWeb.StaffRoles,
+            index: %{"discount_codes" => ["show"]},
+            new: %{"discount_codes" => ["edit"]},
+            edit: %{"discount_codes" => ["edit"]}}
 
   def mount(_params, _session, socket) do
     {:ok, socket}

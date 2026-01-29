@@ -10,15 +10,17 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.Index do
     <div>
       <.page title={@title}>
         <:actions>
-          <.ensure_permissions user={@current_user} permissions={%{"tickets" => ["edit"]}}>
+          <.ensure_permissions
+            user={@current_user}
+            permissions={%{"tickets" => ["ticket_types_edit"]}}
+          >
             <.link navigate={~p"/dashboard/tickets/ticket_types/new"}>
               <.backoffice_button>New Ticket Type</.backoffice_button>
             </.link>
+          </.ensure_permissions>
+          <.ensure_permissions user={@current_user} permissions={%{"tickets" => ["perks_show"]}}>
             <.link navigate={~p"/dashboard/tickets/ticket_types/perks"}>
               <.backoffice_button>Perks</.backoffice_button>
-            </.link>
-            <.link navigate={~p"/dashboard/tickets/ticket_types/perks"}>
-              <.button>Perks</.button>
             </.link>
           </.ensure_permissions>
         </:actions>
@@ -34,7 +36,12 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.Index do
             class="even:bg-lightShade/20 dark:even:bg-darkShade/20 py-4 px-4 flex flex-row justify-between"
           >
             <div class="flex flex-row gap-2 items-center">
-              <.icon name="hero-bars-3" class="w-5 h-5 handle cursor-pointer ml-4" />
+              <.ensure_permissions
+                user={@current_user}
+                permissions={%{"tickets" => ["ticket_types_edit"]}}
+              >
+                <.icon name="hero-bars-3" class="w-5 h-5 handle cursor-pointer ml-4" />
+              </.ensure_permissions>
               {ticket_type.name}
               <%= if not ticket_type.active do %>
                 <span class="border border-amber-600 rounded-full text-xs text-amber-800 px-1 bg-amber-200">
@@ -43,7 +50,10 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.Index do
               <% end %>
             </div>
             <p class="text-dark dark:text-light flex flex-row justify-between gap-2">
-              <.ensure_permissions user={@current_user} permissions={%{"tickets" => ["edit"]}}>
+              <.ensure_permissions
+                user={@current_user}
+                permissions={%{"tickets" => ["ticket_types_edit"]}}
+              >
                 <.link navigate={~p"/dashboard/tickets/ticket_types/#{ticket_type.id}/edit"}>
                   <.icon name="hero-pencil" class="w-5 h-4" />
                 </.link>

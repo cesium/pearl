@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.Index do
   alias Pearl.Activities.Speaker
   use PearlWeb, :backoffice_view
 
-  import PearlWeb.Components.{Table, TableSearch}
+  import PearlWeb.Components.{Table, TableSearch, Modal}
 
   alias Pearl.Activities
   alias Pearl.Activities.{Activity, ActivityCategory, Enrolment, Speaker}

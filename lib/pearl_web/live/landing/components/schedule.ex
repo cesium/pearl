@@ -368,7 +368,10 @@ defmodule PearlWeb.Landing.Components.Schedule do
       <% speakers_with_pictures = Enum.filter(@speakers, & &1.picture) %>
       <% cols = length(speakers_with_pictures) %>
 
-      <div class={"absolute inset-0 grid grid-cols-#{cols} grid-rows-1 gap-0"}>
+      <div
+        class="absolute inset-0 grid grid-rows-1 gap-0"
+        style={"grid-template-columns: repeat(#{cols}, minmax(0, 1fr))"}
+      >
         <%= for speaker <- @speakers do %>
           <div :if={speaker.picture} class="relative overflow-hidden">
             <img

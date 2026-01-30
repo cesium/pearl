@@ -16,7 +16,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Partners do
       <div class="my-10 flex flex-wrap items-center justify-center gap-10">
         <div
           :for={partner <- event_partners()}
-          class="m-auto w-40 select-none opacity-80 hover:opacity-100 hover:scale-105 duration-500 transition-all"
+          class="m-auto w-40 select-none opacity-100 hover:opacity-80 hover:scale-105 duration-500 transition-all"
         >
           <.link href={partner.url} target="_blank" rel="noreferrer">
             <img
@@ -37,7 +37,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Partners do
         name: "UMinho School of Engineering",
         url: "https://www.eng.uminho.pt",
         logo: "eeum.svg",
-        style: ""
+        style: "scale-95"
       },
       %{
         name: "IPDJ",
@@ -46,10 +46,22 @@ defmodule PearlWeb.Landing.HomeLive.Components.Partners do
         style: "scale-55"
       },
       %{
+        name: "Startup Braga",
+        url: "https://www.startupbraga.com/",
+        logo: "startupbraga.svg",
+        style: ""
+      },
+      %{
         name: "Braga",
         url: "https://www.cm-braga.pt/pt",
         logo: "braga.svg",
         style: ""
+      },
+      %{
+        name: "Lighthouse studios",
+        url: "https://lighthousestudios.pt/",
+        logo: "lighthouse.webp",
+        style: "scale-115 object-contain"
       },
       %{
         name: "Mauser",

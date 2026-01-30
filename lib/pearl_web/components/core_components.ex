@@ -61,23 +61,21 @@ defmodule PearlWeb.CoreComponents do
             <.icon name={get_flash_icon(@kind)} class="size-10 text-light" />
           </div>
         </div>
-        <div>
-          <div class="flex-1 flex flex-col justify-center">
-            <% final_title = @title || get_flash_title(@kind) %>
+        <div class="flex-1 my-auto flex flex-col items-start justify-start">
+          <% final_title = @title || get_flash_title(@kind) %>
 
-            <%= if final_title do %>
-              <h3 class="font-bold text-dark text-xl">
-                {final_title}
-              </h3>
-              <p class="text-dark text-lg leading-snug">
-                {msg}
-              </p>
-            <% else %>
-              <p class="font-medium text-dark text-xl leading-snug">
-                {msg}
-              </p>
-            <% end %>
-          </div>
+          <%= if final_title do %>
+            <h3 class="font-bold text-dark text-xl">
+              {final_title}
+            </h3>
+            <p class="text-dark text-lg leading-snug">
+              {msg}
+            </p>
+          <% else %>
+            <p class="font-medium text-dark text-xl leading-snug">
+              {msg}
+            </p>
+          <% end %>
         </div>
       </div>
       <div class="h-12 text-xl flex flex-row items-center my-auto bg-background justify-start px-4 gap-4">

@@ -18,63 +18,66 @@ defmodule Pearl.Billing do
     user = Accounts.get_user!(ticket.user_id)
     checkout_info = get_checkout_infomation(ticket_type)
 
-    midas_api_url = midas_api_url()
-    midas_api_key = midas_api_key()
+    with :ok <- validate_midas_config(ticket_type) do
+      case Req.post(midas_api_url() <> "/orders",
+             headers: [{"authorization", "Bearer " <> midas_api_key()}],
+             json: %{
+               order: %{
+                 lines: [
+                   %{
+                     product_id: ticket_type.product_key,
+                     quantity: checkout_info.quantity,
+                     discount: 0
+                   }
+                 ],
+                 customer_email: user.email,
+                 customer_name: user.name,
+                 customer_tax_id:
+                   if order_data["tax_id"] == "" do
+                     nil
+                   else
+                     order_data["tax_id"]
+                   end,
+                 payment: %{
+                   method: "mbway",
+                   phone_number: order_data["phone_number"]
+                 },
+                 message: "CeSIUM - ENEI 2026 Tickets",
+                 extra_fields: %{ticket_id: ticket_id}
+               }
+             }
+           ) do
+        {:ok, %Req.Response{status: 201, body: body}} ->
+          {:ok,
+           create_payment(%{
+             amount: checkout_info.total,
+             order_id: body["id"],
+             status: :pending,
+             ticket_id: ticket_id
+           })}
 
+        {:ok, %Req.Response{status: status, body: body}} ->
+          {:error, %{status: status, body: body}}
+
+        {:error, reason} ->
+          {:error, reason}
+      end
+    end
+  end
+
+  defp validate_midas_config(ticket_type) do
     cond do
-      not is_binary(midas_api_url) ->
+      not is_binary(midas_api_url()) ->
         {:error, :missing_midas_api_url}
 
       is_nil(ticket_type.product_key) ->
         {:error, :missing_ticket_product_id}
 
-      not is_binary(midas_api_key) or midas_api_key == "" ->
+      not is_binary(midas_api_key()) or midas_api_key() == "" ->
         {:error, :missing_midas_api_key}
 
       true ->
-        case Req.post(midas_api_url <> "/orders",
-               headers: [{"authorization", "Bearer " <> midas_api_key}],
-               json: %{
-                 order: %{
-                   lines: [
-                     %{
-                       product_id: ticket_type.product_key,
-                       quantity: checkout_info.quantity,
-                       discount: 0
-                     }
-                   ],
-                   customer_email: user.email,
-                   customer_name: user.name,
-                   customer_tax_id:
-                     if order_data["tax_id"] == "" do
-                       nil
-                     else
-                       order_data["tax_id"]
-                     end,
-                   payment: %{
-                     method: "mbway",
-                     phone_number: order_data["phone_number"]
-                   },
-                   message: "CeSIUM - ENEI 2026 Tickets",
-                   extra_fields: %{ticket_id: ticket_id}
-                 }
-               }
-             ) do
-          {:ok, %Req.Response{status: 201, body: body}} ->
-            {:ok,
-             create_payment(%{
-               amount: checkout_info.total,
-               order_id: body["id"],
-               status: :pending,
-               ticket_id: ticket_id
-             })}
-
-          {:ok, %Req.Response{status: status, body: body}} ->
-            {:error, %{status: status, body: body}}
-
-          {:error, reason} ->
-            {:error, reason}
-        end
+        :ok
     end
   end
 

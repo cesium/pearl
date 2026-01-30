@@ -7,7 +7,7 @@ defmodule Pearl.Tickets do
   import Ecto.Query, warn: false
   alias Pearl.Repo
 
-  alias Pearl.Tickets.{Ticket, Perk}
+  alias Pearl.Tickets.{Perk, Ticket}
 
   @doc """
   Returns the list of tickets.

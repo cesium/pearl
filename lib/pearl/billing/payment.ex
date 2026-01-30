@@ -1,4 +1,7 @@
 defmodule Pearl.Billing.Payment do
+  @moduledoc """
+  The Payment schema.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

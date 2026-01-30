@@ -119,7 +119,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
         id="activity-modal"
         on_cancel={JS.push("modal_closed", target: @myself)}
         backdrop_class="backdrop-blur-xl bg-light/20"
-        body_class="bg-transparent"
+        body_class="bg-transparent px-40 mx-auto"
         close_button_class="absolute top-2 right-2"
         close_button_button_class="-m-3 flex-none p-3 text-dark hover:opacity-70"
         close_button_icon_class="size-10"
@@ -261,21 +261,21 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
     ~H"""
     <div class="mb-10">
-      <div class="text-5xl font-bold text-dark mb-4">
+      <div class="text-4xl md:text-5xl font-bold text-dark mb-4">
         <div class="flex items-center gap-3">
           <.link patch={view_url(@url, :calendar, @current_date, @filters)} class="hover:opacity-70">
             <.icon name="hero-arrow-left" class="size-8" />
           </.link>
           <span>
             Dia {@current_date |> Timex.format!("{D}")}
-            <span class="ml-6 font-light">
+            <span class="ml-2 md:ml-6 font-light">
               {@current_date |> Timex.format!("{WDfull}")}
             </span>
           </span>
         </div>
       </div>
       <div class="text-lightMuted text-xl leading-relaxed">
-        {(@view_mode == :calendar && gettext("Durante o ENEI, nunca te faltará o que fazer...")) ||
+        {(@view_mode == :calendar && gettext("Durante o ENEI, nunca te faltará o que fazer!")) ||
           get_day_summary(@current_date, @counts)}
       </div>
     </div>
@@ -305,7 +305,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
     ~H"""
     <div class="flex flex-col gap-6">
       <%= for day <- @days do %>
-        <div class="flex flex-row gap-6">
+        <div class="flex flex-row gap-6 mr-6 md:mr-0">
           <.day_card
             url={@url}
             day={day}
@@ -313,7 +313,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
             speakers={get_speakers_for_day(day)}
           />
 
-          <div class="flex flex-1 py-3 pr-6 bg-light overflow-x-auto scrollbar-hide">
+          <div class="hidden md:flex flex-1 py-3 pr-6 bg-light overflow-x-auto scrollbar-hide">
             <div class="flex flex-row gap-1">
               <%= for time_slot <- fetch_and_group_activities(day, @filters) do %>
                 <.time_slot_cell time_slot={time_slot} variant={:calendar} />
@@ -361,7 +361,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
     ~H"""
     <.link
       patch={view_url(@url, :day, @day, @filters)}
-      class="w-120 shrink-0 h-80 relative group cursor-pointer rounded-3xl overflow-hidden"
+      class="w-full md:w-80 lg:w-100  xl:w-120 shrink-0 h-80 relative group bg-dark/60 cursor-pointer rounded-[2.5rem] overflow-hidden trasnform transition-transform"
     >
       <div class="absolute inset-0 bg-linear-to-b from-black/40 to-black/60 z-10"></div>
 
@@ -463,10 +463,12 @@ defmodule PearlWeb.Landing.Components.Schedule do
       |> assign(:is_break, is_break)
 
     ~H"""
-    <div class="flex flex-row gap-10 group">
+    <div class="flex flex-col md:flex-row gap-4 md:gap-10 group">
       <div class="w-50 shrink-0 pt-1">
         <%= if @is_break do %>
-          <.break_icon activity={@first_activity} />
+          <div class="hidden md:block">
+            <.break_icon activity={@first_activity} />
+          </div>
         <% else %>
           <div class="text-3xl font-bold text-dark">
             {@first_activity.time_start |> Timex.format!("{h24}:{m}")}-{@first_activity.time_end
@@ -475,15 +477,33 @@ defmodule PearlWeb.Landing.Components.Schedule do
         <% end %>
       </div>
 
-      <div class="flex-1 flex flex-col gap-8 border-l-3 pl-6 border-olive/10">
+      <div class="flex-1 flex flex-col gap-6 md:gap-8 md:border-l-3 md:pl-6 md:border-olive/10">
         <%= for activity <- @time_slot do %>
-          <.activity_cell
-            activity={activity}
-            variant={:day}
-            user_role={@user_role}
-            enrolments={@enrolments}
-            myself={@myself}
-          />
+          <%= if get_category_name(activity) == "Break" do %>
+            <div class="flex items-center gap-3 md:hidden">
+              <div class="size-10 mr-4">
+                <.break_icon activity={activity} />
+              </div>
+              <div class="text-2xl mt-1 font-bold text-dark">{activity.title}</div>
+            </div>
+            <div class="hidden md:block">
+              <.activity_cell
+                activity={activity}
+                variant={:day}
+                user_role={@user_role}
+                enrolments={@enrolments}
+                myself={@myself}
+              />
+            </div>
+          <% else %>
+            <.activity_cell
+              activity={activity}
+              variant={:day}
+              user_role={@user_role}
+              enrolments={@enrolments}
+              myself={@myself}
+            />
+          <% end %>
         <% end %>
       </div>
     </div>

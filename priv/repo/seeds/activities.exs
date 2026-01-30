@@ -138,6 +138,7 @@ defmodule Pearl.Repo.Seeds.Activities do
           activity
           |> Map.put(:date, Date.shift(next_first_tuesday_of_february(), day: i))
           |> Map.put(:category_id, Map.get(categories, type).id)
+          |> Map.put(:enrolable, type == :workshop)
           |> Map.put(:title, Map.get(activity, :title) || Faker.Company.bs() |> String.capitalize())
           |> Map.put(:description, Faker.Lorem.paragraph())
           |> Map.put(:location, Map.get(activity, :location) || "CP2 - B1"))

@@ -306,7 +306,12 @@ defmodule PearlWeb.Landing.Components.Schedule do
     <div class="flex flex-col gap-6">
       <%= for day <- @days do %>
         <div class="flex flex-row gap-6">
-          <.day_card url={@url} day={day} filters={@filters} />
+          <.day_card
+            url={@url}
+            day={day}
+            filters={@filters}
+            speakers={get_speakers_for_day(day)}
+          />
 
           <div class="flex flex-1 py-3 pr-6 bg-light overflow-x-auto scrollbar-hide">
             <div class="flex flex-row gap-1">
@@ -347,6 +352,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   attr :url, :string, required: true
   attr :day, Date, required: true
   attr :filters, :list, required: true
+  attr :speakers, :list, default: []
 
   defp day_card(assigns) do
     is_today = Date.compare(assigns.day, Date.utc_today()) == :eq
@@ -355,24 +361,47 @@ defmodule PearlWeb.Landing.Components.Schedule do
     ~H"""
     <.link
       patch={view_url(@url, :day, @day, @filters)}
-      class="w-120 shrink-0 h-80 relative group cursor-pointer"
+      class="w-120 shrink-0 h-80 relative group cursor-pointer rounded-3xl overflow-hidden"
     >
-      <div class="relative h-full flex flex-col justify-between p-6 bg-dark rounded-3xl text-light">
-        <%= if @is_today do %>
-          <span class="inline-flex w-fit px-3 py-1 rounded-full text-sm font-bold bg-light/20 uppercase">
-            — {gettext("HOJE")}
-          </span>
+      <div class="absolute inset-0 bg-linear-to-b from-black/40 to-black/60 z-10"></div>
+
+      <% speakers_with_pictures = Enum.filter(@speakers, & &1.picture) %>
+      <% cols = length(speakers_with_pictures) %>
+
+      <div class={"absolute inset-0 grid grid-cols-#{cols} grid-rows-1 gap-0"}>
+        <%= for speaker <- @speakers do %>
+          <div :if={speaker.picture} class="relative overflow-hidden">
+            <img
+              src={Uploaders.Speaker.url({speaker.picture, speaker}, :original, signed: true)}
+              alt={speaker.name}
+              class="w-full h-full object-cover"
+            />
+          </div>
         <% end %>
-        <div class="flex items-end justify-between w-full mt-auto">
-          <div>
-            <div class="text-4xl font-bold leading-none mb-2">Dia {@day |> Timex.format!("{D}")}</div>
-            <div class="text-2xl text-lightMuted leading-none">
+      </div>
+
+      <div class="absolute inset-0 z-20 flex flex-col justify-between p-6">
+        <%= if @is_today do %>
+          <div class="self-start">
+            <span class="text-white text-sm font-semibold px-3 py-1 bg-white/20 rounded-full">
+              {gettext("HOJE")}
+            </span>
+          </div>
+        <% else %>
+          <div></div>
+        <% end %>
+
+        <div class="flex items-end justify-between">
+          <div class="text-white">
+            <div class="text-4xl font-bold">
+              Dia {@day |> Timex.format!("{D}")}
+            </div>
+            <div class="text-xl font-medium">
               {@day |> Timex.format!("{WDfull}")}
             </div>
           </div>
-          <div class="w-12 h-12 rounded-full border border-light/30 flex items-center justify-center group-hover:bg-light group-hover:text-dark transition-colors">
-            <.icon name="hero-arrow-right" class="size-6" />
-          </div>
+
+          <.icon name="hero-arrow-right" class="size-6 text-white mb-2" />
         </div>
       </div>
     </.link>
@@ -714,6 +743,12 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
         "Na #{day_name}, tens #{summary} e mais atividades."
     end
+  end
+
+  defp get_speakers_for_day(day) do
+    Activities.list_daily_activities(day)
+    |> Enum.flat_map(& &1.speakers)
+    |> Enum.uniq_by(& &1.id)
   end
 
   defp view_url(base_url, view_mode, current_date, filters) do

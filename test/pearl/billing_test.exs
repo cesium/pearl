@@ -7,8 +7,30 @@ defmodule Pearl.BillingTest do
     alias Pearl.Billing.Payment
 
     import Pearl.BillingFixtures
+    import Pearl.AccountsFixtures
 
     @invalid_attrs %{status: nil, amount: nil, order_id: nil}
+
+    defp create_ticket_for_test do
+      user = user_fixture()
+
+      {:ok, ticket_type} =
+        Pearl.TicketTypes.create_ticket_type(%{
+          name: "Test Ticket Type",
+          priority: 1,
+          price: 120.5,
+          active: true,
+          product_key: Ecto.UUID.generate()
+        })
+
+      {:ok, ticket} =
+        Pearl.Tickets.create_ticket(%{
+          user_id: user.id,
+          ticket_type_id: ticket_type.id
+        })
+
+      ticket
+    end
 
     test "list_payments/0 returns all payments" do
       payment = payment_fixture()
@@ -21,10 +43,17 @@ defmodule Pearl.BillingTest do
     end
 
     test "create_payment/1 with valid data creates a payment" do
-      valid_attrs = %{status: "some status", amount: "120.5", order_id: "some order_id"}
+      ticket = create_ticket_for_test()
+
+      valid_attrs = %{
+        status: :pending,
+        amount: "120.5",
+        order_id: "some order_id",
+        ticket_id: ticket.id
+      }
 
       assert {:ok, %Payment{} = payment} = Billing.create_payment(valid_attrs)
-      assert payment.status == "some status"
+      assert payment.status == :pending
       assert payment.amount == Decimal.new("120.5")
       assert payment.order_id == "some order_id"
     end
@@ -35,10 +64,10 @@ defmodule Pearl.BillingTest do
 
     test "update_payment/2 with valid data updates the payment" do
       payment = payment_fixture()
-      update_attrs = %{status: "some updated status", amount: "456.7", order_id: "some updated order_id"}
+      update_attrs = %{status: :completed, amount: "456.7", order_id: "some updated order_id"}
 
       assert {:ok, %Payment{} = payment} = Billing.update_payment(payment, update_attrs)
-      assert payment.status == "some updated status"
+      assert payment.status == :completed
       assert payment.amount == Decimal.new("456.7")
       assert payment.order_id == "some updated order_id"
     end

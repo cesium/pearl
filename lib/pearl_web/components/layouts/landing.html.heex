@@ -3,6 +3,7 @@
     pages={PearlWeb.Config.landing_pages()}
     registrations_open?={Pearl.Event.registrations_open?()}
     current_user={Map.get(assigns, :current_user)}
+    current_page={Map.get(assigns, :current_page, nil)}
   />
   <main>
     <.flash_group flash={@flash} />

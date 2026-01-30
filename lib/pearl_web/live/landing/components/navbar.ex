@@ -7,6 +7,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
   attr :pages, :list, default: []
   attr :registrations_open?, :boolean, default: false
   attr :current_user, :map, default: nil
+  attr :current_page, :atom, default: nil
 
   def navbar(assigns) do
     ~H"""
@@ -28,11 +29,14 @@ defmodule PearlWeb.Landing.Components.Navbar do
             </div>
 
             <div class="hidden xl:flex items-center flex-1 self-end">
-              <div class="flex flex-row gap-5">
+              <div class="flex flex-row items-center h-8.5 mt-2 gap-5">
                 <%= for page <- @pages do %>
                   <.link
                     navigate={page.url}
-                    class="text-sm text-primary transition-colors duration-200 ease-in hover:text-primary/70 whitespace-nowrap"
+                    class={[
+                      "text-sm text-primary transition-colors duration-200 ease-in hover:text-primary/70 whitespace-nowrap",
+                      if(@current_page == page.key, do: "border-b-2 border-primary/30 pt-2 pb-1.5")
+                    ]}
                   >
                     {page.title}
                   </.link>

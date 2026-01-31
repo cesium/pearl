@@ -26,6 +26,11 @@ config :pearl,
   umami_script_url: System.get_env("UMAMI_SCRIPT_URL") || "",
   umami_website_id: System.get_env("UMAMI_WEBSITE_ID") || ""
 
+config :pearl, Pearl.Billing,
+  pearl_api_key: System.get_env("PEARL_API_KEY") || "",
+  midas_api_url: System.get_env("MIDAS_API_URL") || "https://midas.caos.cesium.pt/api/v1",
+  midas_api_key: System.get_env("MIDAS_API_KEY") || ""
+
 if config_env() in [:prod, :stg] do
   database_url =
     System.get_env("DATABASE_URL") ||

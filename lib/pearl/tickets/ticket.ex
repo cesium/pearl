@@ -34,6 +34,7 @@ defmodule Pearl.Tickets.Ticket do
   @optional_fields ~w(disabilities intended_transport_to_enei has_attended_enei_before)a
 
   schema "tickets" do
+    field :paid, :boolean, default: false
     field :paid, :boolean
     field :disabilities, :string
     field :allergens, :string

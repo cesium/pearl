@@ -136,7 +136,9 @@ defmodule Pearl.Tickets do
     Ticket.changeset(ticket, attrs)
   end
 
-  alias Pearl.Tickets.Perk
+  def mark_ticket_as_paid(%Ticket{} = ticket) do
+    update_ticket(ticket, %{paid: true})
+  end
 
   @doc """
   Returns the list of perks.

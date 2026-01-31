@@ -30,6 +30,8 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
     view_data = prepare_view_data(view_mode, current_date, filters, assigns)
 
+    hide_modal("activity-modal")
+
     socket
     |> assign(assigns)
     |> assign(

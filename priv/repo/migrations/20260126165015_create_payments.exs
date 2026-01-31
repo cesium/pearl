@@ -2,7 +2,8 @@ defmodule Pearl.Repo.Migrations.CreatePayments do
   use Ecto.Migration
 
   def change do
-    create table(:payments) do
+    create table(:payments, primary_key: false) do
+      add :id, :binary_id, primary_key: true
       add :order_id, :string
       add :amount, :decimal
       add :status, :string

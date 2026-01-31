@@ -4,7 +4,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Partners do
 
   def partners(assigns) do
     ~H"""
-    <div class="flex items-center justify-center flex-col py-14.5 bg-[#EFEFED]">
+    <div class="flex items-center justify-center flex-col py-14.5">
       <div class="flex flex-col gap-5 items-center text-black px-4 md:px-8">
         <h2 class="flex font-semibold justify-center text-center text-2xl md:text-3xl max-w-full md:max-w-[580px]">
           {gettext("Parceiros que fizeram isto possível")}

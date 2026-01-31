@@ -65,7 +65,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.InfoSection do
                     </p>
                   </div>
                 </div>
-                <div class="pt-90 sm:pt-52 md:pt-28 lg:pt-12 flex flex-col lg:flex-row items-center justify-center gap-3 text-dark-muted text-center">
+                <div class="pt-90 sm:pt-52 md:pt-28 lg:pt-12 flex flex-col lg:flex-row items-center justify-center gap-3 text-dark/50 text-center">
                   <.icon name="hero-map-pin" class="w-5 h-5" />
                   <span>
                     {gettext("Forum Braga | Av. Dr. Francisco Pires Gonçalves, 4715-558 Braga")}

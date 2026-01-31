@@ -58,16 +58,16 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
     assigns = assign(assigns, :activities, activities)
 
     ~H"""
-    <div class="pb-12 pt-3 w-full flex flex-col items-center gap-10 bg-white">
-      <span class="flex flex-col gap-3.5 items-center text-dark-text max-w-[755px] text-center">
-        <h1 class="text-[32px] font-semibold">{"São quatro dias preenchidos"}</h1>
+    <div class="pb-12 pt-3 w-full flex flex-col items-center gap-10">
+      <span class="flex flex-col gap-3.5 items-center text-dark-text max-w-2xl text-center">
+        <h1 class="text-2xl md:text-3xl font-semibold">{"São quatro dias preenchidos"}</h1>
         <p>
           {gettext(
             "Durante o ENEI, nunca te faltará o que fazer. Conhece os tipos de atividades que temos e vê o calendário detalhado."
           )}
         </p>
       </span>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1 overflow-hidden border-light-muted border-2 max-w-[1180px]">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1 overflow-hidden border-light-muted border-2 max-w-7xl">
         <%= for activity <- @activities do %>
           <.activity_card
             img_path={activity["img_path"]}

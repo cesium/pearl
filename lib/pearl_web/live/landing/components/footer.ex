@@ -11,7 +11,7 @@ defmodule PearlWeb.Landing.Components.Footer do
 
   def footer(assigns) do
     ~H"""
-    <footer class="bg-olive px-8 pt-8 pb-12 md:px-12.5 md:pt-12.5 md:pb-16">
+    <footer class="bg-dark-muted px-8 pt-8 pb-12 md:px-12.5 md:pt-12.5 md:pb-16">
       <div class="flex flex-col gap-8 md:gap-12">
         <div class="grid grid-cols-[auto_1fr] gap-x-3.5 items-start">
           <img src="/images/enei-logo-white.svg" width={75} alt="ENEI Logo" class="row-span-2" />

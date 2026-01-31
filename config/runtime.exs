@@ -29,8 +29,7 @@ config :pearl,
 config :pearl, Pearl.Billing,
   pearl_api_key: System.get_env("PEARL_API_KEY") || "",
   midas_api_url: System.get_env("MIDAS_API_URL") || "https://midas.caos.cesium.pt/api/v1",
-  midas_api_key: System.get_env("MIDAS_API_KEY") || "",
-  ticket_product_id: System.get_env("MIDAS_TICKET_PRODUCT_ID") || ""
+  midas_api_key: System.get_env("MIDAS_API_KEY") || ""
 
 if config_env() in [:prod, :stg] do
   database_url =

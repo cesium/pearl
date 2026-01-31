@@ -3,8 +3,7 @@ defmodule Pearl.Billing do
   The Billing context.
   """
 
-  import Ecto.Query, warn: false
-  alias Pearl.Repo
+  use Pearl.Context
 
   alias Pearl.Accounts
   alias Pearl.Billing.Payment

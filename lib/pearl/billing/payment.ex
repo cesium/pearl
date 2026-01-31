@@ -2,8 +2,7 @@ defmodule Pearl.Billing.Payment do
   @moduledoc """
   The Payment schema.
   """
-  use Ecto.Schema
-  import Ecto.Changeset
+  use Pearl.Schema
 
   @required_fields ~w(order_id amount status ticket_id)a
 

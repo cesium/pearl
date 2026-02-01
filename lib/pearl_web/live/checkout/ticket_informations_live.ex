@@ -58,7 +58,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       |> assign(:active_orbs, [%{disabilities: "active"}, %{allergens: "active"}])
     else
       socket
-      |> put_flash(:error, "Please complete all required fields before proceeding.")
+      |> put_flash(:error, "Por favor complete todos os campos obrigatórios antes de prosseguir.")
       |> push_patch(to: ~p"/checkout/choose_ticket")
     end
   end
@@ -83,7 +83,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       ])
     else
       socket
-      |> put_flash(:error, "Please complete all required fields before proceeding.")
+      |> put_flash(:error, "Por favor complete todos os campos obrigatórios antes de prosseguir.")
       |> push_patch(to: ~p"/checkout/precautions")
     end
   end
@@ -110,7 +110,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       socket
       |> put_flash(
         :error,
-        "Please complete all required fields before proceeding to the conclusion."
+        "Por favor complete todos os campos obrigatórios antes de seguir para a conclusão."
       )
       |> push_patch(to: ~p"/checkout/choose_ticket")
     end

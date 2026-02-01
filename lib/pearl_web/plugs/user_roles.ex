@@ -37,13 +37,6 @@ defmodule PearlWeb.UserRoles do
     end
   end
 
-  def require_paid_ticket(conn, _opts) do
-    # se os status do pagamento associado ao bilhete estiver pago, deixa passar.
-    # se não manda para o pagamento
-
-    conn
-  end
-
   def require_no_credential(conn, _opts) do
     if has_credential?(conn) do
       conn

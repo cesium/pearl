@@ -71,15 +71,6 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
         _ -> []
       end
 
-    perks = Perks.list_perks()
-
-    selected_ids =
-      case ticket_type.perks do
-        %Ecto.Association.NotLoaded{} -> []
-        perks when is_list(perks) -> Enum.map(perks, & &1.id)
-        _ -> []
-      end
-
     {:ok,
      socket
      |> assign(assigns)

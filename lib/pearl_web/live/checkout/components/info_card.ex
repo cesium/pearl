@@ -9,8 +9,15 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="sticky top-0 h-full w-full md:w-[420px] lg:min-w-[420px]">
-      <div class="h-[353px] md:h-[660px] bg-white rounded-4xl border border-gray-100 overflow-hidden">
+    <div class={[
+      "sticky top-0 h-full w-full md:w-[420px] lg:min-w-[420px]",
+      if @payment_completed do
+        "w-full! transition-all duration-3000"
+      end
+    ]}>
+      <div class={[
+        "bg-white rounded-4xl border border-gray-100 overflow-hidden h-[353px] md:h-[660px] transition-all duration-700 ease-out"
+      ]}>
         <div class="flex flex-col justify-between w-full h-full p-6 sm:p-8">
           <div class="">
             <%= if @step != :confirm_email do %>
@@ -62,6 +69,44 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                 attendee={@current_user.name}
                 ticket_type={@ticket_type.name}
               />
+            <% :payment_status -> %>
+              <div class="relative w-full h-full">
+                <div class={[
+                  "absolute inset-0 flex flex-col items-start justify-center p-8 transition-all duration-1000 ease-out z-20",
+                  if(@payment_completed,
+                    do: "opacity-100 translate-x-0 transition-all delay-2000 duration-2000",
+                    else: "opacity-0 -translate-x-8 transition-all duration-2000"
+                  )
+                ]}>
+                  <div class="space-y-3 max-w-md">
+                    <h2 class="text-2xl md:text-3xl font-bold text-dark">
+                      Bem-vindo ao ENEI
+                    </h2>
+                    <p class="text-lg text-dark/90">
+                      É um gosto ter-te connosco, {String.capitalize(@current_user.name)}.
+                    </p>
+                    <.primary_button
+                      title="página inicial"
+                      phx-click="redirect-to-home"
+                      phx-target={@myself}
+                    />
+                  </div>
+                </div>
+                <div class={[
+                  "absolute inset-0 z-10 flex items-center transition-all duration-1000 ease-out",
+                  if(@payment_completed,
+                    do:
+                      "justify-end opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto",
+                    else: "justify-end opacity-100"
+                  )
+                ]}>
+                  <.ticket
+                    class="h-[98px] md:h-[250px]"
+                    svg_class="h-full!"
+                    attendee={@current_user.name}
+                  />
+                </div>
+              </div>
             <% _ -> %>
               <div class="flex justify-center">
                 <div class="relative w-80 h-fit">
@@ -95,10 +140,7 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                               </div>
                               <.icon
                                 name={get_orb_icon(key_str)}
-                                class={[
-                                  "w-6 h-6 text-white relative z-10 transition-transform duration-500",
-                                  if(status == "active", do: "scale-100", else: "scale-90")
-                                ]}
+                                class={"w-6 h-6 text-white relative z-10 transition-transform duration-500 #{if status == "active", do: "scale-100", else: "scale-90"}"}
                               />
                             </div>
                           </div>
@@ -150,7 +192,13 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
   def mount(socket) do
     {:ok,
      socket
-     |> assign(:tabs, [])}
+     |> assign(:tabs, [])
+     |> assign(:payment_completed, false)}
+  end
+
+  @impl true
+  def handle_event("redirect-to-home", _params, socket) do
+    {:noreply, redirect(socket, to: ~p"/")}
   end
 
   @impl true
@@ -221,6 +269,9 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
 
   def step_header(:payment, _),
     do: "Podes proceder agora ao pagamento do bilhete."
+
+  def step_header(:payment_status, _),
+    do: ""
 
   def step_header(_, _), do: ""
 end

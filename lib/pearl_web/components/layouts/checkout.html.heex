@@ -1,35 +1,38 @@
 <div class="text-light font-iregular relative min-h-screen">
-  <.navbar
-    pages={PearlWeb.Config.landing_pages()}
-    registrations_open?={Pearl.Event.registrations_open?()}
-    current_user={Map.get(assigns, :current_user)}
-  />
-  <main>
-    <.flash_group flash={@flash} />
-    <div class="bg-muted overflow-hidden">
-      <div class="flex gap-8 place-items-center px-10">
-        <h1 class="text-black font-bold">Inscrição</h1>
-        <.live_component
-          module={PearlWeb.Checkout.Components.StepTabs}
-          id="ticket-checkout-step-tabs"
-          tabs={[
-            :registration,
-            :confirmation_pending,
-            :choose_ticket,
-            :precautions,
-            :informations,
-            :conclusion,
-            :payment
-          ]}
-          action={@live_action}
-          patch={~p"/checkout/precautions"}
-        />
+  <div class="min-h-screen">
+    <.navbar
+      pages={PearlWeb.Config.landing_pages()}
+      registrations_open?={Pearl.Event.registrations_open?()}
+      current_user={Map.get(assigns, :current_user)}
+    />
+    <main>
+      <.flash_group flash={@flash} />
+      <div class="h-full bg-muted overflow-hidden">
+        <div class="flex gap-8 place-items-center px-10">
+          <h1 class="text-black font-bold">Inscrição</h1>
+          <.live_component
+            module={PearlWeb.Checkout.Components.StepTabs}
+            id="ticket-checkout-step-tabs"
+            tabs={[
+              :registration,
+              :confirmation_pending,
+              :choose_ticket,
+              :precautions,
+              :informations,
+              :conclusion,
+              :payment,
+              :payment_status
+            ]}
+            action={@live_action}
+            patch={~p"/checkout/precautions"}
+          />
+        </div>
+        <div class="h-full p-6">
+          {@inner_content}
+        </div>
       </div>
-      <div class="p-6">
-        {@inner_content}
-      </div>
-    </div>
-  </main>
+    </main>
+  </div>
   <.footer>
     <:tip :if={
       Map.get(assigns, :current_page, nil) in [:home, :schedule, :speakers, :faqs] and

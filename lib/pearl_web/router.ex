@@ -90,7 +90,7 @@ defmodule PearlWeb.Router do
         {PearlWeb.UserAuth, :mount_current_user},
         {PearlWeb.UserTicket, :redirect_if_user_has_unpaid_ticket}
       ] do
-      pipe_through [:require_confirmed_user]
+      pipe_through [:require_confirmed_user, :redirect_if_user_has_payment]
 
       live "/choose_ticket", Checkout.TicketInformationsLive, :choose_ticket
       live "/precautions", Checkout.TicketInformationsLive, :precautions
@@ -104,6 +104,9 @@ defmodule PearlWeb.Router do
         {PearlWeb.UserTicket, :redirect_if_user_has_paid_ticket}
       ] do
       live "/payment", Checkout.PaymentLive, :payment
+
+      pipe_through [:require_payment_started]
+      live "/payment/:id", Checkout.PaymentStatusLive, :payment_status
     end
   end
 

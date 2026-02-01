@@ -57,4 +57,5 @@ defmodule PearlWeb.Checkout.Components.StepTabs do
   defp get_tab_name(:informations), do: "Informações"
   defp get_tab_name(:conclusion), do: "Conclusão"
   defp get_tab_name(:payment), do: "Pagamento"
+  defp get_tab_name(:payment_status), do: "Status"
 end

@@ -6,6 +6,7 @@ defmodule Pearl.Tickets.Ticket do
   use Pearl.Schema
 
   alias Pearl.Accounts.User
+  alias Pearl.Billing.Payment
   alias Pearl.Repo
   alias Pearl.Tickets.TicketType
 
@@ -35,7 +36,6 @@ defmodule Pearl.Tickets.Ticket do
 
   schema "tickets" do
     field :paid, :boolean, default: false
-    field :paid, :boolean
     field :disabilities, :string
     field :allergens, :string
     field :tshirt_size, :string
@@ -44,6 +44,8 @@ defmodule Pearl.Tickets.Ticket do
     field :has_attended_enei_before, :string
 
     field :has_allergens, :string, virtual: true
+
+    has_one :payment, Payment
 
     belongs_to :user, User
     belongs_to :ticket_type, TicketType, on_replace: :delete

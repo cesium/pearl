@@ -26,7 +26,7 @@ defmodule PearlWeb.UserRegistrationLive do
     ]
 
     current_year = Date.utc_today().year
-    years = current_year..(current_year - 100)
+    years = current_year..(current_year - 100)//-1
 
     days = 1..31
 

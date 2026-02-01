@@ -15,7 +15,7 @@ defmodule Pearl.Billing do
     ticket = Tickets.get_ticket!(ticket_id)
     ticket_type = ticket.ticket_type
     user = Accounts.get_user!(ticket.user_id)
-    checkout_info = get_checkout_infomation(ticket_type)
+    checkout_info = get_checkout_information(ticket_type)
 
     with :ok <- validate_midas_config(ticket_type) do
       case Req.post(midas_api_url() <> "/orders",
@@ -80,7 +80,7 @@ defmodule Pearl.Billing do
     end
   end
 
-  def get_checkout_infomation(ticket_type) do
+  def get_checkout_information(ticket_type) do
     %{
       quantity: 1,
       per_unit: ticket_type.price,
@@ -124,6 +124,22 @@ defmodule Pearl.Billing do
 
   """
   def get_payment!(id), do: Repo.get!(Payment, id)
+
+  @doc """
+  Gets a single payment by ticket_id
+
+  ## Examples
+
+      iex> get_payment_by_ticket("some ticket_id")
+      %Payment{}
+
+      iex> get_payment_by_ticket_id("nonexistent ticket_id")
+      nil
+
+  """
+  def get_payment_by_ticket(ticket_id) do
+    Payment |> Repo.get_by(ticket_id: ticket_id)
+  end
 
   @doc """
   Gets a single payment by order_id.

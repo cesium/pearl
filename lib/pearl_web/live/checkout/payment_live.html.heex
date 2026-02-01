@@ -10,7 +10,7 @@
 
   <div class="flex flex-col justify-between gap-4 w-full h-full">
     <div class="px-4 lg:px-10 pb-8">
-      <.form for={} phx-change="validate-payment" phx-submit="submit-payment">
+      <.form for={@payment_form} phx-change="validate-payment" phx-submit="submit-payment">
         <div class="flex flex-col lg:flex-row gap-8 min-h-[650px]">
           <div class="w-full">
             <h2 class="text-xl pb-2">Contact information</h2>
@@ -49,7 +49,6 @@
               <.input
                 field={@payment_form[:iva_number]}
                 label="NIF"
-                variant={:flushed}
                 placeholder="212345678"
                 type="text"
                 variant={:flushed}
@@ -71,8 +70,7 @@
             </div>
             <div class="mt-4">
               <.input
-                name="phone_number"
-                value="phone_number"
+                field={@payment_form[:mb_way_phone]}
                 label="Phone number"
                 type="tel"
                 placeholder="912345678"

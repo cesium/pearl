@@ -202,7 +202,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
   defp conclusion_step(assigns) do
     ~H"""
     <div class="py-8">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-2">The data you will submit</h2>
+      <h2 class="text-2xl sm:text-3xl font-bold mb-2">Os dados que vais submeter:</h2>
       <div>
         <%= for {key, value} <- filter_data(@ticket_data) do %>
           <.data_line key={humanize_key(key)} value={humanize_value(value)} />

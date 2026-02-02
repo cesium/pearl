@@ -30,7 +30,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
         "icon_name" => "hero-user-group",
         "title" => "Panel Discussions",
         "description" =>
-          "Tertúlios com múltiplos convidados que discutem um assunto entre si, criando um momento de aprendizagem."
+          "Tertúlias com múltiplos convidados que discutem um assunto entre si, criando um momento de aprendizagem."
       },
       %{
         "img_path" => "/images/activities/pitch.webp",
@@ -84,7 +84,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
           <div class="flex flex-col justify-end h-full z-20 pb-3 px-3">
             <p class="font-grotesk text-sm text-black/50">
               {gettext(
-                "Imagens da SEI ‘25 - Semena da Engenharia Informática 2025 em Braga, organizada também pelo CeSIUM."
+                "Imagens da SEI ‘25 - Semana da Engenharia Informática 2025 em Braga, organizada também pelo CeSIUM."
               )}
             </p>
           </div>

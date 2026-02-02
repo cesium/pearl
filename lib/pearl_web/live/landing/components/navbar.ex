@@ -11,8 +11,8 @@ defmodule PearlWeb.Landing.Components.Navbar do
 
   def navbar(assigns) do
     ~H"""
-    <div class="sticky top-0 z-100 backdrop-blur-lg bg-linear-to-b from-white via-white/50 to-transparent bg-light-muted/60">
-      <nav class="py-8.5 px-9">
+    <div class="sticky top-0 z-100 bg-linear-to-b from-white via-white/50 to-transparent bg-light-muted/60">
+      <nav class="py-8.5 px-9 backdrop-blur-lg">
         <div class="flex h-fit items-center justify-between">
           <div class="flex gap-8">
             <div class="shrink-0">
@@ -119,11 +119,11 @@ defmodule PearlWeb.Landing.Components.Navbar do
 
       <div
         id="mobile-navbar"
-        class="bg-background-muted px-8 py-10 w-full h-dvh overflow-y-auto absolute top-0 left-0 bottom-0 z-40 flex flex-col gap-5"
+        class="bg-background-muted/60 backdrop-blur-lg px-8 py-10 w-full h-dvh overflow-y-auto absolute top-0 left-0 bottom-0 z-40 flex flex-col gap-5"
         style="display: none;"
       >
         <div class="w-full flex items-end">
-          <.link
+          <div
             class="grid grid-cols-[auto_1fr] gap-x-3.5 items-start"
             navigate={~p"/"}
             phx-click={hide_mobile_navbar()}
@@ -133,10 +133,20 @@ defmodule PearlWeb.Landing.Components.Navbar do
               encontro nacional de estudantes de informática
             </p>
             <p class="text-primary/50 col-start-2">2026</p>
-          </.link>
+          </div>
         </div>
 
         <div class="flex flex-col w-full items-start gap-3 mb-16">
+          <.link
+            navigate="/"
+            phx-click={hide_mobile_navbar()}
+            class={[
+              "text-2xl font-semibold transition-colors duration-75 ease-in hover:text-primary",
+              if(@current_page == :home, do: "text-dark", else: "text-dark/50")
+            ]}
+          >
+            Início
+          </.link>
           <%= for page <- @pages do %>
             <.link
               navigate={page.url}

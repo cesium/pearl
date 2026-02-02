@@ -60,7 +60,7 @@ defmodule PearlWeb.Landing.Components.Footer do
               <ul class="space-y-2 md:space-y-2.5 text-white/50 text-xs md:text-sm">
                 <%= for link <- more_pages_links() do %>
                   <li>
-                    <.link href={link.url} class="hover:text-white transition-colors">
+                    <.link href={link.url} target="_blank" class="hover:text-white transition-colors">
                       {link.title}
                     </.link>
                   </li>
@@ -83,7 +83,7 @@ defmodule PearlWeb.Landing.Components.Footer do
               <h3 class="text-white/50 font-bold text-xs md:text-sm uppercase">
                 Organização
               </h3>
-              <.link href="https://cesium.di.uminho.pt" class="block">
+              <.link href="https://cesium.di.uminho.pt" target="_blank" class="block">
                 <img
                   src="/images/cesium-logo.svg"
                   alt="CeSIUM Logo"
@@ -139,7 +139,7 @@ defmodule PearlWeb.Landing.Components.Footer do
 
   defp more_pages_links do
     [
-      %{title: "Fórum Braga", url: "https://www.forumbraga.com/", enabled: true}
+      %{title: "Forum Braga", url: "https://www.forumbraga.com/", enabled: true}
     ]
     |> Enum.filter(fn x -> x.enabled end)
   end

@@ -21,6 +21,14 @@ defmodule PearlWeb.Components.Ticket do
       >
         <defs>
           <style>
+            .cls-ticket-type {
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              line-height: 1.2;
+            }
+
             .cls-1 {
               letter-spacing: -.01em;
             }
@@ -331,15 +339,18 @@ defmodule PearlWeb.Components.Ticket do
           <g class="cls-11">
             <text class="cls-9" transform="translate(722.23 227) rotate(-90)">
               <tspan class="cls-26" x="0" y="0">
-                {if @attendee, do: @attendee, else: "Participante do ENEI"}
+                {if @attendee, do: get_display_name(@attendee), else: "Participante do ENEI"}
               </tspan>
             </text>
           </g>
+
           <g class="cls-11">
             <text class="cls-9" transform="translate(784.23 227) rotate(-90)">
-              <tspan class="cls-26" x="0" y="0">
-                {if @ticket_type, do: @ticket_type, else: "Passe Geral"}
-              </tspan>
+              <%= for {line, index} <- format_ticket_type(@ticket_type) |> Enum.with_index() do %>
+                <tspan class="cls-26" x="0" y={index * 20}>
+                  {line}
+                </tspan>
+              <% end %>
             </text>
           </g>
         </g>
@@ -380,4 +391,68 @@ defmodule PearlWeb.Components.Ticket do
     </div>
     """
   end
+
+  defp get_display_name(name) do
+    case String.split(name || "", " ", trim: true) do
+      [] ->
+        ""
+
+      [single] ->
+        String.capitalize(single)
+
+      names ->
+        first = names |> List.first() |> String.capitalize()
+        last = names |> List.last() |> String.capitalize()
+        "#{first} #{last}"
+    end
+  end
+
+  defp format_ticket_type(ticket_type, max_length \\ 15) do
+    text = ticket_type || "Passe Geral"
+
+    if String.length(text) <= max_length do
+      [text]
+    else
+      words = String.split(text, " ")
+      split_into_lines(words, max_length, [], "")
+    end
+  end
+
+  defp split_into_lines([], _max_length, lines, ""), do: Enum.reverse(lines)
+
+  defp split_into_lines([], _max_length, lines, current_line),
+    do: Enum.reverse([current_line | lines])
+
+  defp split_into_lines([word | rest], max_length, lines, current_line) do
+    result = handle_word_placement(word, current_line, max_length, lines, rest)
+    limit_lines_to_two(result)
+  end
+
+  defp handle_word_placement(word, "", max_length, lines, rest) do
+    if String.length(word) <= max_length do
+      split_into_lines(rest, max_length, lines, word)
+    else
+      truncated = String.slice(word, 0, max_length - 3) <> "..."
+      split_into_lines(rest, max_length, [truncated | lines], "")
+    end
+  end
+
+  defp handle_word_placement(word, current_line, max_length, lines, rest) do
+    new_line = current_line <> " " <> word
+
+    cond do
+      String.length(new_line) <= max_length ->
+        split_into_lines(rest, max_length, lines, new_line)
+
+      String.length(word) <= max_length ->
+        split_into_lines(rest, max_length, [current_line | lines], word)
+
+      true ->
+        truncated = String.slice(word, 0, max_length - 3) <> "..."
+        split_into_lines(rest, max_length, [current_line, truncated | lines], "")
+    end
+  end
+
+  defp limit_lines_to_two(result) when length(result) <= 2, do: result
+  defp limit_lines_to_two(result), do: Enum.take(result, 2)
 end

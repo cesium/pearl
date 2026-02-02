@@ -12,23 +12,23 @@ defmodule PearlWeb.UserConfirmationLive do
     >
       <div class="w-full flex items-center justify-center">
         <span class="ring-2 sm:ring-4 ring-primary rounded-full p-4 sm:p-6">
-          <.icon name="hero-check" class="w-10 h-10 sm:w-16 sm:h-16" />
+          <.icon name="hero-check" class="w-10 h-10 sm:w-16 sm:h-16 text-primary" />
         </span>
       </div>
       <h1 class="px-4 font-terminal uppercase text-3xl text-center text-primary mt-8 sm:mt-10">
-        {gettext("Email address has been verified!")}
+        {gettext("Endereço de email verificado!")}
       </h1>
       <p class="text-center text-primary mt-6 px-4">
-        {gettext("Your account has been activated successfully.")}
+        {gettext("A tua conta foi ativada com sucesso.")}
       </p>
       <p class="text-center text-primary mt-4 px-4">
-        {gettext("Redirecting you to the checkout...")}
+        {gettext("A redirecionar...")}
       </p>
       <.link
         navigate={~p"/app"}
         class="text-sm sm:text-md text-center mt-8 opacity-80 px-4 hover:underline text-primary"
       >
-        {gettext("Not working? Click here.")}
+        {gettext("Não está a funcionar? Clica aqui.")}
       </.link>
     </div>
     """
@@ -49,7 +49,7 @@ defmodule PearlWeb.UserConfirmationLive do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, "User confirmed successfully.")
+         |> put_flash(:info, "Utilizador confirmado com sucesso.")
          |> push_event("redirect", %{url: ~p"/app", time: 1200})}
 
       :error ->
@@ -65,7 +65,7 @@ defmodule PearlWeb.UserConfirmationLive do
           %{} ->
             {:noreply,
              socket
-             |> put_flash(:error, "User confirmation link is invalid or it has expired.")
+             |> put_flash(:error, "O link the confirmação é inválido ou expirou.")
              |> push_event("redirect", %{url: ~p"/app", time: 1200})}
         end
     end

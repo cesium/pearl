@@ -1,4 +1,4 @@
-<div class="text-black flex flex-col md:flex-row w-full h-fit gap-4">
+<div class="text-black flex flex-col md:flex-row w-full gap-8 md:gap-2 h-full">
   <.live_component
     module={PearlWeb.Checkout.Components.InfoCard}
     step={@live_action}
@@ -19,7 +19,7 @@
             field={@form[:name]}
             label="Nome"
             label_class="block text-lg! font-bold text-dark"
-            placeholder="Nome completo"
+            placeholder="John Doe"
             variant={:flushed}
             wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
             class="text-lg!"
@@ -31,7 +31,7 @@
             type="email"
             label="Email"
             label_class="block text-lg! font-bold text-dark"
-            placeholder="Endereço de email"
+            placeholder="johndoe@eneiconf.pt"
             variant={:flushed}
             wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
             class="text-lg!"
@@ -42,7 +42,7 @@
             field={@form[:handle]}
             label="Handle"
             label_class="block text-lg! font-bold text-dark"
-            placeholder="John Doe"
+            placeholder="johndoe"
             type="handle"
             variant={:flushed}
             wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
@@ -55,100 +55,22 @@
             label="Palavra-passe"
             label_class="block text-lg! font-bold text-dark"
             type="password"
-            placeholder="Palavra-passe"
+            placeholder="PWjohndoe001@"
             variant={:flushed}
             wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
             class="text-lg!"
             required
           />
 
-          <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline">
-            <label class="block text-lg! font-bold text-dark">
-              Data de Nascimento
-            </label>
-
-            <% field = @form[:birth_date] %>
-            <% value = Phoenix.HTML.Form.input_value(@form, :birth_date) %>
-
-            <div class="flex gap-5 ">
-              <div class="w-25">
-                <select
-                  name={field.name <> "[day]"}
-                  id={field.id <> "_day"}
-                  class="w-full bg-transparent border-0 border-b border-dark-muted/30 pl-0 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
-                >
-                  <option value="">Dia</option>
-                  <%= for d <- @days do %>
-                    <% selected =
-                      value &&
-                        ((is_map(value) && value["day"] == to_string(d)) ||
-                           (is_struct(value) && value.day == d)) %>
-                    <option value={d} selected={selected}>{d}</option>
-                  <% end %>
-                </select>
-              </div>
-
-              <div class="w-40">
-                <select
-                  name={field.name <> "[month]"}
-                  id={field.id <> "_month"}
-                  class="w-full bg-transparent border-0 border-b border-dark-muted/30 pl-0 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
-                >
-                  <option value="">Mês</option>
-                  <%= for {name, m} <- @months do %>
-                    <% selected =
-                      value &&
-                        ((is_map(value) && value["month"] == to_string(m)) ||
-                           (is_struct(value) && value.month == m)) %>
-                    <option value={m} selected={selected}>{name}</option>
-                  <% end %>
-                </select>
-              </div>
-
-              <div class="w-30">
-                <select
-                  name={field.name <> "[year]"}
-                  id={field.id <> "_year"}
-                  class="w-full bg-transparent border-0 border-b border-dark-muted/30 pl-0 py-2.5 text-dark-muted focus:outline-none focus:border-primary focus:ring-0 transition-colors"
-                >
-                  <option value="">Ano</option>
-                  <%= for y <- @years do %>
-                    <% selected =
-                      value &&
-                        ((is_map(value) && value["year"] == to_string(y)) ||
-                           (is_struct(value) && value.year == y)) %>
-                    <option value={y} selected={selected}>{y}</option>
-                  <% end %>
-                </select>
-              </div>
-            </div>
-            <.error :for={msg <- field.errors}>{msg}</.error>
-          </div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline">
-            <label class="block text-lg! font-bold text-dark">Telefone</label>
-            <div class="flex gap-5">
-              <div class="w-40">
-                <.input
-                  field={@form[:phone_prefix]}
-                  type="select"
-                  options={[{"PT (+351)", "+351"}, {"ES (+34)", "+34"}]}
-                  variant={:flushed}
-                  label=""
-                  class="text-lg! text-dark-muted"
-                />
-              </div>
-              <div class="flex-1">
-                <.input
-                  field={@form[:phone_number]}
-                  placeholder="Número de telefone"
-                  variant={:flushed}
-                  label=""
-                  class="text-lg! text-dark-muted"
-                />
-              </div>
-            </div>
-          </div>
+          <.input
+            field={@form[:phone]}
+            placeholder="987654321"
+            label="Telefone"
+            label_class="block! text-lg! font-bold! text-dark!"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg! text-dark-muted"
+          />
 
           <.input
             field={@form[:university]}
@@ -156,11 +78,10 @@
             label="Universidade"
             label_class="block! text-lg! font-bold! text-dark!"
             options={@universities}
-            prompt="Selecionar instituição"
+            prompt="Seleciona a tua universidade"
             variant={:flushed}
             wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
             class="text-lg! text-dark-muted"
-            required
           />
 
           <.input
@@ -169,11 +90,10 @@
             label="Cidade"
             label_class="block! text-lg! font-bold! text-dark!"
             options={@cities}
-            prompt="Selecionar cidade"
+            prompt="Seleciona a tua cidade"
             variant={:flushed}
             wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
             class="text-lg! text-dark-muted"
-            required
           />
         </div>
       </div>

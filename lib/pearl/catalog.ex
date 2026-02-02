@@ -6,11 +6,11 @@ defmodule Pearl.Catalog do
   def universities do
     [
       # Universidades Públicas
-      "Universidade de Lisboa",
+      "Universidade do Minho",
       "Universidade do Porto",
       "Universidade de Coimbra",
+      "Universidade de Lisboa",
       "Universidade Nova de Lisboa",
-      "Universidade do Minho",
       "Universidade de Aveiro",
       "Universidade da Beira Interior",
       "Universidade de Évora",

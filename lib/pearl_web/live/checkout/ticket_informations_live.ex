@@ -58,7 +58,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       |> assign(:active_orbs, [%{disabilities: "active"}, %{allergens: "active"}])
     else
       socket
-      |> put_flash(:error, "Por favor complete todos os campos obrigatórios antes de prosseguir.")
+      |> put_flash(:error, "Por favor completa todos os campos obrigatórios antes de prosseguir.")
       |> push_patch(to: ~p"/checkout/choose_ticket")
     end
   end
@@ -83,7 +83,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       ])
     else
       socket
-      |> put_flash(:error, "Por favor complete todos os campos obrigatórios antes de prosseguir.")
+      |> put_flash(:error, "Por favor completa todos os campos obrigatórios antes de prosseguir.")
       |> push_patch(to: ~p"/checkout/precautions")
     end
   end
@@ -110,7 +110,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       socket
       |> put_flash(
         :error,
-        "Por favor complete todos os campos obrigatórios antes de seguir para a conclusão."
+        "Por favor completa todos os campos obrigatórios antes de seguir para a conclusão."
       )
       |> push_patch(to: ~p"/checkout/choose_ticket")
     end
@@ -147,7 +147,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     else
       {:noreply,
        socket
-       |> put_flash(:error, "Please fill in all required fields")
+       |> put_flash(:error, "Por favor completa todos os campos obrigatórios")
        |> assign(:form, to_form(changeset, action: :validate))}
     end
   end
@@ -165,13 +165,11 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
   def handle_event("payment", _, socket) do
     if socket.assigns.verified_account do
       user_id = socket.assigns.current_user.id
-      ticket_type_id = socket.assigns.ticket_type_id
 
       ticket_attrs =
         socket.assigns.ticket_data
         |> Map.put("paid", false)
         |> Map.put("user_id", user_id)
-        |> Map.put("ticket_type_id", ticket_type_id)
         |> Map.update("has_attended_enei_before", nil, fn val -> to_string(val || "") end)
         |> then(fn attrs ->
           case Map.get(attrs, "has_allergens") do
@@ -180,13 +178,6 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
             _ -> Map.put(attrs, "allergens", "none")
           end
         end)
-
-      # ISSO AQUI VAI SER ACRESCENTADO QUANDO EU TIVER O REGISTER FORM DO GUI
-      # case Accounts.create_attendee() do
-      #  {:ok, _attendee} -> the other case below
-      #
-      #  {:error, changeset} -> handle_user_error(changeset)
-      # end
 
       case Tickets.create_ticket(ticket_attrs) do
         {:ok, _ticket} ->

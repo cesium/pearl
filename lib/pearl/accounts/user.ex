@@ -8,8 +8,8 @@ defmodule Pearl.Accounts.User do
   alias Pearl.Accounts.Staff
   alias Pearl.Companies.Company
 
-  @required_fields ~w(name email handle password type)a
-  @optional_fields ~w(confirmed_at allows_marketing)a
+  @required_fields ~w(name email handle password type phone)a
+  @optional_fields ~w(confirmed_at allows_marketing university city)a
 
   @derive {
     Flop.Schema,
@@ -36,6 +36,7 @@ defmodule Pearl.Accounts.User do
     field :name, :string
     field :email, :string
     field :handle, :string
+    field :phone, :string
     field :picture, Pearl.Uploaders.UserPicture.Type
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
@@ -47,9 +48,7 @@ defmodule Pearl.Accounts.User do
     field :notes, :string
     field :university, :string
     field :city, :string
-    field :dietary_restrictions, :string
 
-    # has_one :ticket, Pearl.Tickets.Ticket, on_delete: :delete_all
     has_one :attendee, Attendee, on_delete: :delete_all
     has_one :staff, Staff, on_delete: :delete_all, on_replace: :update
     has_one :company, Company, on_delete: :delete_all

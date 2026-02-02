@@ -217,9 +217,11 @@ defmodule PearlWeb.CoreComponents do
   slot :inner_block
 
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
+
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
-    |> assign(:errors, Enum.map(field.errors, &translate_error(&1)))
+    |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:name, fn -> if assigns.multiple, do: field.name <> "[]", else: field.name end)
     |> assign_new(:value, fn -> field.value end)
     |> input()
@@ -387,7 +389,7 @@ defmodule PearlWeb.CoreComponents do
   end
 
   defp input_class(:flushed) do
-    "block w-full px-0 py-2 border-0 border-b border-dark-muted/30 focus:border-primary focus:ring-0 bg-transparent text-dark placeholder-dark-muted/60 focus:outline-none transition-colors sm:text-sm"
+    "block w-full px-0 py-2 border-0 border-b border-dark-muted/30 focus:border-primary focus:ring-0 bg-transparent text-dark placeholder-dark-muted/60 focus:outline-none transition-colors sm:text-sm [&>option]:bg-white [&>option]:text-dark [&>option:checked]:bg-primary [&>option:checked]:text-white [&>option:hover]:bg-primary [&>option:hover]:text-white"
   end
 
   defp input_border(:default, errors) do

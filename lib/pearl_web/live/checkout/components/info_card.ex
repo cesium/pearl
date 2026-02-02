@@ -10,15 +10,18 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
   def render(assigns) do
     ~H"""
     <div class={[
-      "sticky top-0 h-full w-full md:w-[420px] lg:min-w-[420px]",
+      "w-full md:w-[420px]",
       if @payment_completed do
         "w-full! transition-all duration-3000"
       end
     ]}>
       <div class={[
-        "bg-white rounded-4xl border border-gray-100 overflow-hidden h-[353px] md:h-[660px] transition-all duration-700 ease-out"
+        "bg-white rounded-4xl border border-gray-100 overflow-hidden transition-all duration-700 ease-out md:w-[420px]",
+        if @payment_completed do
+          "w-full! transition-all duration-3000"
+        end
       ]}>
-        <div class="flex flex-col justify-between w-full h-full p-6 sm:p-8">
+        <div class="flex flex-col justify-between w-full p-6 sm:p-8 min-h-[400px] md:h-[660px]">
           <div class="">
             <%= if @step != :confirm_email do %>
               {step_header(@step, Map.get(@current_user, :name, nil))}
@@ -27,7 +30,7 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
           <%= case @step do %>
             <% :registration -> %>
               <div class="flex justify-center">
-                <div class="relative w-80 md:h-80">
+                <div class="relative w-full md:w-80 md:h-80">
                   <div class="absolute inset-0 flex items-center justify-center">
                     <div class="relative w-36 h-36 sm:w-[48] sm:h-[48] md:w-[170px] md:h-[170px] rounded-full bg-linear-to-b from-[#D9D9D9] to-[#919191] shadow-[0_0_60px_0_rgba(0,0,0,0.2)] justify-center place-items-center flex">
                       <.icon name="hero-user" class="w-16 h-16 md:w-24 md:h-24 text-white" />
@@ -36,7 +39,7 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                 </div>
               </div>
             <% :choose_ticket -> %>
-              <div class="flex justify-center">
+              <div class="w-full flex justify-center">
                 <div class="h-fit flex items-center justify-center">
                   <div class="flex flex-wrap justify-center max-w-60">
                     <%= for {perk, i} <- Enum.with_index(@ticket.perks || []) do %>
@@ -80,10 +83,10 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                 ]}>
                   <div class="space-y-3 max-w-md">
                     <h2 class="text-2xl md:text-3xl font-bold text-dark">
-                      Bem-vindo ao ENEI
+                      Bem-vindo ao ENEI!
                     </h2>
                     <p class="text-lg text-dark/90">
-                      É um gosto ter-te connosco, {String.capitalize(@current_user.name)}.
+                      É um gosto ter-te connosco, {get_display_name(@current_user.name)}.
                     </p>
                     <.primary_button
                       title="página inicial"
@@ -96,7 +99,7 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                   "absolute inset-0 z-10 flex items-center transition-all duration-1000 ease-out",
                   if(@payment_completed,
                     do:
-                      "justify-end opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto",
+                      "justify-end opacity-0 lg:opacity-100 pointer-events-none md:pointer-events-auto",
                     else: "justify-end opacity-100"
                   )
                 ]}>
@@ -104,12 +107,13 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                     class="h-[98px] md:h-[250px]"
                     svg_class="h-full!"
                     attendee={@current_user.name}
+                    ticket_type={@ticket_type.name}
                   />
                 </div>
               </div>
             <% _ -> %>
               <div class="flex justify-center">
-                <div class="relative w-80 h-fit">
+                <div class="relative w-full md:w-80 h-fit">
                   <div class="absolute inset-0 flex items-center justify-center">
                     <div class="relative w-32 h-32 md:w-[170px] md:h-[170px] rounded-full bg-linear-to-b from-[#D9D9D9] to-[#919191] shadow-[0_0_60px_0_rgba(0,0,0,0.2)]">
                       <div class="absolute inset-0 flex items-center justify-center">
@@ -128,7 +132,7 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                             <div class={[
                               "relative rounded-full shadow-lg w-full h-full flex items-center justify-center transition-all overflow-hidden duration-700 ease-in-outbg-primary opacity-100",
                               if status == "active" do
-                                "bg-primary scale-100"
+                                "bg-primary scale-100 animate-scale-up-down"
                               else
                                 "bg-primary/40 scale-90"
                               end
@@ -140,7 +144,7 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                               </div>
                               <.icon
                                 name={get_orb_icon(key_str)}
-                                class={"w-6 h-6 text-white relative z-10 transition-transform duration-500 #{if status == "active", do: "scale-100", else: "scale-90"}"}
+                                class={"w-5 h-5 text-white relative z-10 transition-transform duration-500 #{if status == "active", do: "scale-100", else: "scale-90"}"}
                               />
                             </div>
                           </div>
@@ -171,22 +175,22 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
 
   defp get_orb_position_class(position), do: "orb-pos-#{position}"
 
-  defp get_orb_icon("disabilities"), do: "hero-exclamation-circle"
-  defp get_orb_icon("allergens"), do: "hero-x-mark"
-  defp get_orb_icon("tshirt_size"), do: "hero-swatch"
-  defp get_orb_icon("diet"), do: "hero-cake"
-  defp get_orb_icon("transport"), do: "hero-truck"
-  defp get_orb_icon("attended"), do: "hero-backward"
-  defp get_orb_icon("user"), do: "hero-user"
+  defp get_orb_icon("disabilities"), do: "fa-crutch-solid"
+  defp get_orb_icon("allergens"), do: "fa-hand-dots-solid"
+  defp get_orb_icon("tshirt_size"), do: "fa-shirt-solid"
+  defp get_orb_icon("diet"), do: "fa-apple-whole-solid"
+  defp get_orb_icon("transport"), do: "fa-car-solid"
+  defp get_orb_icon("attended"), do: "fa-backward-solid"
+  defp get_orb_icon("user"), do: "fa-user-solid"
   defp get_orb_icon(_), do: "hero-question-mark-circle"
 
   defp get_orb_position("disabilities"), do: "top-right"
   defp get_orb_position("allergens"), do: "left-bottom"
-  defp get_orb_position("tshirt_size"), do: "top"
+  defp get_orb_position("tshirt_size"), do: "right-bottom"
   defp get_orb_position("diet"), do: "right"
   defp get_orb_position("transport"), do: "top-left"
   defp get_orb_position("attended"), do: "left"
-  defp get_orb_position("user"), do: "right-bottom"
+  defp get_orb_position("user"), do: "top"
 
   @impl true
   def mount(socket) do
@@ -240,6 +244,21 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
       delimiter: "",
       format: "%n%u"
     )
+  end
+
+  defp get_display_name(name) do
+    case String.split(name || "", " ", trim: true) do
+      [] ->
+        ""
+
+      [single] ->
+        String.capitalize(single)
+
+      names ->
+        first = names |> List.first() |> String.capitalize()
+        last = names |> List.last() |> String.capitalize()
+        "#{first} #{last}"
+    end
   end
 
   def step_header(step, form \\ nil)

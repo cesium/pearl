@@ -34,6 +34,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
         </span>
         <.simple_form phx-change="validate" for={@form} id="choose_ticket-form">
           <.input
+            class="text-xl! [&>option:hover]:bg-primary [&>option:hover]:text-white [&>option:checked]:bg-primary [&>option:checked]:text-white"
             field={@form[:ticket_type_id]}
             type="select"
             options={@ticket_types |> Enum.map(&{&1.name, &1.id})}
@@ -119,7 +120,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
           options={[{"XS", "xs"}, {"S", "s"}, {"M", "m"}, {"L", "l"}, {"XL", "xl"}, {"XXL", "xxl"}]}
         />
 
-        <h2 class="font-extrabold text-lg mb-1">Diet*</h2>
+        <h2 class="font-extrabold text-lg mb-1">Dieta*</h2>
         <span>
           Caso sejas vegetariano ou vegan, podemos ter isso em atenção.
         </span>
@@ -202,8 +203,8 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
   defp conclusion_step(assigns) do
     ~H"""
     <div class="py-8">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-2">Os dados que vais submeter:</h2>
-      <div>
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4">Os dados que vais submeter:</h2>
+      <div class="flex flex-col gap-2">
         <%= for {key, value} <- filter_data(@ticket_data) do %>
           <.data_line key={humanize_key(key)} value={humanize_value(value)} />
         <% end %>

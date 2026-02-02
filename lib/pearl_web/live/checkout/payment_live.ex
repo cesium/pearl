@@ -14,6 +14,7 @@ defmodule PearlWeb.Checkout.PaymentLive do
       socket
       |> assign(:ticket, user_ticket)
       |> assign(:ticket_type, user_ticket.ticket_type)
+      |> assign(:phone, socket.assigns.current_user.phone)
       |> assign(:checkout_information, Billing.get_checkout_information(user_ticket.ticket_type))
       |> assign(:payment_status, user_ticket.paid)
       |> assign(:include_invoice_info, false)

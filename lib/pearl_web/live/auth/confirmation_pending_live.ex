@@ -17,29 +17,29 @@ defmodule PearlWeb.ConfirmationPendingLive do
         </span>
       </div>
       <h1 class="px-4 uppercase text-3xl text-center mt-8 sm:mt-10 text-primary">
-        {gettext("We need to verify your email address!")}
+        {gettext("Precisamos de verificar o teu endereço de email!")}
       </h1>
       <p class="text-center mt-6 px-4 text-dark-muted!">
-        {gettext("We have sent an email to")}
+        {gettext("Enviamos um email para")}
         <span class="font-bold text-primary">{@current_user.email}</span>
-        {gettext("containing instructions on how to verify your account.")}
+        {gettext("contendo instruções sobre como verificar a tua conta.")}
       </p>
       <p class="text-center mt-4 px-4 text-dark-muted!">
-        {gettext("If you don't see it, you may need to check your spam folder.")}
+        {gettext("Se não o encontrares, verifica a tua pasta de spam.")}
       </p>
       <p class="text-center mt-4 px-4 text-dark-muted!">
-        {gettext("Still can't find it?")}
+        {gettext("Ainda não consegues encontrar?")}
       </p>
       <div class="px-4 sm:px-24 text-center text-2xl sm:text-4xl mt-12">
         <.action_button
-          title={gettext("Re-send Verification Email")}
+          title={gettext("Reenviar Email de Verificação")}
           phx-click="resend"
           class="h-14! rounded-none border-primary! hover:bg-primary/10"
           title_class="text-lg text-primary !normal-case"
         />
       </div>
       <p class="text-sm sm:text-md text-center mt-8 opacity-80 px-4">
-        {gettext("Need help? Contact us at geral@eneiconf.pt.")}
+        {gettext("Precisas de ajuda? Contacta-nos em geral@eneiconf.pt.")}
       </p>
     </div>
     """

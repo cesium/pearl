@@ -9,6 +9,22 @@ defmodule PearlWeb.UserTicket do
 
   alias Pearl.{Billing, Tickets}
 
+  def require_ticket(conn, _opts) do
+    user = conn.assigns[:current_user]
+
+    if user do
+      ticket = Tickets.get_user_ticket(user.id)
+
+      if is_nil(ticket) do
+        conn
+        |> redirect(to: ~p"/tickets")
+        |> halt()
+      else
+        conn
+      end
+    end
+  end
+
   def require_paid_ticket(conn, _opts) do
     user = conn.assigns[:current_user]
 
@@ -18,14 +34,12 @@ defmodule PearlWeb.UserTicket do
       if is_nil(ticket),
         do:
           conn
-          |> put_flash(:error, "Ainda não tens um bilhete!")
           |> redirect(to: ~p"/tickets")
           |> halt()
 
       case Billing.get_payment_by_ticket(ticket.id) do
         nil ->
           conn
-          |> put_flash(:error, "Por favor, complete o pagamento do teu bilhete.")
           |> redirect(to: ~p"/checkout/payment")
           |> halt()
 
@@ -44,46 +58,84 @@ defmodule PearlWeb.UserTicket do
     conn
   end
 
-  def require_payment_started(conn, _opts) do
+  def require_payment(conn, _opts) do
     user = conn.assigns[:current_user]
 
     if user do
       ticket = Tickets.get_user_ticket(user.id)
 
-      case Billing.get_payment_by_ticket(ticket.id) do
-        nil ->
-          conn
-          |> put_flash(:error, "Ainda não comecaste o processo de pagamento.")
-          |> redirect(to: ~p"/checkout/payment")
-          |> halt()
+      if ticket do
+        case Billing.get_payment_by_ticket(ticket.id) do
+          nil ->
+            conn
+            |> put_flash(:error, "Ainda não começaste o processo de pagamento.")
+            |> redirect(to: ~p"/checkout/payment")
+            |> halt()
 
-        _payment ->
-          conn
+          _payment ->
+            conn
+        end
+      else
+        conn
+        |> put_flash(:error, "Ainda não começaste o processo de pagamento.")
+        |> redirect(to: ~p"/checkout/payment")
+        |> halt()
       end
+    else
+      conn
     end
-
-    conn
   end
 
   def redirect_if_user_has_payment(conn, _opts) do
     user = conn.assigns[:current_user]
 
-    if user do
+    if is_nil(user) do
+      conn
+    else
       ticket = Tickets.get_user_ticket(user.id)
+      handle_user_ticket_payment(conn, ticket)
+    end
+  end
 
-      case Billing.get_payment_by_ticket(ticket.id) do
+  defp handle_user_ticket_payment(conn, nil), do: conn
+
+  defp handle_user_ticket_payment(conn, ticket) do
+    case Billing.get_payment_by_ticket(ticket.id) do
+      nil -> conn
+      payment -> handle_payment_redirect(conn, payment)
+    end
+  end
+
+  defp handle_payment_redirect(conn, payment) do
+    if payment.status == :completed do
+      conn
+      |> redirect(to: ~p"/app")
+      |> halt()
+    else
+      conn
+      |> redirect(to: ~p"/checkout/payment/#{payment.order_id}")
+      |> halt()
+    end
+  end
+
+  def redirect_if_user_has_unpaid_ticket(conn, _opts) do
+    if conn.assigns[:current_user] do
+      case Tickets.get_user_ticket(conn.assigns.current_user.id) do
         nil ->
           conn
 
-        _payment ->
-          conn
-          |> put_flash(:error, "Já tens um pagamento completo ou a decorrer")
-          |> redirect(to: ~p"/")
-          |> halt()
+        ticket ->
+          if ticket.paid do
+            conn
+          else
+            conn
+            |> redirect(to: ~p"/checkout/payment")
+            |> halt()
+          end
       end
+    else
+      conn
     end
-
-    conn
   end
 
   def redirect_if_user_has_paid_ticket(conn, _opts) do
@@ -100,30 +152,6 @@ defmodule PearlWeb.UserTicket do
             |> halt()
           else
             conn
-          end
-      end
-    else
-      conn
-    end
-  end
-
-  def redirect_if_user_has_unpaid_ticket(conn, _opts) do
-    if conn.assigns[:current_user] do
-      case Tickets.get_user_ticket(conn.assigns.current_user.id) do
-        nil ->
-          conn
-
-        ticket ->
-          if ticket.paid do
-            conn
-          else
-            conn
-            |> put_flash(
-              :error,
-              "Tens um bilhete que ainda não foi pago. Por favor complete o pagamento."
-            )
-            |> redirect(to: ~p"/checkout/payment")
-            |> halt()
           end
       end
     else
@@ -166,10 +194,6 @@ defmodule PearlWeb.UserTicket do
           else
             socket =
               socket
-              |> Phoenix.LiveView.put_flash(
-                :error,
-                "Tens um bilhete que ainda não foi pago. Por favor complete o pagamento."
-              )
               |> Phoenix.LiveView.redirect(to: ~p"/checkout/payment")
 
             {:halt, socket}

@@ -90,6 +90,19 @@
   animation: slide-out-left 0.4s ease-in forwards;
 }
 
+@keyframes scale-up-down {
+  0%, 100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.15;
+  }
+} 
+
+.animate-scale-up-down {
+  animation: scale-up-down 3s ease-in-out infinite;
+}
+
 @theme {
   --color-olive: #56564D;
   --color-primary: #811824;

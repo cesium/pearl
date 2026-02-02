@@ -1,10 +1,11 @@
-<div class="text-black flex flex-col md:flex-row w-full gap-8 md:gap-2 h-fit">
+<div class="text-black flex flex-col md:flex-row w-full gap-8 md:gap-2 h-full">
   <.live_component
     module={PearlWeb.Checkout.Components.InfoCard}
     id="ticket-form"
     current_user={@current_user}
     step={@live_action}
     payment_completed={@payment.status == :completed}
+    ticket_type={@ticket_type}
   />
 
   <div class={[

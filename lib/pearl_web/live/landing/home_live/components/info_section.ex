@@ -10,7 +10,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.InfoSection do
     ~H"""
     <div
       :if={@landing_page_message != ""}
-      class="bg-light/90 backdrop-blur border-b overflow-hidden"
+      class="bg-light/90 backdrop-blur overflow-hidden"
     >
       <div class="px-9 py-6 h-17.5 flex items-center justify-between gap-8">
         <div class="ticker-viewport flex-1 mx-auto">

@@ -164,7 +164,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
             :if={user_type?(@current_user, :staff)}
             patch={~p"/dashboard/scanner"}
             phx-click={hide_mobile_navbar()}
-            class="font-terminal uppercase text-2xl text-primary transition-colors duration-75 ease-in hover:text-accent"
+            class="text-2xl font-semibold text-dark/50 transition-colors duration-75 ease-in hover:text-primary"
           >
             Dashboard
           </.link>
@@ -172,7 +172,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
             :if={user_type?(@current_user, :attendee)}
             patch={~p"/app"}
             phx-click={hide_mobile_navbar()}
-            class="font-terminal uppercase text-2xl text-primary transition-colors duration-75 ease-in hover:text-accent"
+            class="text-2xl font-semibold text-dark/50 transition-colors duration-75 ease-in hover:text-primary"
           >
             App
           </.link>
@@ -180,32 +180,34 @@ defmodule PearlWeb.Landing.Components.Navbar do
             :if={user_type?(@current_user, :company)}
             patch={~p"/sponsor/scanner"}
             phx-click={hide_mobile_navbar()}
-            class="font-terminal uppercase text-2xl text-primary transition-colors duration-75 ease-in hover:text-accent"
+            class="text-2xl font-semibold text-dark/50 transition-colors duration-75 ease-in hover:text-primary"
           >
             Scanner
-          </.link>
-          <.link
-            :if={@current_user}
-            method="delete"
-            href={~p"/users/log_out"}
-            phx-click={hide_mobile_navbar()}
-            class="font-terminal uppercase text-2xl text-primary transition-colors duration-75 ease-in hover:text-accent"
-          >
-            Sign Out
           </.link>
         </div>
 
         <div class="flex flex-col items-center gap-10 justify-center w-full mt-auto">
           <div class="flex items-center justify-center w-full ">
-            <.link
-              :if={!@current_user}
-              navigate={~p"/users/log_in"}
-              phx-click={hide_mobile_navbar()}
-              class="text-xl flex items-center gap-2 px-4 font-semibold text-dark/50 transition-colors duration-75 ease-in hover:text-primary"
-            >
-              <.icon name="fa-user" class="w-5 h-5" />
-              <span>Entrar</span>
-            </.link>
+            <%= if !@current_user do %>
+              <.link
+                navigate={~p"/users/log_in"}
+                phx-click={hide_mobile_navbar()}
+                class="text-xl flex items-center gap-2 px-4 font-semibold text-dark/50 transition-colors duration-75 ease-in hover:text-primary"
+              >
+                <.icon name="fa-user" class="w-5 h-5" />
+                <span>Entrar</span>
+              </.link>
+            <% else %>
+              <.link
+                method="delete"
+                href={~p"/users/log_out"}
+                phx-click={hide_mobile_navbar()}
+                class="text-xl flex items-center gap-2 px-4 font-semibold text-dark/50 transition-colors duration-75 ease-in hover:text-primary"
+              >
+                <.icon name="hero-arrow-left-end-on-rectangle" class="w-5 h-5" />
+                <span>Sair</span>
+              </.link>
+            <% end %>
 
             <.link
               :if={@registrations_open? && !@current_user}

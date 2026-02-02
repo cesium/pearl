@@ -48,7 +48,7 @@ defmodule PearlWeb.Landing.FAQLive.Components.Contacts do
           <.link
             href={contact.link}
             target="_blank"
-            class="lg:bg-white rounded-4xl py-2 lg:py-6 lg:px-6 flex flex-col justify-between gap-3"
+            class="lg:bg-white rounded-4xl py-2 lg:py-6 lg:px-6 flex flex-col justify-between gap-3 group"
           >
             <div>
               <p class="font-medium">{contact.name}</p>
@@ -59,7 +59,10 @@ defmodule PearlWeb.Landing.FAQLive.Components.Contacts do
                 class="rounded-full w-12 h-12 flex items-center justify-center"
                 style={"background-color: #{contact.accent};"}
               >
-                <.icon name={contact.icon} class="w-6 h-6 m-1 text-white" />
+                <.icon
+                  name={contact.icon}
+                  class="w-6 h-6 m-1 text-white group-hover:-rotate-10 transition-transform"
+                />
               </div>
               <p class="px-2 py-2 whitespace-nowrap">{contact.value}</p>
             </div>

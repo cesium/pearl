@@ -2,7 +2,7 @@ defmodule PearlWeb.Landing.FAQLive.Index do
   use PearlWeb, :landing_view
 
   alias Pearl.Event
-  import PearlWeb.Components.Ticket
+  import PearlWeb.Components.{Countdown, Ticket}
   import PearlWeb.Landing.FAQLive.Components.{Contacts, Faq}
 
   on_mount {PearlWeb.VerifyFeatureFlag, "faqs_enabled"}

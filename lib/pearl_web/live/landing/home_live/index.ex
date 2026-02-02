@@ -6,7 +6,6 @@ defmodule PearlWeb.Landing.HomeLive.Index do
     Hero,
     Partners,
     Sponsors,
-    Speakers,
     Activities,
     InfoSection
   }

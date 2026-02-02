@@ -46,7 +46,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.Index do
                   src={
                     Uploaders.UserPicture.url({attendee.picture, attendee}, :original, signed: true)
                   }
-                  handle={attendee.name}
+                  name={attendee.name}
                 />
                 <div class="self-center">
                   <p class="text-base font-semibold">{attendee.name}</p>

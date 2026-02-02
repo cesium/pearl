@@ -271,7 +271,7 @@ defmodule PearlWeb.Components.Sidebar do
             <span class="flex items-center justify-between min-w-0 space-x-3">
               <.avatar
                 size={:sm}
-                handle={@user.handle}
+                name={@user.name}
                 src={Uploaders.UserPicture.url({@user.picture, @user}, :original, signed: true)}
               />
               <span class="flex flex-col flex-1 min-w-0">
@@ -415,7 +415,7 @@ defmodule PearlWeb.Components.Sidebar do
             <span class="flex items-center justify-between min-w-0 space-x-3">
               <.avatar
                 size={:sm}
-                handle={@user.handle}
+                name={@user.name}
                 src={Uploaders.UserPicture.url({@user.picture, @user}, :original, signed: true)}
               />
               <span class="flex flex-col flex-1 min-w-0">

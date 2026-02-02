@@ -12,7 +12,10 @@ defmodule PearlWeb.Landing.TeamLive.Components.Team do
   def team(assigns) do
     ~H"""
     <div class="space-y-7.5 md:space-y-14">
-      <div class="mx-auto hidden md:flex flex-wrap justify-center p-1 bg-white w-fit rounded-3xl lg:rounded-full">
+      <div
+        :if={@teams != []}
+        class="mx-auto hidden md:flex flex-wrap justify-center p-1 bg-white w-fit rounded-3xl lg:rounded-full"
+      >
         <%= for {team, index} <- Enum.with_index(Enum.sort_by(@teams, & &1.priority)) do %>
           <button
             phx-click="add_filter"
@@ -33,6 +36,7 @@ defmodule PearlWeb.Landing.TeamLive.Components.Team do
 
       <div class="px-2">
         <.dropdown
+          :if={@teams != []}
           placement="right"
           class="md:hidden! w-full rounded-3xl bg-white"
           trigger_class="w-full"

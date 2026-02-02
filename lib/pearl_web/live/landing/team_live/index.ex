@@ -8,7 +8,9 @@ defmodule PearlWeb.Landing.TeamLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    teams = Teams.list_teams(preloads: [:team_members])
+    teams =
+      Teams.list_teams(preloads: [:team_members])
+      |> Enum.filter(fn team -> length(team.team_members) > 0 end)
 
     sorted_teams =
       Enum.map(teams, fn team ->

@@ -66,7 +66,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
             <.dropdown>
               <:trigger_element>
                 <.avatar
-                  handle={@current_user.handle}
+                  name={@current_user.name}
                   src={
                     Uploaders.UserPicture.url(
                       {@current_user.picture, @current_user},

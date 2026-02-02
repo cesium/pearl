@@ -57,7 +57,7 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
           class="w-10 h-10 translate-y-6 text-accent"
         />
         <.avatar
-          handle={@entry.handle}
+          name={@entry.name}
           size={:xl}
           class="bg-light/5 border-2 border-accent bg-accent rounded-full"
           link={~p"/app/user/#{@entry.handle}"}
@@ -86,7 +86,7 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
         </p>
         <p>
           <.avatar
-            handle={@entry.handle}
+            name={@entry.name}
             size={:sm}
             class={"#{if @self do "bg-primary/10 border-2 border-primary/10" else "bg-light/5 border-2 border-light/5" end} rounded-full"}
             link={~p"/app/user/#{@entry.handle}"}

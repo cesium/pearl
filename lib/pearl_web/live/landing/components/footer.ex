@@ -10,8 +10,15 @@ defmodule PearlWeb.Landing.Components.Footer do
   slot :tip, required: false
 
   def footer(assigns) do
+    assigns =
+      assign(assigns,
+        landing_pages: PearlWeb.Config.landing_pages(),
+        your_enei_links: your_enei_links(),
+        more_pages_links: more_pages_links()
+      )
+
     ~H"""
-    <footer class="bg-olive px-8 pt-8 pb-12 md:px-12.5 md:pt-12.5 md:pb-16">
+    <footer class="bg-dark-muted px-8 pt-8 pb-12 md:px-12.5 md:pt-12.5 md:pb-16">
       <div class="flex flex-col gap-8 md:gap-12">
         <div class="grid grid-cols-[auto_1fr] gap-x-3.5 items-start">
           <img src="/images/enei-logo-white.svg" width={75} alt="ENEI Logo" class="row-span-2" />
@@ -23,12 +30,12 @@ defmodule PearlWeb.Landing.Components.Footer do
 
         <div class="flex flex-col md:flex-row gap-8 md:gap-12 justify-between items-start md:items-end">
           <div class="grid grid-cols-2 md:flex md:flex-row gap-8 md:gap-12 w-full md:w-auto">
-            <div>
+            <div :if={@landing_pages != []}>
               <h3 class="text-white font-semibold md:text-white/50 md:font-bold mb-3 md:mb-4 text-xs md:text-sm uppercase tracking-wider">
                 Descobrir
               </h3>
               <ul class="space-y-2 md:space-y-2.5 text-white/50 text-xs md:text-sm">
-                <%= for link <- discover_links() do %>
+                <%= for link <- @landing_pages do %>
                   <li>
                     <.link navigate={link.url} class="hover:text-white transition-colors">
                       {link.title}
@@ -38,12 +45,12 @@ defmodule PearlWeb.Landing.Components.Footer do
               </ul>
             </div>
 
-            <div>
+            <div :if={@your_enei_links != []}>
               <h3 class="text-white font-semibold md:text-white/50 md:font-bold mb-3 md:mb-4 text-xs md:text-sm uppercase tracking-wider">
                 O teu ENEI
               </h3>
               <ul class="space-y-2 md:space-y-2.5 text-white/50 text-xs md:text-sm">
-                <%= for link <- your_enei_links() do %>
+                <%= for link <- @your_enei_links do %>
                   <li>
                     <.link navigate={link.url} class="hover:text-white transition-colors">
                       {link.title}
@@ -53,14 +60,14 @@ defmodule PearlWeb.Landing.Components.Footer do
               </ul>
             </div>
 
-            <div class="col-span-2 md:col-span-1">
+            <div :if={@more_pages_links != []} class="col-span-2 md:col-span-1">
               <h3 class="text-white font-semibold md:text-white/50 md:font-bold mb-3 md:mb-4 text-xs md:text-sm uppercase tracking-wider">
                 Mais páginas
               </h3>
               <ul class="space-y-2 md:space-y-2.5 text-white/50 text-xs md:text-sm">
-                <%= for link <- more_pages_links() do %>
+                <%= for link <- @more_pages_links do %>
                   <li>
-                    <.link href={link.url} class="hover:text-white transition-colors">
+                    <.link href={link.url} target="_blank" class="hover:text-white transition-colors">
                       {link.title}
                     </.link>
                   </li>
@@ -83,7 +90,7 @@ defmodule PearlWeb.Landing.Components.Footer do
               <h3 class="text-white/50 font-bold text-xs md:text-sm uppercase">
                 Organização
               </h3>
-              <.link href="https://cesium.di.uminho.pt" class="block">
+              <.link href="https://cesium.di.uminho.pt" target="_blank" class="block">
                 <img
                   src="/images/cesium-logo.svg"
                   alt="CeSIUM Logo"
@@ -112,22 +119,10 @@ defmodule PearlWeb.Landing.Components.Footer do
     """
   end
 
-  defp discover_links do
-    [
-      %{title: "Página Inicial", url: "/", enabled: true},
-      %{title: "Calendário", url: "/schedule", enabled: true},
-      %{title: "Oradores & Patrocínios", url: "/speakers", enabled: true},
-      %{title: "Desafios", url: "/challenges", enabled: true},
-      %{title: "Equipa", url: "/team", enabled: true},
-      %{title: "Informações & Ajuda", url: "/faqs", enabled: true}
-    ]
-    |> Enum.filter(fn x -> x.enabled end)
-  end
-
   defp your_enei_links do
     [
       %{title: "Área Pessoal", url: "/users/log_in", enabled: true},
-      %{title: "Bilhetes e inscrição", url: "#", enabled: true},
+      %{title: "Bilhetes e inscrição", url: "/tickets", enabled: false},
       %{
         title: "Survival Guide",
         url: "/docs/survival-guide.pdf",

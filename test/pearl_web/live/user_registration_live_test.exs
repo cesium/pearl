@@ -56,7 +56,7 @@ defmodule PearlWeb.UserRegistrationLiveTest do
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log_in")
 
-      assert login_html =~ "Log in"
+      assert login_html =~ "Entrar"
     end
   end
 end

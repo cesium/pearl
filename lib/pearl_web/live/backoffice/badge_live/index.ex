@@ -1,7 +1,7 @@
 defmodule PearlWeb.Backoffice.BadgeLive.Index do
   use PearlWeb, :backoffice_view
 
-  import PearlWeb.Components.{Badge, Table, TableSearch}
+  import PearlWeb.Components.{Badge, Table, TableSearch, Modal}
 
   alias Pearl.Contest
   alias Pearl.Contest.{Badge, BadgeCategory, BadgeCondition, BadgeTrigger}

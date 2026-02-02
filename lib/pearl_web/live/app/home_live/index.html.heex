@@ -9,7 +9,7 @@
         <div class="flex flex-col items-center py-2 gap-4 my-auto sm:min-w-72">
           <.avatar
             size={:xl}
-            handle={@current_user.handle}
+            name={@current_user.name}
             src={
               Uploaders.UserPicture.url({@current_user.picture, @current_user}, :original,
                 signed: true

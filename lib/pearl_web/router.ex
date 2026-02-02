@@ -17,6 +17,10 @@ defmodule PearlWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    scope "/api", PearlWeb do
+      post "/midas/:pearl_api_key/webhook", MidasController, :handle_webhook
+    end
   end
 
   # Landing

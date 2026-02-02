@@ -303,10 +303,10 @@ defmodule Pearl.Accounts do
     |> Ecto.Multi.insert(
       :staff,
       fn %{user: user} ->
-        staff_attrs =
-          attrs
-          |> Map.get("staff")
-          |> Map.put("user_id", user.id)
+        staff_attrs = %{
+          user_id: user.id,
+          role_id: Map.get(attrs, :role_id)
+        }
 
         Staff.changeset(%Staff{}, staff_attrs)
       end

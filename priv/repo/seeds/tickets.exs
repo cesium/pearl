@@ -13,10 +13,10 @@ defmodule Pearl.Repo.Seeds.Tickets do
   ]
 
   @ticket_types [
-    %{name: "Bilhete 1", description: "A nice ticket", price: 32, active: true, product_key: "XxXxX", priority: 0, perks: ["Entry"]},
-    %{name: "Bilhete 2", description: "A much nicer ticket", price: 33, active: true, product_key: "XxXxX", priority: 1, perks: ["Entry", "Meals"]},
-    %{name: "Bilhete 3", description: "An awesome ticket", price: 38, active: true, product_key: "XxXxX", priority: 2, perks: ["Entry", "Meals", "Accommodation"]},
-    %{name: "Bilhete 4", description: "Absolutely magnificent ticket", price: 45, product_key: "XxXxX", active: true, priority: 3, perks: ["Entry", "Meals", "Premium Accommodation"]}
+    %{name: "Bilhete 1", description: "A nice ticket", price: 32, active: true, product_key: "bdd2c21a-215d-44a2-a515-a5bc7a94966b", priority: 0, perks: ["Entry"]},
+    %{name: "Bilhete 2", description: "A much nicer ticket", price: 33, active: true, product_key: "bdd2c21a-215d-44a2-a515-a5bc7a94966b", priority: 1, perks: ["Entry", "Meals"]},
+    %{name: "Bilhete 3", description: "An awesome ticket", price: 38, active: true, product_key: "bdd2c21a-215d-44a2-a515-a5bc7a94966b", priority: 2, perks: ["Entry", "Meals", "Accommodation"]},
+    %{name: "Bilhete 4", description: "Absolutely magnificent ticket", price: 45, product_key: "bdd2c21a-215d-44a2-a515-a5bc7a94966b", active: true, priority: 3, perks: ["Entry", "Meals", "Premium Accommodation"]}
   ]
 
   def run do

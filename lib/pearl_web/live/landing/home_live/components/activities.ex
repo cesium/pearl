@@ -6,6 +6,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
     activities = [
       %{
         "img_path" => "/images/activities/stands.webp",
+        "img_pos" => "object-center",
         "icon_name" => "hero-briefcase",
         "title" => "Stands",
         "description" =>
@@ -13,6 +14,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
       },
       %{
         "img_path" => "/images/activities/talks.webp",
+        "img_pos" => "object-top",
         "icon_name" => "hero-presentation-chart-line",
         "title" => "Talks",
         "description" =>
@@ -20,6 +22,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
       },
       %{
         "img_path" => "/images/activities/workshops.webp",
+        "img_pos" => "object-top",
         "icon_name" => "hero-wrench-screwdriver",
         "title" => "Workshops",
         "description" =>
@@ -27,31 +30,34 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
       },
       %{
         "img_path" => "/images/activities/panel-discussions.webp",
+        "img_pos" => "object-center",
         "icon_name" => "hero-user-group",
         "title" => "Panel Discussions",
         "description" =>
           "Tertúlias com múltiplos convidados que discutem um assunto entre si, criando um momento de aprendizagem."
       },
       %{
-        "img_path" => "/images/activities/pitch.webp",
-        "icon_name" => "hero-megaphone",
-        "title" => "Pitch",
+        "img_path" => "/images/activities/eventos-sociais.webp",
+        "img_pos" => "object-center",
+        "icon_name" => "hero-chat-bubble-left-right",
+        "title" => "Eventos sociais",
         "description" =>
-          "Durante 15 minutos, vais ouvir sobre a experiência de trabalho numa empresa - aí, podes deixar o teu contacto."
+          "Focados em ligar-te a toda a gente do evento; tanto colegas como profissionais."
       },
       %{
         "img_path" => "/images/activities/gameshows.webp",
+        "img_pos" => "object-top",
         "icon_name" => "hero-puzzle-piece",
         "title" => "Gameshows",
         "description" =>
           "Concursos ao vivo nos quais podes ser tanto espectador como participante - e, possivelmente, premiado!"
       },
       %{
-        "img_path" => "/images/activities/eventos-sociais.webp",
+        "img_path" => "/images/activities/eventos_noturnos.webp",
+        "img_pos" => "object-top",
         "icon_name" => "hero-chat-bubble-left-right",
-        "title" => "Eventos sociais",
-        "description" =>
-          "Focados em ligar-te a toda a gente do evento; tanto colegas como profissionais."
+        "title" => "Eventos Noturnos",
+        "description" => "Momentos de descontração e diversão em locais icónicos da cidade."
       }
     ]
 
@@ -71,6 +77,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
         <%= for activity <- @activities do %>
           <.activity_card
             img_path={activity["img_path"]}
+            img_pos={activity["img_pos"]}
             icon_name={activity["icon_name"]}
             title={activity["title"]}
             description={activity["description"]}
@@ -100,7 +107,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
       <img
         src={@img_path}
         alt={@title}
-        class="w-full h-20 object-cover rounded-lg"
+        class={["w-full h-20 object-cover rounded-lg", @img_pos]}
       />
       <div class="flex flex-col gap-2.5 font-grotesk pb-8">
         <.icon name={@icon_name} class="size-8" />

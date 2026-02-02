@@ -17,9 +17,9 @@ defmodule PearlWeb.Config do
       },
       %{
         key: :speakers,
-        title: "Oradores & Patrocínios",
+        title: "Oradores",
         url: "/speakers",
-        feature_flag: "team_enabled"
+        feature_flag: "speakers_enabled"
       },
       %{
         key: :challenges,
@@ -31,7 +31,7 @@ defmodule PearlWeb.Config do
         key: :team,
         title: "Equipa",
         url: "/team",
-        feature_flag: "speakers_enabled"
+        feature_flag: "team_enabled"
       },
       %{
         key: :faqs,

@@ -8,7 +8,7 @@ defmodule Pearl.Tickets.TicketType do
   alias Pearl.Tickets.Perk
   alias Pearl.Tickets.Ticket
 
-  @required_fields ~w(name priority price active)a
+  @required_fields ~w(name priority price active product_key)a
   @optional_fields ~w()a
 
   @derive {Flop.Schema, sortable: [:priority], filterable: []}

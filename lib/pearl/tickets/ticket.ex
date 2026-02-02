@@ -30,10 +30,11 @@ defmodule Pearl.Tickets.Ticket do
     ]
   }
 
-  @required_fields ~w(paid user_id ticket_type_id)a
+  @required_fields ~w(user_id ticket_type_id)a
+  @optional_fields ~w(paid)a
 
   schema "tickets" do
-    field :paid, :boolean
+    field :paid, :boolean, default: false
 
     belongs_to :user, User
     belongs_to :ticket_type, TicketType, on_replace: :delete
@@ -43,7 +44,7 @@ defmodule Pearl.Tickets.Ticket do
 
   def changeset(ticket, attrs) do
     ticket
-    |> cast(attrs, @required_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> unique_constraint(:user_id)
     |> cast_assoc(:user, with: &User.profile_changeset/2)

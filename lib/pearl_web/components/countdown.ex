@@ -22,10 +22,13 @@ defmodule PearlWeb.Components.Countdown do
       |> assign(:hours_left, hours_left)
 
     ~H"""
-    <div class="flex flex-row items-center">
-      <.section label="Meses" value={@months_left} />
-      <.section label="Dias" value={@days_left} />
-      <.section label="Horas" value={@hours_left} is_last />
+    <div class="relative select-none">
+      <div class="w-full border-b-white border-b absolute translate-y-6"></div>
+      <div class="flex flex-row items-center">
+        <.section label="Meses" value={@months_left} />
+        <.section label="Dias" value={@days_left} />
+        <.section label="Horas" value={@hours_left} is_last />
+      </div>
     </div>
     """
   end

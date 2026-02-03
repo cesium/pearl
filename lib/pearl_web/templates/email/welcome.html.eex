@@ -6,11 +6,6 @@
       as="image"
       href=<%= "#{@phx_host}/images/email/enei-logo.png" %>
     />
-    <link
-      rel="preload"
-      as="image"
-      href=<%= "#{@phx_host}/images/email/void.jpg" %>
-    />
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
     <meta name="x-apple-disable-message-reformatting" />
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />

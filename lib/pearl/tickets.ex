@@ -236,6 +236,18 @@ defmodule Pearl.Tickets do
     Perk.changeset(perk, attrs)
   end
 
+  @doc """
+  Returns the next priority a perk should have.
+
+  ## Examples
+
+      iex> get_next_perk_priority()
+      5
+  """
+  def get_next_perk_priority do
+    (Repo.aggregate(from(t in Perk), :max, :priority) || -1) + 1
+  end
+
   def change_ticket_type(%Ticket{} = ticket, attrs \\ %{}) do
     Ticket.changeset_ticket_type(ticket, attrs)
   end

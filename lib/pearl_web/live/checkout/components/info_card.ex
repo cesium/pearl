@@ -41,7 +41,7 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
             <% :choose_ticket -> %>
               <div class="w-full flex justify-center">
                 <div class="h-fit flex items-center justify-center">
-                  <div class="flex flex-wrap justify-center max-w-60">
+                  <div class="flex flex-wrap justify-center max-w-80">
                     <%= for {perk, i} <- Enum.with_index(@ticket.perks || []) do %>
                       <div
                         id={"perk-wrapper-#{i}"}

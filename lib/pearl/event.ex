@@ -158,7 +158,8 @@ defmodule Pearl.Event do
       "faqs_enabled",
       "general_regulation_enabled",
       "team_enabled",
-      "call_for_staff_enabled"
+      "call_for_staff_enabled",
+      "tickets_enabled"
     ]
   end
 

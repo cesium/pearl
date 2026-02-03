@@ -64,6 +64,13 @@ defmodule Pearl.Tickets do
     |> Repo.get!(id)
   end
 
+  def get_user_ticket(user_id) do
+    Ticket
+    |> where([t], t.user_id == ^user_id)
+    |> preload([:user, :ticket_type, :payment])
+    |> Repo.one()
+  end
+
   @doc """
   Creates a ticket.
 
@@ -143,7 +150,9 @@ defmodule Pearl.Tickets do
 
   """
   def list_perks do
-    Repo.all(Perk)
+    Perk
+    |> order_by(:priority)
+    |> Repo.all()
   end
 
   @doc """
@@ -225,5 +234,17 @@ defmodule Pearl.Tickets do
   """
   def change_perk(%Perk{} = perk, attrs \\ %{}) do
     Perk.changeset(perk, attrs)
+  end
+
+  def change_ticket_type(%Ticket{} = ticket, attrs \\ %{}) do
+    Ticket.changeset_ticket_type(ticket, attrs)
+  end
+
+  def change_precautions(%Ticket{} = ticket, attrs \\ %{}) do
+    Ticket.changeset_precautions(ticket, attrs)
+  end
+
+  def change_informations(%Ticket{} = ticket, attrs \\ %{}) do
+    Ticket.changeset_informations(ticket, attrs)
   end
 end

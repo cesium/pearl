@@ -24,8 +24,7 @@
   <div
     style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0"
   >
-    🎉 You&#x27;re registered for ENEI&#x27;25! Here&#x27;s what you need to
-    know.
+    🎉 Inscreveste-te para o ENEI&#x27;26! Aqui está o que precisas de saber.
     <div>
        ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿
     </div>
@@ -47,14 +46,14 @@
         <tr style="width:100%">
           <td>
             <div
-              style="padding-top:1.25rem;padding-bottom:1.25rem;background-color:#04041c;background-image:linear-gradient(#04041c, #04041c)"
+              style="padding-top:1.25rem;padding-bottom:1.25rem;background-color:#811824;background-image:linear-gradient(#811824, #811824)"
             >
               <div class="gmail-blend-difference">
                 <div class="gmail-blend-screen">
                   <img
                     alt="ENEI Logo"
                     src=<%= "#{@phx_host}/images/email/enei-logo.png" %>
-                    style="margin-left:auto;margin-right:auto;display:block;outline:none;border:none;text-decoration:none;filter:invert(0%)"
+                    style="margin-left:auto;margin-right:auto;display:block;outline:none;border:none;height:90px;text-decoration:none;filter:invert(0%)"
                   />
                 </div>
               </div>
@@ -62,29 +61,19 @@
             <p
               style="font-size:1.25rem;line-height:1.75rem;font-weight:700;text-align:center;margin:16px 0"
             >
-              Congratulations
-              <!-- --><%= @user_name %><!-- -->!<br />You are going to
-              ENEI&#x27;25
-            </p>
-            <div style="width:100%">
-              <img
-                alt="Void"
-                src=<%= "#{@phx_host}/images/email/void.jpg" %>
-                style="max-width:100%;display:block;outline:none;border:none;text-decoration:none"
-              />
-            </div>
-            <p
-              style="font-size:16px;line-height:26px;margin:16px 0;padding:0 16px"
-            >
-              Get ready to explore cutting-edge insights and connect with the
-              industry titans. We&#x27;re looking forward to meeting you at
-              ENEI&#x27;25! 🤖
+              <br />Está confirmado,
+              vemo-nos no ENEI&#x27;26!
             </p>
             <p
               style="font-size:16px;line-height:26px;margin:16px 0;padding:0 16px"
             >
-              See you soon,<br /><span style="color:rgb(100,116,139)"
-                >ENEI Team</span
+              Prepara-te para explorar perspetivas de vanguarda e conectares-te com os líderes da indústria. Estamos ansiosos por conhecer-te no ENEI’26!
+            </p>
+            <p
+              style="font-size:16px;line-height:26px;margin:16px 0;padding:0 16px"
+            >
+              Até breve,<br /><span style="color:rgb(100,116,139)"
+                >Equipa do ENEI</span
               >
             </p>
           </td>

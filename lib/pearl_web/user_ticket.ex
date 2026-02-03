@@ -118,6 +118,19 @@ defmodule PearlWeb.UserTicket do
     end
   end
 
+  def redirect_if_user_is_staff(conn, _opts) do
+    user = conn.assigns[:current_user]
+
+    if user && user.type == :staff do
+      conn
+      |> put_flash(:error, "Como staff, não tens acesso aos bilhetes")
+      |> redirect(to: ~p"/app")
+      |> halt()
+    else
+      conn
+    end
+  end
+
   def redirect_if_user_has_unpaid_ticket(conn, _opts) do
     if conn.assigns[:current_user] do
       case Tickets.get_user_ticket(conn.assigns.current_user.id) do

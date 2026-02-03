@@ -92,7 +92,8 @@ defmodule PearlWeb.Router do
       :browser,
       :require_authenticated_user,
       :require_confirmed_user,
-      :redirect_if_user_has_payment
+      :redirect_if_user_has_payment,
+      :redirect_if_user_is_staff
     ]
 
     live_session :checkout,
@@ -112,7 +113,8 @@ defmodule PearlWeb.Router do
       :browser,
       :require_authenticated_user,
       :require_ticket,
-      :redirect_if_user_has_payment
+      :redirect_if_user_has_payment,
+      :redirect_if_user_is_staff
     ]
 
     live_session :payment,
@@ -125,7 +127,12 @@ defmodule PearlWeb.Router do
   end
 
   scope "/checkout", PearlWeb do
-    pipe_through [:browser, :require_authenticated_user, :require_payment]
+    pipe_through [
+      :browser,
+      :require_authenticated_user,
+      :require_payment,
+      :redirect_if_user_is_staff
+    ]
 
     live_session :payment_status,
       on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do

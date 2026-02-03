@@ -76,8 +76,6 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
      |> assign(assigns)
      |> assign(:perks, perks)
      |> assign(:selected_perks_ids, selected_ids)
-     |> assign(:perks, perks)
-     |> assign(:selected_perks_ids, selected_ids)
      |> assign_new(:form, fn ->
        to_form(TicketTypes.change_ticket_type(ticket_type))
      end)}

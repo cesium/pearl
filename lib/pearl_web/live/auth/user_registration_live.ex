@@ -3,6 +3,7 @@ defmodule PearlWeb.UserRegistrationLive do
 
   alias Pearl.Accounts
   alias Pearl.Accounts.User
+  alias Pearl.Event
 
   import PearlWeb.Components.Button
   import PearlWeb.CoreComponents
@@ -42,7 +43,9 @@ defmodule PearlWeb.UserRegistrationLive do
      |> assign(:pages, [])
      |> assign(:months, months)
      |> assign(:years, years)
-     |> assign(:days, days)}
+     |> assign(:days, days)
+     |> assign(:privacy_policy_exists, check_privacy_policy_exists())
+     |> assign(:event_regulations_exists, check_event_regulations_exists())}
   end
 
   def handle_event("validate", %{"user" => user_params}, socket) do
@@ -102,4 +105,9 @@ defmodule PearlWeb.UserRegistrationLive do
   end
 
   defp calculate_days_range(_), do: 1..31
+
+  defp check_privacy_policy_exists,
+    do: not is_nil(Event.get_faq_by_slug!("politica-de-privacidade"))
+
+  defp check_event_regulations_exists, do: not is_nil(Event.get_faq_by_slug!("regulamento"))
 end

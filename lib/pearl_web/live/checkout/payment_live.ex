@@ -9,20 +9,29 @@ defmodule PearlWeb.Checkout.PaymentLive do
   def mount(_params, _, socket) do
     user_ticket = Tickets.get_user_ticket(socket.assigns.current_user.id)
 
-    {
-      :ok,
-      socket
-      |> assign(:ticket, user_ticket)
-      |> assign(:ticket_type, user_ticket.ticket_type)
-      |> assign(:phone, socket.assigns.current_user.phone)
-      |> assign(:checkout_information, Billing.get_checkout_information(user_ticket.ticket_type))
-      |> assign(:payment_status, user_ticket.paid)
-      |> assign(:include_invoice_info, false)
-      |> assign(:iva_number, "")
-      |> assign(:payment_method, "mb_way")
-      |> assign(:mb_way_phone, "")
-      |> assign_payment_form(payment_changeset(%{mb_way_phone: "", iva_number: ""}, false))
-    }
+    case user_ticket do
+      nil ->
+        {:ok,
+         socket
+         |> put_flash(:error, "Nenhum bilhete encontrado.")
+         |> push_navigate(to: ~p"/checkout/choose_ticket")}
+
+      ticket ->
+        {
+          :ok,
+          socket
+          |> assign(:ticket, ticket)
+          |> assign(:ticket_type, ticket.ticket_type)
+          |> assign(:phone, socket.assigns.current_user.phone)
+          |> assign(:checkout_information, Billing.get_checkout_information(ticket.ticket_type))
+          |> assign(:payment_status, ticket.paid)
+          |> assign(:include_invoice_info, false)
+          |> assign(:iva_number, "")
+          |> assign(:payment_method, "mb_way")
+          |> assign(:mb_way_phone, "")
+          |> assign_payment_form(payment_changeset(%{mb_way_phone: "", iva_number: ""}, false))
+        }
+    end
   end
 
   @impl true
@@ -94,6 +103,27 @@ defmodule PearlWeb.Checkout.PaymentLive do
       end
     else
       {:noreply, assign_payment_form(socket, changeset)}
+    end
+  end
+
+  def handle_event("cancel-payment", _params, socket) do
+    case Tickets.delete_ticket(socket.assigns.ticket) do
+      {:ok, _ticket} ->
+        {:noreply,
+         socket
+         |> put_flash(:success, "Pagamento cancelado com sucesso.")
+         |> push_navigate(to: ~p"/checkout/choose_ticket")}
+
+      {:error, %Ecto.Changeset{}} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, "Algo de errado aconteceu.")}
+
+      {:error, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "O bilhete já foi removido.")
+         |> push_navigate(to: ~p"/checkout/choose_ticket")}
     end
   end
 

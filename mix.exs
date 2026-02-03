@@ -100,7 +100,6 @@ defmodule Pearl.MixProject do
       {:jason, "~> 1.2"},
       {:timex, "~> 3.7.11"},
       {:nimble_csv, "~>1.3.0"},
-      {:number, "~> 1.0"},
 
       # server
       {:bandit, "~> 1.8.0"},

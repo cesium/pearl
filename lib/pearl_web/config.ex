@@ -41,7 +41,7 @@ defmodule PearlWeb.Config do
       },
       %{
         key: :tickets,
-        title: "Tickets",
+        title: "Bilhetes",
         url: "/tickets",
         feature_flag: "tickets_enabled"
       }

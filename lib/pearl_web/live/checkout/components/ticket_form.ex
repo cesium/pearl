@@ -28,7 +28,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
       <% selected_ticket_type =
         TicketTypes.get_ticket_type!(Map.get(assigns.ticket_data, "ticket_type_id")) %>
       <div>
-        <h2 class="font-extrabold text-lg mb-1">Escolha o teu bilhete</h2>
+        <h2 class="font-extrabold text-xl mb-1">Escolha o teu bilhete</h2>
         <span>
           Os tipos de bilhetes incluem diferentes benefícios.
         </span>
@@ -44,14 +44,14 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
         </.simple_form>
       </div>
       <div>
-        <h2 class="font-semibold text-lg mb-2">Benefícios deste bilhete:</h2>
+        <h2 class="font-semibold text-xl mb-2">Benefícios deste bilhete:</h2>
         <ul class="flex flex-col gap-2">
           <%= for perk <- selected_ticket_type.perks do %>
             <li class="flex items-center gap-2">
               <span class="flex" style={"color: #{perk.color};"}>
                 <.icon name="hero-check" class="size-4" />
               </span>
-              <span class="text-lg">{perk.description}</span>
+              <span class="text-xl">{perk.description}</span>
             </li>
           <% end %>
         </ul>
@@ -64,20 +64,20 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
     ~H"""
     <div class="">
       <.simple_form phx-change="validate" for={@form} id="precautions-form">
-        <h2 class="font-extrabold text-lg mb-1">Incapacidades</h2>
+        <h2 class="font-extrabold text-xl mb-1">Incapacidades</h2>
         <span class="mb-3 block">
           Descreve qualquer incapacidade que tenhas que nós devamos saber para poder adaptar a tua experiência.
         </span>
         <.input
-          class="resize-none"
           variant={:flushed}
           rows="3"
           placeholder="Escreve aqui..."
+          class="resize-none text-lg!"
           type="textarea"
           field={@form[:disabilities]}
         />
 
-        <h2 class="font-extrabold text-lg mb-1">Alergénios*</h2>
+        <h2 class="font-extrabold text-xl mb-1">Alergénios*</h2>
         <span class="mb-3 block">
           Se tiveres alguma alergia a alimentos, seleciona a opção correspondente e descrimina os alimentos a que és sensível.
         </span>
@@ -93,10 +93,10 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
         <%= if Phoenix.HTML.Form.input_value(@form, :has_allergens) == "yes" do %>
           <.input
-            class="resize-none"
             variant={:flushed}
             rows="3"
             placeholder="Escreve aqui..."
+            class="resize-none text-lg!"
             type="textarea"
             field={@form[:allergens]}
           />
@@ -110,7 +110,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
     ~H"""
     <div class="">
       <.simple_form phx-change="validate" for={@form} id="informations-form">
-        <h2 class="font-extrabold text-lg mb-1">Tamanho de T-shirt*</h2>
+        <h2 class="font-extrabold text-xl mb-1">Tamanho de T-shirt*</h2>
         <span>
           Para a tua conveniência, deixa já registado o tamanho de T-Shirt que costumas vestir. Em todo o caso, não ficas limitado ao tamanho que escolheres.
         </span>
@@ -120,7 +120,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
           options={[{"XS", "xs"}, {"S", "s"}, {"M", "m"}, {"L", "l"}, {"XL", "xl"}, {"XXL", "xxl"}]}
         />
 
-        <h2 class="font-extrabold text-lg mb-1">Dieta*</h2>
+        <h2 class="font-extrabold text-xl mb-1">Dieta*</h2>
         <span>
           Caso sejas vegetariano ou vegan, podemos ter isso em atenção.
         </span>
@@ -137,7 +137,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
         <div class="flex flex-col gap-5">
           <div>
-            <h2 class="font-extrabold text-lg mb-1">Como vens para o ENEI?</h2>
+            <h2 class="font-extrabold text-xl mb-1">Como vens para o ENEI?</h2>
             <span>
               Esta pergunta é opcional e destina-se apenas a fins estatísticos. Que meio de transporte pretendes utilizar para o ENEI?
             </span>
@@ -169,7 +169,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
         <div class="flex flex-col gap-5">
           <div>
-            <h2 class="font-extrabold text-lg mb-1">Já vieste ao ENEI antes?</h2>
+            <h2 class="font-extrabold text-xl mb-1">Já vieste ao ENEI antes?</h2>
             <span>
               Esta pergunta é de resposta opcional e apenas para fins estatísticos.  Já alguma vez participaste numa edição anterior do ENEI?
             </span>
@@ -229,8 +229,8 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
   defp data_line(assigns) do
     ~H"""
     <div class="flex flex-col lg:flex-row w-full place-items-start">
-      <span class="min-w-1/2 font-bold">{@key}:</span>
-      <p class="lg:self-center">{@value}</p>
+      <span class="min-w-1/2 font-bold text-xl">{@key}:</span>
+      <p class="lg:self-center text-xl">{@value}</p>
     </div>
     """
   end

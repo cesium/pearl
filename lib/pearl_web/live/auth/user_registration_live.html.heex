@@ -40,7 +40,7 @@
 
           <.input
             field={@form[:handle]}
-            label="Handle"
+            label="Username"
             label_class="block text-lg! font-bold text-dark"
             placeholder="johndoe"
             type="handle"
@@ -55,7 +55,7 @@
             label="Palavra-passe"
             label_class="block text-lg! font-bold text-dark"
             type="password"
-            placeholder="PWjohndoe001@"
+            placeholder="************"
             variant={:flushed}
             wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
             class="text-lg!"
@@ -95,9 +95,49 @@
             wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
             class="text-lg! text-dark-muted"
           />
+
+          <div class="flex justify-center">
+            <.input
+              type="checkbox"
+              label={
+                if @privacy_policy_exists do
+                  raw(
+                    ~s|Concordo com a <a href="/faqs/politica-de-privacidade" class="text-primary hover:underline inline-block" target="_blank">política de privacidade</a>|
+                  )
+                else
+                  "Concordo com a política de privacidade"
+                end
+              }
+              name="privacy-policy"
+              label_class=" text-lg! font-bold text-dark"
+              wrapper_class="grid grid-cols-1 lg:grid-cols-[1fr] xl:gap-25 items-baseline md:px-4 pt-4"
+              class="text-lg!"
+              required
+            />
+          </div>
+
+          <div class="flex justify-center">
+            <.input
+              type="checkbox"
+              label={
+                if @event_regulations_exists do
+                  raw(
+                    ~s|Concordo com o <a href="/faqs/regulamento" class="text-primary hover:underline inline-block" target="_blank">regulamento do evento</a>|
+                  )
+                else
+                  "Concordo com a política de privacidade"
+                end
+              }
+              name="event-regulations"
+              label_class="block text-lg! font-bold text-dark"
+              wrapper_class="grid grid-cols-1 lg:grid-cols-[1fr] xl:gap-25 items-baseline md:px-4"
+              class="text-lg!"
+              required
+            />
+          </div>
         </div>
       </div>
-      <div class="sticky bottom-4 py-4 flex justify-end pointer-events-none">
+      <div class="flex justify-end pointer-events-none">
         <div class="flex gap-2 pointer-events-auto">
           <.primary_button title="enviar" type="submit" />
         </div>

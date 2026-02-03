@@ -3,11 +3,10 @@ defmodule Pearl.Repo.Migrations.AddRegistrationFieldsToUsers do
 
   def change do
     alter table(:users) do
-      # add :ticket_type, :string TICKET POR IMPLEMENTAR
+      add :phone, :string
       add :notes, :string
       add :university, :string
       add :city, :string
-      add :dietary_restrictions, :string
     end
   end
 end

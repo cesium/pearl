@@ -47,7 +47,7 @@ defmodule PearlWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1",
+        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-101 rounded-lg p-3 ring-1",
         @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
         @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
       ]}
@@ -235,7 +235,7 @@ defmodule PearlWeb.CoreComponents do
 
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
-      <label class="flex items-center gap-4 text-sm leading-6 text-zinc-600">
+      <label class="flex items-center gap-3 text-sm leading-6 text-zinc-600">
         <input type="hidden" name={@name} value="false" />
         <input
           type="checkbox"
@@ -246,7 +246,7 @@ defmodule PearlWeb.CoreComponents do
           class={"rounded border-zinc-300 text-primary focus:ring-0 #{@class}"}
           {@rest}
         />
-        {@label}
+        <span class="leading-normal">{@label}</span>
       </label>
       <.error :for={msg <- @errors}>{msg}</.error>
     </div>

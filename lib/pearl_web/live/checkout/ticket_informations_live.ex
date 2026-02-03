@@ -1,7 +1,6 @@
 defmodule PearlWeb.Checkout.TicketInformationsLive do
   use PearlWeb, :checkout_view
 
-  # alias Pearl.Accounts
   alias Pearl.{Tickets, TicketTypes}
   alias Pearl.Tickets.Ticket
   import PearlWeb.Components.Button

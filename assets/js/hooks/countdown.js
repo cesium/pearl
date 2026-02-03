@@ -42,7 +42,7 @@ function formatTime(totalSeconds) {
     const seconds = totalSeconds % 60;
 
     const formattedTime = [
-        days > 0 ? `${days} days` : null,
+        days > 0 ? `${days} dias` : null,
         `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
     ].filter(Boolean).join(", ");
 

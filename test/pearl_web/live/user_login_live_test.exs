@@ -64,7 +64,7 @@ defmodule PearlWeb.UserLoginLiveTest do
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
-      assert login_html =~ "Register"
+      assert login_html =~ "inscrição"
     end
 
     test "redirects to forgot password page when the 'não consigo entrar' button is clicked", %{

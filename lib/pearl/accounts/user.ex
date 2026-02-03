@@ -45,7 +45,6 @@ defmodule Pearl.Accounts.User do
     field :type, Ecto.Enum, values: [:attendee, :staff, :company], default: :attendee
     field :allows_marketing, :boolean, default: false
     field :cv, Uploaders.CV.Type
-    field :notes, :string
     field :university, :string
     field :city, :string
 

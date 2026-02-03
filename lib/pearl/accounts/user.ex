@@ -8,8 +8,8 @@ defmodule Pearl.Accounts.User do
   alias Pearl.Accounts.Staff
   alias Pearl.Companies.Company
 
-  @required_fields ~w(name email handle password type phone)a
-  @optional_fields ~w(confirmed_at allows_marketing university city)a
+  @required_fields ~w(name email handle password type)a
+  @optional_fields ~w(confirmed_at allows_marketing phone university city)a
 
   @derive {
     Flop.Schema,
@@ -93,6 +93,21 @@ defmodule Pearl.Accounts.User do
     |> cast_assoc(:staff, with: &Staff.changeset/2)
   end
 
+  def registration_attendee_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, (@required_fields |> Enum.reject(&(&1 == :type))) ++ @optional_fields)
+    |> validate_required(
+      (@required_fields ++ [:phone])
+      |> Enum.reject(&(&1 in [:email, :password, :handle, :type]))
+    )
+    |> validate_email(opts)
+    |> validate_handle()
+    |> validate_password(opts)
+    |> validate_phone()
+    |> cast_assoc(:attendee, with: &Attendee.changeset/2)
+    |> cast_assoc(:staff, with: &Staff.changeset/2)
+  end
+
   def changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, @required_fields ++ @optional_fields)
@@ -155,6 +170,11 @@ defmodule Pearl.Accounts.User do
     )
     |> unsafe_validate_unique(:handle, Pearl.Repo)
     |> unique_constraint(:handle)
+  end
+
+  defp validate_phone(changeset) do
+    changeset
+    |> validate_required([:phone])
   end
 
   defp maybe_hash_password(changeset, opts) do

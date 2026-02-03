@@ -100,16 +100,7 @@ defmodule Pearl.Repo.Seeds.Accounts do
     attendees = Accounts.list_attendees()
 
     for i <- 0..credential_count do
-      id = if i < attendee_to_link_count and i < length(attendees) do
-        attendee = Enum.at(attendees, i)
-        if attendee && attendee.attendee do
-          attendee.attendee.id
-        else
-          nil
-        end
-      else
-        nil
-      end
+      id = if i < attendee_to_link_count do Enum.at(attendees, i).attendee.id else nil end
       Accounts.create_credential(%{attendee_id: id})
     end
   end

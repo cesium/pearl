@@ -453,6 +453,11 @@ defmodule Pearl.Accounts do
     |> User.password_confirmation_changeset(attrs)
   end
 
+  def change_attendee_registration(%User{} = user, attrs \\ %{}) do
+    User.registration_attendee_changeset(user, attrs, hash_password: false, validate_email: false)
+    |> User.password_confirmation_changeset(attrs)
+  end
+
   ## Settings
 
   @doc """

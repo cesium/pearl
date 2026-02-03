@@ -62,7 +62,7 @@ defmodule PearlWeb.UserRegistrationLive do
         {:ok, _} =
           Accounts.deliver_user_confirmation_instructions(user, &url(~p"/users/confirm/#{&1}"))
 
-        changeset = Accounts.change_user_registration(user)
+        changeset = Accounts.change_attendee_registration(user)
 
         {:noreply,
          socket

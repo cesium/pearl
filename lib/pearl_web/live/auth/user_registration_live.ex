@@ -46,7 +46,7 @@ defmodule PearlWeb.UserRegistrationLive do
   end
 
   def handle_event("validate", %{"user" => user_params}, socket) do
-    changeset = Accounts.change_user_registration(%User{}, user_params)
+    changeset = Accounts.change_attendee_registration(%User{}, user_params)
 
     days_range = calculate_days_range(user_params["birth_date"])
 

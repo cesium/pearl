@@ -38,7 +38,10 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
         </div>
         <div class="flex gap-4 items-center justify-start">
           <span class="text-black text-4xl font-extrabold">
-          {(@ticket_type.price |> Float.round(2) |> :erlang.float_to_binary(decimals: 2) |> String.replace(".", ","))}€
+            {@ticket_type.price
+            |> Float.round(2)
+            |> :erlang.float_to_binary(decimals: 2)
+            |> String.replace(".", ",")}€
           </span>
           <div>
             <.primary_button

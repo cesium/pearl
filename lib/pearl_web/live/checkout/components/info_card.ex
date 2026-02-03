@@ -160,8 +160,10 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
               <div class="">
                 <span class="text-xl"> Preço atual: </span>
                 <span class="text-3xl font-bold">
-                {(Map.get(@ticket, :price) |> Float.round(2) |> :erlang.float_to_binary(decimals: 2) |> String.replace(".", ","))}€
-
+                  {Map.get(@ticket, :price)
+                  |> Float.round(2)
+                  |> :erlang.float_to_binary(decimals: 2)
+                  |> String.replace(".", ",")}€
                 </span>
               </div>
             </div>

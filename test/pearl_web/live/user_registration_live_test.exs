@@ -16,7 +16,7 @@ defmodule PearlWeb.UserRegistrationLiveTest do
       {:ok, _lv, html} = live(conn, ~p"/users/register")
 
       assert html =~ "Inscrição"
-      assert html =~ "Log in"
+      assert html =~ "Registo"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -52,11 +52,11 @@ defmodule PearlWeb.UserRegistrationLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element("a[href='/users/log_in']", "Log in")
+        |> element("a[href='/users/log_in']", "Entrar")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log_in")
 
-      assert login_html =~ "Entrar"
+      assert login_html =~ "Iniciar sessão"
     end
   end
 end

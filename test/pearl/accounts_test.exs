@@ -141,7 +141,7 @@ defmodule Pearl.AccountsTest do
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_registration(%User{})
-      assert changeset.required == [:password, :handle, :email, :name, :phone]
+      assert changeset.required == [:password, :handle, :email, :name]
     end
 
     test "allows fields to be set" do

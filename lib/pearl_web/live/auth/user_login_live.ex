@@ -21,7 +21,7 @@ defmodule PearlWeb.UserLoginLive do
 
               <p class="text-sm md:text-base text-black/60 leading-relaxed">
                 {gettext(
-                  "Na tua conta do ENEI está a tua credencial, os teus jogos e os teus prémios. Inicia sessão para descobrires o mundo a tua espera."
+                  "Na tua conta do ENEI está a tua credencial, os teus jogos e os teus prémios. Inicia sessão para descobrires o mundo à tua espera."
                 )}
               </p>
             </div>

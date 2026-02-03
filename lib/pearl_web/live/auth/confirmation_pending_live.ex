@@ -10,13 +10,13 @@ defmodule PearlWeb.ConfirmationPendingLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-lg py-12 text-primary">
+    <div class="mx-auto max-w-lg py-6 sm:py-12 text-primary">
       <div class="w-full flex items-center justify-center">
         <span class="">
           <.icon name="hero-envelope" class="w-10 h-10 sm:w-12 sm:h-12 text-primary" />
         </span>
       </div>
-      <h1 class="px-4 uppercase text-3xl text-center mt-8 sm:mt-10 text-primary">
+      <h1 class="px-4 text-3xl text-center mt-8 sm:mt-10 text-primary">
         {gettext("Precisamos de verificar o teu endereço de email!")}
       </h1>
       <p class="text-center mt-6 px-4 text-dark-muted!">

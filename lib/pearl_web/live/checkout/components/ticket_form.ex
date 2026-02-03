@@ -7,7 +7,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
   def render(assigns) do
     ~H"""
-    <div class="px-4 lg:px-10 pb-8">
+    <div class="px-4 lg:px-10 pb-8 overflow-hidden">
       <%= case @step do %>
         <% :choose_ticket -> %>
           <.choose_ticket_step form={@form} ticket_data={@ticket_data} ticket_types={@ticket_types} />

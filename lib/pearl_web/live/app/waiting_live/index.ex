@@ -8,7 +8,7 @@ defmodule PearlWeb.App.WaitingLive.Index do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="min-h-[calc(100vh-64px)] flex flex-col justify-center items-center gap-8">
+    <div class="min-h-[calc(100vh-200px)] flex flex-col justify-center items-center gap-8">
       <div>
         <h1 class="text-center text-2xl sm:text-4xl uppercase bo">
           {gettext("À espera que o evento comece!")}

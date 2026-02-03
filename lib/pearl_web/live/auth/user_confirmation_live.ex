@@ -8,14 +8,14 @@ defmodule PearlWeb.UserConfirmationLive do
     <div
       id="user-email-confirmed"
       phx-hook="Redirect"
-      class="mx-auto max-w-lg py-12 flex flex-col items-center"
+      class="mx-auto max-w-lg py-6 sm:py-12 flex flex-col items-center"
     >
       <div class="w-full flex items-center justify-center">
         <span class="ring-2 sm:ring-4 ring-primary rounded-full p-4 sm:p-6">
           <.icon name="hero-check" class="w-10 h-10 sm:w-16 sm:h-16 text-primary" />
         </span>
       </div>
-      <h1 class="px-4 font-terminal uppercase text-3xl text-center text-primary mt-8 sm:mt-10">
+      <h1 class="px-4 text-3xl text-center text-primary mt-8 sm:mt-10">
         {gettext("Endereço de email verificado!")}
       </h1>
       <p class="text-center text-primary mt-6 px-4">

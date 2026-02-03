@@ -40,11 +40,7 @@ defmodule PearlWeb.Config do
         feature_flag: "faqs_enabled"
       },
       %{
-        title: "Call for Staff",
-        url: "https://forms.gle/XWHoNu4LjC8BogF68",
-        feature_flag: "call_for_staff_enabled"
-      },
-      %{
+        key: :tickets,
         title: "Tickets",
         url: "/tickets",
         feature_flag: "tickets_enabled"

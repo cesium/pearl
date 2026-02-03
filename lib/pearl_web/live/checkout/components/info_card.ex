@@ -160,7 +160,8 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
               <div class="">
                 <span class="text-xl"> Preço atual: </span>
                 <span class="text-3xl font-bold">
-                  {get_formated_price(Map.get(@ticket, :price))}
+                {(Map.get(@ticket, :price) |> Float.round(2) |> :erlang.float_to_binary(decimals: 2) |> String.replace(".", ","))}€
+
                 </span>
               </div>
             </div>
@@ -234,16 +235,6 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
       [single] -> String.slice(single, 0, 1)
       names -> "#{String.first(List.first(names))}#{String.first(List.last(names))}"
     end
-  end
-
-  defp get_formated_price(price) do
-    Number.Currency.number_to_currency(price,
-      precision: 2,
-      unit: "€",
-      separator: ",",
-      delimiter: "",
-      format: "%n%u"
-    )
   end
 
   defp get_display_name(name) do

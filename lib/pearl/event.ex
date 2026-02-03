@@ -84,7 +84,6 @@ defmodule Pearl.Event do
     result
   end
 
-  @spec subscribe_to_start_time_update(binary()) :: :ok | {:error, {:already_registered, pid()}}
   @doc """
   Changes the landing page message.
 

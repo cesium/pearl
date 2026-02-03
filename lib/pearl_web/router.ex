@@ -17,6 +17,10 @@ defmodule PearlWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    scope "/api", PearlWeb do
+      post "/midas/:pearl_api_key/webhook", MidasController, :handle_webhook
+    end
   end
 
   # Landing
@@ -26,6 +30,7 @@ defmodule PearlWeb.Router do
     live_session :default, on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
       live "/", HomeLive.Index, :index
       live "/faqs", FAQLive.Index, :index
+      live "/faqs/:slug", FAQLive.Show, :show
       live "/team", TeamLive.Index, :index
       live "/schedule", ScheduleLive.Index, :index
       live "/challenges", ChallengesLive.Index, :index
@@ -226,6 +231,29 @@ defmodule PearlWeb.Router do
             live "/new", Index, :tiers_new
             live "/:id/edit", Index, :tiers_edit
           end
+        end
+
+        scope "/tickets", TicketsLive do
+          live "/", Index, :index
+          live "/:id/edit", Index, :edit
+
+          scope "/ticket_types" do
+            live "/", Index, :ticket_types
+            live "/new", Index, :ticket_types_new
+            live "/:id/edit", Index, :ticket_types_edit
+
+            scope "/perks" do
+              live "/", Index, :perks
+              live "/new", Index, :perks_new
+              live "/:id/edit", Index, :perks_edit
+            end
+          end
+        end
+
+        scope "/discount_codes", DiscountCodesLive do
+          live "/", Index, :index
+          live "/new", Index, :new
+          live "/:id/edit", Index, :edit
         end
 
         scope "/schedule", ScheduleLive do

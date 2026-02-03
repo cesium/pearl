@@ -12,6 +12,8 @@ defmodule PearlWeb.ErrorHTMLTest do
 
   test "renders 500.html" do
     html = render_to_string(PearlWeb.ErrorHTML, "500", "html", [])
-    assert html =~ "Algo correu mal do nosso lado. Tenta recarregar a página ou volta à página inicial."
+
+    assert html =~
+             "Algo correu mal do nosso lado. Tenta recarregar a página ou volta à página inicial."
   end
 end

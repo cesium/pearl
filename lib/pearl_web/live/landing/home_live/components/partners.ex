@@ -15,7 +15,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Partners do
           Os nossos parceiros são entidades que colaboram connosco para tornar o ENEI possível. Através do seu apoio e contributo, ajudam a enriquecer a experiência do evento e a criar mais valor para todos os participantes.
         </p>
       </div>
-      <div class="my-10 flex flex-wrap items-center justify-center md:gap-10">
+      <div class="mt-10 flex flex-wrap items-center justify-center md:gap-10">
         <div
           :for={partner <- @partners}
           class="m-auto w-40 select-none opacity-100 hover:opacity-80 hover:scale-105 duration-500 transition-all"

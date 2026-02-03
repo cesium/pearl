@@ -7,7 +7,8 @@ defmodule PearlWeb.Landing.HomeLive.Index do
     Partners,
     Sponsors,
     Activities,
-    InfoSection
+    InfoSection,
+    Wrapup
   }
 
   alias Pearl.{Activities, Event}
@@ -24,6 +25,7 @@ defmodule PearlWeb.Landing.HomeLive.Index do
      |> assign(:event_end_date, Event.get_event_end_date())
      |> assign(:has_highlighted_speakers?, speakers != [])
      |> assign(:has_sponsors?, Companies.get_companies_count() > 0)
+     |> assign(:is_register_open?, Event.registrations_open?())
      |> stream(:speakers, speakers |> Enum.shuffle())}
   end
 

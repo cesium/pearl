@@ -29,7 +29,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
     <div class="flex flex-col justify-center">
       <div class="flex w-full flex-col md:flex-row md:items-stretch justify-center">
         <p
-          class="self-stretch text-center md:text-left uppercase pr-4 lg:w-1/7 font-light text-xl md:border-r-2"
+          class="self-stretch uppercase pr-4 lg:w-1/7 font-light text-xl pb-3 border-b-2 md:border-b-0 md:pb-0 md:border-r-2"
           style={"color: #{@tier.color}; border-color: #{@tier.color}40;"}
         >
           <span class="font-semibold md:block">{@tier.name}</span> sponsors

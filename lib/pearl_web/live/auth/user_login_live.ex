@@ -42,7 +42,7 @@ defmodule PearlWeb.UserLoginLive do
                     <.input
                       field={@form[:email]}
                       type="email"
-                      placeholder={gettext("E-mail ou número de telefone")}
+                      placeholder={gettext("E-mail")}
                       required
                     />
                   </div>

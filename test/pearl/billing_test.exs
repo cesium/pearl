@@ -26,7 +26,10 @@ defmodule Pearl.BillingTest do
       {:ok, ticket} =
         Pearl.Tickets.create_ticket(%{
           user_id: user.id,
-          ticket_type_id: ticket_type.id
+          ticket_type_id: ticket_type.id,
+          allergens: "none",
+          tshirt_size: "m",
+          diet: "omnivore"
         })
 
       ticket

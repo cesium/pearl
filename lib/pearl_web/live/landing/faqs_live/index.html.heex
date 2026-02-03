@@ -20,16 +20,19 @@
           </div>
         </div>
         <!-- Ticket -->
-        <div class="lg:w-1/2 w-full flex lg:flex-row flex-col-reverse min-h-40 h-full bg-[#E7DCDC] group cursor-pointer relative">
+        <.link
+          navigate={~p"/tickets"}
+          class="lg:w-1/2 w-full flex lg:flex-row flex-col-reverse min-h-40 h-full bg-[#E7DCDC] group cursor-pointer relative"
+        >
           <div class="w-full lg:w-3/5 flex flex-row justify-center relative select-none">
             <.ticket class="w-70 2xl:w-90 absolute lg:-bottom-8 -bottom-12 z-0 group-hover:-bottom-5 transition-all" />
           </div>
           <div class="w-full lg:w-2/5 top-5 lg:top-0 flex flex-col justify-center absolute lg:relative">
             <p class="lowercase text-base text-primary px-8 xl:px-12">
-              {gettext("Os bilhetes estarão à venda a partir de ")}<b>{gettext("3 de fevereiro")}</b>
+              {gettext("A venda de bilhetes já começou!")}
             </p>
           </div>
-        </div>
+        </.link>
       </div>
       <div class="w-full flex lg:flex-row flex-col h-full relative z-1 bg-white">
         <!-- Map -->

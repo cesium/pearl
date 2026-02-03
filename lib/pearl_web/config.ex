@@ -38,6 +38,12 @@ defmodule PearlWeb.Config do
         title: "Informação & Ajuda",
         url: "/faqs",
         feature_flag: "faqs_enabled"
+      },
+      %{
+        key: :tickets,
+        title: "Bilhetes",
+        url: "/tickets",
+        feature_flag: "tickets_enabled"
       }
     ]
     |> Enum.filter(fn x -> Enum.member?(enabled_flags, x.feature_flag) end)

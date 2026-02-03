@@ -15,8 +15,8 @@ defmodule PearlWeb.UserRegistrationLiveTest do
     test "renders registration page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/register")
 
-      assert html =~ "Register"
-      assert html =~ "Log in"
+      assert html =~ "Inscrição"
+      assert html =~ "Registo"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -29,17 +29,20 @@ defmodule PearlWeb.UserRegistrationLiveTest do
       assert {:ok, _conn} = result
     end
 
-    test "renders errors for invalid data", %{conn: conn} do
+    test "Registration page renders errors for invalid data", %{conn: conn} do
       {:ok, lv, _html} = live(conn, ~p"/users/register")
+
+      lv
+      |> form("#registration_form", user: %{})
+      |> render_submit()
 
       result =
         lv
         |> element("#registration_form")
-        |> render_change(user: %{"email" => "with spaces", "password" => "too short"})
+        |> render_change(user: %{"email" => "with spaces"})
 
-      assert result =~ "Register"
+      assert result =~ "Inscrição"
       assert result =~ "must have the @ sign and no spaces"
-      assert result =~ "should be at least 12 character"
     end
   end
 
@@ -49,11 +52,11 @@ defmodule PearlWeb.UserRegistrationLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element("a[href='/users/log_in'].text-accent")
+        |> element("a[href='/users/log_in']", "Entrar")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log_in")
 
-      assert login_html =~ "Entrar"
+      assert login_html =~ "Iniciar sessão"
     end
   end
 end

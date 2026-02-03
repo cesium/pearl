@@ -6,6 +6,7 @@ defmodule Pearl.Tickets.Ticket do
   use Pearl.Schema
 
   alias Pearl.Accounts.User
+  alias Pearl.Billing.Payment
   alias Pearl.Repo
   alias Pearl.Tickets.TicketType
 
@@ -30,11 +31,21 @@ defmodule Pearl.Tickets.Ticket do
     ]
   }
 
-  @required_fields ~w(user_id ticket_type_id)a
-  @optional_fields ~w(paid)a
+  @required_fields ~w(paid allergens tshirt_size diet user_id ticket_type_id)a
+  @optional_fields ~w(disabilities intended_transport_to_enei has_attended_enei_before)a
 
   schema "tickets" do
     field :paid, :boolean, default: false
+    field :disabilities, :string
+    field :allergens, :string
+    field :tshirt_size, :string
+    field :diet, :string
+    field :intended_transport_to_enei, :string
+    field :has_attended_enei_before, :string
+
+    field :has_allergens, :string, virtual: true
+
+    has_one :payment, Payment
 
     belongs_to :user, User
     belongs_to :ticket_type, TicketType, on_replace: :delete
@@ -50,5 +61,32 @@ defmodule Pearl.Tickets.Ticket do
     |> cast_assoc(:user, with: &User.profile_changeset/2)
     |> unsafe_validate_unique(:user_id, Repo)
     |> foreign_key_constraint(:ticket_type_id)
+  end
+
+  def changeset_ticket_type(ticket, attrs) do
+    ticket
+    |> cast(attrs, [:ticket_type_id])
+    |> validate_required([:ticket_type_id])
+  end
+
+  def changeset_precautions(ticket, attrs) do
+    ticket
+    |> cast(attrs, [:disabilities, :allergens, :has_allergens])
+    |> validate_required([:has_allergens])
+    |> validate_allergens(attrs)
+  end
+
+  defp validate_allergens(changeset, attrs) do
+    case Map.get(attrs, "has_allergens") do
+      "yes" -> validate_required(changeset, [:allergens])
+      "no" -> changeset
+      _ -> changeset
+    end
+  end
+
+  def changeset_informations(ticket, attrs) do
+    ticket
+    |> cast(attrs, [:tshirt_size, :diet, :intended_transport_to_enei, :has_attended_enei_before])
+    |> validate_required([:tshirt_size, :diet])
   end
 end

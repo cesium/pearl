@@ -1,10 +1,10 @@
-defmodule Pearl.Repo.Migrations.K do
+defmodule Pearl.Repo.Migrations.AddCheckoutFieldsToTicket do
   use Ecto.Migration
 
   def change do
     alter table(:tickets) do
-      add :disabilities, :string
-      add :allergens, :string
+      add :disabilities, :text
+      add :allergens, :text
       add :tshirt_size, :string
       add :diet, :string
       add :intended_transport_to_enei, :string

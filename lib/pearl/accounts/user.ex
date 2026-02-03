@@ -4,6 +4,8 @@ defmodule Pearl.Accounts.User do
   """
   use Pearl.Schema
 
+  alias Ecto.Changeset
+
   alias Pearl.Accounts.Attendee
   alias Pearl.Accounts.Staff
   alias Pearl.Companies.Company
@@ -174,6 +176,26 @@ defmodule Pearl.Accounts.User do
   defp validate_phone(changeset) do
     changeset
     |> validate_required([:phone])
+    |> validate_pt_phone(:phone)
+  end
+
+  defp valid_phone?(phone) do
+    normalized =
+      phone
+      |> String.trim()
+      |> String.replace(~r/\s+/, "")
+
+    Regex.match?(~r/^\+?[1-9]\d{7,14}$/, normalized)
+  end
+
+  defp validate_pt_phone(changeset, field) do
+    Changeset.validate_change(changeset, field, fn _, value ->
+      if value in [nil, ""] or valid_phone?(value) do
+        []
+      else
+        [{field, "invalid phone number"}]
+      end
+    end)
   end
 
   defp maybe_hash_password(changeset, opts) do

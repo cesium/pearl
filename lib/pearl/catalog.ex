@@ -1,11 +1,10 @@
 defmodule Pearl.Catalog do
   @moduledoc """
-  Listas para preencher selects de formulários.
+  Portugal information catalog.
   """
 
   def universities do
     [
-      # Universidades Públicas
       "Universidade do Minho",
       "Universidade do Porto",
       "Universidade de Coimbra",
@@ -20,8 +19,6 @@ defmodule Pearl.Catalog do
       "Universidade dos Açores",
       "Universidade Aberta",
       "ISCTE - Instituto Universitário de Lisboa",
-
-      # Institutos Politécnicos
       "Instituto Politécnico de Lisboa",
       "Instituto Politécnico do Porto",
       "Instituto Politécnico de Coimbra",
@@ -37,8 +34,6 @@ defmodule Pearl.Catalog do
       "Instituto Politécnico de Portalegre",
       "Instituto Politécnico de Tomar",
       "Instituto Politécnico do Cávado e do Ave",
-
-      # Privadas
       "Universidade Católica Portuguesa",
       "Universidade Lusófona",
       "Universidade Lusíada",
@@ -47,14 +42,11 @@ defmodule Pearl.Catalog do
       "Universidade Autónoma de Lisboa",
       "Universidade Portucalense",
       "Universidade Atlântica",
-
-      # Outra
       "Outra / Externo"
     ]
   end
 
   def cities do
-    # Lista simplificada dos principais concelhos/cidades para não ser gigante
     [
       "Lisboa",
       "Porto",

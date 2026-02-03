@@ -9,7 +9,7 @@ defmodule PearlWeb.Landing.TicketsLive.Index do
   def mount(_params, _session, socket) do
     ticket_types = TicketTypes.list_active_ticket_types()
 
-    {:ok, socket |> assign(:ticket_types, ticket_types)}
+    {:ok, socket |> assign(:ticket_types, ticket_types) |> assign(:current_page, :tickets)}
   end
 
   def handle_params(_unsigned_params, _uri, socket) do

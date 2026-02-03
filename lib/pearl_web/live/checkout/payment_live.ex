@@ -100,7 +100,7 @@ defmodule PearlWeb.Checkout.PaymentLive do
            socket
            |> put_flash(
              :error,
-             "Falha ao iniciar o pagamento. Por favor, tente novamente mais tarde."
+             "Falha ao iniciar o pagamento. Por favor, tenta novamente mais tarde."
            )
            |> assign_payment_form(changeset)}
       end

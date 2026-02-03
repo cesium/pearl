@@ -11,26 +11,6 @@ defmodule PearlWeb.UserRegistrationLive do
   def mount(_params, _session, socket) do
     changeset = Accounts.change_user_registration(%User{})
 
-    months = [
-      {"Janeiro", 1},
-      {"Fevereiro", 2},
-      {"Março", 3},
-      {"Abril", 4},
-      {"Maio", 5},
-      {"Junho", 6},
-      {"Julho", 7},
-      {"Agosto", 8},
-      {"Setembro", 9},
-      {"Outubro", 10},
-      {"Novembro", 11},
-      {"Dezembro", 12}
-    ]
-
-    current_year = Date.utc_today().year
-    years = current_year..(current_year - 100)//-1
-
-    days = 1..31
-
     {:ok,
      socket
      |> assign(trigger_submit: false, check_errors: false)
@@ -41,9 +21,6 @@ defmodule PearlWeb.UserRegistrationLive do
      |> assign(:universities, Pearl.Catalog.universities())
      |> assign(:cities, Pearl.Catalog.cities())
      |> assign(:pages, [])
-     |> assign(:months, months)
-     |> assign(:years, years)
-     |> assign(:days, days)
      |> assign(:privacy_policy_exists, check_privacy_policy_exists())
      |> assign(:event_regulations_exists, check_event_regulations_exists())}
   end
@@ -109,5 +86,5 @@ defmodule PearlWeb.UserRegistrationLive do
   defp check_privacy_policy_exists,
     do: not is_nil(Event.get_faq_by_slug!("politica-de-privacidade"))
 
-  defp check_event_regulations_exists, do: not is_nil(Event.get_faq_by_slug!("regulamento"))
+  defp check_event_regulations_exists, do: not is_nil(Event.get_faq_by_slug!("regulamento-geral"))
 end

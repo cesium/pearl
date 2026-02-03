@@ -13,7 +13,7 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
     >
       <div class="w-full min-h-[476px] h-full flex flex-col gap-5 justify-between bg-white overflow-hidden p-7 border-dark/20">
         <div class="flex flex-col gap-8">
-          <div class="flex">
+          <div class="flex flex-wrap">
             <%= for {perk, i} <- Enum.with_index(@ticket_type.perks) do %>
               <.live_component
                 module={PearlWeb.Checkout.Components.PrettyIcon}

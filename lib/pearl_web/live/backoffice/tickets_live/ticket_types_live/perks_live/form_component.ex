@@ -1,7 +1,7 @@
 defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.FormComponent do
   use PearlWeb, :live_component
 
-  alias Pearl.Perks
+  alias Pearl.{Perks, Tickets}
 
   import PearlWeb.Components.Forms
 
@@ -72,6 +72,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.FormComponen
     case Perks.create_perk(
            perk_params
            |> Map.put("active", true)
+           |> Map.put("priority", Tickets.get_next_perk_priority())
          ) do
       {:ok, _perk} ->
         {:noreply,

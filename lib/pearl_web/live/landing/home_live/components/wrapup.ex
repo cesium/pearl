@@ -2,14 +2,16 @@ defmodule PearlWeb.Landing.HomeLive.Components.Wrapup do
   @moduledoc false
   use PearlWeb, :component
 
+  attr :is_register_open?, :boolean, required: true
+
   def link_wrapup(assigns) do
     ~H"""
-    <div class="flex flex-col items-center gap-11.5 text-dark py-22.5">
+    <div class="flex flex-col items-center gap-11.5 text-dark py-18 md:py-20">
       <div class="text-center space-y-2.5 max-w-3xl">
         <h2 class="font-semibold text-3xl">{gettext("Temos encontro marcado?")}</h2>
         <p>
           {gettext(
-            "Os bilhetes estarão disponíveis a partir do dia 5 de janeiro de 2026. Se já estiveres convencido, podes-te pré-inscrever sem compromisso. Caso contrário, podes explorar mais."
+            "Os bilhetes estarão disponíveis a partir do dia 3 de fevereiro de 2026. Se já estiveres convencido, podes-te inscrever. Caso contrário, podes explorar mais."
           )}
         </p>
       </div>
@@ -24,22 +26,25 @@ defmodule PearlWeb.Landing.HomeLive.Components.Wrapup do
           </p>
           <div class="flex justify-center">
             <.link
-              navigate="/team"
+              navigate="/faqs"
               class="text-primary inline-flex items-center gap-2 transition-all duration-300 hover:gap-4 hover:font-semibold group"
             >
               <.icon name="hero-arrow-right" class="shrink-0" />
-              {gettext("ir para Informação & Ajuda")}
+              {gettext("Informação & Ajuda")}
             </.link>
           </div>
         </div>
 
-        <div class="flex flex-col justify-between text-center w-full md:w-92 h-64 sm:h-auto px-6 md:px-11 py-5 border-t-2 border-primary">
+        <div
+          :if={@is_register_open?}
+          class="flex flex-col justify-between text-center w-full md:w-92 h-64 sm:h-auto px-6 md:px-11 py-5 border-t-2 border-primary"
+        >
           <h3 class="text-xl font-bold text-primary">
             {gettext("Os bilhetes já estão disponíveis! Não percas a oportunidade e inscreve-te")}
           </h3>
           <div class="flex justify-center">
             <.link
-              navigate="/team"
+              navigate="/tickets"
               class="text-primary inline-flex items-center gap-2 transition-all duration-300 hover:gap-4 hover:font-semibold group"
             >
               <.icon name="hero-arrow-right" class="shrink-0" />

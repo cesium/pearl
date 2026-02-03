@@ -6,17 +6,15 @@ defmodule Pearl.Repo.Seeds.Tickets do
   alias Pearl.Tickets.{Perk, Ticket, TicketType}
 
   @perks [
-    %{name: "Entry", description: "Entrada nos 4 dias do evento", icon: "hero-ticket", color: "#F9808D", active: true},
-    %{name: "Meals", description: "Refeições durante todo o evento", icon: "hero-beaker", color: "#505936", active: true},
-    %{name: "Accommodation", description: "Estadia no Pavilhão", icon: "hero-star", color: "#9AB7C1", active: true},
-    %{name: "Premium Accommodation", description: "Estadia na Pousada da Juventude", icon: "hero-gift", color: "#D89ED0", active: true}
+    %{name: "Entry", description: "Entrada nos 4 dias do evento", icon: "fa-ticket-solid", color: "#D93044", active: true, priority: 0},
+    %{name: "Meals", description: "Refeições durante todo o evento", icon: "fa-utensils-solid", color: "#F18F01", active: true, priority: 1},
+    %{name: "Accommodation", description: "Estadia no Pavilhão", icon: "fa-bed-solid", color: "#2E86AB", active: true, priority: 2},
   ]
 
   @ticket_types [
-    %{name: "Bilhete 1", description: "A nice ticket", price: 32, active: true, product_key: "bdd2c21a-215d-44a2-a515-a5bc7a94966b", priority: 0, perks: ["Entry"]},
-    %{name: "Bilhete 2", description: "A much nicer ticket", price: 33, active: true, product_key: "bdd2c21a-215d-44a2-a515-a5bc7a94966b", priority: 1, perks: ["Entry", "Meals"]},
-    %{name: "Bilhete 3", description: "An awesome ticket", price: 38, active: true, product_key: "bdd2c21a-215d-44a2-a515-a5bc7a94966b", priority: 2, perks: ["Entry", "Meals", "Accommodation"]},
-    %{name: "Bilhete 4", description: "Absolutely magnificent ticket", price: 45, product_key: "bdd2c21a-215d-44a2-a515-a5bc7a94966b", active: true, priority: 3, perks: ["Entry", "Meals", "Premium Accommodation"]}
+    %{name: "Passe Geral", description: "A nice ticket", price: 32, active: true, product_key: "b757d845-bbcd-4c10-ad6f-4effe3406a3c", priority: 0, perks: ["Entry"]},
+    %{name: "Passe Geral com Refeições", description: "A much nicer ticket", price: 33, active: true, product_key: "021743b2-6ff1-4666-b70c-977c303a5da1", priority: 1, perks: ["Entry", "Meals"]},
+    %{name: "Passe Geral com Refeições e Alojamento da Universidade do Minho", description: "An awesome ticket", price: 38, active: true, product_key: "0ff1e663-481a-4e42-9a52-a4ac02b72437", priority: 2, perks: ["Entry", "Meals", "Accommodation"]},
   ]
 
   def run do
@@ -108,6 +106,9 @@ defmodule Pearl.Repo.Seeds.Tickets do
         insert_ticket(%{
           user_id: user.id,
           ticket_type_id: ticket_type.id,
+          diet: "vegan",
+          allergens: "none",
+          tshirt_size: "XL",
           paid: rem(index, 3) != 0
         })
       end)

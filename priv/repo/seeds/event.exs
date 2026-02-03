@@ -27,7 +27,8 @@ defmodule Pearl.Repo.Seeds.Event do
     |> Enum.each(fn faq ->
       %{
         question: Enum.at(faq, 0),
-        answer: Enum.at(faq, 1)
+        answer: Enum.at(faq, 1),
+        topic: Enum.at(faq, 2)
       }
       |> Event.create_faq() end)
   end

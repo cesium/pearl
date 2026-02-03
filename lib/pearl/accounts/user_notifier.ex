@@ -30,7 +30,7 @@ defmodule Pearl.Accounts.UserNotifier do
   """
   def deliver_confirmation_instructions(user, url) do
     email =
-      base_html_email(user.email, "Confirm your email")
+      base_html_email(user.email, "Confirma o teu e-mail")
       |> assign(:user_name, user.name)
       |> assign(:confirm_email_link, url)
       |> render_body("confirm_email.html")
@@ -46,7 +46,7 @@ defmodule Pearl.Accounts.UserNotifier do
   """
   def deliver_reset_password_instructions(user, url) do
     email =
-      base_html_email(user.email, "Reset your password")
+      base_html_email(user.email, "Redefine a tua palavra-passe")
       |> assign(:user_name, user.name)
       |> assign(:reset_password_link, url)
       |> render_body("reset_password.html")
@@ -62,7 +62,7 @@ defmodule Pearl.Accounts.UserNotifier do
   """
   def deliver_welcome_email(user) do
     email =
-      base_html_email(user.email, "Welcome to ENEI")
+      base_html_email(user.email, "Bem vindo(a) ao ENEI")
       |> assign(:user_name, user.name)
       |> render_body("welcome.html")
 
@@ -77,7 +77,7 @@ defmodule Pearl.Accounts.UserNotifier do
   """
   def deliver_update_email_instructions(user, url) do
     email =
-      base_html_email(user.email, "Change your email")
+      base_html_email(user.email, "Troca o teu email")
       |> assign(:user_name, user.name)
       |> assign(:confirm_email_link, url)
       |> render_body("confirm_email_change.html")

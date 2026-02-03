@@ -18,10 +18,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Wrapup do
 
       <div class="flex flex-col sm:flex-row justify-center gap-2.5 w-full max-w-5xl px-4">
         <div class="flex flex-col justify-between text-center space-y-2.5 w-full md:w-92 h-64 sm:h-auto px-6 md:px-11 py-5 border-t-2 border-dark/10">
-          <h3 class="font-medium">{gettext("Precias de ajuda?")}</h3>
+          <h3 class="font-medium">{gettext("Precisas de ajuda?")}</h3>
           <p>
             {gettext(
-              "Se tiveres perguntas, nós teremos respostas. Visita a página de ajuda para veres FAQs, os nossos contactos e mais."
+              "Se tiveres perguntas, nós teremos respostas. Visita a página de ajuda para veres as FAQs, os nossos contactos e mais."
             )}
           </p>
           <div class="flex justify-center">
@@ -40,7 +40,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Wrapup do
           class="flex flex-col justify-between text-center w-full md:w-92 h-64 sm:h-auto px-6 md:px-11 py-5 border-t-2 border-primary"
         >
           <h3 class="text-xl font-bold text-primary">
-            {gettext("Os bilhetes já estão disponíveis! Não percas a oportunidade e inscreve-te")}
+            {gettext("Os bilhetes já estão disponíveis! Não percas a oportunidade e inscreve-te.")}
           </h3>
           <div class="flex justify-center">
             <.link

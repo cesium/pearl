@@ -237,3 +237,31 @@ select:-webkit-autofill:focus {
 
 /* Make LiveView wrapper divs transparent for layout */
 [data-phx-session], [data-phx-teleported-src] { display: contents }
+
+.bg-dotted {
+  --d: 3px;
+
+  background: radial-gradient(
+    circle at
+      var(--d)
+      var(--d),
+
+    rgba(0, 0, 0, 0.06) calc(var(--d) - 1px),
+    transparent var(--d)
+  )
+  0 0 / 35px 35px;
+}
+
+.flip-clock-card-item-inner {
+  font-family: var(--font-grotesk);
+  color: var(--color-dark) !important;
+}
+
+.flip-clock-card-item-inner > div {
+  background: rgba(0, 0, 0, 0.07) !important;
+  box-shadow: none !important;
+}
+
+.flip-clock-card {
+  box-shadow: none !important;
+}

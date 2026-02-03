@@ -28,7 +28,7 @@ defmodule PearlWeb.Landing.FAQLive.Show do
         </.link>
         <p class="opacity-50 uppercase pb-2">{@faq.topic}</p>
         <h1 class="text-3xl font-bold mb-4">{@faq.question}</h1>
-        <img class="overflow-hidden absolute right-0 -bottom-24" src="/images/information.svg" />
+        <img class="overflow-hidden absolute right-0 -bottom-24 select-none" src="/images/information.svg" />
       </div>
       <div class="bg-white relative z-10">
         <div class="max-w-4xl mx-auto px-4 py-8">

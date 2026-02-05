@@ -46,6 +46,29 @@ defmodule Pearl.Accounts do
     |> Flop.validate_and_run(params, for: User)
   end
 
+  def count_attendees do
+    User
+    |> where(type: :attendee)
+    |> join(:left, [a], t in assoc(a, :ticket), as: :ticket)
+    |> preload(:attendee)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  def count_attendees_with_ticket do
+    User
+    |> where(type: :attendee)
+    |> join(:inner, [a], t in assoc(a, :ticket), as: :ticket)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  def count_attendees_with_paid_ticket do
+    User
+    |> where(type: :attendee)
+    |> join(:inner, [a], t in assoc(a, :ticket), as: :ticket)
+    |> where([a, ticket: t], t.paid == true)
+    |> Repo.aggregate(:count, :id)
+  end
+
   @doc """
   Lists all users with CV.
   """

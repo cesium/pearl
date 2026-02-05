@@ -43,6 +43,23 @@ defmodule Pearl.Tickets do
     |> Flop.validate_and_run(params, for: Ticket)
   end
 
+  def count_tickets do
+    Ticket
+    |> Repo.aggregate(:count, :id)
+  end
+
+  def count_paid_tickets do
+    Ticket
+    |> where(paid: true)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  def count_pending_tickets do
+    Ticket
+    |> where(paid: false)
+    |> Repo.aggregate(:count, :id)
+  end
+
   @doc """
   Gets a single ticket.
 

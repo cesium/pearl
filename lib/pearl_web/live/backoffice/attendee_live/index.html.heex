@@ -33,6 +33,17 @@
   </:actions>
 
   <div class="py-4">
+    <.info_display id="attendees-info" items={@info_items} params={@params}>
+      <:item :let={item}>
+        <div class="flex flex-col justify-between items-start border-b last:border-0 p-8">
+          <span class="font-medium text-lg">{item.label}</span>
+          <span class="text-xl font-bold text-primary">{item.value}</span>
+        </div>
+      </:item>
+    </.info_display>
+  </div>
+
+  <div class="py-4">
     <.table id="attendees-table" items={@streams.attendees} meta={@meta} params={@params}>
       <:col :let={{_id, user}} sortable field={:name} label="Name">
         <div class="flex gap-4 flex-center items-center">

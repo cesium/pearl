@@ -1,7 +1,7 @@
 defmodule PearlWeb.Backoffice.TicketsLive.Index do
   use PearlWeb, :backoffice_view
 
-  import PearlWeb.Components.{Table, TableSearch, Modal}
+  import PearlWeb.Components.{Table, TableSearch, Modal, InfoDisplay}
 
   alias Pearl.{Perks, Tickets, TicketTypes}
   alias Pearl.Tickets.{Perk, TicketType}
@@ -29,6 +29,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.Index do
          |> assign(:current_page, :tickets)
          |> assign(:meta, meta)
          |> assign(:params, params)
+         |> assign(:info_items, get_info_items())
          |> stream(:tickets, tickets, reset: true)
          |> apply_action(socket.assigns.live_action, params)}
 
@@ -80,6 +81,18 @@ defmodule PearlWeb.Backoffice.TicketsLive.Index do
     socket
     |> assign(:page_title, "Edit Perk")
     |> assign(:perk, Perks.get_perk!(id))
+  end
+
+  defp get_info_items do
+    ticket_count = Tickets.count_tickets()
+    paid_ticket_count = Tickets.count_paid_tickets()
+    pending_ticket_count = Tickets.count_pending_tickets()
+
+    [
+      %{label: "Total de Bilhetes", value: ticket_count},
+      %{label: "Bilhetes Pagos", value: paid_ticket_count},
+      %{label: "Bilhetes Pendentes", value: pending_ticket_count}
+    ]
   end
 
   def handle_event("delete", %{"id" => id}, socket) do

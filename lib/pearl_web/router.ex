@@ -21,6 +21,7 @@ defmodule PearlWeb.Router do
 
     scope "/api", PearlWeb do
       post "/midas/:pearl_api_key/webhook", MidasController, :handle_webhook
+      get "/pearl/:pearl_api_key/tickets_count", TicketsController, :tickets_count
     end
   end
 
@@ -84,7 +85,7 @@ defmodule PearlWeb.Router do
   scope "/checkout", PearlWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/init", TicketCheckoutController, :init
+    get "/init", TicketsController, :init
   end
 
   scope "/checkout", PearlWeb do

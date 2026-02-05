@@ -36,14 +36,14 @@ defmodule PearlWeb.Components.Dropdown do
 
   @doc """
     <.dropdown label="Dropdown">
-      <.dropdown_menu_item link_type="button">
+      <.dropdown_menu_link_item link_type="button">
         <.icon name="hero-home" class="w-5 h-5 text-gray-500" />
         Button item with icon
-      </.dropdown_menu_item>
-      <.dropdown_menu_item link_type="a" to="/" label="a item" />
-      <.dropdown_menu_item link_type="a" to="/" disabled label="disabled item" />
-      <.dropdown_menu_item link_type="live_patch" to="/" label="Live Patch item" />
-      <.dropdown_menu_item link_type="live_redirect" to="/" label="Live Redirect item" />
+      </.dropdown_menu_link_item>
+      <.dropdown_menu_link_item link_type="a" to="/" label="a item" />
+      <.dropdown_menu_link_item link_type="a" to="/" disabled label="disabled item" />
+      <.dropdown_menu_link_item link_type="live_patch" to="/" label="Live Patch item" />
+      <.dropdown_menu_link_item link_type="live_redirect" to="/" label="Live Redirect item" />
     </.dropdown>
   """
   def dropdown(assigns) do
@@ -97,7 +97,7 @@ defmodule PearlWeb.Components.Dropdown do
         aria-orientation="vertical"
         aria-labelledby="options-menu"
       >
-        <div class="py-1" role="none">
+        <div role="none">
           {render_slot(@inner_block)}
         </div>
       </div>
@@ -117,7 +117,7 @@ defmodule PearlWeb.Components.Dropdown do
   attr :rest, :global, include: ~w(method download hreflang ping referrerpolicy rel target type)
   slot :inner_block, required: false
 
-  def dropdown_menu_item(assigns) do
+  def dropdown_menu_link_item(assigns) do
     ~H"""
     <Link.a
       link_type={@link_type}
@@ -129,6 +129,37 @@ defmodule PearlWeb.Components.Dropdown do
     >
       {render_slot(@inner_block) || @label}
     </Link.a>
+    """
+  end
+
+  attr :active, :boolean, default: false, doc: "Selected state of the item"
+  attr :class, :any, default: nil, doc: "Any additional CSS classes"
+
+  attr :rest, :global,
+    include:
+      ~w(method download hreflang ping referrerpolicy rel target type phx-click phx-value-filter)
+
+  slot :inner_block, required: false
+
+  def dropdown_selectable_item(assigns) do
+    ~H"""
+    <button
+      {@rest}
+      class={[
+        @class,
+        "flex gap-4 w-full items-center text-left cursor-pointer px-4 py-2.5 hover:bg-primary/5 transition-colors duration-200 group"
+      ]}
+    >
+      <div class={[
+        "w-6 h-6",
+        if @active do
+          "fa-circle-dot text-primary"
+        else
+          "fa-circle text-dark/10"
+        end
+      ]} />
+      {render_slot(@inner_block)}
+    </button>
     """
   end
 

@@ -49,7 +49,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
         <button
           type="button"
           phx-click="clear-filter"
-          class="bg-primary p-2 hover:bg-primary/70 transition-colors duration-200 cursor-pointer"
+          class="bg-primary p-2 hover:bg-primary/70 text-white transition-colors duration-200 cursor-pointer"
         >
           {gettext("Limpar")}
         </button>
@@ -87,6 +87,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
   end
 
   attr :activity, :map, default: nil
+  attr :speaker, :map, default: nil
 
   defp speaker(assigns) do
     assigns =

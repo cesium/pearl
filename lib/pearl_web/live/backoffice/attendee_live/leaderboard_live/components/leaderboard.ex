@@ -44,7 +44,7 @@ defmodule PearlWeb.Backoffice.LeaderboardLive.Components.Leaderboard do
           class="w-10 h-10 translate-y-6 text-accent"
         />
         <.avatar
-          handle={@entry.handle}
+          name={@entry.name}
           size={:xl}
           class="bg-light/5 border-2 border-accent bg-accent rounded-full"
           link={~p"/dashboard/attendees/#{@entry.attendee_id}"}
@@ -75,7 +75,7 @@ defmodule PearlWeb.Backoffice.LeaderboardLive.Components.Leaderboard do
         </p>
         <p>
           <.avatar
-            handle={@entry.handle}
+            name={@entry.name}
             size={:sm}
             class="bg-light/5 border-2 border-light/5 rounded-full"
             link={~p"/app/user/#{@entry.handle}"}

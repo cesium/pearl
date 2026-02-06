@@ -61,6 +61,7 @@ defmodule Pearl.MixProject do
       # mailer
       {:swoosh, "~> 1.19.8"},
       {:phoenix_swoosh, "~> 1.2.1"},
+      {:req, "~> 0.5"},
       {:gen_smtp, "~>1.3.0"},
       {:phoenix_html, "~> 4.3.0"},
       {:finch, "~> 0.20.0"},

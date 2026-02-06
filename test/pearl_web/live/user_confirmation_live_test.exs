@@ -11,7 +11,7 @@ defmodule PearlWeb.UserConfirmationLiveTest do
   describe "Confirm user" do
     test "renders confirmation page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/confirm/some-token")
-      assert html =~ "Email address has been verified!"
+      assert html =~ "Endereço de email verificado!"
     end
   end
 end

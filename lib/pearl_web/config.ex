@@ -10,29 +10,40 @@ defmodule PearlWeb.Config do
 
     [
       %{
+        key: :schedule,
         title: "Calendário",
         url: "/schedule",
         feature_flag: "schedule_enabled"
       },
       %{
+        key: :speakers,
         title: "Oradores",
         url: "/speakers",
-        feature_flag: "team_enabled"
+        feature_flag: "speakers_enabled"
       },
       %{
+        key: :challenges,
         title: "Desafios",
         url: "/challenges",
         feature_flag: "challenges_enabled"
       },
       %{
+        key: :team,
         title: "Equipa",
         url: "/team",
-        feature_flag: "speakers_enabled"
+        feature_flag: "team_enabled"
       },
       %{
+        key: :faqs,
         title: "Informação & Ajuda",
         url: "/faqs",
         feature_flag: "faqs_enabled"
+      },
+      %{
+        key: :tickets,
+        title: "Bilhetes",
+        url: "/tickets",
+        feature_flag: "tickets_enabled"
       }
     ]
     |> Enum.filter(fn x -> Enum.member?(enabled_flags, x.feature_flag) end)
@@ -151,7 +162,21 @@ defmodule PearlWeb.Config do
         title: "Companies",
         icon: "hero-building-office",
         url: "/dashboard/companies",
-        scope: %{"companies" => ["edit"]}
+        scope: %{"companies" => ["show"]}
+      },
+      %{
+        key: :tickets,
+        title: "Tickets",
+        icon: "hero-ticket",
+        url: "/dashboard/tickets",
+        scope: %{"tickets" => ["show"]}
+      },
+      %{
+        key: :discount_codes,
+        title: "Discount Codes",
+        icon: "hero-tag",
+        url: "/dashboard/discount_codes",
+        scope: %{"discount_codes" => ["show"]}
       },
       %{
         key: :store,

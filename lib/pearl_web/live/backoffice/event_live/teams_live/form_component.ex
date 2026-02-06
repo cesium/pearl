@@ -23,6 +23,13 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
           <div class="flex flex-col md:flex-row w-full gap-4">
             <div class="w-full space-y-2">
               <.field field={@form[:name]} name="team[name]" type="text" />
+              <.field
+                field={@form[:color]}
+                type="color"
+                label="Color"
+                class="rounded-md shadow-sm border-gray-300"
+                required
+              />
             </div>
           </div>
           <ul

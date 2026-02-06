@@ -1,0 +1,46 @@
+<div class="text-black flex flex-col md:flex-row w-full gap-8 md:gap-2 h-full flex-1 min-h-full">
+  <.live_component
+    module={PearlWeb.Checkout.Components.InfoCard}
+    id="ticket-form"
+    current_user={@current_user}
+    ticket_data={@ticket_data}
+    step={@current_step}
+    active_orbs={@active_orbs}
+  />
+
+  <div class="flex flex-col justify-between gap-4 w-full overflow-auto flex-1">
+    <div>
+      <div class="text-black">
+        <.live_component
+          module={PearlWeb.Checkout.Components.TicketForm}
+          id="ticket-form"
+          step={@current_step}
+          form={@form}
+          ticket_data={@ticket_data}
+          ticket_types={@ticket_types}
+        />
+      </div>
+    </div>
+
+    <div class="flex justify-end pointer-events-auto">
+      <div class="relative">
+        <div class="absolute inset-0 bg-white"></div>
+        <.secondary_button
+          :if={@live_action != :choose_ticket}
+          title="anterior"
+          icon_position="left"
+          phx-click="prev"
+          class="relative bg-primary/20"
+        />
+      </div>
+      <.primary_button
+        :if={@live_action == :conclusion}
+        title="ir para pagamento"
+        phx-click="payment"
+        disabled={!@verified_account}
+        class="w-fit p-2!"
+      />
+      <.primary_button :if={@live_action != :conclusion} title="continuar" phx-click="next" />
+    </div>
+  </div>
+</div>

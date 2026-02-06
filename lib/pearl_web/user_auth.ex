@@ -168,8 +168,7 @@ defmodule PearlWeb.UserAuth do
     else
       socket =
         socket
-        |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
-        |> Phoenix.LiveView.redirect(to: ~p"/users/log_in")
+        |> Phoenix.LiveView.redirect(to: ~p"/users/register")
 
       {:halt, socket}
     end
@@ -186,6 +185,12 @@ defmodule PearlWeb.UserAuth do
     else
       {:cont, socket}
     end
+  end
+
+  def on_mount(:require_confirmed_email, _params, session, socket) do
+    {:cont, mount_current_user(socket, session)}
+
+    {:cont, socket}
   end
 
   defp mount_current_user(socket, session) do
@@ -233,9 +238,8 @@ defmodule PearlWeb.UserAuth do
       conn
     else
       conn
-      |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
-      |> redirect(to: ~p"/users/log_in")
+      |> redirect(to: ~p"/users/register")
       |> halt()
     end
   end

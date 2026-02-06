@@ -11,7 +11,7 @@ defmodule Pearl.TeamsFixtures do
   def team_fixture(attrs \\ %{}) do
     {:ok, team} =
       attrs
-      |> Enum.into(%{name: "some name", priority: 0})
+      |> Enum.into(%{name: "some name", priority: 0, color: "#000000"})
       |> Pearl.Teams.create_team()
 
     team

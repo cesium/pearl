@@ -67,6 +67,9 @@
       <:col :let={{_id, ticket}} label="Disabilities">
         {ticket.disabilities}
       </:col>
+      <:col :let={{_id, ticket}} label="Inserted At">
+        {Calendar.strftime(ticket.inserted_at, "%d/%m/%Y %H:%M:%S")}
+      </:col>
     </.table>
   </div>
 </.page>

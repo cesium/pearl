@@ -143,4 +143,19 @@ defmodule Pearl.MinigamesFixtures do
 
     scratch_card_drop
   end
+
+  @doc """
+  Generate a scratch_card_symbol.
+  """
+  def scratch_card_symbol_fixture(attrs \\ %{}) do
+    {:ok, scratch_card_symbol} =
+      attrs
+      |> Enum.into(%{
+        image: "some image",
+        name: "some name"
+      })
+      |> Pearl.Minigames.create_scratch_card_symbol()
+
+    scratch_card_symbol
+  end
 end

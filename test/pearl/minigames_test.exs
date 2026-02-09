@@ -635,4 +635,72 @@ defmodule Pearl.MinigamesTest do
       assert %Ecto.Changeset{} = Minigames.change_scratch_card_drop(scratch_card_drop)
     end
   end
+
+  describe "scratch_card_symbols" do
+    alias Pearl.Minigames.ScratchCardSymbol
+
+    import Pearl.MinigamesFixtures
+
+    @invalid_attrs %{name: nil, image: nil}
+
+    test "list_scratch_card_symbols/0 returns all scratch_card_symbols" do
+      scratch_card_symbol = scratch_card_symbol_fixture()
+      assert Minigames.list_scratch_card_symbols() == [scratch_card_symbol]
+    end
+
+    test "get_scratch_card_symbol!/1 returns the scratch_card_symbol with given id" do
+      scratch_card_symbol = scratch_card_symbol_fixture()
+      assert Minigames.get_scratch_card_symbol!(scratch_card_symbol.id) == scratch_card_symbol
+    end
+
+    test "create_scratch_card_symbol/1 with valid data creates a scratch_card_symbol" do
+      valid_attrs = %{name: "some name", image: "some image"}
+
+      assert {:ok, %ScratchCardSymbol{} = scratch_card_symbol} =
+               Minigames.create_scratch_card_symbol(valid_attrs)
+
+      assert scratch_card_symbol.name == "some name"
+      assert scratch_card_symbol.image == "some image"
+    end
+
+    test "create_scratch_card_symbol/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Minigames.create_scratch_card_symbol(@invalid_attrs)
+    end
+
+    test "update_scratch_card_symbol/2 with valid data updates the scratch_card_symbol" do
+      scratch_card_symbol = scratch_card_symbol_fixture()
+      update_attrs = %{name: "some updated name", image: "some updated image"}
+
+      assert {:ok, %ScratchCardSymbol{} = scratch_card_symbol} =
+               Minigames.update_scratch_card_symbol(scratch_card_symbol, update_attrs)
+
+      assert scratch_card_symbol.name == "some updated name"
+      assert scratch_card_symbol.image == "some updated image"
+    end
+
+    test "update_scratch_card_symbol/2 with invalid data returns error changeset" do
+      scratch_card_symbol = scratch_card_symbol_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               Minigames.update_scratch_card_symbol(scratch_card_symbol, @invalid_attrs)
+
+      assert scratch_card_symbol == Minigames.get_scratch_card_symbol!(scratch_card_symbol.id)
+    end
+
+    test "delete_scratch_card_symbol/1 deletes the scratch_card_symbol" do
+      scratch_card_symbol = scratch_card_symbol_fixture()
+
+      assert {:ok, %ScratchCardSymbol{}} =
+               Minigames.delete_scratch_card_symbol(scratch_card_symbol)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Minigames.get_scratch_card_symbol!(scratch_card_symbol.id)
+      end
+    end
+
+    test "change_scratch_card_symbol/1 returns a scratch_card_symbol changeset" do
+      scratch_card_symbol = scratch_card_symbol_fixture()
+      assert %Ecto.Changeset{} = Minigames.change_scratch_card_symbol(scratch_card_symbol)
+    end
+  end
 end

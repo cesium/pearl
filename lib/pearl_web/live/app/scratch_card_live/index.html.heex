@@ -17,15 +17,15 @@
     >
       <div class="flex items-center justify-center rounded-2xl bg-accent p-1 h-80 w-80 touch-none">
         <div
-          class="bg-blue-950 h-full w-full rounded-2xl grid grid-cols-3"
-          style="background-image: repeating-linear-gradient(-45deg, #4a5088, #4a5088 4px, transparent 4px, transparent 8px)"
+          class="bg-[#E3CAD5] h-full w-full rounded-2xl gap-8 grid grid-cols-3 p-6"
+          style="background-image: repeating-linear-gradient(-45deg, #fff, #fff 4px, transparent 4px, transparent 8px)"
         >
-          <%= if assigns[:current_scratch_card] do %>
+          <%= if (assigns[:current_scratch_card] && assigns[:current_symbols]) do %>
             <div
-              :for={s <- @current_scratch_card.symbols}
+              :for={symbol <- @current_symbols}
               class="flex items-center justify-center font-bold"
             >
-              {s}
+              <img class="size-auto" src={Uploaders.ScratchCardSymbols.url({symbol.image, symbol}, :original, signed: true)} />
             </div>
           <% end %>
         </div>

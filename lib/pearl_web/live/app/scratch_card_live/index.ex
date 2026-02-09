@@ -2,6 +2,7 @@ defmodule PearlWeb.App.ScratchCardLive.Index do
   use PearlWeb, :app_view
 
   alias Pearl.Minigames
+  alias Pearl.Uploaders
 
   import PearlWeb.App.WheelLive.Components.ResultModal
   import PearlWeb.App.WheelLive.Components.LatestWins
@@ -35,6 +36,7 @@ defmodule PearlWeb.App.ScratchCardLive.Index do
   def handle_event("buy-card", _params, socket) do
     case Minigames.buy_scratch_card(socket.assigns.current_user.attendee) do
       {:ok, %{scratch_card_preloaded: scratch_card}} ->
+
         result =
           if scratch_card.drop do
             %{type: Minigames.get_drop_type(scratch_card.drop), drop: scratch_card.drop}
@@ -46,6 +48,7 @@ defmodule PearlWeb.App.ScratchCardLive.Index do
          socket
          |> assign(:is_scratching?, true)
          |> assign(:current_scratch_card, scratch_card)
+         |> assign(:current_symbols, Minigames.get_symbols_from_scratch_card(scratch_card))
          |> assign(:result, result)
          |> assign(
            :attendee_tokens,

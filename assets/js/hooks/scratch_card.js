@@ -43,13 +43,13 @@ export const ScratchCard = {
   },
 
   initializeCard() {
-    this.context.fillStyle = "#aaa9bc";
+    this.context.fillStyle = "#561018";
     this.context.fillRect(0, 0, this.scratchAreaWidth, this.scratchAreaHeight);
   },
 
   resetCard() {
     this.context.globalCompositeOperation = "source-over";
-    this.context.fillStyle = "#aaa9bc";
+    this.context.fillStyle = "#561018";
     this.context.fillRect(0, 0, this.scratchAreaWidth, this.scratchAreaHeight);
     this.scratchArea.style.opacity = "1";
   },

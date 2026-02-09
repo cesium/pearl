@@ -193,3 +193,16 @@
     patch={~p"/dashboard/minigames/scratch_card/"}
   />
 </.modal>
+
+<.modal
+  :if={@live_action in [:edit_scratch_card_symbols]}
+  id="scratch-card-symbols-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/scratch_card/")}
+>
+  <.live_component
+    id="scratch-card-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.ScratchCardSymbols.FormComponent}
+    patch={~p"/dashboard/minigames/scratch_card/"}
+  />
+</.modal>

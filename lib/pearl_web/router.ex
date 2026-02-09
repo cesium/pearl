@@ -341,6 +341,7 @@ defmodule PearlWeb.Router do
           scope "/scratch_card" do
             live "/", MinigamesLive.Index, :edit_scratch_card
             live "/drops", MinigamesLive.Index, :edit_scratch_card_drops
+            live "/symbols", MinigamesLive.Index, :edit_scratch_card_symbols
           end
         end
 

@@ -5,7 +5,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
 
   alias Pearl.Contest
   alias Pearl.Minigames
-  alias Pearl.Minigames.ScratchCard
 
   import PearlWeb.Components.Forms
 
@@ -24,15 +23,15 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
               <.icon name="hero-plus" class="w-5 h-5" />
             </.button>
           </div>
-          <ul class="h-[45vh] overflow-y-scroll scrollbar-hide mt-4 border-b-[1px] border-lightShade  dark:border-darkShade">
+          <ul class="h-[45vh] overflow-y-scroll scrollbar-hide mt-4 border-b border-lightShade  dark:border-darkShade">
             <%= for {id, type, _drop, form} <- @drops do %>
-              <li class="border-b-[1px] last:border-b-0 border-lightShade dark:border-darkShade">
+              <li class="border-b last:border-b-0 border-lightShade dark:border-darkShade">
                 <.simple_form
                   id={id}
                   for={form}
                   phx-change="validate"
                   phx-target={@myself}
-                  class="!mt-0"
+                  class="mt-0!"
                 >
                   <.field type="hidden" name="identifier" value={id} />
                   <div class="grid space-x-2 grid-cols-11 pl-1">
@@ -79,19 +78,10 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
                     <.field field={form[:max_per_attendee]} type="number" wrapper_class="col-span-2" />
                     <.field field={form[:probability]} type="number" wrapper_class="col-span-2" />
                     <.field
-                      field={form[:symbol]}
+                      field={form[:scratch_card_symbol_id]}
                       wrapper_class="col-span-2"
                       type="select"
-                      options={[
-                        {"Star", "star"},
-                        {"Coin", "coin"},
-                        {"Void", "void"},
-                        {"CeSIUM", "cesium"},
-                        {"ENEI", "enei"},
-                        {"Bug", "bug"},
-                        {"Trophy", "trophy"},
-                        {"Pointer", "pointer"}
-                      ]}
+                      options={generate_options(@symbols)}
                     />
                     <.link
                       phx-click={JS.push("delete-drop", value: %{id: id})}
@@ -144,7 +134,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
      |> assign(drops: drops)
      |> assign(nothing_probability: calculate_nothing_probability(drops))
      |> assign(prizes: Minigames.list_prizes())
-     |> assign(badges: Contest.list_badges())}
+     |> assign(badges: Contest.list_badges())
+     |> assign(symbols: Minigames.list_scratch_card_symbols())}
   end
 
   @impl true
@@ -250,7 +241,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
   end
 
   defp generate_options(values) do
-    Enum.map(values, &{&1.name, &1.id})
+    Enum.map(values, &{&1.name, &1.id}) |> IO.inspect(label: "symbols")
   end
 
   defp calculate_nothing_probability(drops) do
@@ -281,7 +272,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
       form.source.valid? and
         (form.params["prize_id"] || form.data.prize_id || form.params["badge_id"] ||
            form.data.badge_id || form.params["tokens"] || form.data.tokens ||
-           form.params["entries"] || form.data.entries)
+           form.params["entries"] || form.data.entries || form.params["scratch_card_symbol_id"] ||
+           form.data.scratch_card_symbol_id)
     end)
   end
 end

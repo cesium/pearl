@@ -20,22 +20,11 @@ defmodule Pearl.Minigames do
     WheelDrop,
     WheelSpin,
     ScratchCard,
-    ScratchCardDrop
+    ScratchCardDrop,
+    ScratchCardSymbol
   }
 
   @pubsub Pearl.PubSub
-
-  # Todo: temporário
-  @scratch_card_symbols [
-    "star",
-    "coin",
-    "void",
-    "cesium",
-    "enei",
-    "bug",
-    "trophy",
-    "pointer"
-  ]
 
   @doc """
   Returns the list of prizes.
@@ -1918,7 +1907,22 @@ defmodule Pearl.Minigames do
     ScratchCard.changeset(scratch_card, attrs)
   end
 
-  def get_scratch_card_symbols, do: @scratch_card_symbols
+  @doc """
+  Returns the list of scratch_card_symbols from a scratch_card.
+
+  ## Examples
+
+      iex> get_symbols_from_scratch_card()
+      [%ScratchCardSymbol{}, ...]
+
+  """
+  def get_symbols_from_scratch_card(%ScratchCard{} = scratch_card) do
+    ScratchCard
+    |> where([sc], sc.id == type(^scratch_card.id, :binary_id))
+    |> join(:inner, [sc], s in assoc(sc, :symbols))
+    |> select([_cs, s], %ScratchCardSymbol{id: s.id, name: s.name, image: s.image})
+    |> Repo.all()
+  end
 
   def buy_scratch_card(attendee) do
     attendee = Accounts.get_attendee!(attendee.id)
@@ -1948,11 +1952,11 @@ defmodule Pearl.Minigames do
     |> Multi.insert(:scratch_card, fn %{drop_and_symbols: {drop, symbols}} ->
       %ScratchCard{}
       |> ScratchCard.changeset(%{
-        symbols: symbols,
         is_revealed: false,
         attendee_id: attendee.id,
         drop_id: if(drop.id, do: drop.id, else: nil)
       })
+      |> Ecto.Changeset.put_assoc(:symbols, symbols)
     end)
     # Apply the reward action for the drop
     |> Multi.merge(fn %{drop_and_symbols: {drop, _symbols}, attendee: attendee} ->
@@ -1968,7 +1972,7 @@ defmodule Pearl.Minigames do
   defp broadcast_scratch_card_purchase_changes(params) do
     case broadcast_scratch_card_win(Map.get(params, :spin)) do
       :ok ->
-        case broadcast_scratch_card_config_update("drops", list_wheel_drops()) do
+        case broadcast_scratch_card_config_update("drops", list_scratch_card_drops()) do
           :ok -> {:ok, :ok}
           e -> e
         end
@@ -1991,6 +1995,7 @@ defmodule Pearl.Minigames do
   defp generate_scratch_card_drop_and_symbols(attendee) do
     random = strong_randomizer() |> Float.round(12)
     drops = list_available_scratch_card_drops()
+    all_symbols = list_scratch_card_symbols()
 
     cumulative_probabilities =
       drops
@@ -2004,7 +2009,8 @@ defmodule Pearl.Minigames do
     if random > total_prob do
       # Return losing drop (no prize) with losing symbols
       losing_drop = %ScratchCardDrop{probability: 1 - total_prob}
-      symbols = generate_losing_symbols()
+      symbols = generate_losing_symbols(all_symbols)
+
       {losing_drop, symbols}
     else
       prob =
@@ -2018,11 +2024,11 @@ defmodule Pearl.Minigames do
         |> Enum.at(cumulative_probabilities |> elem(0) |> Enum.find_index(fn x -> x == prob end))
 
       if is_valid_drop(attendee, drop) && drop.symbol do
-        symbols = generate_winning_symbols(drop.symbol)
+        symbols = generate_winning_symbols(drop.symbol, all_symbols)
         {drop, symbols}
       else
         # treat as lost
-        symbols = generate_losing_symbols()
+        symbols = generate_losing_symbols(all_symbols)
         {%ScratchCardDrop{probability: drop.probability}, symbols}
       end
     end
@@ -2041,10 +2047,10 @@ defmodule Pearl.Minigames do
     end
   end
 
-  defp generate_winning_symbols(winning_symbol) do
+  defp generate_winning_symbols(winning_symbol, all_symbols) do
     win_positions = Enum.shuffle(0..5) |> Enum.take(3)
 
-    other_symbols = @scratch_card_symbols -- [winning_symbol]
+    other_symbols = all_symbols -- [winning_symbol]
 
     Enum.map(0..5, fn i ->
       if i in win_positions do
@@ -2055,11 +2061,11 @@ defmodule Pearl.Minigames do
     end)
   end
 
-  defp generate_losing_symbols do
-    symbols = Enum.map(0..5, fn _ -> Enum.random(@scratch_card_symbols) end)
+  defp generate_losing_symbols(all_symbols) do
+    symbols = Enum.map(0..5, fn _ -> Enum.random(all_symbols) end)
 
     if is_win?(symbols) do
-      generate_losing_symbols()
+      generate_losing_symbols(all_symbols)
     else
       symbols
     end
@@ -2085,14 +2091,14 @@ defmodule Pearl.Minigames do
     ScratchCardDrop
     |> order_by([sc], asc: sc.probability)
     |> Repo.all()
-    |> Repo.preload([:badge, :prize])
+    |> Repo.preload([:badge, :prize, :scratch_card_symbol])
   end
 
   def list_available_scratch_card_drops do
     ScratchCardDrop
     |> join(:left, [sc], p in Prize, on: sc.prize_id == p.id)
     |> where([sc, p], is_nil(sc.prize_id) or p.stock > 0)
-    |> preload([:prize, :badge])
+    |> preload([:prize, :badge, :scratch_card_symbol])
     |> Repo.all()
   end
 
@@ -2175,5 +2181,107 @@ defmodule Pearl.Minigames do
   """
   def change_scratch_card_drop(%ScratchCardDrop{} = scratch_card_drop, attrs \\ %{}) do
     ScratchCardDrop.changeset(scratch_card_drop, attrs)
+  end
+
+  alias Pearl.Minigames.ScratchCardSymbol
+
+  @doc """
+  Returns the list of scratch_card_symbols.
+
+  ## Examples
+
+      iex> list_scratch_card_symbols()
+      [%ScratchCardSymbol{}, ...]
+
+  """
+  def list_scratch_card_symbols do
+    Repo.all(ScratchCardSymbol)
+  end
+
+  @doc """
+  Gets a single scratch_card_symbol.
+
+  Raises `Ecto.NoResultsError` if the Scratch card symbol does not exist.
+
+  ## Examples
+
+      iex> get_scratch_card_symbol!(123)
+      %ScratchCardSymbol{}
+
+      iex> get_scratch_card_symbol!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_scratch_card_symbol!(id), do: Repo.get!(ScratchCardSymbol, id)
+
+  @doc """
+  Creates a scratch_card_symbol.
+
+  ## Examples
+
+      iex> create_scratch_card_symbol(%{field: value})
+      {:ok, %ScratchCardSymbol{}}
+
+      iex> create_scratch_card_symbol(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_scratch_card_symbol(attrs) do
+    %ScratchCardSymbol{}
+    |> ScratchCardSymbol.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a scratch_card_symbol.
+
+  ## Examples
+
+      iex> update_scratch_card_symbol(scratch_card_symbol, %{field: new_value})
+      {:ok, %ScratchCardSymbol{}}
+
+      iex> update_scratch_card_symbol(scratch_card_symbol, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_scratch_card_symbol(%ScratchCardSymbol{} = scratch_card_symbol, attrs) do
+    scratch_card_symbol
+    |> ScratchCardSymbol.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_scratch_card_symbol_image(%ScratchCardSymbol{} = scratch_card_symbol, attrs) do
+    scratch_card_symbol
+    |> ScratchCardSymbol.image_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a scratch_card_symbol.
+
+  ## Examples
+
+      iex> delete_scratch_card_symbol(scratch_card_symbol)
+      {:ok, %ScratchCardSymbol{}}
+
+      iex> delete_scratch_card_symbol(scratch_card_symbol)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_scratch_card_symbol(%ScratchCardSymbol{} = scratch_card_symbol) do
+    Repo.delete(scratch_card_symbol)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking scratch_card_symbol changes.
+
+  ## Examples
+
+      iex> change_scratch_card_symbol(scratch_card_symbol)
+      %Ecto.Changeset{data: %ScratchCardSymbol{}}
+
+  """
+  def change_scratch_card_symbol(%ScratchCardSymbol{} = scratch_card_symbol, attrs \\ %{}) do
+    ScratchCardSymbol.changeset(scratch_card_symbol, attrs)
   end
 end

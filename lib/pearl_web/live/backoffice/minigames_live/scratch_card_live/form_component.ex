@@ -22,6 +22,14 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCard.FormComponent do
           </.link>
         </:actions>
 
+        <:actions>
+          <.link navigate={~p"/dashboard/minigames/scratch_card/symbols"}>
+            <.button>
+              <.icon name="hero-star" class="w-5" />
+            </.button>
+          </.link>
+        </:actions>
+
         <div class="my-8">
           <.form
             id="scratch-card-config-form"

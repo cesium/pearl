@@ -72,7 +72,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
 
   defp schedule_table(assigns) do
     ~H"""
-    <div class="space-y-2 min-w-0">
+    <div class="space-y-2 min-w-0 w-full">
       <%= for %{speaker: speaker, activity: activity}  <- @speakers do %>
         <%= if !activity do %>
           <.speaker speaker={speaker} />

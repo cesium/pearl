@@ -223,7 +223,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
   end
 
   defp format_date(date, time_start, time_end) do
-    "Dia #{date.day} ,#{format_time(time_start)}-#{format_time(time_end)}"
+    "Dia #{date.day}, #{format_time(time_start)}-#{format_time(time_end)}"
   end
 
   attr :id, :string, default: nil

@@ -11,8 +11,8 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
   attr :event_end_date, Date, required: true
   attr :speakers, :list, required: true
   attr :all_speakers, :list, required: true
-  attr :meta, :map, required: true
   attr :current_filter, :atom, required: true
+  attr :current_value, :atom, required: true
 
   def speakers(assigns) do
     ~H"""
@@ -57,11 +57,11 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
 
       <div class="flex flex-col md:flex-row gap-7.5 md:gap-12.5 w-full">
         <.filter_form
-          meta={@meta}
           all_speakers={@all_speakers}
           event_start_date={@event_start_date}
           event_end_date={@event_end_date}
           current_filter={@current_filter}
+          current_value={@current_value}
           id="speaker-filter"
         />
         <.schedule_table speakers={@speakers} />
@@ -73,13 +73,11 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
   defp schedule_table(assigns) do
     ~H"""
     <div class="space-y-2 min-w-0">
-      <%= for speaker <- @speakers do %>
-        <%= if speaker.activities == [] do %>
+      <%= for %{speaker: speaker, activity: activity}  <- @speakers do %>
+        <%= if !activity do %>
           <.speaker speaker={speaker} />
         <% else %>
-          <%= for activity <- speaker.activities do %>
-            <.speaker speaker={speaker} activity={activity} />
-          <% end %>
+          <.speaker speaker={speaker} activity={activity} />
         <% end %>
       <% end %>
     </div>
@@ -228,52 +226,34 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
     "Dia #{date.day} ,#{format_time(time_start)}-#{format_time(time_end)}"
   end
 
-  attr :meta, Flop.Meta, required: true
   attr :id, :string, default: nil
   attr :all_speakers, :list, required: true
   attr :event_start_date, Date, required: true
   attr :event_end_date, Date, required: true
   attr :current_filter, :atom, required: true
+  attr :current_value, :string, required: true
 
   def filter_form(assigns) do
-    assigns = assign(assigns, form: Phoenix.Component.to_form(assigns.meta))
-
-    current_value =
-      case assigns.meta.flop.filters do
-        [%Flop.Filter{value: value}] -> value
-        _ -> nil
-      end
-
-    assigns = assign(assigns, :current_value, current_value)
-
     ~H"""
-    <.form for={@form} id={@id} phx-change="update-filter" phx-submit="update-filter">
-      <input type="hidden" name="filters[0][field]" value={@current_filter} />
-      <input
-        type="hidden"
-        name="filters[0][op]"
-        value={if @current_filter == :name, do: "like", else: "=="}
-      />
-
-      <div class="flex flex-wrap md:flex-col">
-        <%= for item <- get_filter_items(@all_speakers, @event_start_date, @event_end_date, @current_filter) do %>
-          <button
-            type="submit"
-            name="filters[0][value]"
-            value={"#{item}"}
-            class={[
-              "w-10 h-10 cursor-pointer",
-              if(@current_value == item,
-                do: "bg-primary text-white hover:bg-primary/50",
-                else: "hover:bg-white/50 text-dark"
-              )
-            ]}
-          >
-            {if @current_filter == :name, do: item, else: item.day}
-          </button>
-        <% end %>
-      </div>
-    </.form>
+    <div class="flex flex-wrap md:flex-col">
+      <%= for item <- get_filter_items(@all_speakers, @event_start_date, @event_end_date, @current_filter) do %>
+        <button
+          type="button"
+          phx-value-activity-date={if @current_filter == :activity_date, do: item, else: nil}
+          phx-value-name={if @current_filter == :name, do: item, else: nil}
+          phx-click="update-filter"
+          class={[
+            "w-10 h-10 cursor-pointer",
+            if(@current_value == to_string(item),
+              do: "bg-primary text-white hover:bg-primary/50",
+              else: "hover:bg-white/50 text-dark"
+            )
+          ]}
+        >
+          {if @current_filter == :name, do: item, else: item.day}
+        </button>
+      <% end %>
+    </div>
     """
   end
 
@@ -281,7 +261,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
     case current_filter do
       :name ->
         all_speakers
-        |> Enum.map(&String.first(List.first(String.split(&1.name, " "))))
+        |> Enum.map(&String.first(List.first(String.split(&1.speaker.name, " "))))
         |> Enum.uniq()
         |> Enum.sort()
 

@@ -479,7 +479,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
         <% end %>
       </div>
 
-      <div class="flex-1 flex flex-col gap-6 md:gap-8 md:border-l-3 md:pl-6 md:border-olive/10">
+      <div class="flex-1 flex flex-col gap-6 md:gap-8 md:border-l-2 md:pl-6 md:border-light-muted">
         <%= for activity <- @time_slot do %>
           <%= if get_category_name(activity) == "Break" do %>
             <div class="flex items-center gap-3 md:hidden">

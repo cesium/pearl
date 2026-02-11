@@ -92,7 +92,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   def render(assigns) do
     ~H"""
     <div class={[
-      "w-full select-none min-h-screen",
+      "w-full select-none min-h-screen space-y-15",
       case @view_mode do
         :calendar -> "pl-12.5"
         :day -> "px-8"

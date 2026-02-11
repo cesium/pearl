@@ -5,10 +5,8 @@ defmodule PearlWeb.Landing.ChallengesLive.Index do
   alias Pearl.Challenges
 
   import PearlWeb.Landing.ChallengesLive.Components.Hero
-  import PearlWeb.Landing.ChallengesLive.Components.DesktopSidebar
-  import PearlWeb.Landing.ChallengesLive.Components.ChallengeCard
-  import PearlWeb.Landing.ChallengesLive.Components.MobileList
-  import PearlWeb.Landing.ChallengesLive.Components.MobileDetail
+  import PearlWeb.Landing.ChallengesLive.Components.ChallengesList
+  import PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail
 
   on_mount {PearlWeb.VerifyFeatureFlag, "challenges_enabled"}
 

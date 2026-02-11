@@ -1,10 +1,10 @@
-<svg width="535" height="413" viewBox="0 0 535 413" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect x="67.6816" y="242.951" width="242.57" height="170.049" fill="url(#pattern0_0_1)"/>
+<svg width="534" height="413" viewBox="0 0 534 413" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect x="67" y="243" width="242.57" height="170.049" fill="url(#pattern0_0_1)"/>
 <g filter="url(#filter0_d_0_1)">
 <rect x="125" y="102" width="304.46" height="311" fill="url(#pattern1_0_1)" shape-rendering="crispEdges"/>
 </g>
-<rect x="50.2266" y="217.444" width="45.7824" height="75.5773" transform="rotate(-9.94389 50.2266 217.444)" fill="url(#pattern2_0_1)"/>
-<rect x="398.617" y="117.255" width="46.5091" height="75.5773" transform="rotate(11.2903 398.617 117.255)" fill="url(#pattern3_0_1)"/>
+<rect x="50" y="217.906" width="45.7824" height="75.5773" transform="rotate(-9.94389 50 217.906)" fill="url(#pattern2_0_1)"/>
+<rect x="398.797" y="117" width="46.5091" height="75.5773" transform="rotate(11.2903 398.797 117)" fill="url(#pattern3_0_1)"/>
 <defs>
 <pattern id="pattern0_0_1" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_0_1" transform="scale(0.0015625 0.00222886)"/>

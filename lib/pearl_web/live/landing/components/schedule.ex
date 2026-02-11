@@ -398,7 +398,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
         <div class="flex items-end justify-between">
           <div class="text-white">
-            <div class="text-4xl font-bold">
+            <div class="text-3xl font-bold">
               Dia {@day |> Timex.format!("{D}")}
             </div>
             <div class="text-xl font-medium">

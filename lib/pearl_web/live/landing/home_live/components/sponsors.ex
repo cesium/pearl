@@ -12,7 +12,9 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
           {gettext("Um elenco de empresas que abre portas e janelas")}
         </h2>
         <p class="text-center max-w-full md:max-w-3xl lg:max-w-5xl">
-          As empresas incríveis que nos patrocinam são quem possibilita o ENEI. Durante todo o evento, vais poder encontrá-las e falar com os seus representantes para as conheceres melhor.
+          {gettext(
+            "As empresas e entidades que nos apoiam são quem tornam o ENEI possível. Durante todo o evento, vais poder encontrar  diferentes empresas e falar com os seus representantes para os conheceres melhor."
+          )}
         </p>
       </div>
       <div class="flex flex-col gap-10 pt-10 w-full">

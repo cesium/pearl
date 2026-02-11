@@ -263,7 +263,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
     ~H"""
     <div class="mb-10">
-      <div class="text-4xl md:text-5xl font-bold text-dark mb-4">
+      <div class="text-3xl md:text-4xl font-bold text-dark space-y-3">
         <div class="flex items-center gap-3">
           <.link patch={view_url(@url, :calendar, @current_date, @filters)} class="hover:opacity-70">
             <.icon name="hero-arrow-left" class="size-8" />

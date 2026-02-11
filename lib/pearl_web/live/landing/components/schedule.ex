@@ -191,7 +191,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
           <% end %>
 
           <%!-- Date and Location --%>
-          <div class="text-4 font-normal text-dark">
+          <div class="text-lg font-normal text-dark">
             Dia {@selected_activity.date |> Timex.format!("{D}")}, {@selected_activity.time_start
             |> Timex.format!("{h24}:{m}")}-{@selected_activity.time_end
             |> Timex.format!("{h24}:{m}")}

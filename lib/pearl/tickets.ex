@@ -7,7 +7,7 @@ defmodule Pearl.Tickets do
   import Ecto.Query, warn: false
   alias Pearl.Repo
 
-  alias Pearl.Tickets.Ticket
+  alias Pearl.Tickets.{Perk, Ticket}
 
   @doc """
   Returns the list of tickets.
@@ -62,6 +62,13 @@ defmodule Pearl.Tickets do
     Ticket
     |> preload([:user, :ticket_type])
     |> Repo.get!(id)
+  end
+
+  def get_user_ticket(user_id) do
+    Ticket
+    |> where([t], t.user_id == ^user_id)
+    |> preload([:user, :ticket_type, :payment])
+    |> Repo.one()
   end
 
   @doc """
@@ -129,7 +136,9 @@ defmodule Pearl.Tickets do
     Ticket.changeset(ticket, attrs)
   end
 
-  alias Pearl.Tickets.Perk
+  def mark_ticket_as_paid(%Ticket{} = ticket) do
+    update_ticket(ticket, %{paid: true})
+  end
 
   @doc """
   Returns the list of perks.
@@ -141,7 +150,9 @@ defmodule Pearl.Tickets do
 
   """
   def list_perks do
-    Repo.all(Perk)
+    Perk
+    |> order_by(:priority)
+    |> Repo.all()
   end
 
   @doc """
@@ -223,5 +234,29 @@ defmodule Pearl.Tickets do
   """
   def change_perk(%Perk{} = perk, attrs \\ %{}) do
     Perk.changeset(perk, attrs)
+  end
+
+  @doc """
+  Returns the next priority a perk should have.
+
+  ## Examples
+
+      iex> get_next_perk_priority()
+      5
+  """
+  def get_next_perk_priority do
+    (Repo.aggregate(from(t in Perk), :max, :priority) || -1) + 1
+  end
+
+  def change_ticket_type(%Ticket{} = ticket, attrs \\ %{}) do
+    Ticket.changeset_ticket_type(ticket, attrs)
+  end
+
+  def change_precautions(%Ticket{} = ticket, attrs \\ %{}) do
+    Ticket.changeset_precautions(ticket, attrs)
+  end
+
+  def change_informations(%Ticket{} = ticket, attrs \\ %{}) do
+    Ticket.changeset_informations(ticket, attrs)
   end
 end

@@ -21,6 +21,13 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent do
         >
           <div class="w-full space-y-2">
             <.field field={@form[:name]} type="text" label="Name" required />
+            <.field
+              field={@form[:color]}
+              type="color"
+              label="Color"
+              class="rounded-md shadow-sm border-gray-300"
+              required
+            />
             <.field field={@form[:full_cv_access]} type="switch" label="Full CV Access" />
           </div>
           <:actions>

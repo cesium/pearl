@@ -4,10 +4,11 @@ defmodule Pearl.Teams.Team do
   """
   use Pearl.Schema
 
-  @required_fields ~w(name priority)a
+  @required_fields ~w(name priority color)a
 
   schema "teams" do
     field :name, :string
+    field :color, :string
     field :priority, :integer
     has_many :team_members, Pearl.Teams.TeamMember
 

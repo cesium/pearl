@@ -7,11 +7,10 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
   import PearlWeb.Components.Markdown
 
   attr :challenge, :map, required: true
-  attr :view_mode, :string, default: "desktop", values: ~w(desktop mobile)
 
   def challenge_detail(assigns) do
     ~H"""
-    <div :if={@view_mode == "desktop"} class="hidden xl:flex">
+    <div class="hidden xl:flex">
       <div class="bg-white rounded-3xl shadow-lg overflow-hidden w-full">
         <div class="relative h-64 bg-linear-to-br from-gray-100 via-gray-50 to-white overflow-hidden">
           <div class="absolute inset-0 bg-linear-to-br from-[#8B1538]/5 via-transparent to-gray-100">
@@ -49,8 +48,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
         </div>
       </div>
     </div>
-    <!-- Mobile Detail View -->
-    <div :if={@view_mode == "mobile"} class="xl:hidden">
+    <div class="xl:hidden">
       <button
         phx-click="mobile_back"
         class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors mb-6"

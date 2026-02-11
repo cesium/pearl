@@ -1,8 +1,7 @@
 defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
   use PearlWeb, :live_component
 
-  alias Pearl.Perks
-  alias Pearl.TicketTypes
+  alias Pearl.{Perks, TicketTypes}
 
   import PearlWeb.Components.Forms
 

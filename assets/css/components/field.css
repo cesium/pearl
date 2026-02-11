@@ -118,6 +118,25 @@
   @apply text-sm;
 }
 
+/* Radio */
+
+.pearl-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.pearl-radio::-webkit-inner-spin-button,
+.pearl-radio::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.pearl-radio:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
 /* Color */
 
 .pearl-color-input {

@@ -47,7 +47,7 @@ defmodule PearlWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1",
+        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-101 rounded-lg p-3 ring-1",
         @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
         @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
       ]}
@@ -150,40 +150,53 @@ defmodule PearlWeb.CoreComponents do
   end
 
   @doc """
-  Renders an input with label and error messages.
-
-  A `Phoenix.HTML.FormField` may be passed as argument,
-  which is used to retrieve the input name, id, and values.
-  Otherwise all attributes may be passed explicitly.
-
-  ## Types
-
-  This function accepts all HTML input types, considering that:
-
-    * You may also set `type="select"` to render a `<select>` tag
-
-    * `type="checkbox"` is used exclusively to render boolean values
-
-    * For live file uploads, see `Phoenix.Component.live_file_input/1`
-
-  See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
-  for more information. Unsupported types, such as hidden and radio,
-  are best written directly in your templates.
+  Renders a button.
 
   ## Examples
 
-      <.input field={@form[:email]} type="email" />
-      <.input name="my-input" errors={["oh no!"]} />
+      <.button>Send!</.button>
+      <.button phx-click="go" class="ml-2">Send!</.button>
+  """
+  attr :type, :string, default: nil
+  attr :class, :string, default: nil
+  attr :rest, :global, include: ~w(disabled form name value)
+
+  slot :inner_block, required: true
+
+  def button(assigns) do
+    ~H"""
+    <button
+      type={@type}
+      class={[
+        "phx-submit-loading:opacity-75 rounded-lg bg-dark text-light dark:bg-light dark:text-dark hover:bg-darkShade dark:hover:bg-lightShade/95 py-2 px-3",
+        "text-sm font-semibold leading-6 transition-colors",
+        @rest[:disabled] && "opacity-50 cursor-not-allowed",
+        @class
+      ]}
+      {@rest}
+    >
+      {render_slot(@inner_block)}
+    </button>
+    """
+  end
+
+  @doc """
+  Renders an input with label and error messages.
+  ...
   """
   attr :id, :any, default: nil
   attr :name, :any
   attr :label, :string, default: nil
+  attr :label_class, :string, default: nil
   attr :value, :any
+
+  # Add this new attribute
+  attr :variant, :atom, values: [:default, :flushed], default: :default
 
   attr :type, :string,
     default: "text",
     values: ~w(checkbox color date datetime-local email file month number password
-               range search select tel text textarea time url week handle)
+               range radio segmented-radio search select tel text textarea time url week handle)
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
@@ -204,9 +217,11 @@ defmodule PearlWeb.CoreComponents do
   slot :inner_block
 
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
+
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
-    |> assign(:errors, Enum.map(field.errors, &translate_error(&1)))
+    |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:name, fn -> if assigns.multiple, do: field.name <> "[]", else: field.name end)
     |> assign_new(:value, fn -> field.value end)
     |> input()
@@ -220,7 +235,7 @@ defmodule PearlWeb.CoreComponents do
 
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
-      <label class="flex items-center gap-4 text-sm leading-6 text-zinc-600">
+      <label class="flex items-center gap-3 text-sm leading-6 text-zinc-600">
         <input type="hidden" name={@name} value="false" />
         <input
           type="checkbox"
@@ -231,8 +246,38 @@ defmodule PearlWeb.CoreComponents do
           class={"rounded border-zinc-300 text-primary focus:ring-0 #{@class}"}
           {@rest}
         />
-        {@label}
+        <span class="leading-normal">{@label}</span>
       </label>
+      <.error :for={msg <- @errors}>{msg}</.error>
+    </div>
+    """
+  end
+
+  def input(%{type: "radio"} = assigns) do
+    ~H"""
+    <div phx-feedback-for={@name} class={@wrapper_class}>
+      <.label for={@id} class={@label_class}>{@label}</.label>
+      <div class="mt-5 flex flex-col gap-3">
+        <label :for={{label, value} <- @options} class="flex items-center gap-2 cursor-pointer">
+          <% is_checked = to_string(@value) == to_string(value) %>
+          <div class="relative">
+            <input
+              type="radio"
+              id={"#{@id}_#{value}"}
+              name={@name}
+              value={value}
+              checked={is_checked}
+              class="peer sr-only pearl-radio"
+              {@rest}
+            />
+            <div class="h-6.5 w-6.5 rounded-full border-2 border-gray-300 bg-[#EFEFED] peer-checked:border-primary peer-checked:border-3 peer-checked:bg-[#EFEFED] flex items-center justify-center">
+            </div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity duration-50 pointer-events-none">
+            </div>
+          </div>
+          <span class={"text-sm text-gray-900 #{@class}"}>{label}</span>
+        </label>
+      </div>
       <.error :for={msg <- @errors}>{msg}</.error>
     </div>
     """
@@ -241,18 +286,23 @@ defmodule PearlWeb.CoreComponents do
   def input(%{type: "select"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
-      <.label for={@id}>{@label}</.label>
-      <select
-        id={@id}
-        name={@name}
-        class={"mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm #{@class}"}
-        multiple={@multiple}
-        {@rest}
-      >
-        <option :if={@prompt} value="">{@prompt}</option>
-        {Phoenix.HTML.Form.options_for_select(@options, @value)}
-      </select>
-      <.error :for={msg <- @errors}>{msg}</.error>
+      <.label for={@id} class={@label_class}>{@label}</.label>
+      <div class="w-full">
+        <select
+          id={@id}
+          name={@name}
+          class={[
+            input_class(@variant),
+            @class
+          ]}
+          multiple={@multiple}
+          {@rest}
+        >
+          <option :if={@prompt} value="">{@prompt}</option>
+          {Phoenix.HTML.Form.options_for_select(@options, @value)}
+        </select>
+        <.error :for={msg <- @errors}>{msg}</.error>
+      </div>
     </div>
     """
   end
@@ -260,73 +310,102 @@ defmodule PearlWeb.CoreComponents do
   def input(%{type: "textarea"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
-      <.label for={@id}>{@label}</.label>
-      <textarea
-        id={@id}
-        name={@name}
-        class={[
-          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-          "min-h-[6rem] phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400",
-          @class,
-          @errors == [] && "border-zinc-300 focus:border-zinc-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400"
-        ]}
-        {@rest}
-      ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
-      <.error :for={msg <- @errors}>{msg}</.error>
+      <.label for={@id} class={@label_class}>{@label}</.label>
+      <div class="w-full">
+        <textarea
+          id={@id}
+          name={@name}
+          class={[
+            input_class(@variant),
+            "min-h-24",
+            @class,
+            input_border(@variant, @errors)
+          ]}
+          {@rest}
+        ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
+        <.error :for={msg <- @errors}>{msg}</.error>
+      </div>
     </div>
     """
   end
 
-  def input(%{type: "handle"} = assigns) do
+  def input(%{type: "segmented-radio"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
-      <.label for={@id}>{@label}</.label>
-      <div class={[
-        "mt-2 flex bg-white w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-        "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400 select-none",
-        @class,
-        @errors == [] && "border-zinc-300 focus:border-zinc-400",
-        @errors != [] && "border-rose-400 focus:border-rose-400"
-      ]}>
-        <span class="pl-3 self-center text-zinc-600 border-r pr-2 mr-3 border-zinc-400/50">@</span>
-        <input
-          type={@type}
-          name={@name}
-          id={@id}
-          value={Phoenix.HTML.Form.normalize_value(@type, @value)}
-          class={[
-            "block w-full border-none focus:outline-none focus:ring-transparent mr-4 text-zinc-900 sm:text-sm sm:leading-6 border-0 ring-0 py-[0.5rem]",
-            @class
-          ]}
-          {@rest}
-        />
+      <.label :if={@label} for={@id}>{@label}</.label>
+      <div
+        class={["inline-flex rounded-full border border-gray-300 bg-gray-50 p-1 mt-2", @class]}
+        role="group"
+      >
+        <%= for {label, value} <- @options do %>
+          <% is_checked = to_string(@value) == to_string(value) %>
+          <label class={[
+            "relative cursor-pointer px-4 py-2 text-sm text-primary font-medium transition-all rounded-full",
+            if(is_checked, do: "bg-primary/10 shadow-sm", else: " hover:text-primary/40")
+          ]}>
+            <input
+              type="radio"
+              id={"#{@id}_#{value}"}
+              name={@name}
+              value={value}
+              checked={is_checked}
+              class="sr-only"
+              {@rest}
+            />
+            {label}
+          </label>
+        <% end %>
       </div>
       <.error :for={msg <- @errors}>{msg}</.error>
     </div>
     """
   end
 
-  # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
     <div phx-feedback-for={@name} class={@wrapper_class}>
-      <.label :if={@label} for={@id}>{@label}</.label>
-      <input
-        type={@type}
-        name={@name}
-        id={@id}
-        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
-        placeholder={assigns[:placeholder]}
-        class={[
-          "w-full px-0 py-3 bg-transparent border-0 border-b border-black/10 text-black placeholder:text-black/40 focus:outline-none focus:border-primary focus:ring-0 transition-colors text-base",
-          @class
-        ]}
-        {@rest}
-      />
-      <.error :for={msg <- @errors}>{msg}</.error>
+      <.label for={@id} class={@label_class}>{@label}</.label>
+      <div class="w-full">
+        <input
+          type={@type}
+          name={@name}
+          id={@id}
+          value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+          class={[
+            input_class(@variant),
+            @class,
+            input_border(@variant, @errors)
+          ]}
+          {@rest}
+        />
+        <.error :for={msg <- @errors}>{msg}</.error>
+      </div>
     </div>
     """
+  end
+
+  defp input_class(:default) do
+    "mt-2 block w-full rounded-lg text-dark focus:ring-0 sm:text-sm sm:leading-6 bg-surface border-0"
+  end
+
+  defp input_class(:flushed) do
+    "block w-full px-0 py-2 border-0 border-b border-dark-muted/30 focus:border-primary focus:ring-0 bg-transparent text-dark placeholder-dark-muted/60 focus:outline-none transition-colors sm:text-sm [&>option]:bg-white [&>option]:text-dark [&>option:checked]:bg-primary [&>option:checked]:text-white [&>option:hover]:bg-primary [&>option:hover]:text-white"
+  end
+
+  defp input_border(:default, errors) do
+    if errors == [] do
+      "border-transparent focus:border-primary"
+    else
+      "border-danger-400 focus:border-danger-400"
+    end
+  end
+
+  defp input_border(:flushed, errors) do
+    if errors == [] do
+      ""
+    else
+      "border-danger-500 focus:border-danger-500 text-danger-500 placeholder-danger-300"
+    end
   end
 
   @doc """
@@ -444,16 +523,17 @@ defmodule PearlWeb.CoreComponents do
   """
   attr :name, :string, required: true
   attr :class, :string, default: nil
+  attr :rest, :global
 
   def icon(%{name: "hero-" <> _} = assigns) do
     ~H"""
-    <span class={[@name, @class]} />
+    <span class={[@name, @class]} {@rest} />
     """
   end
 
   def icon(%{name: "fa-" <> _} = assigns) do
     ~H"""
-    <span class={[@name, @class]} />
+    <span class={[@name, @class]} {@rest} />
     """
   end
 

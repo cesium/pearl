@@ -12,16 +12,15 @@
     <.challenges_list
       challenges={@challenges}
       selected_challenge_id={@selected_challenge.id}
-      view_mode="desktop"
     />
 
-    <.challenge_detail challenge={@selected_challenge} view_mode="desktop" />
+    <.challenge_detail challenge={@selected_challenge} />
 
     <div class="xl:hidden">
       <%= if assigns[:mobile_selected_challenge] do %>
-        <.challenge_detail challenge={@mobile_selected_challenge} view_mode="mobile" />
+        <.challenge_detail challenge={@mobile_selected_challenge} />
       <% else %>
-        <.challenges_list challenges={@challenges} view_mode="mobile" />
+        <.challenges_list challenges={@challenges} />
       <% end %>
     </div>
   </div>

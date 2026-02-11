@@ -7,11 +7,10 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengesList do
 
   attr :challenges, :list, required: true
   attr :selected_challenge_id, :string, default: nil
-  attr :view_mode, :string, default: "desktop", values: ~w(desktop mobile)
 
   def challenges_list(assigns) do
     ~H"""
-    <div :if={@view_mode == "desktop"} class="hidden xl:flex flex-col">
+    <div class="hidden xl:flex flex-col">
       <ul class="font-terminal select-none text-base space-y-1">
         <%= for challenge <- @challenges do %>
           <li class="transition-all ease-in-out">
@@ -53,7 +52,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengesList do
         <% end %>
       </ul>
     </div>
-    <div :if={@view_mode == "mobile"} class="xl:hidden space-y-2">
+    <div class="xl:hidden space-y-2">
       <%= for challenge <- @challenges do %>
         <button
           phx-click="mobile_select_challenge"

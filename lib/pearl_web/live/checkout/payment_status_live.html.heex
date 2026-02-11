@@ -1,0 +1,26 @@
+<div class="text-black flex flex-col md:flex-row w-full gap-8 md:gap-2 h-full">
+  <.live_component
+    module={PearlWeb.Checkout.Components.InfoCard}
+    id="ticket-form"
+    current_user={@current_user}
+    step={@live_action}
+    payment_completed={@payment.status == :completed}
+    ticket_type={@ticket_type}
+  />
+
+  <div class={[
+    "flex flex-col place-items-center justify-center gap-4 overflow-auto w-full",
+    if(@payment.status == :completed,
+      do: "hidden delay-1000 translate-x-0 transition-all duration-1000"
+    )
+  ]}>
+    <div class="max-w-3xl">
+      <div>
+        <h2 class="text-lg sm:text-2xl mb-2 text-dark text-center">A aguardar pagamento...</h2>
+        <p class="text-md sm:text-lg text-dark text-center">
+          Estamos à espera da confirmação do pagamento por MB Way. Esta página será atualizada assim que o pagamento for confirmado.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

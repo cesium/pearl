@@ -8,7 +8,7 @@ defmodule Pearl.TeamsTest do
 
     import Pearl.TeamsFixtures
 
-    @invalid_attrs %{name: nil, priority: nil}
+    @invalid_attrs %{name: nil, priority: nil, color: nil}
     test "list_teams/0 returns all teams" do
       team = team_fixture()
       assert Teams.list_teams([]) == [team]
@@ -20,7 +20,7 @@ defmodule Pearl.TeamsTest do
     end
 
     test "create_team/1 with valid data creates a team" do
-      valid_attrs = %{name: "some name", priority: 0}
+      valid_attrs = %{name: "some name", priority: 0, color: "#000000"}
 
       assert {:ok, %Team{} = team} = Teams.create_team(valid_attrs)
       assert team.name == "some name"

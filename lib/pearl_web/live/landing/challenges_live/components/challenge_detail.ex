@@ -5,17 +5,20 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
   use Phoenix.Component
   use PearlWeb, :html
   import PearlWeb.Components.Markdown
+  alias Pearl.Uploaders
 
   attr :challenge, :map, required: true
 
   def challenge_detail(assigns) do
+    assigns = assign(assigns, :image_src, get_challenge_image(assigns.challenge))
+
     ~H"""
     <div class="hidden xl:flex">
       <div class="rounded-3xl shadow-lg overflow-hidden w-full bg-linear-to-b from-black/6 to-white">
         <div class="relative h-64 overflow-hidden flex items-end justify-center">
           <img
-            src={~p"/images/prizes.png"}
-            alt="Prizes"
+            src={@image_src}
+            alt={@challenge.name}
             class="h-full w-auto object-contain"
           />
         </div>
@@ -71,8 +74,8 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
       <div class="rounded-3xl shadow-lg overflow-hidden bg-linear-to-b from-black/6 to-white">
         <div class="relative h-48 overflow-hidden flex items-end justify-center">
           <img
-            src={~p"/images/prizes.png"}
-            alt="Prizes"
+            src={@image_src}
+            alt={@challenge.name}
             class="h-full w-auto object-contain"
           />
         </div>
@@ -113,4 +116,12 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
   defp trophy_color(1), do: "text-[#FFD700]"
   defp trophy_color(2), do: "text-[#C0C0C0]"
   defp trophy_color(_), do: "text-[#CD7F32]"
+
+  defp get_challenge_image(%{image: %{file_name: _}} = challenge) do
+    Uploaders.Challenge.url({challenge.image, challenge})
+  end
+
+  defp get_challenge_image(_challenge) do
+    "/images/prizes.png"
+  end
 end

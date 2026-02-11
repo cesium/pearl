@@ -43,21 +43,109 @@ defmodule Pearl.Tickets do
     |> Flop.validate_and_run(params, for: Ticket)
   end
 
+  @doc """
+  Returns the count of tickets.
+
+  ## Examples
+
+      iex> count_tickets()
+      3
+  """
   def count_tickets do
     Ticket
     |> Repo.aggregate(:count, :id)
   end
 
+  @doc """
+  Returns the count of paid tickets.
+
+  ## Examples
+
+      iex> count_paid_tickets()
+      1
+  """
   def count_paid_tickets do
     Ticket
     |> where(paid: true)
     |> Repo.aggregate(:count, :id)
   end
 
+  @doc """
+  Returns the count of pending (not paid) tickets.
+
+  ## Examples
+
+      iex> count_pending_tickets()
+      2
+  """
   def count_pending_tickets do
     Ticket
     |> where(paid: false)
     |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+    Returns a map with the ticket type name and the count for the type.
+
+  ## Examples
+
+    iex> count_by_ticket_type
+    %{
+      "Passe Geral" => 14,
+      "Passe Geral com Refeições" => 2,
+      "Passe Geral com Refeições e Alojamento da Universidade do Minho" => 5
+    }
+  """
+  def count_by_ticket_type do
+    Ticket
+    |> join(:inner, [t], tt in assoc(t, :ticket_type))
+    |> group_by([t, tt], [tt.name, t.paid])
+    |> select([t, tt], {tt.name, t.paid, count(t.id)})
+    |> Repo.all()
+  end
+
+  @doc """
+    Returns a map with the paid tickets grouped by ticket type name and the count for the type.
+
+  ## Examples
+
+    iex> count_by_ticket_type
+    %{
+      "Passe Geral" => 14,
+      "Passe Geral com Refeições" => 2,
+      "Passe Geral com Refeições e Alojamento da Universidade do Minho" => 5
+    }
+  """
+  def count_paid_by_ticket_type do
+    Ticket
+    |> join(:inner, [t], tt in assoc(t, :ticket_type))
+    |> where([t], t.paid == true)
+    |> group_by([_t, tt], tt.name)
+    |> select([t, tt], {tt.name, count(t.id)})
+    |> Repo.all()
+    |> Enum.into(%{})
+  end
+
+  @doc """
+    Returns a map with the pending (not paid) tickets grouped by ticket type name and the count for the type.
+
+  ## Examples
+
+    iex> count_by_ticket_type
+    %{
+      "Passe Geral" => 14,
+      "Passe Geral com Refeições" => 2,
+      "Passe Geral com Refeições e Alojamento da Universidade do Minho" => 5
+    }
+  """
+  def count_pending_by_ticket_type do
+    Ticket
+    |> join(:inner, [t], tt in assoc(t, :ticket_type))
+    |> where([t], t.paid == false)
+    |> group_by([_t, tt], tt.name)
+    |> select([t, tt], {tt.name, count(t.id)})
+    |> Repo.all()
+    |> Enum.into(%{})
   end
 
   @doc """

@@ -88,11 +88,23 @@ defmodule PearlWeb.Backoffice.TicketsLive.Index do
     paid_ticket_count = Tickets.count_paid_tickets()
     pending_ticket_count = Tickets.count_pending_tickets()
 
+    paid_by_type = Tickets.count_paid_by_ticket_type()
+    pending_by_type = Tickets.count_pending_by_ticket_type()
+
+    all_types = (Map.keys(paid_by_type) ++ Map.keys(pending_by_type)) |> Enum.uniq()
+
+    type_items =
+      Enum.map(all_types, fn type ->
+        paid = Map.get(paid_by_type, type, 0)
+        pending = Map.get(pending_by_type, type, 0)
+        %{label: type, value: "#{paid}/#{paid + pending}"}
+      end)
+
     [
       %{label: "Total de Bilhetes", value: ticket_count},
       %{label: "Bilhetes Pagos", value: paid_ticket_count},
       %{label: "Bilhetes Pendentes", value: pending_ticket_count}
-    ]
+    ] ++ type_items
   end
 
   def handle_event("delete", %{"id" => id}, socket) do

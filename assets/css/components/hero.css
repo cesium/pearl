@@ -1,0 +1,16 @@
+/* Hero section gradient background */
+.hero-gradient-bg {
+  position: absolute;
+  right: 50px;
+  top: 0;
+  bottom: -400px;
+  width: 1000px;
+  background: radial-gradient(
+    ellipse 600px 500px at 65% 45%,
+    rgba(120, 25, 25, 0.35) 0%,
+    rgba(140, 35, 25, 0.25) 30%,
+    rgba(160, 50, 30, 0.15) 50%,
+    rgba(180, 70, 40, 0.08) 70%,
+    transparent 85%
+  );
+}

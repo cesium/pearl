@@ -11,37 +11,30 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengesList do
   def challenges_list(assigns) do
     ~H"""
     <div class="hidden xl:flex flex-col">
-      <ul class="font-terminal select-none text-base space-y-1">
+      <ul class="select-none space-y-2.5">
         <%= for challenge <- @challenges do %>
           <li class="transition-all ease-in-out">
             <button
               phx-click="challenge_change"
-              class="w-full text-left group"
+              class="w-full text-left group cursor-pointer"
               phx-value-challenge_id={challenge.id}
             >
               <div class={[
-                "relative pl-6 py-4",
-                if(@selected_challenge_id == challenge.id,
-                  do: "text-[#8B1538]",
-                  else: "text-gray-400 hover:text-gray-300"
-                )
+                "pl-5 pr-4 py-4",
+                if(@selected_challenge_id == challenge.id, do: "border-l-4 border-primary", else: "")
               ]}>
-                <%= if @selected_challenge_id == challenge.id do %>
-                  <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#8B1538] rounded-r"></div>
-                <% end %>
-
                 <div class={[
-                  "uppercase font-bold mb-1",
-                  if(@selected_challenge_id == challenge.id, do: "text-[#8B1538]", else: "text-white")
+                  "font-semibold",
+                  if(@selected_challenge_id == challenge.id, do: "text-primary", else: "text-black")
                 ]}>
                   {challenge.name}
                 </div>
 
                 <div class={[
-                  "text-sm leading-relaxed",
+                  "leading-relaxed",
                   if(@selected_challenge_id == challenge.id,
-                    do: "text-[#8B1538]/80",
-                    else: "text-gray-500"
+                    do: "text-primary",
+                    else: "text-black/50"
                   )
                 ]}>
                   {truncate_text(challenge.description, 80)}
@@ -52,19 +45,19 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengesList do
         <% end %>
       </ul>
     </div>
-    <div class="xl:hidden space-y-2">
+    <div class="xl:hidden space-y-2.5">
       <%= for challenge <- @challenges do %>
         <button
           phx-click="mobile_select_challenge"
           phx-value-challenge_id={challenge.id}
-          class="w-full text-left p-6"
+          class="w-full text-left py-4"
         >
           <div class="flex items-center justify-between">
             <div class="flex-1">
-              <h3 class="font-bold text-black text-lg mb-2">
+              <h3 class="font-semibold text-black">
                 {challenge.name}
               </h3>
-              <p class="text-gray-500 text-sm line-clamp-2">
+              <p class="text-black/50 leading-relaxed">
                 {truncate_text(challenge.description, 100)}
               </p>
             </div>

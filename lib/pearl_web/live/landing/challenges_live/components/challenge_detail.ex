@@ -18,7 +18,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
         </div>
 
         <div class="p-12">
-          <h2 class="font-terminal uppercase select-none text-3xl text-black md:text-4xl xl:text-4xl mb-8 leading-tight">
+          <h2 class="select-none text-3xl text-black md:text-4xl xl:text-4xl mb-8 leading-tight">
             {@challenge.name}
           </h2>
 

@@ -36,7 +36,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.RedeemLive.Index do
                     signed: true
                   )
                 }
-                handle={redeem.attendee.user.handle}
+                name={redeem.attendee.user.name}
               />
               <div class="self-center">
                 <p class="text-base font-semibold">{redeem.attendee.user.name}</p>

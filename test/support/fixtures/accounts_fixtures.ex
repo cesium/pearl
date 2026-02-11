@@ -6,6 +6,7 @@ defmodule Pearl.AccountsFixtures do
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
   def valid_user_password, do: "hello world!"
+  def valid_phone_number, do: "987654321"
   def unique_handle, do: "user#{System.unique_integer([:positive])}"
 
   def valid_user_attributes(attrs \\ %{}) do
@@ -14,7 +15,8 @@ defmodule Pearl.AccountsFixtures do
       "name" => "John Doe",
       "handle" => unique_handle(),
       "email" => unique_user_email(),
-      "password" => valid_user_password()
+      "password" => valid_user_password(),
+      "phone" => valid_phone_number()
     })
   end
 

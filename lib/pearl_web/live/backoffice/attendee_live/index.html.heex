@@ -37,7 +37,7 @@
       <:col :let={{_id, user}} sortable field={:name} label="Name">
         <div class="flex gap-4 flex-center items-center">
           <.avatar
-            handle={user.handle}
+            name={user.name}
             src={Uploaders.UserPicture.url({user.picture, user}, :original, signed: true)}
           />
           <div class="self-center">

@@ -4,11 +4,14 @@ defmodule Pearl.Event.Faq do
   """
   use Pearl.Schema
 
-  @required_fields ~w(answer question)a
+  @required_fields ~w(topic answer question)a
+  @optional_fields ~w(is_article)a
 
   schema "faqs" do
-    field :answer, :string
+    field :topic, :string
     field :question, :string
+    field :answer, :string
+    field :is_article, :boolean, default: false
 
     timestamps()
   end
@@ -16,7 +19,7 @@ defmodule Pearl.Event.Faq do
   @doc false
   def changeset(faq, attrs) do
     faq
-    |> cast(attrs, @required_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
   end
 end

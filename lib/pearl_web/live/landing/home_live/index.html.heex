@@ -13,4 +13,5 @@
   <.speakers :if={@has_highlighted_speakers?} speakers={@streams.speakers} />
   <.sponsors :if={@has_sponsors?} tiers={@tiers} />
   <.partners />
+  <.link_wrapup is_register_open?={@is_register_open?} />
 </div>

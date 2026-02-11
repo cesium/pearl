@@ -18,7 +18,7 @@
           image={Uploaders.UserPicture.url({@user.picture, @user}, :original, signed: true)}
         >
           <:placeholder>
-            <.avatar size={:xl} handle={@user.handle} />
+            <.avatar size={:xl} name={@user.name} />
           </:placeholder>
         </.image_uploader>
       </div>

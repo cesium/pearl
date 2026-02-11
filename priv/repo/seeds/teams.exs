@@ -3,12 +3,12 @@ defmodule Pearl.Repo.Seeds.Teams do
   alias Pearl.Teams.Team
 
   @teams [
-    {"Main Organization", ["Alice", "Bob"]},
-    {"Tech", ["Dave", "Eve", "Frank", "Grace", "Heidi"]},
-    {"Marketing", ["Ivan", "Judy", "Mallory", "Niaj", "Olivia"]},
-    {"Program", ["Peggy", "Sybil", "Trent", "Victor", "Walter"]},
-    {"Sponsorships", ["Xander", "Yvonne", "Zara", "Aaron", "Betty"]},
-    {"Logistics", ["Carol"]}
+    {"Main Organization", "#811824", ["Alice", "Bob"]},
+    {"Tech", "#24B0E7", ["Dave", "Eve", "Frank", "Grace", "Heidi"]},
+    {"Marketing", "#ED498D", ["Ivan", "Judy", "Mallory", "Niaj", "Olivia"]},
+    {"Program", "#DFB13E", ["Peggy", "Sybil", "Trent", "Victor", "Walter"]},
+    {"Sponsorships", "#96D628", ["Xander", "Yvonne", "Zara", "Aaron", "Betty"]},
+    {"Logistics", "#7575D7", ["Carol"]}
   ]
 
   def run do
@@ -26,9 +26,10 @@ defmodule Pearl.Repo.Seeds.Teams do
     |> Enum.each(&insert_team_with_members/1)
   end
 
-  defp insert_team_with_members({{name, members}, id}) do
+  defp insert_team_with_members({{name, color, members}, id}) do
     team_seed = %{
       name: name,
+      color: color,
       priority: id,
       id: id
     }

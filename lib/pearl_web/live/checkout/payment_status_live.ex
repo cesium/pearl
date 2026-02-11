@@ -19,10 +19,24 @@ defmodule PearlWeb.Checkout.PaymentStatusLive do
   end
 
   @impl true
-  def handle_info({:payment_order_updated, payment}, socket) do
+  def handle_info({:payment_order_updated, %{status: :completed} = payment}, socket) do
     {:noreply,
      socket
      |> assign(payment: payment)
      |> put_flash(:info, "Pagamento confirmado com sucesso.")}
+  end
+
+  @impl true
+  def handle_info({:payment_order_updated, %{status: :canceled} = payment}, socket) do
+    {:noreply,
+     socket
+     |> assign(payment: payment)
+     |> put_flash(:error, "Pagamento cancelado.")
+     |> push_navigate(to: ~p"/checkout/payment")}
+  end
+
+  @impl true
+  def handle_info({:payment_order_updated, payment}, socket) do
+    {:noreply, assign(socket, payment: payment)}
   end
 end

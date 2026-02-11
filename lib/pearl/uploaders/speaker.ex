@@ -10,7 +10,7 @@ defmodule Pearl.Uploaders.Speaker do
   @extension_whitelist ~w(.jpg .jpeg .png)
 
   @ratio_target 1.0
-  @ratio_tolerance 0.2
+  @ratio_tolerance 0.05
 
   def validate({file, _}) do
     file_extension = file.file_name |> Path.extname() |> String.downcase()

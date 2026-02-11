@@ -63,7 +63,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
               </div>
               <div class="flex flex-col gap-2">
                 <.label>
-                  {gettext("Picture")}
+                  {gettext("Picture (must be a square image!!!)")}
                 </.label>
                 <.image_uploader
                   class="w-full aspect-square"

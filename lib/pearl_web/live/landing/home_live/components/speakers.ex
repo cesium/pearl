@@ -10,7 +10,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
 
   def speakers(assigns) do
     ~H"""
-    <div :if={@speakers} class="md:mx-20 mx-0">
+    <div :if={@speakers}>
       <div
         class={[
           "relative w-full overflow-hidden transition-colors duration-300 ease-in-out",
@@ -19,7 +19,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         ]}
         style={bg_style(@selected_speaker && @selected_speaker.dominant_color)}
       >
-        <div class="block md:hidden">
+        <div class="block lg:hidden">
           <.mobile_layout
             speakers={@speakers}
             selected_speaker={@selected_speaker}
@@ -28,7 +28,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           />
         </div>
 
-        <div class="hidden md:flex h-220 w-full pl-7 pt-7">
+        <div class="hidden lg:flex h-220 w-full pl-7 pt-7">
           <.desktop_layout
             speakers={@speakers}
             selected_speaker={@selected_speaker}
@@ -43,60 +43,69 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
 
   defp mobile_layout(assigns) do
     ~H"""
-    <div class="flex flex-col px-6 pt-6 h-[80dvh] relative overflow-hidden">
-      <div class="z-20 shrink-0 mb-4">
-        <.header_text />
+    <div class="flex flex-col min-h-screen backdrop-blur-2xl">
+      <div class="py-6 shrink-0 relative">
+        <.speaker_image
+          speaker={@selected_speaker}
+          class="absolute bottom-0 blur-xl left-0 w-full z-10 scale-y-[-1]"
+        />
+        <.header_text class="relative px-4 z-40" />
+        <div
+          :if={@selected_speaker && @selected_speaker.picture}
+          class={[
+            "absolute inset-0",
+            overlay_class(@selected_speaker && @selected_speaker.dominant_color)
+          ]}
+        />
       </div>
 
-      <div class="absolute scale-130 -top-35 left-0 w-full flex flex-col items-end justify-end pointer-events-none select-none">
-        <div class="relative w-full">
+      <div class="relative w-full aspect-square shrink-0 overflow-hidden">
+        <div class="absolute inset-0 w-full h-full">
           <.speaker_image
             speaker={@selected_speaker}
-            class="w-full h-full scale-y-[-1]"
+            class="w-full h-full object-cover transition-transform duration-700 ease-out"
           />
-
-          <.speaker_image
-            speaker={@selected_speaker}
-            class="w-full"
-          />
-
-          <.speaker_image
-            speaker={@selected_speaker}
-            class="w-full h-full scale-y-[-1]"
-          />
-          
-    <!-- Top blur -->
           <div
-            class="absolute top-0 left-0 right-0 h-[50%] backdrop-blur-3xl"
-            style="mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);"
+            :if={@selected_speaker && @selected_speaker.picture}
+            class="absolute inset-0 pointer-events-none"
           >
           </div>
-          
-    <!-- Bottom blur -->
-          <div
-            class="absolute bottom-0 left-0 right-0 h-[40%] backdrop-blur-md"
-            style="mask-image: linear-gradient(to top, black 0%, black 30%, transparent 100%); -webkit-mask-image: linear-gradient(to top, black 0%, black 30%, transparent 100%);"
-          >
+        </div>
+
+        <div class="absolute bottom-0 left-0 w-full z-20 flex flex-col justify-end h-2/3">
+          <div class="overflow-y-auto max-h-full [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden mask-[linear-gradient(to_bottom,transparent,black_20%)]">
+            <.speaker_list
+              speakers={@speakers}
+              selected_speaker={@selected_speaker}
+              on_select={@on_select}
+              layout_mode={:mobile}
+            />
           </div>
         </div>
       </div>
 
-      <div class="absolute bottom-0 h-[45%] left-0 z-10 min-h-0 overflow-y-clip pb-40 overflow-x-scroll [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <.speaker_list
-          speakers={@speakers}
-          selected_speaker={@selected_speaker}
-          on_select={@on_select}
-          layout_mode={:mobile}
-        />
-      </div>
-
-      <div class="absolute z-30 bottom-8 left-0 right-0 px-4 flex justify-center">
+      <div class="flex flex-col items-center justify-between pt-4 px-6 grow relative">
         <.info_card
           activity={@selected_activity}
           speaker={@selected_speaker}
-          class="w-[80%] shadow-xl bg-white/90 backdrop-blur-md"
+          class="relative z-40"
+        />
+        <.speaker_image
+          speaker={@selected_speaker}
+          class="absolute opacity-50 blur-xl scale-y-[-1] z-10 top-0 w-full"
+        />
+        <div
+          :if={@selected_speaker && @selected_speaker.picture}
+          class={[
+            " absolute inset-0",
+            overlay_class(@selected_speaker && @selected_speaker.dominant_color)
+          ]}
         />
       </div>
+      <div class={[
+        "absolute inset-0",
+        overlay_class(@selected_speaker && @selected_speaker.dominant_color)
+      ]} />
     </div>
     """
   end
@@ -126,7 +135,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           />
         </div>
 
-        <div class="absolute bottom-0 right-0 h-[80%] p-0 flex items-end justify-center overflow-hidden pointer-events-none select-none">
+        <div class="absolute bottom-0 right-0  lg:h-[60%] xl:h-[70%] 2xl:h-[80%] p-0 flex items-end justify-end overflow-hidden pointer-events-none select-none">
           <.speaker_image
             speaker={@selected_speaker}
             class="size-full blur-xl mask-[radial-gradient(ellipse_at_bottom_left,black_20%,transparent_70%)] scale-x-[-1] opacity-50"
@@ -139,12 +148,12 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
 
   defp header_text(assigns) do
     ~H"""
-    <div class={["flex flex-col space-y-4", Map.get(assigns, :class, "")]}>
-      <p class="text-4xl md:text-6xl font-bold leading-tight">
+    <div class={["flex flex-col space-y-2 lg:space-y-4", Map.get(assigns, :class, "")]}>
+      <p class="text-2xl md:text-5xl font-bold leading-tight">
         Trazemos um elenco de estrelas
       </p>
-      <p class="text-base md:text-xl opacity-90 font-medium max-w-xl">
-        Conhece os oradores que te trarão as palestras incríveis que temos preparadas para ti.
+      <p class="text-sm md:text-xl opacity-90 font-medium max-w-xl">
+        Conhece os oradores que te trarão as palestras incríveis que temos preparadas para ti e sabe mais sobre quem são.
       </p>
     </div>
     """
@@ -154,13 +163,11 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     ~H"""
     <div class="
           relative z-10
-          pt-6
-          pb-50
-          mb-10
-          md:py-10
+          pt-10
+          lg:py-10
           max-h-100
           w-2xl
-          overflow-x-hidden
+          overflow-x-clip
           overflow-y-auto
           [scrollbar-width:none]
           [-ms-overflow-style:none]
@@ -198,7 +205,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     <div
       :if={@speaker}
       class={[
-        "rounded-[40px] md:rounded-full px-6 py-4 min-h-2 flex flex-col items-center justify-center text-dark animate-[fade_in_0.5s_both]",
+        "rounded-[40px] md:rounded-full px-6 py-4 min-h-2 flex flex-col items-center justify-center animate-[fade_in_0.5s_both]",
         @class
       ]}
     >
@@ -211,8 +218,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
       </p>
 
       <%= if @activity do %>
-        <p class="text-xs mt-1 text-dark/60 font-medium text-center">
-          Poderás ver este orador
+        <p class="text-xs mt-1 font-medium text-center">
+          <span class="opacity-60">
+            Poderás ver este orador
+          </span>
           <span class="text-primary border-b-2 border-primary ml-1 text-base md:text-lg pb-0.5">
             {format_activity_time(@activity)}
           </span>
@@ -223,7 +232,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   end
 
   defp item_style(:mobile, sel_speaker, speaker) do
-    base = "text-3xl pl-1 "
+    base = "text-3xl sm:text-4xl md:text-5xl pl-1 "
 
     if sel_speaker && sel_speaker.id == speaker.id do
       base <> "font-black! scale-105! origin-left!"
@@ -244,6 +253,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
 
   defp text_class(color) do
     if light_color?(color), do: "text-dark", else: "text-light"
+  end
+
+  defp overlay_class(color) do
+    if light_color?(color), do: "", else: "bg-dark/20"
   end
 
   defp bg_style(%{"r" => r, "g" => g, "b" => b}), do: "--r: #{r}; --g: #{g}; --b: #{b};"

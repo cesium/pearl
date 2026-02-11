@@ -61,7 +61,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengesList do
                 {truncate_text(challenge.description, 100)}
               </p>
             </div>
-            <.icon name="hero-chevron-right" class="w-6 h-6 text-gray-400 shrink-0 ml-4" />
+            <.icon name="hero-chevron-right" class="w-6 h-6 text-black/30 shrink-0 ml-4" />
           </div>
         </button>
       <% end %>

@@ -4,7 +4,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Index do
   alias Pearl.Companies
   alias Pearl.Spotlights
 
-  import PearlWeb.Components.Button
+  import PearlWeb.Components.{Button, Modal}
 
   @impl true
   def mount(_params, _session, socket) do

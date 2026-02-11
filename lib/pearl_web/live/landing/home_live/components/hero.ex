@@ -2,72 +2,43 @@ defmodule PearlWeb.Landing.HomeLive.Components.Hero do
   @moduledoc false
   use PearlWeb, :component
 
-  import PearlWeb.Landing.Components.{JoinUs, Socials}
-
   attr :event_start_date, Date, required: true
   attr :event_end_date, Date, required: true
-  attr :registrations_open?, :boolean, default: false
 
   def hero(assigns) do
     ~H"""
-    <div class="mt-2">
-      <div class="select-none">
-        <div class="py-14 sm:py-28">
-          <.title event_start_date={@event_start_date} event_end_date={@event_end_date} />
-        </div>
-        <div class="relative mt-24 text-white">
-          <div class="flex items-center justify-between pb-4">
-            <div class="flex flex-row justify-between w-full">
-              <div class="flex flex-col gap-4">
-                <h5>{gettext("Follow us on")}</h5>
-                <.socials />
-              </div>
-              <div :if={@registrations_open?} class="lg:hidden">
-                <.join_us />
-              </div>
-            </div>
-            <div class="absolute right-0 hidden lg:block">
-              <.organization />
-            </div>
-          </div>
-          <div class="mt-10 lg:hidden">
-            <.organization />
+    <div class="px-5 pb-5 sm:px-6 sm:pb-6">
+      <div class="relative rounded-3xl sm:rounded-4xl overflow-hidden h-[calc(100dvh-116px)]  xl:h-[calc(100dvh-132px)]">
+        <img
+          src="/images/landing.webp"
+          alt=""
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+        <div class="relative z-10 h-full flex items-center justify-end">
+          <div class="max-w-3xl text-left pl-10 pr-10 sm:pr-14 lg:pr-20 text-light">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+              {gettext("encontro nacional de estudantes de informática")}
+            </h1>
+            <p class="mt-4 text-3xl sm:text-4xl lg:text-5xl text-right md:text-left font-light opacity-90">
+              {Timex.format!(@event_start_date, "{D}")}-{Timex.lformat!(
+                @event_end_date,
+                "{D} {Mfull} {YYYY}",
+                "pt"
+              )}
+            </p>
           </div>
         </div>
+        <a
+          href="#info-section"
+          class="absolute bottom-6 z-10 left-1/2 -translate-x-1/2 text-light/80 cursor-pointer select-none transition-opacity duration-300"
+        >
+          {gettext("Desliza para ver mais")}
+          <div class="mt-1 text-center">
+            <.icon name="hero-arrow-down" />
+          </div>
+        </a>
       </div>
     </div>
     """
-  end
-
-  defp title(assigns) do
-    ~H"""
-    <div class="relative z-20 font-bold animate-slide-in">
-      <h5 class="font-terminal uppercase m-1 text-2xl text-accent">
-        {display_event_dates(@event_start_date, @event_end_date)}
-      </h5>
-      <h1 class="font-terminal uppercase relative z-20 text-white text-5xl xs:text-5xl sm:text-6xl w-full md:text-7xl lg:text-8xl 2xl:w-5/6 2xl:text-8xl 2xl:leading-20">
-        <span class="relative z-20">
-          The National Meeting of Software Engineering Students is back, let's just
-          <span class="underline decoration-8 underline-offset-8">ENEI</span>
-          that.
-        </span>
-      </h1>
-    </div>
-    """
-  end
-
-  defp organization(assigns) do
-    ~H"""
-    <div class="flex flex-col gap-3">
-      <h5 class="font-imedium text-white">{gettext("Organization")}</h5>
-      <a href="https://cesium.pt">
-        <img src="/images/cesium-logo.svg" width="120" height="41" alt="CeSIUM" class="select-none" />
-      </a>
-    </div>
-    """
-  end
-
-  defp display_event_dates(event_start_date, event_end_date) do
-    "#{Timex.format!(event_start_date, "{D}")}-#{Timex.format!(event_end_date, "{D} {Mfull} {YYYY}")}"
   end
 end

@@ -12,7 +12,7 @@ defmodule PearlWeb.Landing.Components.Speaker do
     ~H"""
     <a
       href={speaker_link(@speaker)}
-      class="text-white grayscale filter transition-all hover:text-accent hover:filter-none"
+      class="text-dark grayscale filter transition-all hover:text-accent hover:filter-none"
     >
       <img
         src={

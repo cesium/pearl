@@ -77,7 +77,7 @@ defmodule PearlWeb.Components.Button do
       <%= if @icon != "" do %>
         <.icon name={@icon} />
       <% end %>
-      <p class={"uppercase font-terminal text-2xl #{@title_class}"}>{@title}</p>
+      <p class={"uppercase text-2xl #{@title_class}"}>{@title}</p>
       <p class="font-terminal">{@subtitle}</p>
     </button>
     """

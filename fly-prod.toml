@@ -1,32 +1,39 @@
-app = "pearl-prod"
-primary_region = "mad"
-kill_signal = "SIGTERM"
+# fly.toml app configuration file generated for pearl-prod on 2026-02-02T15:57:41Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'pearl-prod'
+primary_region = 'cdg'
+kill_signal = 'SIGTERM'
+
+[build]
 
 [deploy]
-  release_command = "/app/bin/migrate"
+  release_command = '/app/bin/migrate'
 
 [env]
-  PHX_HOST = "eneiconf.pt"
-  MIX_ENV = "prod"
-  PORT = "8080"
+  DNS_CLUSTER_QUERY = 'pearl-prod.internal'
+  FROM_EMAIL_ADDRESS = 'no-reply@eneiconf.pt'
   FROM_EMAIL_NAME = "ENEI '26"
-  FROM_EMAIL_ADDRESS = "no-reply@eneiconf.pt"
-  DNS_CLUSTER_QUERY = "pearl-prod.internal"
+  MIX_ENV = 'prod'
+  PHX_HOST = 'pearl-prod.fly.dev'
+  PORT = '8080'
 
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = false
+  auto_stop_machines = 'off'
   auto_start_machines = true
   min_machines_running = 0
-  processes = ["app"]
+  processes = ['app']
 
   [http_service.concurrency]
-    type = "connections"
+    type = 'connections'
     hard_limit = 1000
     soft_limit = 1000
 
 [[vm]]
-  memory = "512mb"
-  cpu_kind = "shared"
+  memory = '512mb'
   cpus = 1
+  memory_mb = 512

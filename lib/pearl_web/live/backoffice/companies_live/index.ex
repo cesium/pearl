@@ -1,12 +1,16 @@
 defmodule PearlWeb.Backoffice.CompanyLive.Index do
   use PearlWeb, :backoffice_view
 
-  import PearlWeb.Components.{Table, TableSearch}
+  import PearlWeb.Components.{Table, TableSearch, Modal}
 
   alias Pearl.{Companies, Contest}
   alias Pearl.Companies.{Company, Tier}
 
-  on_mount {PearlWeb.StaffRoles, index: %{"companies" => ["edit"]}}
+  on_mount {PearlWeb.StaffRoles,
+            index: %{"companies" => ["show"]},
+            new: %{"companies" => ["edit"]},
+            tiers_edit: %{"companies" => ["tiers_edit"]},
+            tiers_new: %{"companies" => ["tiers_new"]}}
 
   @impl true
   def mount(_params, _session, socket) do

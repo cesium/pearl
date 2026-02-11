@@ -11,34 +11,45 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
   def challenge_detail(assigns) do
     ~H"""
     <div class="hidden xl:flex">
-      <div class="bg-white rounded-3xl shadow-lg overflow-hidden w-full">
-        <div class="relative h-64 bg-linear-to-br from-gray-100 via-gray-50 to-white overflow-hidden">
-          <div class="absolute inset-0 bg-linear-to-br from-[#8B1538]/5 via-transparent to-gray-100">
-          </div>
+      <div class="rounded-3xl shadow-lg overflow-hidden w-full bg-linear-to-b from-black/6 to-white">
+        <div class="relative h-64 overflow-hidden flex items-end justify-center">
+          <img
+            src={~p"/images/prizes.png"}
+            alt="Prizes"
+            class="h-full w-auto object-contain"
+          />
         </div>
 
-        <div class="p-12">
-          <h2 class="select-none text-3xl text-black md:text-4xl xl:text-4xl mb-8 leading-tight">
+        <div class="pl-12">
+          <img
+            src={~p"/images/bookshelf.svg"}
+            alt="Bookshelf"
+            class="w-full"
+          />
+        </div>
+
+        <div class="px-12 pb-12 space-y-8">
+          <h2 class="font-semibold select-none text-2xl text-black leading-tight">
             {@challenge.name}
           </h2>
 
-          <div class="mb-10">
-            <h3 class="text-xl font-bold text-black mb-4">Como funciona</h3>
-            <div class="text-gray-700 leading-relaxed text-base">
+          <div>
+            <h3 class="font-semibold text-black mb-2">Como funciona</h3>
+            <div class="text-black leading-relaxed">
               <.markdown
                 content={@challenge.description}
-                class="[&_a]:text-[#8B1538] [&_a]:underline"
+                class="[&_a]:text-primary [&_a]:underline"
               />
             </div>
           </div>
 
           <div>
-            <h3 class="text-xl font-bold text-black mb-5">Prémios</h3>
-            <div class="space-y-4">
+            <h3 class="font-semibold text-black mb-2">Prémios</h3>
+            <div class="space-y-2">
               <%= for cp <- @challenge.prizes do %>
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2">
                   <.icon name="hero-trophy" class={"shrink-0 w-10 h-10 #{trophy_color(cp.place)}"} />
-                  <p class="text-gray-900 font-medium text-base">
+                  <p class="text-black">
                     {cp.prize.name}
                   </p>
                 </div>

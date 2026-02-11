@@ -335,7 +335,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
   defp day_view(assigns) do
     ~H"""
-    <div class="bg-light rounded-[3.5rem] p-10 shadow-sm min-h-150">
+    <div class="bg-light rounded-[40px] p-10 min-h-150">
       <div class="space-y-8">
         <%= for time_slot <- @activity_groups do %>
           <.time_slot_cell

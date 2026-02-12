@@ -1,12 +1,10 @@
-/* Hero section gradient background */
+/* Hero section gradient background - responsive */
 .hero-gradient-bg {
   position: absolute;
-  right: 50px;
-  top: 0;
-  bottom: -400px;
-  width: 1000px;
+  inset: 0;
+  pointer-events: none;
   background: radial-gradient(
-    ellipse 600px 500px at 65% 45%,
+    ellipse 80% 60% at 70% 50%,
     rgba(120, 25, 25, 0.35) 0%,
     rgba(140, 35, 25, 0.25) 30%,
     rgba(160, 50, 30, 0.15) 50%,
@@ -14,3 +12,17 @@
     transparent 85%
   );
 }
+
+@media (min-width: 1024px) {
+  .hero-gradient-bg {
+    background: radial-gradient(
+      ellipse 50% 70% at 75% 45%,
+      rgba(120, 25, 25, 0.35) 0%,
+      rgba(140, 35, 25, 0.25) 30%,
+      rgba(160, 50, 30, 0.15) 50%,
+      rgba(180, 70, 40, 0.08) 70%,
+      transparent 85%
+    );
+  }
+}
+

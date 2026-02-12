@@ -15,7 +15,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
     ~H"""
     <div class="hidden xl:flex">
       <div class="rounded-3xl shadow-lg overflow-hidden w-full bg-linear-to-b from-black/6 to-white">
-        <div class="relative h-64 overflow-hidden flex items-end justify-center">
+        <div class="relative h-64 overflow-hidden flex items-end justify-center pt-12">
           <img
             src={@image_src}
             alt={@challenge.name}
@@ -72,7 +72,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
       </button>
 
       <div class="rounded-3xl shadow-lg overflow-hidden bg-linear-to-b from-black/6 to-white">
-        <div class="relative h-48 overflow-hidden flex items-end justify-center">
+        <div class="relative h-24 overflow-hidden flex items-end justify-center pt-8">
           <img
             src={@image_src}
             alt={@challenge.name}

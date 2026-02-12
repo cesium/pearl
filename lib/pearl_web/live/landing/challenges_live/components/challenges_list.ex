@@ -4,6 +4,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengesList do
   """
   use Phoenix.Component
   use PearlWeb, :html
+  import PearlWeb.Components.Markdown
 
   attr :challenges, :list, required: true
   attr :selected_challenge_id, :string, default: nil
@@ -31,13 +32,13 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengesList do
                 </div>
 
                 <div class={[
-                  "leading-relaxed",
+                  "leading-relaxed line-clamp-2",
                   if(@selected_challenge_id == challenge.id,
                     do: "text-primary",
                     else: "text-black/50"
                   )
                 ]}>
-                  {truncate_text(challenge.description, 80)}
+                  <.markdown content={challenge.description} />
                 </div>
               </div>
             </button>
@@ -57,9 +58,9 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengesList do
               <h3 class="font-semibold text-black">
                 {challenge.name}
               </h3>
-              <p class="text-black/50 leading-relaxed">
-                {truncate_text(challenge.description, 100)}
-              </p>
+              <div class="text-black/50 leading-relaxed line-clamp-3">
+                <.markdown content={challenge.description} />
+              </div>
             </div>
             <.icon name="hero-chevron-right" class="w-6 h-6 text-black/30 shrink-0 ml-4" />
           </div>
@@ -67,15 +68,5 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengesList do
       <% end %>
     </div>
     """
-  end
-
-  defp truncate_text(nil, _length), do: ""
-
-  defp truncate_text(text, length) do
-    if String.length(text) > length do
-      String.slice(text, 0, length) <> "..."
-    else
-      text
-    end
   end
 end

@@ -58,7 +58,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengesList do
               <h3 class="font-semibold text-black">
                 {challenge.name}
               </h3>
-              <div class="text-black/50 leading-relaxed line-clamp-3">
+              <div class="text-black/50 leading-relaxed line-clamp-2">
                 <.markdown content={challenge.description} />
               </div>
             </div>

@@ -2,7 +2,8 @@ defmodule PearlWeb.Landing.FAQLive.Index do
   use PearlWeb, :landing_view
 
   alias Pearl.Event
-  import PearlWeb.Landing.FAQLive.Components.{Faq, FindUs}
+  import PearlWeb.Components.{Countdown, Ticket}
+  import PearlWeb.Landing.FAQLive.Components.{Contacts, Faq}
 
   on_mount {PearlWeb.VerifyFeatureFlag, "faqs_enabled"}
 
@@ -11,6 +12,7 @@ defmodule PearlWeb.Landing.FAQLive.Index do
     {:ok,
      socket
      |> assign(:current_page, :faqs)
+     |> assign(:event_start_date, Event.get_event_start_date())
      |> stream(:faqs, Event.list_faqs())}
   end
 end

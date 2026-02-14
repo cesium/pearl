@@ -6,7 +6,7 @@ defmodule PearlWeb.PrizeLive.Daily.FormComponent do
   alias Pearl.Contest.DailyPrize
   alias Pearl.Minigames
 
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button, Forms}
 
   @impl true
   def render(assigns) do
@@ -16,9 +16,9 @@ defmodule PearlWeb.PrizeLive.Daily.FormComponent do
         <div class="pt-8">
           <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold">{gettext("Daily Prizes")}</h2>
-            <.button phx-click={JS.push("add-prize", target: @myself)}>
+            <.backoffice_button phx-click={JS.push("add-prize", target: @myself)}>
               <.icon name="hero-plus" class="w-5 h-5" />
-            </.button>
+            </.backoffice_button>
           </div>
           <ul class="h-[45vh] overflow-y-scroll scrollbar-hide mt-4 border-b-[1px] border-lightShade  dark:border-darkShade">
             <%= for {id, _daily_prize, form} <- @daily_prizes do %>
@@ -61,9 +61,9 @@ defmodule PearlWeb.PrizeLive.Daily.FormComponent do
           </ul>
         </div>
         <div class="w-full flex flex-row-reverse">
-          <.button phx-click="save" phx-target={@myself} phx-disable-with="Saving...">
+          <.backoffice_button phx-click="save" phx-target={@myself} phx-disable-with="Saving...">
             Save Daily Prizes
-          </.button>
+          </.backoffice_button>
         </div>
       </.page>
     </div>

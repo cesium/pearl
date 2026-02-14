@@ -4,8 +4,7 @@ defmodule PearlWeb.Backoffice.ProductLive.Index do
   alias Pearl.Store
   alias Pearl.Store.Product
 
-  import PearlWeb.Components.Table
-  import PearlWeb.Components.TableSearch
+  import PearlWeb.Components.{Table, TableSearch, Modal}
 
   on_mount {PearlWeb.StaffRoles,
             index: %{"products" => ["show"]},

@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.EventLive.FaqLive.Index do
   use PearlWeb, :live_component
 
   alias Pearl.Event
-  import PearlWeb.Components.EnsurePermissions
+  import PearlWeb.Components.{Button, EnsurePermissions}
 
   @impl true
   def render(assigns) do
@@ -12,7 +12,7 @@ defmodule PearlWeb.Backoffice.EventLive.FaqLive.Index do
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"event" => ["edit_faqs"]}}>
             <.link navigate={~p"/dashboard/event/faqs/new"}>
-              <.button>New FAQ</.button>
+              <.backoffice_button>New FAQ</.backoffice_button>
             </.link>
           </.ensure_permissions>
         </:actions>

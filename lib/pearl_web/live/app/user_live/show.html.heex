@@ -3,7 +3,7 @@
     <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 w-full sm:w-fit py-8">
       <.avatar
         size={:xl}
-        handle={@user.handle}
+        name={@user.name}
         src={Uploaders.UserPicture.url({@user.picture, @user}, :original, signed: true)}
       />
       <div class="flex flex-col gap-2">

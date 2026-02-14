@@ -1,30 +1,32 @@
 <div class="text-light font-iregular relative min-h-screen">
-  <.sparkles />
   <.navbar
     pages={PearlWeb.Config.landing_pages()}
     registrations_open?={Pearl.Event.registrations_open?()}
   />
   <main>
-    <body>
-      <.sparkles />
-      <div class="flex w-full justify-center items-center flex-col py-48 font-terminal uppercase xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
-        <h5 class="z-0 w-full text-accent text-9xl">500</h5>
-        <h1 class="z-0 text-5xl text-white lg:text-8xl xl:text-8xl">
-          {gettext("Sorry! Our monkeys gave up on working.")}
-        </h1>
+    <div class="flex w-full justify-center items-center flex-col py-32 xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
+      <img
+        src="/images/500_error.svg"
+        alt=""
+        class="w-full max-w-xs md:max-w-md lg:max-w-xl h-auto mb-12"
+      />
+
+      <div class="flex flex-col items-center max-w-xl w-full gap-8">
+        <p class="text-center text-black/50 text-lg leading-relaxed">
+          {gettext(
+            "Algo correu mal do nosso lado. Tenta recarregar a página ou volta à página inicial."
+          )}
+        </p>
+
+        <.link navigate={~p"/"}>
+          <.primary_button
+            title={gettext("ir para a página inicial")}
+            icon="hero-home"
+          />
+        </.link>
       </div>
-    </body>
+    </div>
   </main>
-  <.footer>
-    <:tip>
-      <.link
-        class="underline"
-        target="_blank"
-        href="https://github.com/cesium/pearl/graphs/contributors"
-      >
-        Their
-      </.link>
-      fault.
-    </:tip>
-  </.footer>
+
+  <.footer />
 </div>

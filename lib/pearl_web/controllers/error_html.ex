@@ -6,7 +6,8 @@ defmodule PearlWeb.ErrorHTML do
   """
   use PearlWeb, :html
 
-  import PearlWeb.Landing.Components.{Footer, Navbar, Sparkles}
+  import PearlWeb.Landing.Components.{Footer, Navbar}
+  import PearlWeb.Components.Button
 
   embed_templates "error_html/*"
 end

@@ -11,15 +11,15 @@
 
       <.ensure_permissions user={@current_user} permissions={%{"staffs" => ["edit"]}}>
         <.link patch={~p"/dashboard/staffs/new"}>
-          <.button>New Staff</.button>
+          <.backoffice_button>New Staff</.backoffice_button>
         </.link>
       </.ensure_permissions>
 
       <.ensure_permissions user={@current_user} permissions={%{"staffs" => ["roles_edit"]}}>
         <.link patch={~p"/dashboard/staffs/roles"}>
-          <.button>
+          <.backoffice_button>
             <.icon name="hero-shield-exclamation" class="w-5 h-5" />
-          </.button>
+          </.backoffice_button>
         </.link>
       </.ensure_permissions>
     </div>
@@ -30,7 +30,7 @@
       <:col :let={user} sortable field={:name} label="Name">
         <div class="flex gap-4 flex-center items-center">
           <.avatar
-            handle={user.handle}
+            name={user.name}
             src={Uploaders.UserPicture.url({user.picture, user}, :original, signed: true)}
           />
           <div class="self-center">

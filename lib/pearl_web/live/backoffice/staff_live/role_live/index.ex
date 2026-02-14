@@ -10,7 +10,7 @@ defmodule PearlWeb.Backoffice.StaffLive.RoleLive.Index do
       <.page title={@title}>
         <:actions>
           <.link navigate={~p"/dashboard/staffs/roles/new"}>
-            <.button>{gettext("New Role")}</.button>
+            <.backoffice_button>{gettext("New Role")}</.backoffice_button>
           </.link>
         </:actions>
         <ul class="h-96 mt-8 pb-8 flex flex-col space-y-2 overflow-y-auto">

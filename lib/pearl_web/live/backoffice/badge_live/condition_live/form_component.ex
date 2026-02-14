@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Contest
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button, Forms}
 
   @impl true
   def render(assigns) do
@@ -73,7 +73,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.FormComponent do
             </div>
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save Condition</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Condition</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

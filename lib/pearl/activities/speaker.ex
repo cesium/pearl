@@ -11,7 +11,18 @@ defmodule Pearl.Activities.Speaker do
 
   @derive {
     Flop.Schema,
-    filterable: [:name], sortable: [:name, :company], default_limit: 3
+    filterable: [:name, :activity_date],
+    sortable: [:name, :company],
+    adapter_opts: [
+      join_fields: [
+        activity_date: [
+          binding: :activities,
+          field: :date,
+          ecto_type: :date,
+          path: [:activities, :date]
+        ]
+      ]
+    ]
   }
 
   schema "speakers" do

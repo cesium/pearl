@@ -3,30 +3,30 @@
     <div class="flex flex-row gap-x-4">
       <.ensure_permissions user={@current_user} permissions={%{"attendees" => ["edit"]}}>
         <.link patch={~p"/dashboard/attendees/#{@attendee.id}/edit/tokens"}>
-          <.button>
+          <.backoffice_button>
             <.icon name="hero-currency-euro" class="w-5 h-5" />
-          </.button>
+          </.backoffice_button>
         </.link>
         <.link patch={~p"/dashboard/attendees/#{@attendee.id}/edit/eligibility"}>
-          <.button>
+          <.backoffice_button>
             <.icon name="hero-shield-exclamation" class="w-5 h-5" />
-          </.button>
+          </.backoffice_button>
         </.link>
         <.link patch={~p"/dashboard/attendees/#{@attendee.id}/redeem"}>
-          <.button>
+          <.backoffice_button>
             <.icon name="hero-check-badge" class="w-5 h-5" />
-          </.button>
+          </.backoffice_button>
         </.link>
       </.ensure_permissions>
-      <.button>
+      <.backoffice_button>
         <.icon name="hero-flag" class="w-5 h-5" />
-      </.button>
+      </.backoffice_button>
     </div>
   </:actions>
   <div class="flex flex-col items-center gap-4 w-full sm:w-fit py-8">
     <.avatar
       size={:xl}
-      handle={@attendee.user.handle}
+      name={@attendee.user.name}
       src={
         Uploaders.UserPicture.url({@attendee.user.picture, @attendee.user}, :original,
           signed: true

@@ -262,7 +262,7 @@ defmodule Pearl.Accounts do
     Ecto.Multi.new()
     |> Ecto.Multi.insert(
       :user,
-      User.registration_changeset(%User{}, Map.delete(attrs, :attendee),
+      User.registration_attendee_changeset(%User{}, Map.delete(attrs, "attendee"),
         hash_password: true,
         validate_email: true
       )
@@ -289,8 +289,6 @@ defmodule Pearl.Accounts do
 
   """
   def register_staff_user(attrs) do
-    attrs = attrs |> Map.put("type", :staff)
-
     Ecto.Multi.new()
     |> Ecto.Multi.insert(
       :user,
@@ -300,6 +298,7 @@ defmodule Pearl.Accounts do
         hash_password: true,
         validate_email: true
       )
+      |> Ecto.Changeset.put_change(:type, :staff)
     )
     |> Ecto.Multi.insert(
       :staff,
@@ -451,6 +450,11 @@ defmodule Pearl.Accounts do
   """
   def change_user_registration(%User{} = user, attrs \\ %{}) do
     User.registration_changeset(user, attrs, hash_password: false, validate_email: false)
+    |> User.password_confirmation_changeset(attrs)
+  end
+
+  def change_attendee_registration(%User{} = user, attrs \\ %{}) do
+    User.registration_attendee_changeset(user, attrs, hash_password: false, validate_email: false)
     |> User.password_confirmation_changeset(attrs)
   end
 

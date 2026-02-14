@@ -48,7 +48,10 @@ defmodule PearlWeb.Landing.Components.Navbar do
                         do: "text-white hover:text-white/70",
                         else: "text-primary hover:text-primary/70"
                       ),
-                      if(@current_page == page.key, do: "border-b-2 border-primary/30 pt-2 pb-1.5")
+                      if(@current_page == page.key,
+                        do:
+                          "border-b-2 pt-2 pb-1.5 #{if(@dark_mode, do: "border-white/30", else: "border-primary/30")}"
+                      )
                     ]}
                   >
                     {page.title}

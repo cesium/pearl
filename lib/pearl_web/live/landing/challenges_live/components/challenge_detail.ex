@@ -5,6 +5,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
   use Phoenix.Component
   use PearlWeb, :html
   import PearlWeb.Components.Markdown
+  import PearlWeb.Landing.ChallengesLive.Components.Medal
   alias Pearl.Uploaders
 
   attr :challenge, :map, required: true
@@ -51,7 +52,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
             <div class="space-y-2">
               <%= for cp <- @challenge.prizes do %>
                 <div class="flex items-center gap-2">
-                  <.icon name="hero-trophy" class={"shrink-0 w-10 h-10 #{trophy_color(cp.place)}"} />
+                  <.medal text={to_string(cp.place)} color={medal_color(cp.place)} />
                   <p class="text-black">
                     {cp.prize.name}
                   </p>
@@ -99,7 +100,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
             <div class="space-y-2">
               <%= for cp <- @challenge.prizes do %>
                 <div class="flex items-center gap-2">
-                  <.icon name="hero-trophy" class={"shrink-0 w-10 h-10 #{trophy_color(cp.place)}"} />
+                  <.medal text={to_string(cp.place)} color={medal_color(cp.place)} />
                   <p class="text-black">
                     {cp.prize.name}
                   </p>
@@ -113,9 +114,9 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
     """
   end
 
-  defp trophy_color(1), do: "text-[#FFD700]"
-  defp trophy_color(2), do: "text-[#C0C0C0]"
-  defp trophy_color(_), do: "text-[#CD7F32]"
+  defp medal_color(1), do: "#B29C88"
+  defp medal_color(2), do: "#9E9E9E"
+  defp medal_color(_), do: "#866861"
 
   defp get_challenge_image(%{image: %{file_name: _}} = challenge) do
     Uploaders.Challenge.url({challenge.image, challenge})

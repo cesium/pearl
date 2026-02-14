@@ -26,7 +26,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardSymbols.SymbolRow do
             <% end %>
           </div>
 
-          <.field field={@form[:name]} type="text" wrapper_class="col-span-1 mb-0!" />
+          <.field field={@form[:name]} id={"name-#{@id}"} type="text" wrapper_class="col-span-1 mb-0!" />
 
           <div class="flex-1 flex items-center justify-end">
             <.link

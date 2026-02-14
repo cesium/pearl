@@ -54,6 +54,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
                     <% else %>
                       <%= if type == :prize do %>
                         <.field
+                          id={"prize-#{id}"}
                           field={form[:prize_id]}
                           wrapper_class="col-span-3"
                           type="select"
@@ -62,6 +63,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
                       <% end %>
                       <%= if type == :badge do %>
                         <.field
+                          id={"badge-#{id}"}
                           field={form[:badge_id]}
                           wrapper_class="col-span-3"
                           type="select"
@@ -69,16 +71,18 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
                         />
                       <% end %>
                       <%= if type == :tokens do %>
-                        <.field field={form[:tokens]} wrapper_class="col-span-3" type="number" />
+                        <.field field={form[:tokens]} id={"tokens-#{id}"} wrapper_class="col-span-3" type="number" />
                       <% end %>
                       <%= if type == :entries do %>
-                        <.field field={form[:entries]} wrapper_class="col-span-3" type="number" />
+                        <.field field={form[:entries]} id={"entries-#{id}"} wrapper_class="col-span-3" type="number" />
                       <% end %>
                     <% end %>
-                    <.field field={form[:max_per_attendee]} type="number" wrapper_class="col-span-2" />
-                    <.field field={form[:probability]} type="number" wrapper_class="col-span-2" />
+                    <.field field={form[:max_per_attendee]} type="number" id={"max_per_attendee-#{id}"} wrapper_class="col-span-2" />
+                    <.field field={form[:probability]} type="number" id={"probability-#{id}"} wrapper_class="col-span-2" />
                     <.field
                       field={form[:scratch_card_symbol_id]}
+                      id={"symbol-#{id}"}
+                      label="Symbol"
                       wrapper_class="col-span-2"
                       type="select"
                       options={generate_options(@symbols)}

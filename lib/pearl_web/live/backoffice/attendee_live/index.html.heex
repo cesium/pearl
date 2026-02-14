@@ -47,10 +47,15 @@
     <.table id="attendees-table" items={@streams.attendees} meta={@meta} params={@params}>
       <:col :let={{_id, user}} sortable field={:name} label="Name">
         <div class="flex gap-4 flex-center items-center">
-          <.avatar
-            name={user.name}
-            src={Uploaders.UserPicture.url({user.picture, user}, :original, signed: true)}
-          />
+          <.ensure_permissions user={@current_user} permissions={%{"attendees" => ["edit"]}}>
+            <.link patch={~p"/dashboard/attendees/#{user.attendee.id}"}>
+              <.avatar
+                name={user.name}
+                src={Uploaders.UserPicture.url({user.picture, user}, :original, signed: true)}
+              />
+            </.link>
+          </.ensure_permissions>
+
           <div class="self-center">
             <p class="text-base font-semibold">{user.name}</p>
             <p class="font-normal">@{user.handle}</p>

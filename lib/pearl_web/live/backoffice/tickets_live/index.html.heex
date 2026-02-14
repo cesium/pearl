@@ -35,7 +35,9 @@
   <div class="py-4">
     <.table id="tickets-table" items={@streams.tickets} meta={@meta} params={@params}>
       <:col :let={{_id, ticket}} sortable field={:user_name} label="User">
-        {ticket.user.name}
+        <.link patch={~p"/dashboard/attendees/#{ticket.user.attendee.id}"}>
+          {ticket.user.name}
+        </.link>
       </:col>
       <:col :let={{_id, ticket}} sortable field={:paid} label="Paid">
         <.input

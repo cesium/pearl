@@ -52,9 +52,76 @@
         </div>
       </div>
       <div class="flex flex-row gap-2 py-1 text-sm items-center">
-        <.icon name="hero-ticket" class="w-5 h-5" />
+        <.icon name="fa-tag-solid" class="w-5 h-5" />
         <div class="flex flex-row">
           <p>{"#{@attendee.entries} entries"}</p>
+          <span :if={@attendee.ineligible} class="text-red-700">*</span>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2 py-1 text-sm items-center">
+        <.icon name="hero-home" class="w-5 h-5" />
+        <div class="flex flex-row">
+          <p>{@attendee.user.university || "None"}</p>
+          <span :if={@attendee.ineligible} class="text-red-700">*</span>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2 py-1 text-sm items-center">
+        <.icon name="fa-city-solid" class="w-5 h-5" />
+        <div class="flex flex-row">
+          <p>{@attendee.user.city || "None"}</p>
+          <span :if={@attendee.ineligible} class="text-red-700">*</span>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2 py-1 text-sm items-center">
+        <.icon name="hero-ticket" class="w-5 h-5" />
+        <div class="flex flex-row">
+          <p>{@attendee.user.ticket.ticket_type.name}</p>
+          <span :if={@attendee.ineligible} class="text-red-700">*</span>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2 py-1 text-sm items-center">
+        <.icon name="fa-crutch-solid" class="w-5 h-5" />
+        <div class="flex flex-row">
+          <p>{get_disabilities_text(@attendee.user.ticket.disabilities)}</p>
+          <span :if={@attendee.ineligible} class="text-red-700">*</span>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2 py-1 text-sm items-center">
+        <.icon name="fa-hands-solid" class="w-5 h-5" />
+        <div class="flex flex-row">
+          <p>{get_allergens_text(@attendee.user.ticket.allergens)}</p>
+          <span :if={@attendee.ineligible} class="text-red-700">*</span>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2 py-1 text-sm items-center">
+        <.icon name="fa-shirt-solid" class="w-5 h-5" />
+        <div class="flex flex-row">
+          <p>{@attendee.user.ticket.tshirt_size}</p>
+          <span :if={@attendee.ineligible} class="text-red-700">*</span>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2 py-1 text-sm items-center">
+        <.icon name="fa-car-solid" class="w-5 h-5" />
+        <div class="flex flex-row">
+          <p>
+            {get_intended_transport_to_enei_text(@attendee.user.ticket.intended_transport_to_enei)}
+          </p>
+          <span :if={@attendee.ineligible} class="text-red-700">*</span>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2 py-1 text-sm items-center">
+        <.icon name="hero-backward" class="w-5 h-5" />
+        <div class="flex flex-row">
+          <p>
+            {get_has_attended_enei_before_text(@attendee.user.ticket.has_attended_enei_before)}
+          </p>
+          <span :if={@attendee.ineligible} class="text-red-700">*</span>
+        </div>
+      </div>
+      <div class="flex flex-row gap-2 py-1 text-sm items-center">
+        <.icon name="fa-apple-whole-solid" class="w-5 h-5" />
+        <div class="flex flex-row">
+          <p>{get_diet_text(@attendee.user.ticket.diet)}</p>
           <span :if={@attendee.ineligible} class="text-red-700">*</span>
         </div>
       </div>

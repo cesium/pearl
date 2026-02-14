@@ -21,25 +21,28 @@ defmodule Pearl.Tickets do
   def list_tickets do
     Ticket
     |> Repo.all()
+    |> Repo.preload(user: :attendee)
   end
 
   def list_tickets(opts) when is_list(opts) do
     Ticket
     |> apply_filters(opts)
     |> Repo.all()
+    |> Repo.preload(user: :attendee)
   end
 
   def list_tickets(params) do
     Ticket
     |> join(:left, [t], u in assoc(t, :user), as: :user)
     |> join(:left, [t], tt in assoc(t, :ticket_type), as: :ticket_type)
-    |> preload([user: u, ticket_type: tt], user: u, ticket_type: tt)
+    |> preload([user: u, ticket_type: tt], user: {u, [:attendee]}, ticket_type: tt)
     |> Flop.validate_and_run(params, for: Ticket)
   end
 
   def list_tickets(%{} = params, opts) when is_list(opts) do
     Ticket
     |> apply_filters(opts)
+    |> Repo.preload(user: :attendee)
     |> Flop.validate_and_run(params, for: Ticket)
   end
 

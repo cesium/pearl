@@ -72,7 +72,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
       </button>
 
       <div class="rounded-3xl shadow-lg overflow-hidden bg-linear-to-b from-black/6 to-white">
-        <div class="relative h-24 overflow-hidden flex items-end justify-center pt-8">
+        <div class="relative h-32 overflow-hidden flex items-end justify-center pt-8">
           <img
             src={@image_src}
             alt={@challenge.name}

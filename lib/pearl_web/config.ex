@@ -44,6 +44,12 @@ defmodule PearlWeb.Config do
         title: "Bilhetes",
         url: "/tickets",
         feature_flag: "tickets_enabled"
+      },
+      %{
+        key: :call_for_staff,
+        title: "Call for Staff",
+        url: "https://cesium.link/f/call-for-staff-enei-26",
+        feature_flag: "call_for_staff_enabled"
       }
     ]
     |> Enum.filter(fn x -> Enum.member?(enabled_flags, x.feature_flag) end)

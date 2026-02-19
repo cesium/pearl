@@ -1,4 +1,8 @@
 defmodule Pearl.Minigames.ScratchCardDrop do
+  @moduledoc """
+    Scratch card drop schema
+  """
+
   use Pearl.Schema
 
   @required_fields ~w(probability max_per_attendee)a

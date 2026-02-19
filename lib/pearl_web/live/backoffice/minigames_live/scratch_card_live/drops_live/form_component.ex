@@ -71,14 +71,34 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
                         />
                       <% end %>
                       <%= if type == :tokens do %>
-                        <.field field={form[:tokens]} id={"tokens-#{id}"} wrapper_class="col-span-3" type="number" />
+                        <.field
+                          field={form[:tokens]}
+                          id={"tokens-#{id}"}
+                          wrapper_class="col-span-3"
+                          type="number"
+                        />
                       <% end %>
                       <%= if type == :entries do %>
-                        <.field field={form[:entries]} id={"entries-#{id}"} wrapper_class="col-span-3" type="number" />
+                        <.field
+                          field={form[:entries]}
+                          id={"entries-#{id}"}
+                          wrapper_class="col-span-3"
+                          type="number"
+                        />
                       <% end %>
                     <% end %>
-                    <.field field={form[:max_per_attendee]} type="number" id={"max_per_attendee-#{id}"} wrapper_class="col-span-2" />
-                    <.field field={form[:probability]} type="number" id={"probability-#{id}"} wrapper_class="col-span-2" />
+                    <.field
+                      field={form[:max_per_attendee]}
+                      type="number"
+                      id={"max_per_attendee-#{id}"}
+                      wrapper_class="col-span-2"
+                    />
+                    <.field
+                      field={form[:probability]}
+                      type="number"
+                      id={"probability-#{id}"}
+                      wrapper_class="col-span-2"
+                    />
                     <.field
                       field={form[:scratch_card_symbol_id]}
                       id={"symbol-#{id}"}
@@ -198,7 +218,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
   @impl true
   def handle_event("save", _params, socket) do
     drops = socket.assigns.drops
-    IO.inspect(drops)
 
     # Find if all the changesets are valid
     valid_drops =
@@ -245,7 +264,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
   end
 
   defp generate_options(values) do
-    Enum.map(values, &{&1.name, &1.id}) |> IO.inspect(label: "symbols")
+    Enum.map(values, &{&1.name, &1.id})
   end
 
   defp calculate_nothing_probability(drops) do
@@ -276,8 +295,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
       form.source.valid? and
         (form.params["prize_id"] || form.data.prize_id || form.params["badge_id"] ||
            form.data.badge_id || form.params["tokens"] || form.data.tokens ||
-           form.params["entries"] || form.data.entries || form.params["scratch_card_symbol_id"] ||
-           form.data.scratch_card_symbol_id)
+           form.params["entries"] || form.data.entries)
     end)
   end
 end

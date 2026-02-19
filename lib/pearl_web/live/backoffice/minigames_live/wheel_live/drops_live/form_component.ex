@@ -79,14 +79,34 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
                         />
                       <% end %>
                       <%= if type == :tokens do %>
-                        <.field field={form[:tokens]} id={"tokens-#{id}"} wrapper_class="col-span-4" type="number" />
+                        <.field
+                          field={form[:tokens]}
+                          id={"tokens-#{id}"}
+                          wrapper_class="col-span-4"
+                          type="number"
+                        />
                       <% end %>
                       <%= if type == :entries do %>
-                        <.field field={form[:entries]} id={"entries-#{id}"} wrapper_class="col-span-4" type="number" />
+                        <.field
+                          field={form[:entries]}
+                          id={"entries-#{id}"}
+                          wrapper_class="col-span-4"
+                          type="number"
+                        />
                       <% end %>
                     <% end %>
-                    <.field field={form[:max_per_attendee]} type="number" id={"max_per_attendee-#{id}"} wrapper_class="col-span-2" />
-                    <.field field={form[:probability]} type="number" id={"probability-#{id}"} wrapper_class="col-span-2" />
+                    <.field
+                      field={form[:max_per_attendee]}
+                      type="number"
+                      id={"max_per_attendee-#{id}"}
+                      wrapper_class="col-span-2"
+                    />
+                    <.field
+                      field={form[:probability]}
+                      type="number"
+                      id={"probability-#{id}"}
+                      wrapper_class="col-span-2"
+                    />
                     <.link
                       phx-click={JS.push("delete-drop", value: %{id: id})}
                       data-confirm="Are you sure?"
@@ -197,7 +217,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
   @impl true
   def handle_event("save", _params, socket) do
     drops = socket.assigns.drops
-    IO.inspect(drops)
 
     # Find if all the changesets are valid
     valid_drops =

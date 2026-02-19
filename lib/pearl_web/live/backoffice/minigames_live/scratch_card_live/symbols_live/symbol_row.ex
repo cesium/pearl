@@ -17,7 +17,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardSymbols.SymbolRow do
           <div class="flex flex-col gap-1">
             <.image_uploader
               class="size-20 border-2 border-dashed"
-              upload={@uploads.image}
+              upload={@uploads[@upload_name]}
               image={ScratchCardSymbols.url({@symbol.image, @symbol}, :original, signed: true)}
               icon="hero-squares-plus"
             />
@@ -26,7 +26,12 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardSymbols.SymbolRow do
             <% end %>
           </div>
 
-          <.field field={@form[:name]} id={"name-#{@id}"} type="text" wrapper_class="col-span-1 mb-0!" />
+          <.field
+            field={@form[:name]}
+            id={"name-#{@id}"}
+            type="text"
+            wrapper_class="col-span-1 mb-0!"
+          />
 
           <div class="flex-1 flex items-center justify-end">
             <.link
@@ -45,9 +50,13 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardSymbols.SymbolRow do
 
   @impl true
   def mount(socket) do
+    # uploaders require diffent names
+    upload_name = "symbol-image-#{socket.assigns.myself}"
+
     {:ok,
      socket
-     |> allow_upload(:image,
+     |> assign(:upload_name, upload_name)
+     |> allow_upload(upload_name,
        accept: ScratchCardSymbols.extension_whitelist(),
        auto_upload: true,
        max_entries: 1
@@ -134,16 +143,16 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardSymbols.SymbolRow do
   end
 
   defp upload_in_progress?(socket) do
-    {_done, in_progress} = uploaded_entries(socket, :image)
+    {_done, in_progress} = uploaded_entries(socket, upload_name(socket))
     in_progress != []
   end
 
   defp image_missing?(symbol, socket) do
-    symbol.image == nil and socket.assigns.uploads.image.entries == []
+    symbol.image == nil and upload_entries(socket) == []
   end
 
   defp consume_image_data(symbol, socket) do
-    consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
+    consume_uploaded_entries(socket, upload_name(socket), fn %{path: path}, entry ->
       Minigames.update_scratch_card_symbol_image(symbol, %{
         "image" => %Plug.Upload{
           content_type: entry.client_type,
@@ -175,5 +184,13 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardSymbols.SymbolRow do
       id: socket.assigns.parent_id,
       symbol_save_error: {socket.assigns.id, changeset}
     )
+  end
+
+  defp upload_name(socket), do: socket.assigns.upload_name
+
+  defp upload_entries(socket) do
+    socket.assigns.uploads
+    |> Map.get(upload_name(socket), %{entries: []})
+    |> Map.get(:entries, [])
   end
 end

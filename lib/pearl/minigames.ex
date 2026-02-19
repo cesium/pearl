@@ -14,14 +14,14 @@ defmodule Pearl.Minigames do
   alias Pearl.Minigames.{
     CoinFlipRoom,
     Prize,
+    ScratchCard,
+    ScratchCardDrop,
+    ScratchCardSymbol,
     SlotsPayline,
     SlotsPaytable,
     SlotsReelIcon,
     WheelDrop,
-    WheelSpin,
-    ScratchCard,
-    ScratchCardDrop,
-    ScratchCardSymbol
+    WheelSpin
   }
 
   @pubsub Pearl.PubSub
@@ -2023,8 +2023,8 @@ defmodule Pearl.Minigames do
         Enum.sort_by(drops, & &1.probability)
         |> Enum.at(cumulative_probabilities |> elem(0) |> Enum.find_index(fn x -> x == prob end))
 
-      if is_valid_drop(attendee, drop) && drop.symbol do
-        symbols = generate_winning_symbols(drop.symbol, all_symbols)
+      if valid_drop?(attendee, drop) && drop.scratch_card_symbol do
+        symbols = generate_winning_symbols(drop.scratch_card_symbol, all_symbols)
         {drop, symbols}
       else
         # treat as lost
@@ -2034,7 +2034,7 @@ defmodule Pearl.Minigames do
     end
   end
 
-  defp is_valid_drop(attendee, drop) do
+  defp valid_drop?(attendee, drop) do
     case get_drop_type(drop) do
       :prize ->
         get_attendee_prize_inventory_quantity(attendee.id, drop.prize_id) < drop.max_per_attendee
@@ -2064,14 +2064,14 @@ defmodule Pearl.Minigames do
   defp generate_losing_symbols(all_symbols) do
     symbols = Enum.map(0..5, fn _ -> Enum.random(all_symbols) end)
 
-    if is_win?(symbols) do
+    if win?(symbols) do
       generate_losing_symbols(all_symbols)
     else
       symbols
     end
   end
 
-  defp is_win?(symbols) do
+  defp win?(symbols) do
     symbols
     |> Enum.frequencies()
     |> Map.values()

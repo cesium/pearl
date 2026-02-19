@@ -25,7 +25,14 @@
               :for={symbol <- @current_symbols}
               class="flex items-center justify-center font-bold"
             >
-              <img class="size-auto" src={Uploaders.ScratchCardSymbols.url({symbol.image, symbol}, :original, signed: true)} />
+              <img
+                class="size-auto"
+                src={
+                  Uploaders.ScratchCardSymbols.url({symbol.image, symbol}, :original,
+                    signed: true
+                  )
+                }
+              />
             </div>
           <% end %>
         </div>

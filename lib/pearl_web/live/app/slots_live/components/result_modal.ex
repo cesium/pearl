@@ -25,7 +25,7 @@ defmodule PearlWeb.App.SlotsLive.Components.ResultModal do
       wrapper_class={@wrapper_class}
       body_class={@content_class}
       phx-hook="Confetti"
-      data-is_win={@multiplier > 1}
+      data-win?={@multiplier > 1}
     >
       <div
         id={"#{@id}-content-inner"}

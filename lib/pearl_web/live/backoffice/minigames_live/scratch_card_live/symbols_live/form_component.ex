@@ -20,7 +20,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardSymbols.FormComponent do
               <.icon name="hero-plus" class="w-5 h-5" />
             </.button>
           </div>
-          <ul class="h-[45vh] overflow-y-scroll space-y-2 scrollbar-hide mt-4 border-b border-lightShade dark:border-darkShade">
+          <ul class="h-[45vh] overflow-y-scroll space-y-2 scrollbar-hide my-4 border-b border-lightShade dark:border-darkShade">
             <%= for {id, symbol, form} <- @symbols do %>
               <.live_component
                 module={PearlWeb.Backoffice.MinigamesLive.ScratchCardSymbols.SymbolRow}

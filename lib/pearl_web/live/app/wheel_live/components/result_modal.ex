@@ -23,7 +23,7 @@ defmodule PearlWeb.App.WheelLive.Components.ResultModal do
       wrapper_class={@wrapper_class}
       body_class={@content_class}
       phx-hook="Confetti"
-      data-is_win={@drop_type != nil}
+      data-win?={@drop_type != nil}
     >
       <div
         id={"#{@id}-content-inner"}

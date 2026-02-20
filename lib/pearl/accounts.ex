@@ -94,10 +94,10 @@ defmodule Pearl.Accounts do
   Returns the count of attendees with pendent payment.
 
   ## Examples
-      iex> count_attendees_with_pendent_payment()
+      iex> count_attendees_with_pending_payment()
       1
   """
-  def count_attendees_with_pendent_payment do
+  def count_attendees_with_pending_payment do
     count_attendees_by_payment_status(:pending)
   end
 

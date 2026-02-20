@@ -35,17 +35,17 @@ defmodule PearlWeb.Backoffice.AttendeeLive.Index do
     ticket_count = Accounts.count_attendees()
     attendees_with_tickets = Accounts.count_attendees_with_ticket()
     attendees_with_paid_tickets = Accounts.count_attendees_with_paid_ticket()
-    attendees_with_pending_payment = Accounts.count_attendees_with_pendent_payment()
+    attendees_with_pending_payment = Accounts.count_attendees_with_pending_payment()
     attendees_with_cancelled_payment = Accounts.count_attendees_with_cancelled_payment()
     attendees_with_completed_payment = Accounts.count_attendees_with_completed_payment()
 
     [
       %{label: "Attendees", value: ticket_count},
-      %{label: "Attendees c/ Bilhete", value: attendees_with_tickets},
-      %{label: "Attendees c/ Bilhete Pago", value: attendees_with_paid_tickets},
-      %{label: "Attendees c/ Pagamento Pendente", value: attendees_with_pending_payment},
-      %{label: "Attendees c/ Pagamento Cancelado", value: attendees_with_cancelled_payment},
-      %{label: "Attendees c/ Pagamento Completo", value: attendees_with_completed_payment}
+      %{label: "Attendees with Ticket", value: attendees_with_tickets},
+      %{label: "Attendees with Paid Ticket", value: attendees_with_paid_tickets},
+      %{label: "Attendees with Pending Payment", value: attendees_with_pending_payment},
+      %{label: "Attendees with Cancelled Payment", value: attendees_with_cancelled_payment},
+      %{label: "Attendees with Completed Payment", value: attendees_with_completed_payment}
     ]
   end
 end

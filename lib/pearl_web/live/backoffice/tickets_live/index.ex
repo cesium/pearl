@@ -101,9 +101,9 @@ defmodule PearlWeb.Backoffice.TicketsLive.Index do
       end)
 
     [
-      %{label: "Total de Bilhetes", value: ticket_count},
-      %{label: "Bilhetes Pagos", value: paid_ticket_count},
-      %{label: "Bilhetes Pendentes", value: pending_ticket_count}
+      %{label: "Total Tickets", value: ticket_count},
+      %{label: "Paid Tickets", value: paid_ticket_count},
+      %{label: "Pending Tickets", value: pending_ticket_count}
     ] ++ type_items
   end
 

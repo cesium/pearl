@@ -41,20 +41,20 @@ defmodule PearlWeb.Backoffice.AttendeeLive.Show do
 
   defp get_diet_text(value) do
     case value do
-      "no_restrictions" -> "Dieta sem restrições"
-      "vegetarian" -> "Dieta vegetariana"
-      "vegan" -> "Dieta vegan"
+      "no_restrictions" -> "Diet with no restrictions"
+      "vegetarian" -> "Vegetarian Diet"
+      "vegan" -> "Vegan Diet"
       _ -> "None"
     end
   end
 
   defp get_intended_transport_to_enei_text(value) do
     case value do
-      "own_vehicle" -> "Vou no meu próprio veículo"
-      "someone_else" -> "Vou de boleia no veículo de outra pessoa"
-      "external" -> "Vou de transporte coletivo externo ao ENEI (autocarro, comboio ou avião)"
-      "taxi_or_tvde" -> "Vou recorrer a um serviço de táxi ou TVDE"
-      "walking" -> "Vou a pé"
+      "own_vehicle" -> "I will use my own vehicle"
+      "someone_else" -> "I will get a ride in someone else's vehicle"
+      "external" -> "I will use public transportation outside ENEI (bus, train, or plane)"
+      "taxi_or_tvde" -> "I will use a taxi or ride-hailing service"
+      "walking" -> "I will walk"
       _ -> "None"
     end
   end
@@ -62,8 +62,8 @@ defmodule PearlWeb.Backoffice.AttendeeLive.Show do
   defp get_has_attended_enei_before_text(value) do
     case value do
       "no" -> "No"
-      "yes_elsewhere" -> "Sim, incluindo uma ou mais edições em Braga"
-      "yes_braga" -> "Sim, mas nunca uma edição em Braga"
+      "yes_elsewhere" -> "Yes, including one or more editions in Braga"
+      "yes_braga" -> "Yes, but never an edition in Braga"
       _ -> "None"
     end
   end

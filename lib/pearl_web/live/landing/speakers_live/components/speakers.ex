@@ -51,7 +51,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
           phx-click="clear-filter"
           class="bg-primary p-2 hover:bg-primary/70 text-white transition-colors duration-200 cursor-pointer"
         >
-          {gettext("Limpar")}
+          {gettext("limpar")}
         </button>
       </div>
 
@@ -145,14 +145,14 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
         </div>
 
         <div
-          class="overflow-hidden hidden sm:block relative max-h-0 transition-all duration-300"
+          class="overflow-hidden relative max-h-0 transition-all duration-300"
           id={"speaker-#{@card_id}"}
         >
           <p>{@speaker.biography}</p>
         </div>
 
         <button
-          class="select-none hidden sm:flex text-primary cursor-pointer hover:opacity-70 transition-opacity duration-300 items-center gap-2"
+          class="select-none flex text-primary cursor-pointer hover:opacity-70 transition-opacity duration-300 items-center gap-2"
           phx-click={
             JS.toggle_class("max-h-0", to: "#speaker-#{@card_id}")
             |> JS.toggle_class("max-h-50", to: "#speaker-#{@card_id}")

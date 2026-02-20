@@ -33,7 +33,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
       >
         <span class="font-semibold md:block">{@tier.name}</span> sponsors
       </p>
-      <div class={"grid w-full gap-x-8 gap-y-12 md:gap-x-6 lg:gap-x-12.5 md:gap-y-16 content-start pt-8 md:pt-0 px-4 md:px-2 #{if @tier.name == "Gold", do: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3", else: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"}"}>
+      <div class={"grid w-full gap-x-8 gap-y-12 md:gap-x-6 lg:gap-x-12.5 md:gap-y-16 content-start pt-8 md:pt-0 px-4 md:px-2 #{if @tier.name == "Gold", do: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4", else: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"}"}>
         <%= for sponsor <- @sponsors |> Enum.shuffle() do %>
           <.link
             href={sponsor.url}

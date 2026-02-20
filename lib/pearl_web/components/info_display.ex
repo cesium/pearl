@@ -18,7 +18,7 @@ defmodule PearlWeb.Components.InfoDisplay do
   def info_display(assigns) do
     ~H"""
     <div class="relative overflow-x-auto">
-      <div class="border rounded-lg bg-light border-lightShade dark:bg-dark dark:border-darkShade overflow-x-scroll scrollbar-hide flex">
+      <div class="border rounded-lg bg-light border-lightShade dark:bg-dark dark:border-darkShade overflow-x-scroll scrollbar-hide flex flex-col md:flex-row">
         <div :for={item <- @items} class="grid">
           {render_slot(@item, item)}
         </div>

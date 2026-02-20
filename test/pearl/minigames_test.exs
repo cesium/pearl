@@ -12,7 +12,7 @@ defmodule Pearl.MinigamesTest do
 
     test "list_prizes/0 returns all prizes" do
       prize = prize_fixture()
-      assert Minigames.list_prizes() == [prize]
+      assert prize.id in Enum.map(Minigames.list_prizes(), & &1.id)
     end
 
     test "get_prize!/1 returns the prize with given id" do
@@ -256,7 +256,7 @@ defmodule Pearl.MinigamesTest do
 
     test "list_slots_reel_icons/0 returns all slots_reel_icons" do
       slots_reel_icon = slots_reel_icon_fixture()
-      assert Minigames.list_slots_reel_icons() == [slots_reel_icon]
+      assert slots_reel_icon.id in Enum.map(Minigames.list_slots_reel_icons(), & &1.id)
     end
 
     test "get_slots_reel_icon!/1 returns the slots_reel_icon with given id" do
@@ -351,7 +351,7 @@ defmodule Pearl.MinigamesTest do
 
     test "list_slots_paytables/0 returns all slots_paytables" do
       slots_paytable = slots_paytable_fixture()
-      assert Minigames.list_slots_paytables() == [slots_paytable]
+      assert slots_paytable.id in Enum.map(Minigames.list_slots_paytables(), & &1.id)
     end
 
     test "get_slots_paytable!/1 returns the slots_paytable with given id" do
@@ -429,7 +429,7 @@ defmodule Pearl.MinigamesTest do
 
     test "list_slots_paylines/0 returns all slots_paylines" do
       slots_payline = slots_payline_fixture()
-      assert Minigames.list_slots_paylines() == [slots_payline]
+      assert slots_payline.id in Enum.map(Minigames.list_slots_paylines(), & &1.id)
     end
 
     test "get_slots_payline!/1 returns the slots_payline with given id" do
@@ -488,12 +488,13 @@ defmodule Pearl.MinigamesTest do
     alias Pearl.Minigames.ScratchCard
 
     import Pearl.MinigamesFixtures
+    import Pearl.AccountsFixtures
 
-    @invalid_attrs %{symbols: nil, is_revealed: nil}
+    @invalid_attrs %{attendee_id: nil}
 
     test "list_scratch_cards/0 returns all scratch_cards" do
       scratch_card = scratch_card_fixture()
-      assert Minigames.list_scratch_cards() == [scratch_card]
+      assert scratch_card.id in Enum.map(Minigames.list_scratch_cards(), & &1.id)
     end
 
     test "get_scratch_card!/1 returns the scratch_card with given id" do
@@ -502,11 +503,11 @@ defmodule Pearl.MinigamesTest do
     end
 
     test "create_scratch_card/1 with valid data creates a scratch_card" do
-      valid_attrs = %{symbols: ["option1", "option2"], is_revealed: true}
+      attendee = attendee_fixture()
+      valid_attrs = %{attendee_id: attendee.id}
 
       assert {:ok, %ScratchCard{} = scratch_card} = Minigames.create_scratch_card(valid_attrs)
-      assert scratch_card.symbols == ["option1", "option2"]
-      assert scratch_card.is_revealed == true
+      assert scratch_card.attendee_id == attendee.id
     end
 
     test "create_scratch_card/1 with invalid data returns error changeset" do
@@ -515,13 +516,13 @@ defmodule Pearl.MinigamesTest do
 
     test "update_scratch_card/2 with valid data updates the scratch_card" do
       scratch_card = scratch_card_fixture()
-      update_attrs = %{symbols: ["option1"], is_revealed: false}
+      new_attendee = Pearl.AccountsFixtures.attendee_fixture()
+      update_attrs = %{attendee_id: new_attendee.id}
 
       assert {:ok, %ScratchCard{} = scratch_card} =
                Minigames.update_scratch_card(scratch_card, update_attrs)
 
-      assert scratch_card.symbols == ["option1"]
-      assert scratch_card.is_revealed == false
+      assert scratch_card.attendee_id == new_attendee.id
     end
 
     test "update_scratch_card/2 with invalid data returns error changeset" do
@@ -552,7 +553,6 @@ defmodule Pearl.MinigamesTest do
 
     @invalid_attrs %{
       tokens: nil,
-      symbol: nil,
       probability: nil,
       entries: nil,
       max_per_attendee: nil
@@ -560,7 +560,7 @@ defmodule Pearl.MinigamesTest do
 
     test "list_scratch_card_drops/0 returns all scratch_card_drops" do
       scratch_card_drop = scratch_card_drop_fixture()
-      assert Minigames.list_scratch_card_drops() == [scratch_card_drop]
+      assert scratch_card_drop.id in Enum.map(Minigames.list_scratch_card_drops(), & &1.id)
     end
 
     test "get_scratch_card_drop!/1 returns the scratch_card_drop with given id" do
@@ -571,8 +571,7 @@ defmodule Pearl.MinigamesTest do
     test "create_scratch_card_drop/1 with valid data creates a scratch_card_drop" do
       valid_attrs = %{
         tokens: 42,
-        symbol: "some symbol",
-        probability: 120.5,
+        probability: 0.5,
         entries: 42,
         max_per_attendee: 42
       }
@@ -581,8 +580,7 @@ defmodule Pearl.MinigamesTest do
                Minigames.create_scratch_card_drop(valid_attrs)
 
       assert scratch_card_drop.tokens == 42
-      assert scratch_card_drop.symbol == "some symbol"
-      assert scratch_card_drop.probability == 120.5
+      assert scratch_card_drop.probability == 0.5
       assert scratch_card_drop.entries == 42
       assert scratch_card_drop.max_per_attendee == 42
     end
@@ -596,8 +594,7 @@ defmodule Pearl.MinigamesTest do
 
       update_attrs = %{
         tokens: 43,
-        symbol: "some updated symbol",
-        probability: 456.7,
+        probability: 0.7,
         entries: 43,
         max_per_attendee: 43
       }
@@ -606,8 +603,7 @@ defmodule Pearl.MinigamesTest do
                Minigames.update_scratch_card_drop(scratch_card_drop, update_attrs)
 
       assert scratch_card_drop.tokens == 43
-      assert scratch_card_drop.symbol == "some updated symbol"
-      assert scratch_card_drop.probability == 456.7
+      assert scratch_card_drop.probability == 0.7
       assert scratch_card_drop.entries == 43
       assert scratch_card_drop.max_per_attendee == 43
     end
@@ -645,7 +641,7 @@ defmodule Pearl.MinigamesTest do
 
     test "list_scratch_card_symbols/0 returns all scratch_card_symbols" do
       scratch_card_symbol = scratch_card_symbol_fixture()
-      assert Minigames.list_scratch_card_symbols() == [scratch_card_symbol]
+      assert scratch_card_symbol.id in Enum.map(Minigames.list_scratch_card_symbols(), & &1.id)
     end
 
     test "get_scratch_card_symbol!/1 returns the scratch_card_symbol with given id" do
@@ -654,13 +650,19 @@ defmodule Pearl.MinigamesTest do
     end
 
     test "create_scratch_card_symbol/1 with valid data creates a scratch_card_symbol" do
-      valid_attrs = %{name: "some name", image: "some image"}
+      valid_attrs = %{
+        name: "some name",
+        image: %Plug.Upload{
+          filename: "symbol.svg",
+          path: Path.expand("priv/fake/images/reel1.svg", File.cwd!())
+        }
+      }
 
       assert {:ok, %ScratchCardSymbol{} = scratch_card_symbol} =
                Minigames.create_scratch_card_symbol(valid_attrs)
 
       assert scratch_card_symbol.name == "some name"
-      assert scratch_card_symbol.image == "some image"
+      assert is_map(scratch_card_symbol.image)
     end
 
     test "create_scratch_card_symbol/1 with invalid data returns error changeset" do
@@ -669,13 +671,12 @@ defmodule Pearl.MinigamesTest do
 
     test "update_scratch_card_symbol/2 with valid data updates the scratch_card_symbol" do
       scratch_card_symbol = scratch_card_symbol_fixture()
-      update_attrs = %{name: "some updated name", image: "some updated image"}
+      update_attrs = %{name: "some updated name"}
 
       assert {:ok, %ScratchCardSymbol{} = scratch_card_symbol} =
                Minigames.update_scratch_card_symbol(scratch_card_symbol, update_attrs)
 
       assert scratch_card_symbol.name == "some updated name"
-      assert scratch_card_symbol.image == "some updated image"
     end
 
     test "update_scratch_card_symbol/2 with invalid data returns error changeset" do

@@ -115,11 +115,12 @@ defmodule Pearl.MinigamesFixtures do
   Generate a scratch_card.
   """
   def scratch_card_fixture(attrs \\ %{}) do
+    attendee = Map.get_lazy(attrs, :attendee, fn -> Pearl.AccountsFixtures.attendee_fixture() end)
+
     {:ok, scratch_card} =
       attrs
       |> Enum.into(%{
-        is_revealed: true,
-        symbols: ["option1", "option2"]
+        attendee_id: attendee.id
       })
       |> Pearl.Minigames.create_scratch_card()
 
@@ -135,8 +136,7 @@ defmodule Pearl.MinigamesFixtures do
       |> Enum.into(%{
         entries: 42,
         max_per_attendee: 42,
-        probability: 120.5,
-        symbol: "some symbol",
+        probability: 0.5,
         tokens: 42
       })
       |> Pearl.Minigames.create_scratch_card_drop()
@@ -151,7 +151,7 @@ defmodule Pearl.MinigamesFixtures do
     {:ok, scratch_card_symbol} =
       attrs
       |> Enum.into(%{
-        image: "some image",
+        image: valid_icon_upload(),
         name: "some name"
       })
       |> Pearl.Minigames.create_scratch_card_symbol()

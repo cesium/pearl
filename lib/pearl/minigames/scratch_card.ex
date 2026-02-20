@@ -4,12 +4,10 @@ defmodule Pearl.Minigames.ScratchCard do
   """
   use Pearl.Schema
 
-  @required_fields ~w(attendee_id is_revealed)a
+  @required_fields ~w(attendee_id)a
   @optional_fields ~w(drop_id)a
 
   schema "scratch_cards" do
-    field :is_revealed, :boolean, default: false
-
     belongs_to :attendee, Pearl.Accounts.Attendee
     belongs_to :drop, Pearl.Minigames.ScratchCardDrop
 

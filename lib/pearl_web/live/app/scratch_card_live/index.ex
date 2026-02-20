@@ -6,7 +6,7 @@ defmodule PearlWeb.App.ScratchCardLive.Index do
 
   import PearlWeb.App.WheelLive.Components.ResultModal
   import PearlWeb.App.WheelLive.Components.LatestWins
-  import PearlWeb.App.WheelLive.Components.Awards
+  import PearlWeb.App.ScratchCardLive.Components.PaytableModal
 
   @max_wins 6
 
@@ -109,6 +109,11 @@ defmodule PearlWeb.App.ScratchCardLive.Index do
   @impl true
   def handle_info({"drops", drops}, socket) do
     {:noreply, socket |> assign(:scratch_card_drops, drops)}
+  end
+
+  @impl true
+  def handle_params(_params, _url, socket) do
+    {:noreply, socket}
   end
 
   defp can_scratch?(scratch_card_active?, tokens, price, is_scratching?) do

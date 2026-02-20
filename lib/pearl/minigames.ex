@@ -1952,7 +1952,6 @@ defmodule Pearl.Minigames do
     |> Multi.insert(:scratch_card, fn %{drop_and_symbols: {drop, symbols}} ->
       %ScratchCard{}
       |> ScratchCard.changeset(%{
-        is_revealed: false,
         attendee_id: attendee.id,
         drop_id: if(drop.id, do: drop.id, else: nil)
       })

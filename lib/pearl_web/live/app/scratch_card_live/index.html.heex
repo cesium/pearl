@@ -17,8 +17,8 @@
     >
       <div class="flex items-center justify-center rounded-2xl bg-accent p-1 h-80 w-80 touch-none">
         <div
-          class="bg-[#E3CAD5] h-full w-full rounded-2xl gap-8 grid grid-cols-3 p-6"
-          style="background-image: repeating-linear-gradient(-45deg, #fff, #fff 4px, transparent 4px, transparent 8px)"
+          class="bg-[#692222] h-full w-full rounded-2xl gap-8 grid grid-cols-3 p-6"
+          style="background-image: repeating-linear-gradient(-45deg, #c15757, #c15757 4px, transparent 4px, transparent 8px)"
         >
           <%= if (assigns[:current_scratch_card] && assigns[:current_symbols]) do %>
             <div
@@ -68,12 +68,18 @@
         {gettext("Latest Wins")}
       </h2>
       <.latest_wins entries={@latest_wins} />
-      <h2 class="text-2xl font-terminal uppercase font-bold mt-24 mb-8">
-        {gettext("Awards")}
-      </h2>
-      <.awards entries={@drops} />
     </div>
   </section>
+
+  <.link
+    patch={~p"/app/scratch_card/paytable"}
+    class="flex items-center max-w-80 mx-auto mt-8 md:mt-20 justify-center"
+  >
+    <.icon name="hero-arrow-top-right-on-square" class="text-accent mr-2" />
+    <span class="text-accent font-terminal font-bold uppercase">
+      {gettext("View paytable")}
+    </span>
+  </.link>
 </.page>
 
 <.result_modal
@@ -84,4 +90,12 @@
   show
   id="confirm"
   on_cancel={JS.push("close-modal")}
+/>
+
+<.paytable_modal
+  :if={@live_action in [:show_paytable]}
+  wrapper_class="px-6"
+  show
+  id="paytable-modal"
+  on_cancel={JS.patch(~p"/app/scratch_card")}
 />

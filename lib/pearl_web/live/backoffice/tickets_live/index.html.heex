@@ -61,13 +61,13 @@
         {ticket.diet}
       </:col>
       <:col :let={{_id, ticket}} label="Transport">
-        {ticket.intended_transport_to_enei}
+        {ticket.intended_transport_to_enei || "No response"}
       </:col>
       <:col :let={{_id, ticket}} label="Tshirt Size">
         {ticket.tshirt_size}
       </:col>
       <:col :let={{_id, ticket}} label="Disabilities">
-        {ticket.disabilities}
+        {ticket.disabilities || "None"}
       </:col>
       <:col :let={{_id, ticket}} label="Inserted At">
         {Calendar.strftime(ticket.inserted_at, "%d/%m/%Y %H:%M:%S")}

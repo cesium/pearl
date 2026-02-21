@@ -13,10 +13,10 @@ defmodule Pearl.Tickets.Ticket do
   @derive {
     Flop.Schema,
     filterable: [:paid, :user_name],
-    sortable: [:paid, :inserted_at, :ticket_type],
+    sortable: [:paid, :inserted_at, :ticket_type_name, :user_name],
     default_limit: 11,
     join_fields: [
-      ticket_type: [
+      ticket_type_name: [
         binding: :ticket_type,
         field: :name,
         path: [:ticket_type, :name],

@@ -13,9 +13,13 @@ defmodule PearlWeb.Backoffice.AttendeeLive.Show do
   end
 
   def handle_params(%{"id" => attendee_id} = params, _, socket) do
+    attendee =
+      Accounts.get_attendee!(attendee_id, preloads: [:user])
+      |> Pearl.Repo.preload(user: [ticket: :ticket_type])
+
     {:noreply,
      socket
-     |> assign(:attendee, Accounts.get_attendee!(attendee_id, preloads: [:user]))
+     |> assign(:attendee, attendee)
      |> assign(:params, params)}
   end
 end

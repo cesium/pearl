@@ -106,6 +106,7 @@ defmodule Pearl.Repo.Seeds.Tickets do
         insert_ticket(%{
           user_id: user.id,
           ticket_type_id: ticket_type.id,
+          intended_transport_to_enei: "by_feet",
           diet: "vegan",
           allergens: "none",
           tshirt_size: "XL",

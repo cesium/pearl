@@ -20,11 +20,11 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
     <div class="hidden xl:flex">
       <div class="rounded-3xl shadow-lg overflow-hidden w-full bg-linear-to-b from-black/6 to-white">
         <%= if @has_image do %>
-          <div class="relative h-64 overflow-hidden flex items-end justify-center pt-12">
+          <div class="relative overflow-hidden pt-12 pl-8">
             <img
               src={@image_src}
               alt={@challenge.name}
-              class="h-full w-auto object-contain"
+              class="w-full h-full object-cover object-right"
             />
           </div>
         <% end %>
@@ -63,19 +63,19 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
     <div class="xl:hidden">
       <button
         phx-click="mobile_back"
-        class="flex items-center text-black font-semibold mb-6"
+        class="flex items-center text-black font-semibold mb-6 gap-4"
       >
-        <.icon name="hero-chevron-left" class="w-6 h-6" />
-        <span class="font-semibold">{@challenge.name}</span>
+        <.icon name="hero-arrow-left" class="w-6 h-6" />
+        <span class="font-semibold text-2xl text-start">{@challenge.name}</span>
       </button>
 
       <div class="rounded-3xl shadow-lg overflow-hidden bg-linear-to-b from-black/6 to-white">
         <%= if @has_image do %>
-          <div class="relative h-32 overflow-hidden flex items-end justify-center pt-8">
+          <div class="relative overflow-hidden pt-8 pl-6">
             <img
               src={@image_src}
               alt={@challenge.name}
-              class="h-full w-auto object-contain"
+              class="w-full h-full object-cover object-right"
             />
           </div>
         <% end %>

@@ -11,10 +11,8 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.Hero do
   def hero(assigns) do
     ~H"""
     <section class="relative w-full bg-black overflow-hidden -mt-32">
-      <div class="hero-gradient-bg" aria-hidden="true"></div>
-
       <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between w-full md:min-h-[480px] pt-32 md:pt-8">
-        <div class="shrink-0 px-9 pt-8 md:w-1/2 ">
+        <div class="shrink-0 px-7.5 md:px-12.5 pt-8 md:w-1/2 ">
           <h1 class="text-white text-3xl font-semibold mb-4 text-balance">
             {@title}
           </h1>

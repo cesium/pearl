@@ -62,7 +62,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengesList do
                 <.markdown content={challenge.description} />
               </div>
             </div>
-            <.icon name="hero-chevron-right" class="w-6 h-6 text-black/30 shrink-0 ml-4" />
+            <.icon name="hero-arrow-right" class="w-4 h-4 text-black/30 shrink-0 ml-4" />
           </div>
         </button>
       <% end %>

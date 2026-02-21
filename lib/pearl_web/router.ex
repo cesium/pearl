@@ -245,6 +245,7 @@ defmodule PearlWeb.Router do
           live "/:id/edit/tokens", Show, :tokens_edit
           live "/:id/edit/eligibility", Show, :eligibility_edit
           live "/:id/redeem", Show, :redeem
+          live "/:id/ticket", Show, :ticket
         end
 
         scope "/event", EventLive do

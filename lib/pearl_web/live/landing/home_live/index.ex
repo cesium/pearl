@@ -60,4 +60,54 @@ defmodule PearlWeb.Landing.HomeLive.Index do
         {:noreply, socket}
     end
   end
+
+  @impl true
+  def handle_event("cycle_speaker", %{"direction" => direction}, socket) do
+    speakers = socket.assigns.speakers
+    current_speaker = socket.assigns.selected_speaker
+
+    case {speakers, current_speaker} do
+      {[], _} ->
+        {:noreply, socket}
+
+      {_, nil} ->
+        case speakers do
+          [%{speaker: speaker, activity: activity} | _] ->
+            {:noreply,
+             socket
+             |> assign(:selected_speaker, speaker)
+             |> assign(:selected_activity, activity)}
+
+          _ ->
+            {:noreply, socket}
+        end
+
+      _ ->
+        current_index =
+          Enum.find_index(speakers, fn %{speaker: s} -> s.id == current_speaker.id end)
+
+        new_index =
+          case {direction, current_index} do
+            {"next", idx} when idx != nil ->
+              rem(idx + 1, length(speakers))
+
+            {"previous", idx} when idx != nil ->
+              rem(idx - 1 + length(speakers), length(speakers))
+
+            _ ->
+              0
+          end
+
+        case Enum.at(speakers, new_index) do
+          %{speaker: speaker, activity: activity} ->
+            {:noreply,
+             socket
+             |> assign(:selected_speaker, speaker)
+             |> assign(:selected_activity, activity)}
+
+          nil ->
+            {:noreply, socket}
+        end
+    end
+  end
 end

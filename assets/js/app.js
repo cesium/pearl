@@ -17,12 +17,14 @@
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
+
+import { Banner, CoinFlip, Confetti, Countdown, CredentialScene, PaytableModal, QrScanner, Redirect, ReelAnimation, Sorting, SpeakerScroll, Wheel, ZipUpload } from "./hooks";
+
+import {LiveSocket} from "phoenix_live_view"
 // Establish Phoenix Socket and LiveView configuration.
 import {Socket} from "phoenix"
-import {LiveSocket} from "phoenix_live_view"
-import topbar from "../vendor/topbar"
 import live_select from "live_select"
-import { QrScanner, Wheel, Confetti, Countdown, Sorting, CoinFlip, Redirect, CredentialScene , Banner, ReelAnimation, PaytableModal, ZipUpload } from "./hooks";
+import topbar from "../vendor/topbar"
 
 let Hooks = {
   QrScanner: QrScanner,
@@ -37,6 +39,7 @@ let Hooks = {
   ReelAnimation: ReelAnimation,
   PaytableModal: PaytableModal,
   ZipUpload: ZipUpload,
+  SpeakerScroll: SpeakerScroll,
   ...live_select
 };
 

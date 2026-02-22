@@ -3,6 +3,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   use PearlWeb, :component
   alias Pearl.Uploaders
 
+
   attr :speakers, :list, required: true
   attr :selected_speaker, :map, default: nil
   attr :selected_activity, :map, default: nil
@@ -12,14 +13,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     ~H"""
     <div :if={@speakers}>
       <div
-        class={[
-          "relative w-full overflow-hidden transition-colors duration-300 ease-in-out",
-          "bg-primary text-dark dynamic-gradient-bg",
-          text_class(@selected_speaker && @selected_speaker.dominant_color)
-        ]}
+        class="relative w-full overflow-hidden transition-colors duration-300 ease-in-out bg-primary text-dark dynamic-gradient-bg"
         style={bg_style(@selected_speaker && @selected_speaker.dominant_color)}
       >
-        <div class="block lg:hidden">
+        <div class="block md:hidden text-dark">
           <.mobile_layout
             speakers={@speakers}
             selected_speaker={@selected_speaker}
@@ -28,7 +25,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           />
         </div>
 
-        <div class="hidden lg:flex h-220 w-full pl-7 pt-7">
+        <div class={[
+          "hidden md:flex h-220 w-full pl-7 pt-7",
+          text_class(@selected_speaker && @selected_speaker.dominant_color)
+        ]}>
           <.desktop_layout
             speakers={@speakers}
             selected_speaker={@selected_speaker}
@@ -161,19 +161,24 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
 
   defp speaker_list(assigns) do
     ~H"""
-    <div class="
-          relative z-10
-          pt-10
-          lg:py-10
-          max-h-100
-          w-2xl
-          overflow-x-clip
-          overflow-y-auto
-          [scrollbar-width:none]
-          [-ms-overflow-style:none]
-          [&::-webkit-scrollbar]:hidden
-          mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]
-        ">
+    <div
+      class="
+        relative z-10
+        pt-10
+        pb-30
+        lg:pt-10
+        max-h-100
+        w-2xl
+        overflow-x-clip
+        overflow-y-auto
+        [scrollbar-width:none]
+        [-ms-overflow-style:none]
+        [&::-webkit-scrollbar]:hidden
+        mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]
+      "
+      id="speaker-list"
+      phx-hook="SpeakerScroll"
+    >
       <div
         :for={%{speaker: speaker, activity: activity} <- @speakers}
         id={"speaker-#{speaker.id}"}

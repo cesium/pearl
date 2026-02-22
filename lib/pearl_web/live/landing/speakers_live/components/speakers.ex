@@ -155,7 +155,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
           class="select-none flex text-primary cursor-pointer hover:opacity-70 transition-opacity duration-300 items-center gap-2"
           phx-click={
             JS.toggle_class("max-h-0", to: "#speaker-#{@card_id}")
-            |> JS.toggle_class("max-h-50", to: "#speaker-#{@card_id}")
+            |> JS.toggle_class("max-h-fit", to: "#speaker-#{@card_id}")
             |> JS.toggle_class("hidden", to: "#arrow-down-#{@card_id}")
             |> JS.toggle_class("hidden", to: "#arrow-up-#{@card_id}")
             |> JS.toggle_class("hidden", to: "#show-more-#{@card_id}")

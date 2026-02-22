@@ -108,7 +108,7 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
         alt={@speaker.name}
         width="100"
         height="100"
-        class="select-none sm:h-40 sm:w-40 md:h-52 md:w-52 lg:h-45 lg:w-45"
+        class="select-none sm:h-40 sm:w-40 md:h-52 md:w-52 lg:h-45 lg:w-45 object-cover aspect-square"
         src={
           if @speaker.picture do
             Uploaders.Speaker.url({@speaker.picture, @speaker}, :original, signed: true)

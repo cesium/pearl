@@ -61,7 +61,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.InfoSection do
                 <img
                   src="/images/forum-braga.webp"
                   alt="Forum Braga"
-                  class="w-full object-cover sm:object-[20%_70%] hover:scale-101 hover:shadow-2xl hover:translate-y-1 transition-all duration-300 h-46 lg:h-[190px]"
+                  class="w-full object-cover sm:object-[20%_70%] h-46 lg:h-[190px]"
                 />
                 <div class="left-1/2 top-0 -translate-x-1/2 -translate-y-[67%] absolute -z-10 w-[210%] h-[470%] bg-[radial-gradient(50%_50%_at_50%_50%,#FFFFFF_50.48%,rgba(255,255,255,0)_75%,#FFFFFF_98%),radial-gradient(23.07%_57.76%_at_50%_50%,#DC6526_65%,#5028E1_75%,#E9225C_100%)] opacity-20">
                 </div>

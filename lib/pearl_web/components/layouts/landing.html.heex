@@ -4,6 +4,7 @@
     registrations_open?={Pearl.Event.registrations_open?()}
     current_user={Map.get(assigns, :current_user)}
     current_page={Map.get(assigns, :current_page, nil)}
+    dark_mode={Map.get(assigns, :current_page) == :challenges}
   />
   <main>
     <.flash_group flash={@flash} />

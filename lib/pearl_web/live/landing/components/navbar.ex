@@ -7,11 +7,18 @@ defmodule PearlWeb.Landing.Components.Navbar do
   attr :pages, :list, default: []
   attr :registrations_open?, :boolean, default: false
   attr :current_user, :map, default: nil
+  attr :dark_mode, :boolean, default: false
   attr :current_page, :atom, default: nil
 
   def navbar(assigns) do
     ~H"""
-    <div class="sticky top-0 z-100 bg-linear-to-b from-white via-white/50 to-transparent bg-light-muted/60">
+    <div class={[
+      "sticky top-0 z-100 bg-linear-to-b to-transparent",
+      if(@dark_mode,
+        do: "from-dark via-dark/50 bg-dark/60",
+        else: "from-white via-white/50 bg-light-muted/60"
+      )
+    ]}>
       <nav class="py-8.5 px-9 backdrop-blur-lg">
         <div class="flex h-fit items-center justify-between">
           <div class="flex gap-8">
@@ -19,7 +26,9 @@ defmodule PearlWeb.Landing.Components.Navbar do
               <.link href="/">
                 <div class="block select-none h-full pb-1">
                   <img
-                    src="/images/enei-logo.svg"
+                    src={
+                      if @dark_mode, do: "/images/enei-logo-white.svg", else: "/images/enei-logo.svg"
+                    }
                     width={75}
                     alt="ENEI Logo"
                     class="cursor-pointer h-full"
@@ -34,8 +43,15 @@ defmodule PearlWeb.Landing.Components.Navbar do
                   <.link
                     navigate={page.url}
                     class={[
-                      "text-sm text-primary transition-colors duration-200 ease-in hover:text-primary/70 whitespace-nowrap",
-                      if(@current_page == page.key, do: "border-b-2 border-primary/30 pt-2 pb-1.5")
+                      "text-sm transition-colors duration-200 ease-in whitespace-nowrap",
+                      if(@dark_mode,
+                        do: "text-white hover:text-white/70",
+                        else: "text-primary hover:text-primary/70"
+                      ),
+                      if(@current_page == page.key,
+                        do:
+                          "border-b-2 pt-2 pb-1.5 #{if(@dark_mode, do: "border-white/30", else: "border-primary/30")}"
+                      )
                     ]}
                   >
                     {page.title}
@@ -51,7 +67,16 @@ defmodule PearlWeb.Landing.Components.Navbar do
               navigate={~p"/users/log_in"}
               phx-click={hide_mobile_navbar()}
             >
-              <.secondary_button title="entrar" icon_position="left" icon="hero-user" class="text-sm" />
+              <.secondary_button
+                title="entrar"
+                icon_position="left"
+                icon="hero-user"
+                class={
+                  if @dark_mode,
+                    do: "text-sm text-white bg-white/20 hover:bg-white/10",
+                    else: "text-sm"
+                }
+              />
             </.link>
             <.link
               :if={@registrations_open? && !@current_user}
@@ -110,7 +135,10 @@ defmodule PearlWeb.Landing.Components.Navbar do
           </div>
 
           <div class="block xl:hidden">
-            <span class="cursor-pointer text-primary" phx-click={show_mobile_navbar()}>
+            <span
+              class={"cursor-pointer #{if @dark_mode, do: "text-white", else: "text-primary"}"}
+              phx-click={show_mobile_navbar()}
+            >
               <.icon name="hero-bars-3" class="w-7 h-7" />
             </span>
           </div>

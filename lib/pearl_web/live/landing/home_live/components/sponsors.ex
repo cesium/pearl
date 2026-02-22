@@ -12,7 +12,9 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
           {gettext("Contacta com empresas do melhor que há")}
         </h2>
         <p class="text-center max-w-full md:max-w-3xl lg:max-w-5xl">
-          Os nossos patrocinadores incríveis são quem possibilita o ENEI. Durante todo o evento, vais poder encontrar e falar com representantes de empresas inovadores para fazeres o melhor networking.
+          {gettext(
+            "As empresas e entidades que nos apoiam são quem tornam o ENEI possível. Durante todo o evento, vais poder encontrar  diferentes empresas e falar com os seus representantes para os conheceres melhor."
+          )}
         </p>
       </div>
       <div class="flex flex-col gap-10 pt-10 w-full">
@@ -28,10 +30,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
     ~H"""
     <div class="flex w-full flex-col md:flex-row md:items-stretch justify-start gap-3">
       <p
-        class="self-stretch uppercase pr-4 lg:w-1/7 font-light text-xl pb-3 border-b-2 md:border-b-0 md:pb-0 md:border-r-2"
+        class="uppercase pr-4 md:w-38 font-semibold text-xl pb-3 border-b-2 md:border-b-0 md:pb-0 md:border-r-2"
         style={"color: #{@tier.color}; border-color: #{@tier.color}40;"}
       >
-        <span class="font-semibold md:block">{@tier.name}</span> sponsors
+        {@tier.name} <span :if={@tier.type == :sponsor} class="font-light">sponsors</span>
       </p>
       <div class={"grid w-full gap-x-8 gap-y-12 md:gap-x-6 lg:gap-x-12.5 md:gap-y-16 content-start pt-8 md:pt-0 px-4 md:px-2 #{if @tier.name == "Gold", do: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3", else: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"}"}>
         <%= for sponsor <- @sponsors |> Enum.shuffle() do %>

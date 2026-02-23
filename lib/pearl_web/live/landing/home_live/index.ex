@@ -7,7 +7,8 @@ defmodule PearlWeb.Landing.HomeLive.Index do
     Sponsors,
     Activities,
     InfoSection,
-    Wrapup
+    Wrapup,
+    Speakers
   }
 
   alias Pearl.{Activities, Event}
@@ -68,52 +69,38 @@ defmodule PearlWeb.Landing.HomeLive.Index do
   end
 
   @impl true
+  def handle_event("cycle_speaker", _params, %{assigns: %{speakers: []}} = socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("cycle_speaker", _params, %{assigns: %{selected_speaker: nil}} = socket) do
+    case socket.assigns.speakers do
+      [%{speaker: speaker, activity: activity} | _] -> {:noreply, assign_speaker(socket, speaker, activity)}
+      _ -> {:noreply, socket}
+    end
+  end
+
+  @impl true
   def handle_event("cycle_speaker", %{"direction" => direction}, socket) do
     speakers = socket.assigns.speakers
     current_speaker = socket.assigns.selected_speaker
+    current_index = Enum.find_index(speakers, fn %{speaker: s} -> s.id == current_speaker.id end)
+    new_index = next_index(direction, current_index, length(speakers))
 
-    case {speakers, current_speaker} do
-      {[], _} ->
-        {:noreply, socket}
-
-      {_, nil} ->
-        case speakers do
-          [%{speaker: speaker, activity: activity} | _] ->
-            {:noreply,
-             socket
-             |> assign(:selected_speaker, speaker)
-             |> assign(:selected_activity, activity)}
-
-          _ ->
-            {:noreply, socket}
-        end
-
-      _ ->
-        current_index =
-          Enum.find_index(speakers, fn %{speaker: s} -> s.id == current_speaker.id end)
-
-        new_index =
-          case {direction, current_index} do
-            {"next", idx} when idx != nil ->
-              rem(idx + 1, length(speakers))
-
-            {"previous", idx} when idx != nil ->
-              rem(idx - 1 + length(speakers), length(speakers))
-
-            _ ->
-              0
-          end
-
-        case Enum.at(speakers, new_index) do
-          %{speaker: speaker, activity: activity} ->
-            {:noreply,
-             socket
-             |> assign(:selected_speaker, speaker)
-             |> assign(:selected_activity, activity)}
-
-          nil ->
-            {:noreply, socket}
-        end
+    case Enum.at(speakers, new_index) do
+      %{speaker: speaker, activity: activity} -> {:noreply, assign_speaker(socket, speaker, activity)}
+      nil -> {:noreply, socket}
     end
   end
+
+  defp assign_speaker(socket, speaker, activity) do
+    socket
+    |> assign(:selected_speaker, speaker)
+    |> assign(:selected_activity, activity)
+  end
+
+  defp next_index("next", idx, count) when not is_nil(idx), do: rem(idx + 1, count)
+  defp next_index("previous", idx, count) when not is_nil(idx), do: rem(idx - 1 + count, count)
+  defp next_index(_direction, _idx, _count), do: 0
 end

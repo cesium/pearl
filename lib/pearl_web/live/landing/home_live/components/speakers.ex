@@ -16,7 +16,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         class="relative w-full overflow-hidden transition-colors duration-300 ease-in-out bg-primary text-dark dynamic-gradient-bg"
         style={bg_style(@selected_speaker && @selected_speaker.dominant_color)}
       >
-        <div class="block md:hidden text-dark">
+        <div class="block md:hidden text-light">
           <.mobile_layout
             speakers={@speakers}
             selected_speaker={@selected_speaker}

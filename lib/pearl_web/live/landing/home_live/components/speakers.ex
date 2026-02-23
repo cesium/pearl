@@ -49,6 +49,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           speaker={@selected_speaker}
           class="absolute bottom-0 blur-xl left-0 w-full z-10 scale-y-[-1]"
         />
+        <div
+          :if={@selected_speaker && @selected_speaker.picture}
+          class="absolute inset-0 bg-dark/20 z-20"
+        />
         <.header_text class="relative px-4 z-40" />
         <div
           :if={@selected_speaker && @selected_speaker.picture}
@@ -67,7 +71,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           />
           <div
             :if={@selected_speaker && @selected_speaker.picture}
-            class="absolute inset-0 pointer-events-none"
+            class="absolute inset-0 pointer-events-none bg-dark/20"
           >
           </div>
         </div>
@@ -93,6 +97,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         <.speaker_image
           speaker={@selected_speaker}
           class="absolute opacity-50 blur-xl scale-y-[-1] z-10 top-0 w-full"
+        />
+        <div
+          :if={@selected_speaker && @selected_speaker.picture}
+          class="absolute inset-0 bg-dark/20 z-20"
         />
         <div
           :if={@selected_speaker && @selected_speaker.picture}

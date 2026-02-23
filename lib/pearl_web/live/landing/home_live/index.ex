@@ -76,8 +76,11 @@ defmodule PearlWeb.Landing.HomeLive.Index do
   @impl true
   def handle_event("cycle_speaker", _params, %{assigns: %{selected_speaker: nil}} = socket) do
     case socket.assigns.speakers do
-      [%{speaker: speaker, activity: activity} | _] -> {:noreply, assign_speaker(socket, speaker, activity)}
-      _ -> {:noreply, socket}
+      [%{speaker: speaker, activity: activity} | _] ->
+        {:noreply, assign_speaker(socket, speaker, activity)}
+
+      _ ->
+        {:noreply, socket}
     end
   end
 
@@ -89,8 +92,11 @@ defmodule PearlWeb.Landing.HomeLive.Index do
     new_index = next_index(direction, current_index, length(speakers))
 
     case Enum.at(speakers, new_index) do
-      %{speaker: speaker, activity: activity} -> {:noreply, assign_speaker(socket, speaker, activity)}
-      nil -> {:noreply, socket}
+      %{speaker: speaker, activity: activity} ->
+        {:noreply, assign_speaker(socket, speaker, activity)}
+
+      nil ->
+        {:noreply, socket}
     end
   end
 

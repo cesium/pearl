@@ -3,7 +3,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   use PearlWeb, :component
   alias Pearl.Uploaders
 
-
   attr :speakers, :list, required: true
   attr :selected_speaker, :map, default: nil
   attr :selected_activity, :map, default: nil

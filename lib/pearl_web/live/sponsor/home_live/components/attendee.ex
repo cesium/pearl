@@ -17,7 +17,7 @@ defmodule PearlWeb.Sponsor.HomeLive.Components.Attendee do
     <li id={@id} class="block p-4 text-center">
       <div class="px-4">
         <div class="m-auto w-fit">
-          <.avatar size={:lg} handle={@handle} src={@image} />
+          <.avatar size={:lg} name={@name} src={@image} />
         </div>
         <p class="text-center text-sm mt-2">
           {@name}

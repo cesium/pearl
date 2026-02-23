@@ -18,7 +18,7 @@
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 
-import { Banner, CoinFlip, Confetti, Countdown, CredentialScene, PaytableModal, QrScanner, Redirect, ReelAnimation, Sorting, SpeakerScroll, Wheel, ZipUpload } from "./hooks";
+import { Banner, CoinFlip, Confetti, Countdown, CredentialScene, PaytableModal, QrScanner, Redirect, ReelAnimation, Sorting, SpeakerScroll, Wheel, ZipUpload, TabsScroll, Ticker } from "./hooks";
 
 import {LiveSocket} from "phoenix_live_view"
 // Establish Phoenix Socket and LiveView configuration.
@@ -40,6 +40,8 @@ let Hooks = {
   PaytableModal: PaytableModal,
   ZipUpload: ZipUpload,
   SpeakerScroll: SpeakerScroll,
+  TabsScroll: TabsScroll,
+  Ticker: Ticker,
   ...live_select
 };
 
@@ -51,7 +53,7 @@ let liveSocket = new LiveSocket("/live", Socket, {
 })
 
 // Show progress bar on live navigation and form submits
-topbar.config({barColors: {0: "#ffdb0d"}, shadowColor: "rgba(0, 0, 0, .3)"})
+topbar.config({barColors: {0: "#811824"}, shadowColor: "rgba(0, 0, 0, .3)"})
 window.addEventListener("phx:page-loading-start", _info => topbar.show(300))
 window.addEventListener("phx:page-loading-stop", _info => topbar.hide())
 

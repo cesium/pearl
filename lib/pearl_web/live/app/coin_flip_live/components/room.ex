@@ -83,7 +83,7 @@ defmodule PearlWeb.App.CoinFlipLive.Components.Room do
       <%= if @player_id do %>
         <div class="h-full flex items-center">
           <.avatar
-            handle={@player.user.handle}
+            name={@player.user.name}
             src={
               Uploaders.UserPicture.url({@player.user.picture, @player.user}, :original, signed: true)
             }

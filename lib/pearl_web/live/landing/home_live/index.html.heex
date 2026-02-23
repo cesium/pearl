@@ -1,24 +1,12 @@
-<div class="xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
+<div>
   <.hero
     event_start_date={@event_start_date}
     event_end_date={@event_end_date}
-    registrations_open?={@registrations_open?}
   />
-  <.pitch :if={@has_schedule? || @has_highlighted_speakers? || @has_sponsors?} />
-</div>
-<div class="px-5 md:px-32 xl:px-32 pt-20">
-  <.live_component
-    :if={@has_schedule?}
-    id={:schedule}
-    module={PearlWeb.Landing.Components.Schedule}
-    event_start_date={@event_start_date}
-    event_end_date={@event_end_date}
-    url={~p"/"}
-    params={@params}
-    has_filters?={false}
-    descriptions_enabled={false}
-    current_user={@current_user}
-  />
+  <div id="info-section">
+    <.announcement_bar />
+    <.info_section />
+  </div>
 </div>
 <div>
   <.speakers
@@ -27,5 +15,5 @@
     selected_activity={@selected_activity}
   />
   <.sponsors :if={@has_sponsors?} tiers={@tiers} />
-  <.partners />
+  <.link_wrapup is_register_open?={@is_register_open?} />
 </div>

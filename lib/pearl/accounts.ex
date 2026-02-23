@@ -47,6 +47,92 @@ defmodule Pearl.Accounts do
   end
 
   @doc """
+  Returns the count of attendees.
+
+  ## Examples
+      iex> count_attendees()
+      4
+  """
+  def count_attendees do
+    User
+    |> where(type: :attendee)
+    |> join(:left, [a], t in assoc(a, :ticket), as: :ticket)
+    |> preload(:attendee)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+  Returns the count of attendees with a ticket.
+
+  ## Examples
+      iex> count_attendees_with_ticket()
+      4
+  """
+  def count_attendees_with_ticket do
+    User
+    |> where(type: :attendee)
+    |> join(:inner, [a], t in assoc(a, :ticket), as: :ticket)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+  Returns the count of attendees with a paid ticket.
+
+  ## Examples
+      iex> count_attendees_with_paid_ticket()
+      3
+  """
+  def count_attendees_with_paid_ticket do
+    User
+    |> where(type: :attendee)
+    |> join(:inner, [a], t in assoc(a, :ticket), as: :ticket)
+    |> where([a, ticket: t], t.paid == true)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+  Returns the count of attendees with pendent payment.
+
+  ## Examples
+      iex> count_attendees_with_pending_payment()
+      1
+  """
+  def count_attendees_with_pending_payment do
+    count_attendees_by_payment_status(:pending)
+  end
+
+  @doc """
+  Returns the count of attendees with cancelled payment.
+
+  ## Examples
+      iex> count_attendees_with_cancelled_payment()
+      1
+  """
+  def count_attendees_with_cancelled_payment do
+    count_attendees_by_payment_status(:canceled)
+  end
+
+  @doc """
+  Returns the count of attendees with completed payment.
+
+  ## Examples
+      iex> count_attendees_with_completed_payment()
+      5
+  """
+  def count_attendees_with_completed_payment do
+    count_attendees_by_payment_status(:completed)
+  end
+
+  defp count_attendees_by_payment_status(status) do
+    User
+    |> where(type: :attendee)
+    |> join(:inner, [a], t in assoc(a, :ticket), as: :ticket)
+    |> join(:inner, [a, t], p in assoc(t, :payment), as: :payment)
+    |> where([a, t, payment: p], p.status == ^status)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
   Lists all users with CV.
   """
   def list_users_with_cv do
@@ -262,7 +348,7 @@ defmodule Pearl.Accounts do
     Ecto.Multi.new()
     |> Ecto.Multi.insert(
       :user,
-      User.registration_changeset(%User{}, Map.delete(attrs, :attendee),
+      User.registration_attendee_changeset(%User{}, Map.delete(attrs, "attendee"),
         hash_password: true,
         validate_email: true
       )
@@ -289,8 +375,6 @@ defmodule Pearl.Accounts do
 
   """
   def register_staff_user(attrs) do
-    attrs = attrs |> Map.put("type", :staff)
-
     Ecto.Multi.new()
     |> Ecto.Multi.insert(
       :user,
@@ -300,6 +384,7 @@ defmodule Pearl.Accounts do
         hash_password: true,
         validate_email: true
       )
+      |> Ecto.Changeset.put_change(:type, :staff)
     )
     |> Ecto.Multi.insert(
       :staff,
@@ -451,6 +536,11 @@ defmodule Pearl.Accounts do
   """
   def change_user_registration(%User{} = user, attrs \\ %{}) do
     User.registration_changeset(user, attrs, hash_password: false, validate_email: false)
+    |> User.password_confirmation_changeset(attrs)
+  end
+
+  def change_attendee_registration(%User{} = user, attrs \\ %{}) do
+    User.registration_attendee_changeset(user, attrs, hash_password: false, validate_email: false)
     |> User.password_confirmation_changeset(attrs)
   end
 

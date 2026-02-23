@@ -2,6 +2,7 @@ defmodule Pearl.Repo.Seeds.Badges do
   alias Pearl.Accounts.{Attendee, Staff}
   alias Pearl.{Contest, Event, Repo}
   alias Pearl.Contest.{Badge, BadgeCategory, BadgeRedeem}
+  import Ecto.Query
 
   @badges File.read!("priv/fake/badges.txt") |> String.split("\n") |> Enum.map(&String.split(&1, ";"))
 
@@ -43,14 +44,14 @@ defmodule Pearl.Repo.Seeds.Badges do
   end
 
   def seed_badges do
-    category = Repo.one(BadgeCategory, name: "General")
+    category = Repo.one(from c in BadgeCategory, where: c.name == "General")
     {:ok, begin_time} = DateTime.from_unix(:erlang.system_time(:second))
     {:ok, end_time} = DateTime.from_unix(:erlang.system_time(:second) + 400_000)
     attendees = Repo.all(Attendee)
     staffs = Repo.all(Staff)
     dates = Event.list_event_dates()
 
-    for {badge, i} <- Enum.with_index(@badges) do
+    for {badge, _i} <- Enum.with_index(@badges) do
       {name, description} = {Enum.at(badge, 0), Enum.at(badge, 1)}
 
       badge_seed = %{

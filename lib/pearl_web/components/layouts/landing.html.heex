@@ -1,21 +1,14 @@
-<div class="bg-background-muted text-light font-iregular relative min-h-screen">
+<div class="bg-light-muted text-dark font-iregular relative min-h-screen">
   <.navbar
     pages={PearlWeb.Config.landing_pages()}
     registrations_open?={Pearl.Event.registrations_open?()}
     current_user={Map.get(assigns, :current_user)}
+    current_page={Map.get(assigns, :current_page, nil)}
+    dark_mode={Map.get(assigns, :current_page) == :challenges}
   />
   <main>
     <.flash_group flash={@flash} />
     {@inner_content}
   </main>
-  <.footer>
-    <:tip :if={
-      Map.get(assigns, :current_page, nil) in [:home, :schedule, :speakers, :faqs] and
-        Pearl.Event.get_feature_flag("challenges_enabled")
-    }>
-      Have you checked out the
-      <.link class="underline" navigate={~p"/challenges"}>challenges</.link>
-      yet? <.link href="https://www.youtube.com/watch?v=xvFZjo5PgG0">🏆</.link>
-    </:tip>
-  </.footer>
+  <.footer />
 </div>

@@ -3,6 +3,8 @@ defmodule PearlWeb.Backoffice.ScannerLive.EnrolmentLive.Index do
 
   alias Pearl.{Accounts, Activities}
 
+  import PearlWeb.Components.{Modal}
+
   @impl true
   def render(assigns) do
     ~H"""

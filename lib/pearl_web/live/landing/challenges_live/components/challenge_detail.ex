@@ -115,7 +115,7 @@ defmodule PearlWeb.Landing.ChallengesLive.Components.ChallengeDetail do
   defp has_challenge_image?(_), do: false
 
   defp get_challenge_image(%{image: %{file_name: _}} = challenge) do
-    Uploaders.Challenge.url({challenge.image, challenge})
+    Uploaders.Challenge.url({challenge.image, challenge}, :original, signed: true)
   end
 
   defp get_challenge_image(_challenge), do: nil

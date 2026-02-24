@@ -1,7 +1,7 @@
 defmodule PearlWeb.App.ScratchCardLive.Index do
   use PearlWeb, :app_view
 
-  alias Pearl.Minigames
+  alias Pearl.{Contest, Minigames}
   alias Pearl.Uploaders
 
   import PearlWeb.App.WheelLive.Components.ResultModal
@@ -77,12 +77,25 @@ defmodule PearlWeb.App.ScratchCardLive.Index do
         {:noreply, put_flash(socket, :error, "Scratch card id is invalid")}
 
       true ->
+        %{type: type, drop: drop} = socket.assigns.result
+
         {:noreply,
          socket
          |> assign(is_scratching?: false)
-         |> assign(is_revealed: true)}
+         |> assign(is_revealed: true)
+         |> assign(
+           :attendee_tokens,
+           case type do
+             :tokens ->
+               socket.assigns.attendee_tokens + drop.tokens
 
-        # Todo: add tokens on client side;
+             :badge ->
+               Contest.get_attendee_tokens(socket.assigns.current_user.attendee)
+
+             _ ->
+               socket.assigns.attendee_tokens
+           end
+         )}
     end
   end
 

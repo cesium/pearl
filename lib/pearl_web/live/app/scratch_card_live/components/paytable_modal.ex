@@ -40,7 +40,7 @@ defmodule PearlWeb.App.ScratchCardLive.Components.PaytableModal do
           <div class="flex items-center justify-between border-b border-white/20 pb-4 last:border-0">
             <div class="flex flex-col gap-1">
               <h3 class="text-xl font-terminal font-semibold uppercase">
-                Prize name here
+                {get_prize_name(drop)}
               </h3>
               <p class="text-sm text-slate-300">
                 {gettext("Probability: %{probability}%",
@@ -55,7 +55,9 @@ defmodule PearlWeb.App.ScratchCardLive.Components.PaytableModal do
                 src={
                   ScratchCardSymbols.url(
                     {drop.scratch_card_symbol.image, drop.scratch_card_symbol},
-                    :original, signed: true)
+                    :original,
+                    signed: true
+                  )
                 }
                 class="w-full h-full object-cover"
                 alt="Slot icon"
@@ -66,5 +68,15 @@ defmodule PearlWeb.App.ScratchCardLive.Components.PaytableModal do
       </div>
     </.modal>
     """
+  end
+
+  defp get_prize_name(drop) do
+    case Minigames.get_drop_type(drop) do
+      :tokens -> "#{drop.tokens} Tokens"
+      :badge -> "'#{drop.badge.name}' Badge"
+      :entries -> "#{drop.entries} Entries"
+      :prize -> drop.prize.name
+      _ -> "Scratchcard Prize"
+    end
   end
 end

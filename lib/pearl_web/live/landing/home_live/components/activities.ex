@@ -64,7 +64,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
     assigns = assign(assigns, :activities, activities)
 
     ~H"""
-    <div class="pb-12 pt-3 w-full flex flex-col items-center gap-10">
+    <div class="pb-12 pt-3 w-full flex flex-col items-center gap-10 px-4 md:px-10">
       <span class="flex flex-col gap-3.5 items-center text-dark-text max-w-2xl text-center">
         <h1 class="text-2xl md:text-3xl font-semibold">{"Serão quatro dias preenchidos"}</h1>
         <p>

@@ -24,9 +24,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           />
         </div>
 
-        <div class=
-          "hidden md:flex h-220 w-full pl-7 pt-7"
-        >
+        <div class="hidden md:flex h-220 w-full pl-7 pt-7">
           <.desktop_layout
             speakers={@speakers}
             selected_speaker={@selected_speaker}
@@ -53,7 +51,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           style={overlay_style(:top, @selected_speaker && @selected_speaker.accent_color)}
         />
         <div class="flex flex-col items-center justify-center relative z-20 px-6">
-        <.header_text class="relative" />
+          <.header_text class="relative" />
         </div>
       </div>
 
@@ -252,10 +250,12 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   end
 
   defp overlay_style(:top, %{"r" => r, "g" => g, "b" => b}),
-    do: "background: linear-gradient(to bottom, rgba(#{r},#{g},#{b},1.0) 0%, rgba(#{r},#{g},#{b},0.65) 100%);"
+    do:
+      "background: linear-gradient(to bottom, rgba(#{r},#{g},#{b},1.0) 0%, rgba(#{r},#{g},#{b},0.65) 100%);"
 
   defp overlay_style(:bottom, %{"r" => r, "g" => g, "b" => b}),
-    do: "background: linear-gradient(to top, rgba(#{r},#{g},#{b},1.0) 0%, rgba(#{r},#{g},#{b},0.65) 100%);"
+    do:
+      "background: linear-gradient(to top, rgba(#{r},#{g},#{b},1.0) 0%, rgba(#{r},#{g},#{b},0.65) 100%);"
 
   defp overlay_style(:image, %{"r" => r, "g" => g, "b" => b}),
     do: "background: rgba(#{r},#{g},#{b},0.2);"

@@ -72,7 +72,9 @@ defmodule Pearl.Activities.Speaker do
       _ ->
         case get_field(changeset, :accent_color) do
           %{"r" => r, "g" => g, "b" => b} ->
-            hex = "##{Integer.to_string(r * 65536 + g * 256 + b + 0x1000000, 16) |> String.slice(1, 6)}"
+            hex =
+              "##{Integer.to_string(r * 65536 + g * 256 + b + 0x1000000, 16) |> String.slice(1, 6)}"
+
             put_change(changeset, :accent_color_hex, hex)
 
           _ ->

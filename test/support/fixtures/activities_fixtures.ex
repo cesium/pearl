@@ -57,6 +57,6 @@ defmodule Pearl.ActivitiesFixtures do
       })
       |> Pearl.Activities.create_speaker()
 
-    speaker
+    %{speaker | accent_color_hex: nil}
   end
 end

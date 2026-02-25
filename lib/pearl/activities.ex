@@ -423,41 +423,9 @@ defmodule Pearl.Activities do
 
   """
   def update_speaker_picture(%Speaker{} = speaker, attrs) do
-    changeset = Speaker.picture_changeset(speaker, attrs)
-
-    upload = attrs["picture"] || attrs[:picture]
-
-    path =
-      case upload do
-        %Plug.Upload{path: path} -> path
-        path when is_binary(path) -> path
-        _ -> nil
-      end
-
-    changeset =
-      if path && File.exists?(path) do
-        color = calculate_dominant_color(path)
-        Ecto.Changeset.put_change(changeset, :dominant_color, color)
-      else
-        changeset
-      end
-
-    Repo.update(changeset)
-  end
-
-  defp calculate_dominant_color(path) do
-    case Image.open(path) do
-      {:ok, image} ->
-        case Image.dominant_color(image) do
-          {:ok, [r, g, b | _]} -> %{r: r, g: g, b: b}
-          _ -> %{"r" => 129, "g" => 24, "b" => 36}
-        end
-
-      _ ->
-        %{"r" => 129, "g" => 24, "b" => 36}
-    end
-  rescue
-    _ -> %{"r" => 129, "g" => 24, "b" => 36}
+    speaker
+    |> Speaker.picture_changeset(attrs)
+    |> Repo.update()
   end
 
   @doc """

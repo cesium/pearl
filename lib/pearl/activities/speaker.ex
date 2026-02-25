@@ -3,11 +3,13 @@ defmodule Pearl.Activities.Speaker do
   Speakers participate in the event's activities.
   """
   use Pearl.Schema
+  import Bitwise
 
   alias Pearl.Activities
 
   @required_fields ~w(name company title)a
-  @optional_fields ~w(biography highlighted dominant_color)a
+  @optional_fields ~w(biography highlighted accent_color)a
+  @virtual_fields ~w(accent_color_hex)a
 
   @derive {
     Flop.Schema,
@@ -32,7 +34,8 @@ defmodule Pearl.Activities.Speaker do
     field :company, :string
     field :biography, :string
     field :highlighted, :boolean, default: false
-    field :dominant_color, :map, default: %{"r" => 129, "g" => 24, "b" => 36}
+    field :accent_color, :map, default: %{"r" => 129, "g" => 24, "b" => 36}
+    field :accent_color_hex, :string, virtual: true
 
     embeds_one :socials, Activities.Speaker.Socials
 
@@ -46,9 +49,36 @@ defmodule Pearl.Activities.Speaker do
   @doc false
   def changeset(speaker, attrs) do
     speaker
-    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields ++ @virtual_fields)
     |> cast_embed(:socials)
     |> validate_required(@required_fields)
+    |> sync_accent_color()
+  end
+
+  defp sync_accent_color(changeset) do
+    case get_change(changeset, :accent_color_hex) do
+      "#" <> hex when byte_size(hex) == 6 ->
+        case Integer.parse(hex, 16) do
+          {int, ""} ->
+            r = int >>> 16 &&& 0xFF
+            g = int >>> 8 &&& 0xFF
+            b = int &&& 0xFF
+            put_change(changeset, :accent_color, %{"r" => r, "g" => g, "b" => b})
+
+          _ ->
+            changeset
+        end
+
+      _ ->
+        case get_field(changeset, :accent_color) do
+          %{"r" => r, "g" => g, "b" => b} ->
+            hex = "##{Integer.to_string(r * 65536 + g * 256 + b + 0x1000000, 16) |> String.slice(1, 6)}"
+            put_change(changeset, :accent_color_hex, hex)
+
+          _ ->
+            changeset
+        end
+    end
   end
 
   @doc false

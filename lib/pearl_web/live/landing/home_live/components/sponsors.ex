@@ -6,8 +6,8 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
 
   def sponsors(assigns) do
     ~H"""
-    <div class="flex items-center justify-center flex-col py-14.5">
-      <div class="flex flex-col gap-5 items-center text-black px-4 md:px-8">
+    <div class="flex items-center justify-center flex-col py-14.5 px-4 md:px-8">
+      <div class="flex flex-col gap-5 items-center text-black ">
         <h2 class="flex font-semibold justify-center text-center text-2xl md:text-3xl max-w-full md:max-w-[580px]">
           {gettext("Um elenco de empresas que abre portas e janelas")}
         </h2>

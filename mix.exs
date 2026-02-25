@@ -67,7 +67,6 @@ defmodule Pearl.MixProject do
 
       # tools
       {:qrcode_ex, "~> 0.1.1"},
-      {:image, "~> 0.62.1"},
       {:credo, "~> 1.7.12", only: [:dev, :test], runtime: false},
       {:faker, "~> 0.18.0"},
       {:earmark, "~> 1.4.48"},

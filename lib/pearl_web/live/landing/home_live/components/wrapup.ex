@@ -6,7 +6,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Wrapup do
 
   def link_wrapup(assigns) do
     ~H"""
-    <div class="flex flex-col items-center gap-11.5 text-dark py-18 md:py-20">
+    <div class="flex flex-col items-center gap-11.5 text-dark py-18 md:py-20 px-4 md:px-8">
       <div class="text-center space-y-2.5 max-w-3xl">
         <h2 class="font-semibold text-3xl">{gettext("Temos encontro marcado?")}</h2>
         <p>

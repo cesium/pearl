@@ -60,10 +60,25 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
                   label="Highlighted"
                   wrapper_class="w-full"
                 />
+                <span>
+                  <.label>{gettext("Accent Color")}</.label>
+                  <div class="flex items-center gap-3 mt-1">
+                    <input
+                      type="color"
+                      id={@form[:accent_color_hex].id}
+                      name={@form[:accent_color_hex].name}
+                      value={@form[:accent_color_hex].value}
+                      class="h-10 w-16 cursor-pointer rounded border border-gray-300 p-0.5"
+                    />
+                    <span class="text-sm font-mono text-gray-600">
+                      {@form[:accent_color_hex].value}
+                    </span>
+                  </div>
+                </span>
               </div>
               <div class="flex flex-col gap-2">
                 <.label>
-                  {gettext("Picture (must be a square image!!!)")}
+                  {gettext("Speaker Picture")}
                 </.label>
                 <.image_uploader
                   class="w-full aspect-square"
@@ -107,7 +122,6 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
   @impl true
   def handle_event("validate", %{"speaker" => speaker_params}, socket) do
     changeset = Activities.change_speaker(socket.assigns.speaker, speaker_params)
-
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 

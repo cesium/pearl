@@ -91,7 +91,7 @@ defmodule Pearl.Repo.Seeds.Activities do
         company: Faker.Company.name(),
         biography: Faker.Lorem.paragraph(3),
         highlighted: i > 24,
-        dominant_color: Enum.random(@placeholder_colors),
+        accent_color: Enum.random(@placeholder_colors),
         socials: %{
           x: handle |> String.slice(0..14),
           linkedin: handle,

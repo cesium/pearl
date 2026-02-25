@@ -9,12 +9,12 @@
   </div>
 </div>
 <div>
+  <.activities />
   <.speakers
     speakers={@speakers}
     selected_speaker={@selected_speaker}
     selected_activity={@selected_activity}
   />
-  <.activities />
   <.sponsors :if={@has_sponsors?} tiers={@tiers} />
   <.link_wrapup is_register_open?={@is_register_open?} />
 </div>

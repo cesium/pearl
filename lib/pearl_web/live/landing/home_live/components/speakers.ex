@@ -12,10 +12,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     ~H"""
     <div :if={@speakers}>
       <div
-        class="relative w-full overflow-hidden transition-colors duration-300 ease-in-out bg-primary text-dark dynamic-gradient-bg"
-        style={bg_style(@selected_speaker && @selected_speaker.dominant_color)}
+        class="relative w-full overflow-hidden transition-colors duration-300 ease-in-out bg-primary text-light dynamic-gradient-bg"
+        style={bg_style(@selected_speaker && @selected_speaker.accent_color)}
       >
-        <div class="block md:hidden text-light">
+        <div class="block md:hidden">
           <.mobile_layout
             speakers={@speakers}
             selected_speaker={@selected_speaker}
@@ -24,10 +24,9 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           />
         </div>
 
-        <div class={[
-          "hidden md:flex h-220 w-full pl-7 pt-7",
-          text_class(@selected_speaker && @selected_speaker.dominant_color)
-        ]}>
+        <div class=
+          "hidden md:flex h-220 w-full pl-7 pt-7"
+        >
           <.desktop_layout
             speakers={@speakers}
             selected_speaker={@selected_speaker}
@@ -46,23 +45,19 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
       <div class="py-6 shrink-0 relative">
         <.speaker_image
           speaker={@selected_speaker}
-          class="absolute bottom-0 blur-xl left-0 w-full z-10 scale-y-[-1]"
+          class="absolute bottom-0 blur-xl left-0 w-full z-0  scale-y-[-1] opacity-90"
         />
         <div
           :if={@selected_speaker && @selected_speaker.picture}
-          class="absolute inset-0 bg-dark/20 z-20"
+          class="absolute inset-0 z-10 pointer-events-none"
+          style={overlay_style(:top, @selected_speaker && @selected_speaker.accent_color)}
         />
-        <.header_text class="relative px-4 z-40" />
-        <div
-          :if={@selected_speaker && @selected_speaker.picture}
-          class={[
-            "absolute inset-0",
-            overlay_class(@selected_speaker && @selected_speaker.dominant_color)
-          ]}
-        />
+        <div class="flex flex-col items-center justify-center relative z-20 px-6">
+        <.header_text class="relative" />
+        </div>
       </div>
 
-      <div class="relative w-full aspect-square shrink-0 overflow-hidden">
+      <div class="relative w-full aspect-square object-cover shrink-0 overflow-hidden">
         <div class="absolute inset-0 w-full h-full">
           <.speaker_image
             speaker={@selected_speaker}
@@ -70,7 +65,8 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           />
           <div
             :if={@selected_speaker && @selected_speaker.picture}
-            class="absolute inset-0 pointer-events-none bg-dark/20"
+            class="absolute inset-0 pointer-events-none"
+            style={overlay_style(:image, @selected_speaker && @selected_speaker.accent_color)}
           >
           </div>
         </div>
@@ -95,24 +91,14 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         />
         <.speaker_image
           speaker={@selected_speaker}
-          class="absolute opacity-50 blur-xl scale-y-[-1] z-10 top-0 w-full"
+          class="absolute blur-xl scale-y-[-1] z-0 top-0 w-full opacity-90"
         />
         <div
           :if={@selected_speaker && @selected_speaker.picture}
-          class="absolute inset-0 bg-dark/20 z-20"
-        />
-        <div
-          :if={@selected_speaker && @selected_speaker.picture}
-          class={[
-            " absolute inset-0",
-            overlay_class(@selected_speaker && @selected_speaker.dominant_color)
-          ]}
+          class="absolute inset-0 z-10 pointer-events-none"
+          style={overlay_style(:bottom, @selected_speaker && @selected_speaker.accent_color)}
         />
       </div>
-      <div class={[
-        "absolute inset-0",
-        overlay_class(@selected_speaker && @selected_speaker.dominant_color)
-      ]} />
     </div>
     """
   end
@@ -156,7 +142,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   defp header_text(assigns) do
     ~H"""
     <div class={["flex flex-col space-y-2 lg:space-y-4", Map.get(assigns, :class, "")]}>
-      <p class="text-2xl md:text-5xl font-bold leading-tight">
+      <p class="text-3xl md:text-5xl font-bold leading-tight">
         Trazemos um elenco de estrelas
       </p>
       <p class="text-sm md:text-xl opacity-90 font-medium max-w-xl">
@@ -172,10 +158,12 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
       class="
         relative z-10
         pt-10
-        pb-30
-        lg:pt-10
+        pb-50
+        lg:py-10
+        lg:pb-10
+
         max-h-100
-        w-2xl
+        w-full
         overflow-x-clip
         overflow-y-auto
         [scrollbar-width:none]
@@ -193,7 +181,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         phx-value-speaker-id={speaker.id}
         class={[
           item_style(@layout_mode, @selected_speaker, speaker),
-          "p-2 pl-5 text-5.5 md:text-3xl hover:font-bold hover:scale-105 hover:ml-8 hover:bg-white/10 cursor-pointer transition-all duration-200"
+          "p-2 pl-5 text-5.5 md:text-3xl hover:font-bold hover:scale-105 hover:ml-8 cursor-pointer transition-all duration-200"
         ]}
       >
         {speaker.name}
@@ -217,11 +205,11 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     <div
       :if={@speaker}
       class={[
-        "rounded-[40px] md:rounded-full px-6 py-4 min-h-2 flex flex-col items-center justify-center animate-[fade_in_0.5s_both]",
+        "rounded-[40px] md:rounded-full px-6 py-4 min-h-2 flex flex-col items-center justify-center animate-[fade_in_0.5s_both] md:text-dark",
         @class
       ]}
     >
-      <p class="text-sm md:text-base font-medium flex flex-col md:block text-center">
+      <p class="text-sm md:text-base font-medium md:block text-center">
         <span class="font-extrabold">{@speaker.title}</span>
         <span>
           <span class="opacity-60 mx-1">na</span>
@@ -247,38 +235,35 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     base = "text-3xl sm:text-4xl md:text-5xl pl-1 "
 
     if sel_speaker && sel_speaker.id == speaker.id do
-      base <> "font-black! scale-105! origin-left!"
+      base <> "font-black! scale-105! origin-left! font-bold"
     else
       base <> "opacity-80"
     end
   end
 
   defp item_style(:desktop, sel_speaker, speaker) do
-    base = "text-3xl pl-5 hover:font-bold hover:scale-105 hover:ml-8 hover:bg-white/10 "
+    base = "text-3xl pl-5 hover:font-semibold hover:scale-105 hover:ml-8"
 
     if sel_speaker && sel_speaker.id == speaker.id do
-      base <> "font-black! scale-120! ml-14!"
+      base <> " font-black! scale-120! ml-14!"
     else
-      base <> "opacity-100"
+      base <> " opacity-100"
     end
   end
 
-  defp text_class(color) do
-    if light_color?(color), do: "text-dark", else: "text-light"
-  end
+  defp overlay_style(:top, %{"r" => r, "g" => g, "b" => b}),
+    do: "background: linear-gradient(to bottom, rgba(#{r},#{g},#{b},1.0) 0%, rgba(#{r},#{g},#{b},0.65) 100%);"
 
-  defp overlay_class(color) do
-    if light_color?(color), do: "", else: "bg-dark/20"
-  end
+  defp overlay_style(:bottom, %{"r" => r, "g" => g, "b" => b}),
+    do: "background: linear-gradient(to top, rgba(#{r},#{g},#{b},1.0) 0%, rgba(#{r},#{g},#{b},0.65) 100%);"
+
+  defp overlay_style(:image, %{"r" => r, "g" => g, "b" => b}),
+    do: "background: rgba(#{r},#{g},#{b},0.2);"
+
+  defp overlay_style(_pos, _), do: ""
 
   defp bg_style(%{"r" => r, "g" => g, "b" => b}), do: "--r: #{r}; --g: #{g}; --b: #{b};"
   defp bg_style(_), do: "--r: 26; --g: 26; --b: 46;"
-
-  defp light_color?(%{"r" => r, "g" => g, "b" => b}) do
-    (r * 299 + g * 587 + b * 114) / 1000 > 155
-  end
-
-  defp light_color?(_), do: false
 
   defp speaker_image_url(speaker) do
     if speaker.picture,

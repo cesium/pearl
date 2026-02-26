@@ -2,8 +2,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.CredentialLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Accounts
-  alias Pearl.Contest
-  import PearlWeb.Components.{Forms, Button, Modal}
+  import PearlWeb.Components.{Button, Modal}
 
   @impl true
   def render(assigns) do
@@ -176,6 +175,4 @@ defmodule PearlWeb.Backoffice.AttendeeLive.CredentialLive.FormComponent do
          |> push_patch(to: ~p"/dashboard/attendees/#{socket.assigns.attendee.id}")}
     end
   end
-
-  @impl true
 end

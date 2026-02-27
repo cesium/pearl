@@ -905,38 +905,32 @@ defmodule Pearl.Accounts do
   end
 
   @doc """
-  Relinks a credential to an attendee.
+  Relinks a new credential to an attendee.
 
   ## Examples
 
       iex> relink_credential(credential_id, attendee_id)
-      {:ok, %Credential{}}
+      {:ok, %{unlink_old: %Credential{} | nil, link_new: %Credential{}}}
 
       iex> relink_credential(credential_id, attendee_id)
-      {:error, %Ecto.Changeset{}}
+      {:error, :link_new, %Ecto.Changeset{}, %{}}
 
   """
   def relink_credential(credential_id, attendee_id) do
     attendee = get_attendee!(attendee_id)
 
-    old_credential =
-      Credential
-      |> where([c], c.attendee_id == ^attendee.id)
-      |> Repo.one()
-
     new_credential = get_credential!(credential_id)
-
     new_changeset = Ecto.Changeset.change(new_credential, attendee_id: attendee.id)
 
     Multi.new()
     |> Multi.run(:unlink_old, fn repo, _changes ->
-      if old_credential do
-        changeset = Credential.changeset(old_credential, %{attendee_id: nil})
+      old_credential =
+        Credential
+        |> where([c], c.attendee_id == ^attendee.id)
+        |> repo.one()
 
-        case repo.update(changeset) do
-          {:ok, updated} -> {:ok, updated}
-          {:error, changeset} -> {:error, changeset}
-        end
+      if old_credential do
+        repo.update(Ecto.Changeset.change(old_credential, attendee_id: nil))
       else
         {:ok, nil}
       end

@@ -320,6 +320,13 @@ defmodule PearlWeb.Router do
           live "/:id/edit", Index, :edit
         end
 
+        scope "/referrals", ReferralsLive do
+          live "/", Index, :index
+          live "/new", Index, :new
+          live "/:id/edit", Index, :edit
+          live "/:id/users", Index, :users
+        end
+
         scope "/schedule", ScheduleLive do
           live "/edit", Index, :edit_schedule
 

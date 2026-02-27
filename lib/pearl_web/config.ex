@@ -185,6 +185,13 @@ defmodule PearlWeb.Config do
         scope: %{"discount_codes" => ["show"]}
       },
       %{
+        key: :referrals,
+        title: "Referrals",
+        icon: "hero-document-text",
+        url: "/dashboard/referrals",
+        scope: %{"referrals" => ["show"]}
+      },
+      %{
         key: :store,
         title: "Store",
         icon: "hero-shopping-cart",

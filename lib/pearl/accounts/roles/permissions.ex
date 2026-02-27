@@ -18,6 +18,7 @@ defmodule Pearl.Accounts.Roles.Permissions do
         "perks_show",
         "perks_edit"
       ],
+      "referrals" => ["show", "edit"],
       "discount_codes" => ["show", "edit"],
       "enrolments" => ["show", "edit"],
       "products" => ["show", "edit", "delete"],

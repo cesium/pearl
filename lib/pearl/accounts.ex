@@ -7,6 +7,7 @@ defmodule Pearl.Accounts do
 
   alias Pearl.Accounts.{Attendee, Course, Credential, Staff, User, UserNotifier, UserToken}
   alias Pearl.Companies.Company
+  alias Pearl.Referrals.Referral
   alias Pearl.Contest
 
   ## Database getters
@@ -187,6 +188,29 @@ defmodule Pearl.Accounts do
     |> where(user_id: ^user_id)
     |> apply_filters(opts)
     |> Repo.one()
+  end
+
+  def apply_referral_code(%Attendee{} = attendee, code) when is_binary(code) do
+    case Pearl.Referrals.get_referral_by_code(code) do
+      %Referral{active: true, id: id} ->
+        update_attendee(attendee, %{referral_id: id})
+
+      %Referral{active: false} ->
+        {:error, :inactive_referral}
+
+      nil ->
+        {:error, :invalid_referral}
+    end
+  end
+
+  def apply_referral_code(%Attendee{} = attendee, referral) when is_binary(referral) do
+
+    update_attendee(attendee, %{referral: referral})
+  end
+
+  def apply_referral_code_to_user(%User{type: :attendee} = user, code) do
+    attendee = get_user_attendee(user.id)
+    apply_referral_code(attendee, code)
   end
 
   @doc """

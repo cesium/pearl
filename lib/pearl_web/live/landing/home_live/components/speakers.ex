@@ -3,6 +3,8 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   use PearlWeb, :component
   alias Pearl.Uploaders
 
+  import PearlWeb.Components.Button
+
   attr :speakers, :list, required: true
   attr :selected_speaker, :map, default: nil
   attr :selected_activity, :map, default: nil
@@ -33,6 +35,11 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           />
         </div>
       </div>
+      <.navigate_button
+          navigate="/speakers"
+          class="relative z-40 mx-auto max-w-70 mt-10 text-lg"
+          title="conhece os oradores"
+        />
     </div>
     """
   end
@@ -81,12 +88,20 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         </div>
       </div>
 
-      <div class="flex flex-col items-center justify-between pt-4 px-6 grow relative">
+      <div class="flex flex-col items-center justify-start pt-4 px-6 grow relative">
         <.info_card
           activity={@selected_activity}
           speaker={@selected_speaker}
           class="relative z-40"
         />
+        <div class="flex flex-1 items-center relative z-40 py-7.5 my-auto">
+        <.navigate_button
+          navigate="/speakers"
+          class="relative z-40 mx-auto max-w-70 text-lg"
+          title="conhece os oradores"
+        />
+        </div>
+
         <.speaker_image
           speaker={@selected_speaker}
           class="absolute blur-xl scale-y-[-1] z-0 top-0 w-full opacity-90"

@@ -208,6 +208,14 @@ defmodule PearlWeb.Landing.Components.Navbar do
           </.link>
           <.link
             :if={user_type?(@current_user, :attendee)}
+            patch={~p"/settings"}
+            phx-click={hide_mobile_navbar()}
+            class="text-2xl font-semibold text-dark/50 transition-colors duration-75 ease-in hover:text-primary"
+          >
+            Settings
+          </.link>
+          <.link
+            :if={user_type?(@current_user, :attendee)}
             patch={~p"/app"}
             phx-click={hide_mobile_navbar()}
             class="text-2xl font-semibold text-dark/50 transition-colors duration-75 ease-in hover:text-primary"

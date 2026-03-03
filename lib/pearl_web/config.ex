@@ -10,6 +10,12 @@ defmodule PearlWeb.Config do
 
     [
       %{
+        key: :tickets,
+        title: "Bilhetes",
+        url: "/tickets",
+        feature_flag: "tickets_enabled"
+      },
+      %{
         key: :schedule,
         title: "Calendário",
         url: "/schedule",
@@ -38,19 +44,6 @@ defmodule PearlWeb.Config do
         title: "Informação & Ajuda",
         url: "/faqs",
         feature_flag: "faqs_enabled"
-      },
-      %{
-        key: :tickets,
-        title: "Bilhetes",
-        url: "/tickets",
-        feature_flag: "tickets_enabled"
-      },
-      %{
-        key: :settings,
-        title: "Settings",
-        url: "/settings",
-        feature_flag: "login_enabled",
-        requires_confirmed_account: true
       },
       %{
         key: :call_for_staff,

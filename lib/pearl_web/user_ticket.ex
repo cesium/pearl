@@ -31,7 +31,7 @@ defmodule PearlWeb.UserTicket do
     if is_nil(user) do
       redirect_no_ticket(conn)
     else
-      user
+      user.id
       |> Tickets.get_user_ticket()
       |> validate_ticket_and_payment(conn)
     end

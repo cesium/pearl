@@ -204,10 +204,6 @@ defmodule Pearl.Accounts do
     end
   end
 
-  def apply_referral_code(%Attendee{} = attendee, referral) when is_binary(referral) do
-    update_attendee(attendee, %{referral: referral})
-  end
-
   def apply_referral_code_to_user(%User{type: :attendee} = user, code) do
     attendee = get_user_attendee(user.id)
     apply_referral_code(attendee, code)

@@ -10,9 +10,6 @@ defmodule PearlWeb.Backoffice.ReferralsLive.FormComponent do
     <div>
       <.header>
         {@title}
-        <:subtitle>
-          {gettext("Companies sponsor the event.")}
-        </:subtitle>
       </.header>
 
       <.simple_form

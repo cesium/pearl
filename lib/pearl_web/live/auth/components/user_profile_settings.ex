@@ -89,7 +89,7 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
         <.simple_form
           for={@new_user_session_form}
           id="new-user-session-form"
-          action={"/users/log_in?_action=password_updated&_redirect_url=/profile&_notification_text=#{@notification_text}"}
+          action={"/users/log_in?_action=password_updated&_redirect_url=/settings&_notification_text=#{@notification_text}"}
           method="post"
           phx-trigger-action={@trigger_form_action}
           phx-target={@myself}
@@ -352,7 +352,7 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
         <.simple_form
           for={@new_user_session_form}
           id="new-user-session-form"
-          action={"/users/log_in?_action=password_updated&_redirect_url=/#{@base_path}/profile_settings&_notification_text=#{@notification_text}"}
+          action={"/users/log_in?_action=password_updated&_redirect_url=/dashboard/profile_settings&_notification_text=#{@notification_text}"}
           method="post"
           phx-trigger-action={@trigger_form_action}
           phx-target={@myself}

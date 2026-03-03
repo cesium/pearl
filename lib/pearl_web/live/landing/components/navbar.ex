@@ -124,7 +124,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
                 link_type="a"
                 to={
                   if @current_user.confirmed_at,
-                    do: "/profile",
+                    do: "/settings",
                     else: "/users/confirmation_pending"
                 }
                 label="Settings"

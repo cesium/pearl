@@ -35,6 +35,11 @@ defmodule PearlWeb.Backoffice.ProfileSettingsLive do
   end
 
   @impl true
+  def handle_info({:update_flash, {flash_type, msg}}, socket) do
+    {:noreply, put_flash(socket, flash_type, msg)}
+  end
+
+  @impl true
   def handle_params(_params, _, socket) do
     {:noreply, socket}
   end

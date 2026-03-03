@@ -54,7 +54,7 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
           </div>
 
           <div class="grid grid-cols-1 gap-4">
-            <.input field={@profile_form[:name]} variant={:flushed} label="Name" required />
+            <.input field={@profile_form[:name]} variant={:flushed} label="Nome" required />
             <.input field={@profile_form[:handle]} variant={:flushed} label="Username" required />
             <.input
               field={@profile_form[:email]}
@@ -66,20 +66,20 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
             <.input
               field={@profile_form[:password]}
               variant={:flushed}
-              label="New Password"
+              label="Nova Palavra-passe"
               type="password"
             />
             <.input
               field={@profile_form[:password_confirmation]}
               variant={:flushed}
-              label="Confirm Password"
+              label="Confirmar Palavra-passe"
               type="password"
             />
             <.input
               field={@profile_form[:current_password]}
               variant={:flushed}
               value={@current_password}
-              label="Current Password"
+              label="Palavra-passe Atual"
               type="password"
               required={@profile_form[:password].value not in [nil, ""]}
             />
@@ -104,19 +104,18 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
         <%= if @user.type == :attendee do %>
           <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
             <h4 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <span>Referral Code</span>
+              <span>Código de Referência</span>
             </h4>
 
             <%= if @user.attendee && @user.attendee.referral_id do %>
               <div class="space-y-2">
-                <p class="text-sm text-gray-600">Your referral code:</p>
+                <p class="text-sm text-gray-600">O seu código:</p>
                 <div class="flex items-center gap-2">
                   <code class="flex-1 bg-white px-3 py-2 rounded border border-gray-300 font-mono text-sm">
                     {@user.attendee.referral.code}
                   </code>
                 </div>
                 <input type="hidden" id="referral-code-value" value={@user.attendee.referral.code} />
-                <p class="text-xs text-primary font-semibold">Active</p>
               </div>
             <% else %>
               <.simple_form
@@ -128,11 +127,11 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
                 <.input
                   field={@referral_form[:referral_code]}
                   type="text"
-                  label="Enter Referral Code"
+                  label="Inserir Código"
                   placeholder="ABC123"
                   class="mb-3"
                 />
-                <.primary_button type="submit" class="w-full" title="add code" />
+                <.primary_button type="submit" class="w-full" title="adicionar" />
               </.simple_form>
             <% end %>
           </div>
@@ -142,7 +141,7 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
           <.primary_button
             type="submit"
             form="edit-profile-form"
-            title="save changes"
+            title="gravar"
           />
         </div>
       </div>

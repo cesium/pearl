@@ -2,6 +2,7 @@ defmodule Pearl.Repo.Seeds.Tickets do
   import Ecto.Query
 
   alias Pearl.Accounts.User
+  alias Pearl.Billing
   alias Pearl.{Perks, Repo, Tickets, TicketTypes}
   alias Pearl.Tickets.{Perk, Ticket, TicketType}
 
@@ -21,13 +22,13 @@ defmodule Pearl.Repo.Seeds.Tickets do
     seed_perks()
     seed_ticket_types()
     seed_tickets()
+    seed_payments()
   end
 
   defp seed_perks do
     case Repo.all(Perk) do
       [] ->
         Enum.each(@perks, &insert_perk/1)
-        Mix.shell().info("Seeded perks successfully.")
 
       _ ->
         Mix.shell().info("Found perks, skipping seeding.")
@@ -123,6 +124,41 @@ defmodule Pearl.Repo.Seeds.Tickets do
 
       {:error, changeset} ->
         Mix.shell().error("Failed to insert ticket for user #{attrs.user_id}: #{inspect(changeset.errors)}")
+    end
+  end
+  defp seed_payments do
+    case Repo.all(Pearl.Billing.Payment) do
+      [] ->
+        tickets = Repo.all(from t in Ticket, where: t.paid == true, preload: :ticket_type)
+
+        if Enum.empty?(tickets) do
+          Mix.shell().error("No paid tickets found. Please create tickets first.")
+        else
+          Enum.each(tickets, fn ticket ->
+            insert_payment(%{
+              order_id: "ORDER-#{ticket.id |> String.slice(0..7) |> String.upcase()}",
+              amount: ticket.ticket_type.price,
+              status: :completed,
+              ticket_id: ticket.id
+            })
+          end)
+
+          Mix.shell().info("Seeded #{length(tickets)} payments successfully.")
+        end
+
+      _ ->
+        Mix.shell().info("Found payments, skipping seeding.")
+    end
+  end
+
+  defp insert_payment(attrs) do
+    case Billing.create_payment(attrs) do
+      {:ok, _payment} ->
+        Mix.shell().info("Created payment: #{attrs.order_id}")
+        nil
+
+      {:error, changeset} ->
+        Mix.shell().error("Failed to insert payment for ticket #{attrs.ticket_id}: #{inspect(changeset.errors)}")
     end
   end
 end

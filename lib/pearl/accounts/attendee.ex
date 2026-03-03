@@ -29,6 +29,12 @@ defmodule Pearl.Accounts.Attendee do
     |> validate_required(@required_fields)
   end
 
+  def registration_changeset(attendee, attrs) do
+    attendee
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+  end
+
   def update_tokens_changeset(attendee, attrs) do
     attendee
     |> cast(attrs, [:tokens])

@@ -78,7 +78,7 @@ defmodule PearlWeb.Components.Button do
   attr :small, :boolean, default: false
   attr :gap, :string, default: "gap-1.5"
   attr :class, :string, default: nil
-  attr :rest, :global, include: ~w(disabled phx-click phx-disable-with phx-target)
+  attr :rest, :global, include: ~w(disabled phx-click phx-disable-with phx-target form)
 
   def primary_button(assigns) do
     ~H"""

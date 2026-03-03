@@ -228,7 +228,6 @@ defmodule PearlWeb.Components.Sidebar do
       <:title color={@title_color}>{@user.name}</:title>
       <:subtitle color={@subtitle_color}>@{@user.handle}</:subtitle>
       <:link navigate={"/app/user/#{@user.handle}"}>Profile</:link>
-      <:link navigate={"/#{@base_path}/profile_settings"}>Settings</:link>
       <:link href="/users/log_out" method={:delete}>Sign out</:link>
     </.app_user_dropdown>
     """
@@ -368,7 +367,6 @@ defmodule PearlWeb.Components.Sidebar do
     <.user_dropdown id={@id} border={@border} icon_color={@icon_color} user={@user}>
       <:title color={@title_color}>{@user.name}</:title>
       <:subtitle color={@subtitle_color}>@{@user.handle}</:subtitle>
-      <:link navigate={"/#{@base_path}/profile_settings"}>Profile Settings</:link>
       <:link href="/users/log_out" method={:delete}>Sign out</:link>
     </.user_dropdown>
     """

@@ -5,7 +5,7 @@ defmodule PearlWeb.Config do
 
   alias Pearl.Event
 
-  def landing_pages do
+  def landing_pages(current_user \\ nil) do
     enabled_flags = Event.get_active_feature_flags!()
 
     [
@@ -46,13 +46,24 @@ defmodule PearlWeb.Config do
         feature_flag: "tickets_enabled"
       },
       %{
+        key: :settings,
+        title: "Settings",
+        url: "/settings",
+        feature_flag: "login_enabled",
+        requires_confirmed_account: true
+      },
+      %{
         key: :call_for_staff,
         title: "Call for Staff",
         url: "https://cesium.link/f/call-for-staff-enei-26",
         feature_flag: "call_for_staff_enabled"
       }
     ]
-    |> Enum.filter(fn x -> Enum.member?(enabled_flags, x.feature_flag) end)
+    |> Enum.filter(fn x ->
+      Enum.member?(enabled_flags, x.feature_flag) and
+        (!Map.get(x, :requires_confirmed_account, false) or
+           (current_user && current_user.confirmed_at))
+    end)
   end
 
   def app_pages(attendee_eligible?) do

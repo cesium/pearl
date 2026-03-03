@@ -1,14 +1,13 @@
 defmodule PearlWeb.Backoffice.ReferralsLive.Index do
   use PearlWeb, :backoffice_view
 
-  import PearlWeb.Components.{Table, TableSearch, Modal}
+  import PearlWeb.Components.{Table, Modal}
 
-  alias Pearl.Referrals.Referral
   alias Pearl.Referrals
+  alias Pearl.Referrals.Referral
 
   on_mount {PearlWeb.StaffRoles,
-            show: %{"referrals" => ["show"]},
-            edit: %{"referrals" => ["edit"]}}
+            show: %{"referrals" => ["show"]}, edit: %{"referrals" => ["edit"]}}
 
   def mount(_params, _session, socket) do
     {:ok, socket}
@@ -18,12 +17,12 @@ defmodule PearlWeb.Backoffice.ReferralsLive.Index do
     case Referrals.list_referrals(params) do
       {:ok, {referrals, meta}} ->
         {:noreply,
-        socket
-        |> assign(:current_page, :referrals)
-        |> assign(:meta, meta)
-        |> assign(:params, params)
-        |> stream(:referrals, referrals, reset: true)
-        |> apply_action(socket.assigns.live_action, params)}
+         socket
+         |> assign(:current_page, :referrals)
+         |> assign(:meta, meta)
+         |> assign(:params, params)
+         |> stream(:referrals, referrals, reset: true)
+         |> apply_action(socket.assigns.live_action, params)}
 
       {:error, _} ->
         {:noreply, socket}
@@ -53,10 +52,9 @@ defmodule PearlWeb.Backoffice.ReferralsLive.Index do
     |> assign(:referral, Referrals.get_referral(id))
   end
 
-    def handle_event("delete", %{"id" => id}, socket) do
+  def handle_event("delete", %{"id" => id}, socket) do
     referral = Referrals.get_referral(id)
     {:ok, _} = Referrals.delete_referral(referral)
     {:noreply, stream_delete(socket, :referrals, referral)}
   end
-
 end

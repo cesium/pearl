@@ -8,8 +8,9 @@ defmodule PearlWeb.UserRegistrationLive do
   import PearlWeb.Components.Button
   import PearlWeb.CoreComponents
 
-  def mount(_params, _session, socket) do
+  def mount(params, _session, socket) do
     changeset = Accounts.change_user_registration(%User{})
+    referral_code = Map.get(params, "referral_code", "")
 
     {:ok,
      socket
@@ -22,7 +23,8 @@ defmodule PearlWeb.UserRegistrationLive do
      |> assign(:cities, Pearl.Catalog.cities())
      |> assign(:pages, [])
      |> assign(:privacy_policy_exists, check_privacy_policy_exists())
-     |> assign(:event_regulations_exists, check_event_regulations_exists())}
+     |> assign(:event_regulations_exists, check_event_regulations_exists())
+     |> assign(:referral_code, referral_code)}
   end
 
   def handle_event("validate", %{"user" => user_params}, socket) do
@@ -48,12 +50,23 @@ defmodule PearlWeb.UserRegistrationLive do
          socket
          |> assign(trigger_submit: true)
          |> assign_form(changeset)
+         |> put_flash(:info, "Account successfully created")
          |> redirect(to: "/users/log_in")}
 
-      {:error, :user, changeset, _} ->
-        {:noreply, socket |> assign(check_errors: true) |> assign_form(changeset)}
+      {:error, :referral, reason, _} ->
+        error_message =
+          case reason do
+            :invalid_referral -> "Invalid referral code"
+            :inactive_referral -> "This referral code is inactive"
+            _ -> "Could not apply referral code"
+          end
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, error_message)
+         |> assign(check_errors: true)}
+
+      {:error, :user, changeset, _} ->
         {:noreply, socket |> assign(check_errors: true) |> assign_form(changeset)}
     end
   end

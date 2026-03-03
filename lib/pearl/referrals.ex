@@ -1,12 +1,12 @@
 defmodule Pearl.Referrals do
-  @doc """
-    The context for the Referral Codes
+  @moduledoc """
+  The context for the Referrals
   """
 
   use Pearl.Context
 
-  alias Pearl.Repo
   alias Pearl.Referrals.Referral
+  alias Pearl.Repo
 
   def list_referrals do
     Repo.all(Referral)
@@ -24,7 +24,7 @@ defmodule Pearl.Referrals do
   end
 
   def get_referral(id) do
-     Repo.get(Referral, id)
+    Repo.get(Referral, id)
   end
 
   def get_referral_by_code(code) when is_binary(code) do
@@ -47,14 +47,7 @@ defmodule Pearl.Referrals do
     |> Repo.insert()
   end
 
-  def update_referral(%Referral{} = referral, attrs) do
-    referral
-    |> Referral.changeset(attrs)
-    |> Repo.update()
-  end
-
   def delete_referral(%Referral{} = referral) do
     Repo.delete(referral)
   end
-
 end

@@ -6,11 +6,9 @@ defmodule Pearl.Referrals.Referral do
   use Ecto.Schema
   import Ecto.Changeset
 
-    @derive {
+  @derive {
     Flop.Schema,
-    filterable: [:code],
-    sortable: [:code],
-    default_limit: 8,
+    filterable: [:code], sortable: [:code], default_limit: 8
   }
 
   @required_fields ~w(code)a
@@ -34,5 +32,4 @@ defmodule Pearl.Referrals.Referral do
     |> validate_required(@required_fields)
     |> unique_constraint(:code, message: "This referral code already exists")
   end
-
 end

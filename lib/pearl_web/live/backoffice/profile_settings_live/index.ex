@@ -10,6 +10,7 @@ defmodule PearlWeb.Backoffice.ProfileSettingsLive do
           module={PearlWeb.UserAuth.Components.UserProfileSettings}
           id="attendee-user-profile-settings"
           user={@current_user}
+          context={:backoffice}
         />
         <.live_component
           module={PearlWeb.Components.CVUpload}

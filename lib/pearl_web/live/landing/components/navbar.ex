@@ -120,6 +120,16 @@ defmodule PearlWeb.Landing.Components.Navbar do
                 label="App"
               />
               <.dropdown_menu_link_item
+                :if={user_type?(@current_user, :attendee)}
+                link_type="a"
+                to={
+                  if @current_user.confirmed_at,
+                    do: "/profile",
+                    else: "/users/confirmation_pending"
+                }
+                label="Settings"
+              />
+              <.dropdown_menu_link_item
                 :if={user_type?(@current_user, :company)}
                 link_type="a"
                 to="/sponsor/scanner"

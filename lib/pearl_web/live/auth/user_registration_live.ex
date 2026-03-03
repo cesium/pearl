@@ -56,9 +56,9 @@ defmodule PearlWeb.UserRegistrationLive do
       {:error, :referral, reason, _} ->
         error_message =
           case reason do
-            :invalid_referral -> "Invalid referral code"
-            :inactive_referral -> "This referral code is inactive"
-            _ -> "Could not apply referral code"
+            :invalid_referral -> "Código inválido"
+            :inactive_referral -> "Este código está inativo"
+            _ -> "Não foi possível aplicar o código"
           end
 
         {:noreply,

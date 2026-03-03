@@ -21,8 +21,9 @@ defmodule PearlWeb.Backoffice.ReferralsLive.FormComponent do
         autocomplete="off"
       >
         <div>
-          <div class="grid grid-cols-2">
+          <div class="grid">
             <.field field={@form[:code]} type="text" label="Code" wrapper_class="pr-2" required />
+            <.field field={@form[:active]} type="switch" label="Active" />
           </div>
         </div>
         <:actions>

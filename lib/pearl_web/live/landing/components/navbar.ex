@@ -127,7 +127,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
                     do: "/settings",
                     else: "/users/confirmation_pending"
                 }
-                label="Configurações"
+                label="Definições"
               />
               <.dropdown_menu_link_item
                 :if={user_type?(@current_user, :company)}

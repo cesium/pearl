@@ -12,7 +12,7 @@ defmodule Pearl.Referrals.Referral do
   }
 
   @required_fields ~w(code)a
-  @optional_fields ~w()a
+  @optional_fields ~w(active)a
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id

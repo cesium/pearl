@@ -50,4 +50,16 @@ defmodule Pearl.Referrals do
   def delete_referral(%Referral{} = referral) do
     Repo.delete(referral)
   end
+
+  def archive_referral(%Referral{} = referral) do
+    referral
+    |> Referral.changeset(%{active: false})
+    |> Repo.update()
+  end
+
+  def unarchive_referral(%Referral{} = referral) do
+    referral
+    |> Referral.changeset(%{active: true})
+    |> Repo.update()
+  end
 end

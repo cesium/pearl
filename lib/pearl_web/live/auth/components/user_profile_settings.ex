@@ -13,6 +13,7 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
   import PearlWeb.Components.Forms
   import PearlWeb.Components.Button
   import PearlWeb.Components.ImageUploader
+  import PearlWeb.Components.Tooltip
 
   @impl true
   def render(assigns) do
@@ -103,11 +104,18 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
       <div class="flex flex-col justify-between gap-6">
         <%= if @user.type == :attendee do %>
           <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <h4 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <span>Código de Referência</span>
-            </h4>
-
-            <%= if @user.attendee && @user.attendee.referral_id do %>
+            <div class="flex justify-between">
+              <h4 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <span>Código de Referência</span>
+              </h4>
+              <.tooltip
+                position="left"
+                text="Ao utilizares um código, estás a ajudar um núcleo embaixador a ganhar recompensas."
+              >
+                <.icon name="hero-information-circle" class="w-5 h-5 text-lightMuted" />
+              </.tooltip>
+            </div>
+            <%= if @user.attendee && @user.attendee.referral_id && @user.attendee.referral.active do %>
               <div class="space-y-2">
                 <p class="text-sm text-gray-600">O seu código:</p>
                 <div class="flex items-center gap-2">
@@ -495,7 +503,7 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
     case Accounts.add_referral_code(user, code) do
       {:ok, updated_user} ->
         send(self(), {:update_current_user, updated_user})
-        send(self(), {:update_flash, {:info, "Referral code added successfully!"}})
+        send(self(), {:update_flash, {:info, "Código adicionado com sucesso!"}})
 
         {:noreply,
          socket

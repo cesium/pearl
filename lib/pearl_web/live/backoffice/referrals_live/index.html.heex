@@ -14,7 +14,7 @@
       <:col :let={{_id, referral}} sortable field={:name} label="Code">{referral.code}</:col>
       <:action :let={{id, referral}}>
         <.ensure_permissions user={@current_user} permissions={%{"referrals" => ["edit"]}}>
-          <div class="flex flex-row gap-2">
+          <div class="flex flex-row gap-2 items-center">
             <.link patch={~p"/dashboard/referrals/#{referral.id}/users"}>
               <.icon name="hero-users" />
             </.link>
@@ -27,6 +27,12 @@
             >
               <.icon name="hero-trash" class="w-5 h-5" />
             </.link>
+            <span
+              :if={not referral.active}
+              class="items-center rounded-md bg-lightMuted/20 px-2 py-1 text-xs font-medium text-dark-muted ring-1 ring-inset ring-lightMuted/20"
+            >
+              Inactive
+            </span>
           </div>
         </.ensure_permissions>
       </:action>

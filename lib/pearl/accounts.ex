@@ -3,6 +3,7 @@ defmodule Pearl.Accounts do
   The Accounts context.
   """
 
+  alias Ecto.Multi
   use Pearl.Context
 
   alias Pearl.Accounts.{Attendee, Course, Credential, Staff, User, UserNotifier, UserToken}
@@ -901,6 +902,41 @@ defmodule Pearl.Accounts do
       {:error, _} = result ->
         result
     end
+  end
+
+  @doc """
+  Relinks a new credential to an attendee.
+
+  ## Examples
+
+      iex> relink_credential(credential_id, attendee_id)
+      {:ok, %{unlink_old: %Credential{} | nil, link_new: %Credential{}}}
+
+      iex> relink_credential(credential_id, attendee_id)
+      {:error, :link_new, %Ecto.Changeset{}, %{}}
+
+  """
+  def relink_credential(credential_id, attendee_id) do
+    attendee = get_attendee!(attendee_id)
+
+    new_credential = get_credential!(credential_id)
+    new_changeset = Ecto.Changeset.change(new_credential, attendee_id: attendee.id)
+
+    Multi.new()
+    |> Multi.run(:unlink_old, fn repo, _changes ->
+      old_credential =
+        Credential
+        |> where([c], c.attendee_id == ^attendee.id)
+        |> repo.one()
+
+      if old_credential do
+        repo.update(Ecto.Changeset.change(old_credential, attendee_id: nil))
+      else
+        {:ok, nil}
+      end
+    end)
+    |> Multi.update(:link_new, new_changeset)
+    |> Repo.transaction()
   end
 
   @doc """

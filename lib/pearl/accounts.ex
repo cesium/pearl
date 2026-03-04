@@ -9,6 +9,7 @@ defmodule Pearl.Accounts do
   alias Pearl.Accounts.{Attendee, Course, Credential, Staff, User, UserNotifier, UserToken}
   alias Pearl.Companies.Company
   alias Pearl.Contest
+  alias Pearl.Referrals.Referral
 
   ## Database getters
 
@@ -148,6 +149,7 @@ defmodule Pearl.Accounts do
   def get_user_attendee(user_id) do
     Attendee
     |> where(user_id: ^user_id)
+    |> preload(:referral)
     |> Repo.one()
   end
 
@@ -189,6 +191,61 @@ defmodule Pearl.Accounts do
     |> apply_filters(opts)
     |> Repo.one()
   end
+
+  def apply_referral_code(%Attendee{} = attendee, code) when is_binary(code) do
+    case Pearl.Referrals.get_referral_by_code(code) do
+      %Referral{active: true, id: id} ->
+        update_attendee(attendee, %{referral_id: id})
+
+      %Referral{active: false} ->
+        {:error, :inactive_referral}
+
+      nil ->
+        {:error, :invalid_referral}
+    end
+  end
+
+  def apply_referral_code_to_user(%User{type: :attendee} = user, code) do
+    attendee = get_user_attendee(user.id)
+    apply_referral_code(attendee, code)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking referral changes.
+  """
+  def change_user_referral(%User{}, attrs \\ %{}) do
+    types = %{referral_code: :string}
+    data = %{referral_code: ""}
+
+    {data, types}
+    |> Ecto.Changeset.cast(attrs, [:referral_code])
+  end
+
+  @doc """
+  Adds a referral code to a user (wrapper for apply_referral_code_to_user).
+  """
+  def add_referral_code(%User{type: :attendee} = user, code) when is_binary(code) do
+    case apply_referral_code_to_user(user, code) do
+      {:ok, _attendee} ->
+        updated_user =
+          get_user!(user.id)
+          |> Pearl.Repo.preload(attendee: :referral)
+
+        {:ok, updated_user}
+
+      {:error, reason} ->
+        changeset =
+          user
+          |> change_user_referral(%{referral_code: code})
+          |> Ecto.Changeset.add_error(:referral_code, referral_error_message(reason))
+
+        {:error, changeset}
+    end
+  end
+
+  defp referral_error_message(:inactive_referral), do: "This referral code is inactive"
+  defp referral_error_message(:invalid_referral), do: "Invalid referral code"
+  defp referral_error_message(_), do: "Could not apply referral code"
 
   @doc """
   Gets a single company by user id.
@@ -346,21 +403,60 @@ defmodule Pearl.Accounts do
 
   """
   def register_attendee_user(attrs) do
+    referral_code = extract_referral_code(attrs)
+
     Ecto.Multi.new()
-    |> Ecto.Multi.insert(
-      :user,
-      User.registration_attendee_changeset(%User{}, Map.delete(attrs, "attendee"),
-        hash_password: true,
-        validate_email: true
-      )
-    )
-    |> Ecto.Multi.insert(
-      :attendee,
-      fn %{user: user} ->
-        Attendee.changeset(%Attendee{}, %{user_id: user.id})
-      end
-    )
+    |> insert_user(attrs)
+    |> insert_attendee()
+    |> apply_referral_if_present(referral_code)
     |> Repo.transaction()
+    |> handle_registration_result()
+  end
+
+  defp extract_referral_code(attrs) do
+    case Map.get(attrs, "referral_code") do
+      nil -> nil
+      code -> if String.trim(code) != "", do: code, else: nil
+    end
+  end
+
+  defp insert_user(multi, attrs) do
+    Ecto.Multi.insert(multi, :user, User.registration_attendee_changeset(%User{}, attrs))
+  end
+
+  defp insert_attendee(multi) do
+    Ecto.Multi.insert(multi, :attendee, fn %{user: user} ->
+      Attendee.registration_changeset(%Attendee{}, %{user_id: user.id})
+    end)
+  end
+
+  defp apply_referral_if_present(multi, nil), do: multi
+
+  defp apply_referral_if_present(multi, referral_code) do
+    Ecto.Multi.run(multi, :apply_referral, fn _repo, %{attendee: attendee} ->
+      apply_referral_to_attendee(attendee, referral_code)
+    end)
+  end
+
+  defp apply_referral_to_attendee(attendee, referral_code) do
+    case Pearl.Referrals.get_referral_by_code(referral_code) do
+      nil -> {:error, :invalid_referral}
+      %{active: false} -> {:error, :inactive_referral}
+      referral -> update_attendee(attendee, %{referral_id: referral.id})
+    end
+  end
+
+  defp handle_registration_result({:ok, %{user: user, attendee: attendee} = result}) do
+    final_attendee = Map.get(result, :apply_referral, attendee)
+    {:ok, %{user: user, attendee: final_attendee}}
+  end
+
+  defp handle_registration_result({:error, :apply_referral, reason, _}) do
+    {:error, :referral, reason, %{}}
+  end
+
+  defp handle_registration_result({:error, failed_operation, changeset, _}) do
+    {:error, failed_operation, changeset, %{}}
   end
 
   @doc """

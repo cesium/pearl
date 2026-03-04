@@ -120,6 +120,16 @@ defmodule PearlWeb.Landing.Components.Navbar do
                 label="App"
               />
               <.dropdown_menu_link_item
+                :if={user_type?(@current_user, :attendee)}
+                link_type="a"
+                to={
+                  if @current_user.confirmed_at,
+                    do: "/settings",
+                    else: "/users/confirmation_pending"
+                }
+                label="Definições"
+              />
+              <.dropdown_menu_link_item
                 :if={user_type?(@current_user, :company)}
                 link_type="a"
                 to="/sponsor/scanner"
@@ -195,6 +205,14 @@ defmodule PearlWeb.Landing.Components.Navbar do
             class="text-2xl font-semibold text-dark/50 transition-colors duration-75 ease-in hover:text-primary"
           >
             Dashboard
+          </.link>
+          <.link
+            :if={user_type?(@current_user, :attendee)}
+            patch={~p"/settings"}
+            phx-click={hide_mobile_navbar()}
+            class="text-2xl font-semibold text-dark/50 transition-colors duration-75 ease-in hover:text-primary"
+          >
+            Settings
           </.link>
           <.link
             :if={user_type?(@current_user, :attendee)}

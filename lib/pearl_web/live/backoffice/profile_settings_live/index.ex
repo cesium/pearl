@@ -10,6 +10,7 @@ defmodule PearlWeb.Backoffice.ProfileSettingsLive do
           module={PearlWeb.UserAuth.Components.UserProfileSettings}
           id="attendee-user-profile-settings"
           user={@current_user}
+          context={:backoffice}
         />
         <.live_component
           module={PearlWeb.Components.CVUpload}
@@ -31,6 +32,11 @@ defmodule PearlWeb.Backoffice.ProfileSettingsLive do
   @impl true
   def handle_info({:update_current_user, new_user}, socket) do
     {:noreply, assign(socket, current_user: new_user)}
+  end
+
+  @impl true
+  def handle_info({:update_flash, {flash_type, msg}}, socket) do
+    {:noreply, put_flash(socket, flash_type, msg)}
   end
 
   @impl true

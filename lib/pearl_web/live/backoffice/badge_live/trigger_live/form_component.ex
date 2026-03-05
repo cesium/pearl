@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.TriggerLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Contest
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Forms, Button}
 
   @impl true
   def render(assigns) do
@@ -39,7 +39,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.TriggerLive.FormComponent do
             </div>
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save Trigger</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Trigger</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

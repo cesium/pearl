@@ -1,0 +1,15 @@
+<div
+  class="bg-background-muted text-dark font-iregular relative min-h-screen bg-no-repeat bg-cover bg-top"
+  style="background-image: url('/images/braga_background.webp');"
+>
+  <.navbar
+    pages={PearlWeb.Config.landing_pages(Map.get(assigns, :current_user))}
+    registrations_open?={Pearl.Event.registrations_open?()}
+    current_user={Map.get(assigns, :current_user)}
+  />
+  <main>
+    <.flash_group flash={@flash} />
+    {@inner_content}
+  </main>
+  <.footer />
+</div>

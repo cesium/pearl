@@ -1,91 +1,154 @@
-<div class="mx-auto max-w-lg py-2">
-  <div class="px-28 sm:px-40 py-12">
-    <img
-      class="w-full h-full block select-none pointer-events-none"
-      src={~p"/images/star-struck-void.svg"}
-    />
+<div class="text-black flex flex-col md:flex-row w-full gap-8 md:gap-2 h-full">
+  <.live_component
+    module={PearlWeb.Checkout.Components.InfoCard}
+    step={@live_action}
+    id="ticket-form"
+  />
+
+  <div class="flex flex-col justify-between gap-4 w-full">
+    <.form
+      for={@form}
+      id="registration_form"
+      phx-change="validate"
+      phx-submit="save"
+      class="px-4 lg:px-10 mt-4 space-y-8 flex flex-col h-full justify-between"
+    >
+      <div>
+        <div class="space-y-3">
+          <.input
+            field={@form[:name]}
+            label="Nome*"
+            label_class="block text-lg! font-bold text-dark"
+            placeholder="John Doe"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg!"
+            required
+          />
+
+          <.input
+            field={@form[:email]}
+            type="email"
+            label="Email*"
+            label_class="block text-lg! font-bold text-dark"
+            placeholder="johndoe@eneiconf.pt"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg!"
+            required
+          />
+
+          <.input
+            field={@form[:handle]}
+            label="Username*"
+            label_class="block text-lg! font-bold text-dark"
+            placeholder="johndoe"
+            type="handle"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg!"
+            required
+          />
+
+          <.input
+            field={@form[:password]}
+            label="Palavra-passe*"
+            label_class="block text-lg! font-bold text-dark"
+            type="password"
+            placeholder="************"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg!"
+            required
+          />
+
+          <.input
+            field={@form[:phone]}
+            placeholder="987654321"
+            label="Telefone*"
+            label_class="block! text-lg! font-bold! text-dark!"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg! text-dark-muted"
+          />
+
+          <.input
+            field={@form[:university]}
+            type="select"
+            label="Universidade"
+            label_class="block! text-lg! font-bold! text-dark!"
+            options={@universities}
+            prompt="Seleciona a tua universidade"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg! text-dark-muted"
+          />
+
+          <.input
+            field={@form[:city]}
+            type="select"
+            label="Cidade"
+            label_class="block! text-lg! font-bold! text-dark!"
+            options={@cities}
+            prompt="Seleciona a tua cidade"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg! text-dark-muted"
+          />
+
+          <.input
+            field={@form[:referral_code]}
+            label="Código de Referência"
+            label_class="block! text-lg! font-bold! text-dark!"
+            placeholder="ABC123"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg! text-dark-muted"
+            value={@referral_code}
+          />
+
+          <.input
+            type="checkbox"
+            label={
+              if @privacy_policy_exists do
+                raw(
+                  ~s|Concordo com a <a href="/faqs/politica-de-privacidade" class="text-primary hover:underline inline-block" target="_blank">política de privacidade</a>|
+                )
+              else
+                "Concordo com a política de privacidade"
+              end
+            }
+            name="privacy-policy"
+            label_class=" text-lg! font-bold text-dark"
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[1fr] xl:gap-25 items-baseline md:px-4 pt-4"
+            class="text-lg!"
+            required
+          />
+
+          <.input
+            type="checkbox"
+            label={
+              if @event_regulations_exists do
+                raw(
+                  ~s|Concordo com o <a href="/faqs/regulamento-geral" class="text-primary hover:underline inline-block" target="_blank">regulamento do evento</a>|
+                )
+              else
+                "Concordo com o regulamento"
+              end
+            }
+            name="event-regulations"
+            label_class="block text-lg! font-bold text-dark"
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[1fr] xl:gap-25 items-baseline md:px-4"
+            class="text-lg!"
+            required
+          />
+        </div>
+      </div>
+      <div class="flex justify-end pointer-events-none">
+        <div class="flex gap-2 pointer-events-auto">
+          <.primary_button title="enviar" type="submit" />
+        </div>
+      </div>
+    </.form>
   </div>
-  <.header class="text-center px-4">
-    <h1 class="text-3xl text-center font-terminal uppercase font-semibold">Event Registration</h1>
-    <:subtitle>
-      {gettext("Already registered?")}
-      <.link navigate={~p"/users/log_in"} class="font-semibold text-accent hover:underline">
-        Log in
-      </.link>
-      {gettext("to your account now")}
-    </:subtitle>
-  </.header>
-
-  <.form
-    for={@form}
-    id="registration_form"
-    phx-change="validate"
-    phx-trigger-action={@trigger_submit}
-    action={~p"/users/register"}
-    class="mx-auto w-90 flex flex-col px-6 sm:px-0 sm:grid grid-cols-2 gap-4 py-10"
-  >
-    <.input
-      field={@form[:name]}
-      type="text"
-      label="Name"
-      placeholder="John Doe"
-      autocomplete="off"
-      required
-    />
-    <.input
-      field={@form[:handle]}
-      type="handle"
-      label="Username"
-      autocomplete="off"
-      required
-      placeholder="johndoe"
-    />
-    <.input
-      field={@form[:email]}
-      type="email"
-      label="Email"
-      required
-      wrapper_class="col-span-2"
-      placeholder="john.doe@cesium.pt"
-    />
-    <.input field={@form[:password]} type="password" label="Password" required />
-    <.input
-      field={@form[:password_confirmation]}
-      type="password"
-      label="Confirm Password"
-      required
-    />
-
-    <.label class="col-span-2 pt-4">
-      <div class="flex">
-        <div class="mr-1 mt-1 pr-2">
-          <.input name="consent" label="" type="checkbox" value={false} required />
-        </div>
-
-        <div class="inline">
-          {gettext("I have read and agree to the ")}
-          <.link
-            href={~p"/docs/privacy_policy.pdf"}
-            target="_blank"
-            class="font-semibold text-accent hover:underline"
-          >
-            {gettext("Privacy Policy.")}
-          </.link>
-        </div>
-      </div>
-    </.label>
-    <.label class="col-span-2 pb-8">
-      <div class="flex">
-        <div class="mr-1 mt-1 pr-2">
-          <.input label="" type="checkbox" field={@form[:allows_marketing]} />
-        </div>
-        <div class="inline">
-          {gettext("I want to receive marketing emails promoting the event.")}
-        </div>
-      </div>
-    </.label>
-    <div class="col-span-2 w-full flex items-center">
-      <.action_button title="Register" subtitle="" class="mx-12" disabled={@errors} />
-    </div>
-  </.form>
 </div>

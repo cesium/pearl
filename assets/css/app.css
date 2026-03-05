@@ -16,20 +16,113 @@
 }
 
 @font-face {
-  font-family: 'Inter-Regular';
-  src: url('/fonts/Inter/Inter-Regular.ttf') format('truetype');
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Light.ttf') format('truetype');
+  font-weight: 300;
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk/SpaceGrotesk-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+@keyframes fade-out-down {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-left {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease-out forwards;
+}
+
+.animate-slide-out-left {
+  animation: slide-out-left 0.4s ease-in forwards;
+}
+
+@keyframes scale-up-down {
+  0%, 100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.15;
+  }
+} 
+
+.animate-scale-up-down {
+  animation: scale-up-down 3s ease-in-out infinite;
+}
+
 @theme {
-  --color-primary: #04041c;
+  --color-olive: #56564D;
+  --color-primary: #811824;
   --color-accent: #ffdb0d;
   --color-light: #ffffff;
-  --color-light-muted: #a1a1aa;
+  --color-light-muted: #efefed;
   --color-light-shade: #e5e7eb;
   --color-dark: #09090b;
-  --color-dark-muted: #71717a;
+  --color-dark-muted: #393939;
   --color-dark-shade: #27272a;
+  --color-dark-blue: #04041c;
+  --color-dark-text: #1f1f1f;
+
+  --color-background: var(--color-light);
+  --color-background-muted: var(--color-light-muted);
+  --color-surface: var(--color-light-shade);
+
+  --color-background-dark: var(--color-dark-blue);
+  --color-background-dark-muted: var(--color-dark-shade);
+  --color-surface-dark: var(--color-dark-muted);
 
   --color-lightMuted: #a1a1aa;
   --color-lightShade: #e5e7eb;
@@ -97,7 +190,7 @@
   --color-info-950: var(--color-blue-950);
 
   --font-terminal: 'Terminal', ui-monospace, monospace;
-  --font-iregular: 'Inter-Regular', ui-sans-serif, sans-serif;
+  --font-grotesk: 'Space Grotesk', ui-sans-serif, sans-serif;
 
   --animate-slide-in: slide-in 1.5s ease-in-out;
   --animate-fade-in: fade-in 0.5s ease-in-out;
@@ -124,6 +217,48 @@
   }
 }
 
+
+.ticker-viewport {
+  overflow: hidden;
+  position: relative;
+
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.ticker-item {
+  white-space: nowrap;
+  padding-right: 3rem;
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--w));
+  }
+}
+
 /* Add variants based on LiveView classes */
 @custom-variant phx-no-feedback (.phx-no-feedback&, .phx-no-feedback &);
 @custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);
@@ -142,6 +277,37 @@
   scrollbar-width: none;
 }
 
+/* Desktop */
+.orb-pos-top        { top: -24px; left: 50%; transform: translateX(-50%); }
+.orb-pos-top-right  { top: 15%; right: 15%; transform: translate(50%, -50%); }
+.orb-pos-right      { top: 50%; right: -24px; transform: translateY(-50%); }
+.orb-pos-right-bottom { top: 85%; right: 15%; transform: translate(50%, -50%); }
+.orb-pos-top-left   { top: 15%; left: 15%; transform: translate(-50%, -50%); }
+.orb-pos-left       { top: 50%; left: -24px; transform: translateY(-50%); }
+.orb-pos-left-bottom { top: 85%; left: 15%; transform: translate(-50%, -50%); }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .orb-pos-top        { top: -10%; left: -5%; transform: translateX(-50%); }
+  .orb-pos-top-right  { top: 60%; right: -10%; transform: translate(50%, -50%); }
+  .orb-pos-right      { top: 25%; right: -65%; transform: translateY(-50%); }
+  .orb-pos-right-bottom { top: 75%; right: -75%; transform: translateY(-50%); }
+  .orb-pos-top-left   { top: 25%; left: -50%; transform: translate(-50%, -50%); }
+  .orb-pos-left       { top: 75%; left: -75%; transform: translateY(-50%); }
+  .orb-pos-left-bottom { top: 60%; left: -10%; transform: translate(-50%, -50%); }
+}
+
+/* Very tiny */
+@media (max-width: 380px) {
+  .orb-pos-top        { top: -10%; left: 0%; transform: translateX(-50%); }
+  .orb-pos-top-right  { top: 60%; right: 0%; transform: translate(50%, -50%); }
+  .orb-pos-right      { top: 25%; right: -55%; transform: translateY(-50%); }
+  .orb-pos-right-bottom { top: 75%; right: -65%; transform: translateY(-50%); }
+  .orb-pos-top-left   { top: 25%; left: -45%; transform: translate(-50%, -50%); }
+  .orb-pos-left       { top: 75%; left: -65%; transform: translateY(-50%); }
+  .orb-pos-left-bottom { top: 60%; left: -5%; transform: translate(-50%, -50%); }
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -155,3 +321,31 @@ select:-webkit-autofill:focus {
 
 /* Make LiveView wrapper divs transparent for layout */
 [data-phx-session], [data-phx-teleported-src] { display: contents }
+
+.bg-dotted {
+  --d: 3px;
+
+  background: radial-gradient(
+    circle at
+      var(--d)
+      var(--d),
+
+    rgba(0, 0, 0, 0.06) calc(var(--d) - 1px),
+    transparent var(--d)
+  )
+  0 0 / 35px 35px;
+}
+
+.flip-clock-card-item-inner {
+  font-family: var(--font-grotesk);
+  color: var(--color-dark) !important;
+}
+
+.flip-clock-card-item-inner > div {
+  background: rgba(0, 0, 0, 0.07) !important;
+  box-shadow: none !important;
+}
+
+.flip-clock-card {
+  box-shadow: none !important;
+}

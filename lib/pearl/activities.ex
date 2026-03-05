@@ -302,6 +302,24 @@ defmodule Pearl.Activities do
     Repo.all(Speaker)
   end
 
+  @doc """
+  Returns the list of speakers and their activities.
+
+  ## Examples
+
+      iex> list_speakers()
+      [%{speaker: s, activity: a}, ...]
+
+  """
+  def list_speakers_activities do
+    Speaker
+    |> join(:left, [s], a in assoc(s, :activities), as: :activities)
+    |> order_by([s], asc: s.name)
+    |> preload([activities: a], activities: a)
+    |> select([s, a], %{speaker: s, activity: a})
+    |> Repo.all()
+  end
+
   def list_speakers(opts) when is_list(opts) do
     Speaker
     |> apply_filters(opts)
@@ -310,12 +328,16 @@ defmodule Pearl.Activities do
 
   def list_speakers(params) do
     Speaker
+    |> join(:left, [s], a in assoc(s, :activities), as: :activities)
+    |> preload([activities: a], activities: a)
     |> Flop.validate_and_run(params, for: Speaker)
   end
 
   def list_speakers(%{} = params, opts) when is_list(opts) do
     Speaker
     |> apply_filters(opts)
+    |> join(:left, [s], a in assoc(s, :activities), as: :activities)
+    |> preload([activities: a], activities: a)
     |> Flop.validate_and_run(params, for: Speaker)
   end
 

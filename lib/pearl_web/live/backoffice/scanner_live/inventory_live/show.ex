@@ -3,7 +3,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Show do
 
   alias Pearl.{Accounts, Inventory}
 
-  import PearlWeb.Components.Tabs
+  import PearlWeb.Components.{Tabs, Modal}
 
   @impl true
   def render(assigns) do
@@ -81,20 +81,20 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Show do
           </p>
 
           <div class="flex flex-row w-full gap-2">
-            <.button
+            <.backoffice_button
               phx-click="cancel-deliver"
               class="w-full flex flex-row items-center justify-center"
             >
               <.icon name="hero-x-circle" class="w-5 h-5 mr-2" />
               {gettext("Cancel")}
-            </.button>
-            <.button
+            </.backoffice_button>
+            <.backoffice_button
               phx-click="confirm-deliver"
               class="w-full flex flex-row items-center justify-center"
             >
               <.icon name="hero-check-circle" class="w-5 h-5 mr-2" />
               {gettext("Deliver")}
-            </.button>
+            </.backoffice_button>
           </div>
         </div>
       </.modal>

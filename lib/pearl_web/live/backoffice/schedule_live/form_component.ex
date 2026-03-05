@@ -34,7 +34,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.FormComponent do
               />
             </div>
             <div class="flex flex-row-reverse">
-              <.button phx-disable-with="Saving...">Save Configuration</.button>
+              <.backoffice_button phx-disable-with="Saving...">Save Configuration</.backoffice_button>
             </div>
           </.form>
         </div>

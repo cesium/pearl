@@ -19,17 +19,17 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
       >
         <:actions>
           <.link patch={~p"/dashboard/minigames/wheel/simulator"}>
-            <.button>
+            <.backoffice_button>
               <.icon name="hero-play" class="w-5 h-5" />
-            </.button>
+            </.backoffice_button>
           </.link>
         </:actions>
         <div class="pt-8">
           <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold">{gettext("Drops")}</h2>
-            <.button phx-click={JS.push("add-drop", target: @myself)}>
+            <.backoffice_button phx-click={JS.push("add-drop", target: @myself)}>
               <.icon name="hero-plus" class="w-5 h-5" />
-            </.button>
+            </.backoffice_button>
           </div>
           <ul class="h-[45vh] overflow-y-scroll scrollbar-hide mt-4 border-b-[1px] border-lightShade  dark:border-darkShade">
             <%= for {id, type, _drop, form} <- @drops do %>
@@ -112,9 +112,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
           </div>
         </div>
         <div class="w-full flex flex-row-reverse">
-          <.button phx-click="save" phx-target={@myself} phx-disable-with="Saving...">
+          <.backoffice_button phx-click="save" phx-target={@myself} phx-disable-with="Saving...">
             Save Configuration
-          </.button>
+          </.backoffice_button>
         </div>
       </.page>
     </div>

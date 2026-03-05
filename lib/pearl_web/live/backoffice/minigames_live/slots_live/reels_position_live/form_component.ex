@@ -70,14 +70,14 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ReelsPosition.FormComponent do
             </p>
           </div>
           <div class="flex justify-end">
-            <.button
+            <.backoffice_button
               phx-click="save"
               phx-target={@myself}
               phx-disable-with="Saving..."
               disabled={not all_reels_match?(@visibility)}
             >
               {gettext("Save Configuration")}
-            </.button>
+            </.backoffice_button>
           </div>
         </div>
       </.page>

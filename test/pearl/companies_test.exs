@@ -70,7 +70,7 @@ defmodule Pearl.CompaniesTest do
 
     import Pearl.CompaniesFixtures
 
-    @invalid_attrs %{name: nil, priority: nil}
+    @invalid_attrs %{name: nil, priority: nil, color: nil}
 
     test "list_tiers/0 returns all tiers" do
       tier = tier_fixture()
@@ -83,11 +83,12 @@ defmodule Pearl.CompaniesTest do
     end
 
     test "create_tier/1 with valid data creates a tier" do
-      valid_attrs = %{name: "some name", priority: 42}
+      valid_attrs = %{name: "some name", priority: 42, color: "#000000"}
 
       assert {:ok, %Tier{} = tier} = Companies.create_tier(valid_attrs)
       assert tier.name == "some name"
       assert tier.priority == 42
+      assert tier.color == "#000000"
     end
 
     test "create_tier/1 with invalid data returns error changeset" do

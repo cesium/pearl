@@ -1,25 +1,82 @@
-<div class="xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
-  <div class="spacing relative z-20 flex flex-col justify-between py-20 lg:h-3/4 lg:flex-row">
-    <div class="mb-10 text-white lg:w-2/5">
-      <h1 class="font-terminal uppercase mb-4 select-none text-4xl font-bold lg:text-6xl">
-        {gettext("Frequently Asked Questions")}
-      </h1>
-      <p class="text-lg">
-        {gettext(
-          "This list of frequently asked questions serves to complement the general rules that you can find below. Get in touch with the organizing team whenever a question arises and we will add answers to the most frequently asked questions here."
-        )}
-      </p>
+<div>
+  <div class="bg-dotted flex flex-col gap-10 py-16 xl:px-28 md:px-20 px-8 relative">
+    <div class="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background-muted to-transparent pointer-events-none">
     </div>
-    <div class="lg:w-1/3">
-      <div class="flex flex-col">
-        <.faq
-          :for={{id, faq} <- @streams.faqs}
-          id={id}
-          question={faq.question}
-          answer={faq.answer}
-        />
+    <h1 class="text-4xl font-semibold">
+      {gettext("Informação")} <span class="opacity-50">&</span> {gettext("Ajuda")}
+    </h1>
+    <div class="bg-white h-full">
+      <div class="w-full lg:h-35 flex lg:flex-row flex-col">
+        <!-- Countdown -->
+        <div class="py-9 px-9 flex flex-col lg:flex-row lg:w-1/2 w-full gap-4">
+          <div class="w-full">
+            <p class="uppercase opacity-50 text-sm lg:text-regular">Countdown</p>
+            <p class="font-semibold xl:text-2xl text-xl">
+              para <span class="lowercase text-primary">{Timex.lformat!(@event_start_date, "{D} de {Mfull}", "pt")}</span>, faltam:
+            </p>
+          </div>
+          <div class="mx-0 sm:mx-auto">
+            <.countdown target_datetime={@event_start_date} />
+          </div>
+        </div>
+        <!-- Ticket -->
+        <.link
+          navigate={~p"/tickets"}
+          class="lg:w-1/2 w-full flex lg:flex-row flex-col-reverse min-h-40 h-full bg-[#E7DCDC] group cursor-pointer relative"
+        >
+          <div class="w-full lg:w-3/5 flex flex-row justify-center relative select-none">
+            <.ticket class="w-70 2xl:w-90 absolute lg:-bottom-8 -bottom-12 z-0 group-hover:-bottom-5 transition-all" />
+          </div>
+          <div class="w-full lg:w-2/5 top-5 lg:top-0 flex flex-col justify-center absolute lg:relative">
+            <p class="lowercase text-base text-primary px-8 xl:px-12">
+              {gettext("A venda de bilhetes já começou!")}
+            </p>
+          </div>
+        </.link>
+      </div>
+      <div class="w-full flex lg:flex-row flex-col h-full relative z-1 bg-white">
+        <!-- Map -->
+        <.link
+          class="lg:w-1/2 w-full h-full group overflow-hidden select-none"
+          href="https://maps.app.goo.gl/LcEmS2fv6qFRdabR8"
+          target="_blank"
+        >
+          <img
+            class="w-full lg:h-92 h-50 object-cover group-hover:scale-110 transition-all"
+            src={~p"/images/information/map.svg"}
+            alt=""
+          />
+        </.link>
+        <!-- Location details -->
+        <div class="lg:w-1/2 w-full pl-8 flex flex-col gap-4 justify-center py-4 lg:py-0">
+          <img class="w-40 lg:w-64 select-none" src={~p"/images/information/forum.webp"} alt="" />
+          <p class="font-semibold text-xl">Forum Braga</p>
+          <div class="pr-8 lg:pr-0">
+            <p class="uppercase text-sm opacity-50">{gettext("Entrada Principal")}</p>
+            <p>{gettext("Av. Dr. Francisco Pires Gonçalves, 4715-558")}</p>
+            <p>{gettext("Braga, Portugal")}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <.find_us />
+  <div class="xl:px-28 md:px-20 px-10 flex flex-col gap-12 pb-20">
+    <div>
+      <h2 class="text-2xl font-semibold">{gettext("FAQs")}</h2>
+      <p class="pt-1 pb-6">
+        {gettext(
+          "Esclarece as tuas dúvidas relativas ao evento com as nossas respostas (e aproveita algumas dicas)."
+        )}
+      </p>
+      <.faq
+        :for={{id, faq} <- @streams.faqs}
+        id={id}
+        topic={faq.topic}
+        question={faq.question}
+        answer={faq.answer}
+        is_article={faq.is_article}
+      />
+    </div>
+    <.contacts />
+  </div>
 </div>

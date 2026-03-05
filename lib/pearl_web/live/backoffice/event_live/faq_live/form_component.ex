@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.EventLive.FaqLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Event
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button, Forms}
 
   @impl true
   def render(assigns) do
@@ -20,11 +20,20 @@ defmodule PearlWeb.Backoffice.EventLive.FaqLive.FormComponent do
           phx-submit="save"
         >
           <div class="w-full space-y-2">
+            <div class="w-full flex flex-row items-center gap-4">
+              <.field field={@form[:topic]} type="text" label="Topic" required wrapper_class="w-4/5" />
+              <.field
+                field={@form[:is_article]}
+                type="switch"
+                label="Publish article (enables markdown)"
+                class="w-1/5"
+              />
+            </div>
             <.field field={@form[:question]} type="text" label="Question" required />
             <.field field={@form[:answer]} type="textarea" required />
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save FAQ</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save FAQ</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

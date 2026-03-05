@@ -10,28 +10,93 @@ defmodule PearlWeb.Landing.Components.Footer do
   slot :tip, required: false
 
   def footer(assigns) do
+    assigns =
+      assign(assigns,
+        landing_pages: PearlWeb.Config.landing_pages(Map.get(assigns, :current_user)),
+        your_enei_links: your_enei_links(),
+        more_pages_links: more_pages_links()
+      )
+
     ~H"""
-    <footer class="xl:px-[15rem] md:px-[8rem] px-[2.5rem]">
-      <div class="flex flex-col justify-between gap-16 py-10 lg:flex-row items-center">
-        <div class="flex select-none items-start justify-center lg:justify-start">
-          <img src="/images/enei-logo.svg" width={150} height={150} alt="ENEI Logo" />
+    <footer class="bg-dark-muted px-8 pt-8 pb-12 md:px-12.5 md:pt-12.5 md:pb-16">
+      <div class="flex flex-col gap-8 md:gap-12">
+        <div class="grid grid-cols-[auto_1fr] gap-x-3.5 items-start">
+          <img src="/images/enei-logo-white.svg" width={75} alt="ENEI Logo" class="row-span-2" />
+          <p class="text-white text-sm md:text-base self-end">
+            encontro nacional de estudantes de informática
+          </p>
+          <p class="text-light/50 col-start-2">2026</p>
         </div>
-        <div class="flex-2">
-          <div class="grid lg:grid-flow-col lg:auto-rows-max gap-8 grid-cols-1 lg:grid-rows-2 select-none justify-items-center whitespace-nowrap font-iregular text-sm text-white">
-            <%= for {link, idx} <- Enum.with_index(footer_links()) do %>
-              <!-- In order to properly align links to the right, if there are an odd number of links
-                   enabled we need to add a fake cell to the grid in order to create space on the left
-                   side of the row and fil it. Otherwise, the links would be left aligned -->
-              <div :if={idx == 1 and rem(length(footer_links()), 2) == 1} class="hidden lg:block">
-              </div>
-              <.link href={link.url} class="block w-full hover:underline text-center lg:text-right">
-                {link.title}
-              </.link>
-            <% end %>
+
+        <div class="flex flex-col md:flex-row gap-8 md:gap-12 justify-between items-start md:items-end">
+          <div class="grid grid-cols-2 md:flex md:flex-row gap-8 md:gap-12 w-full md:w-auto">
+            <div :if={@landing_pages != []}>
+              <h3 class="text-white font-semibold md:text-white/50 md:font-bold mb-3 md:mb-4 text-xs md:text-sm uppercase tracking-wider">
+                Descobrir
+              </h3>
+              <ul class="space-y-2 md:space-y-2.5 text-white/50 text-xs md:text-sm">
+                <%= for link <- @landing_pages do %>
+                  <li>
+                    <.link navigate={link.url} class="hover:text-white transition-colors">
+                      {link.title}
+                    </.link>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <div :if={@your_enei_links != []}>
+              <h3 class="text-white font-semibold md:text-white/50 md:font-bold mb-3 md:mb-4 text-xs md:text-sm uppercase tracking-wider">
+                O teu ENEI
+              </h3>
+              <ul class="space-y-2 md:space-y-2.5 text-white/50 text-xs md:text-sm">
+                <%= for link <- @your_enei_links do %>
+                  <li>
+                    <.link navigate={link.url} class="hover:text-white transition-colors">
+                      {link.title}
+                    </.link>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <div :if={@more_pages_links != []} class="col-span-2 md:col-span-1">
+              <h3 class="text-white font-semibold md:text-white/50 md:font-bold mb-3 md:mb-4 text-xs md:text-sm uppercase tracking-wider">
+                Mais páginas
+              </h3>
+              <ul class="space-y-2 md:space-y-2.5 text-white/50 text-xs md:text-sm">
+                <%= for link <- @more_pages_links do %>
+                  <li>
+                    <.link href={link.url} target="_blank" class="hover:text-white transition-colors">
+                      {link.title}
+                    </.link>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
           </div>
-          <div class="flex justify-center lg:justify-end">
-            <div class="pt-10 lg:pt-5 text-white lg:mt-0">
-              <.socials />
+
+          <div class="flex gap-12.5">
+            <div class="space-y-3">
+              <h3 class="text-white/50 font-bold text-xs md:text-sm uppercase">
+                Redes Sociais
+              </h3>
+              <div>
+                <.socials />
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="text-white/50 font-bold text-xs md:text-sm uppercase">
+                Organização
+              </h3>
+              <.link href="https://cesium.di.uminho.pt" target="_blank" class="block">
+                <img
+                  src="/images/cesium-logo.svg"
+                  alt="CeSIUM Logo"
+                  class="h-8.5 opacity-70 hover:opacity-100 transition-opacity"
+                />
+              </.link>
             </div>
           </div>
         </div>
@@ -54,33 +119,22 @@ defmodule PearlWeb.Landing.Components.Footer do
     """
   end
 
-  defp footer_links do
+  defp your_enei_links do
     [
-      %{
-        title: "Previous Edition",
-        url: "https://2025.eneiconf.pt/",
-        enabled: false
-      },
-      %{
-        title: "Report a Problem",
-        url: "https://cesium.link/f/pearl-bugs",
-        enabled: true
-      },
+      %{title: "Área Pessoal", url: "/users/log_in", enabled: true},
+      %{title: "Bilhetes e inscrição", url: "/tickets", enabled: false},
       %{
         title: "Survival Guide",
         url: "/docs/survival-guide.pdf",
         enabled: Event.get_feature_flag!("survival_guide_enabled")
-      },
-      %{
-        title: "General Regulation",
-        url: "/docs/regulation.pdf",
-        enabled: Event.get_feature_flag!("general_regulation_enabled")
-      },
-      %{
-        title: "Privacy Policy",
-        url: "/docs/privacy_policy.pdf",
-        enabled: true
       }
+    ]
+    |> Enum.filter(fn x -> x.enabled end)
+  end
+
+  defp more_pages_links do
+    [
+      %{title: "Forum Braga", url: "https://www.forumbraga.com/", enabled: true}
     ]
     |> Enum.filter(fn x -> x.enabled end)
   end

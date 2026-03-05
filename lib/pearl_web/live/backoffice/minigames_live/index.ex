@@ -1,6 +1,8 @@
 defmodule PearlWeb.Backoffice.MinigamesLive.Index do
   use PearlWeb, :backoffice_view
 
+  import PearlWeb.Components.{Modal}
+
   on_mount {PearlWeb.StaffRoles,
             index: %{"minigames" => ["show"]},
             simulate_wheel: %{"minigames" => ["simulate"]},

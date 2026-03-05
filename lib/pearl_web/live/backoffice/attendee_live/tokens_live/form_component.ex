@@ -3,7 +3,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.TokensLive.FormComponent do
 
   alias Pearl.Accounts
   alias Pearl.Contest
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Forms, Button, Modal}
 
   @impl true
   def render(assigns) do
@@ -32,9 +32,9 @@ defmodule PearlWeb.Backoffice.AttendeeLive.TokensLive.FormComponent do
           />
           <.field field={assigns.form[:tokens]} type="number" value={0} label="Tokens" required />
           <:actions>
-            <.button phx-disable-with="Saving...">
+            <.backoffice_button phx-disable-with="Saving...">
               {gettext("Save Tokens")}
-            </.button>
+            </.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>
@@ -55,13 +55,18 @@ defmodule PearlWeb.Backoffice.AttendeeLive.TokensLive.FormComponent do
           </h2>
         </div>
         <div class="flex flex-row gap-x-4">
-          <.button phx-click="save" phx-target={@myself} class="w-full">
+          <.backoffice_button phx-click="save" phx-target={@myself} class="w-full">
             {gettext("Confirm")}
-          </.button>
+          </.backoffice_button>
 
-          <.button phx-click="cancel" phx-value="Remove" phx-target={@myself} class="w-full">
+          <.backoffice_button
+            phx-click="cancel"
+            phx-value="Remove"
+            phx-target={@myself}
+            class="w-full"
+          >
             {gettext("Cancel")}
-          </.button>
+          </.backoffice_button>
         </div>
       </.modal>
     </div>

@@ -37,7 +37,8 @@ defmodule Pearl.CompaniesFixtures do
       attrs
       |> Enum.into(%{
         name: "some name",
-        priority: 42
+        priority: 42,
+        color: "#000000"
       })
       |> Pearl.Companies.create_tier()
 

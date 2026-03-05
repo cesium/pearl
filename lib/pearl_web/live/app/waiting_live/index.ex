@@ -2,33 +2,29 @@ defmodule PearlWeb.App.WaitingLive.Index do
   use PearlWeb, :app_view
 
   alias Pearl.Event
-
-  import PearlWeb.Landing.Components.Sparkles
+  alias Pearl.Tickets
+  import PearlWeb.Components.Ticket
 
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
-      <.sparkles />
-      <!-- 3D physics based credential scene  -->
-      <div
-        id="credential-scene"
-        phx-hook="CredentialScene"
-        data-attendee_name={@current_user.name}
-        class="absolute -z-10 overflow-hidden top-0 left-0 w-screen h-full"
-      >
-      </div>
-      <!-- Timer to the event  -->
-      <div class="z-20 mt-8">
-        <h1 class="font-terminal text-center text-2xl sm:text-4xl uppercase">
-          {gettext("Waiting for the event to start!")}
+    <div class="min-h-[calc(100vh-200px)] flex flex-col justify-center items-center gap-8">
+      <div>
+        <h1 class="text-center text-2xl sm:text-4xl uppercase bo">
+          {gettext("À espera que o evento comece!")}
         </h1>
-        <div
-          id="seconds-remaining"
-          class="font-terminal text-center text-4xl sm:text-6xl mt-12 uppercase"
-          phx-hook="Countdown"
-        >
-        </div>
+      </div>
+      <.ticket
+        class="flex justify-center h-[100px] md:h-[250px]!"
+        svg_class="h-full!"
+        attendee={@attendee}
+        ticket_type={@ticket_type}
+      />
+      <div
+        id="seconds-remaining"
+        class="text-center text-4xl sm:text-6xl uppercase"
+        phx-hook="Countdown"
+      >
       </div>
     </div>
     """
@@ -45,9 +41,13 @@ defmodule PearlWeb.App.WaitingLive.Index do
         Event.subscribe_to_start_time_update("start_time")
       end
 
+      ticket = Tickets.get_user_ticket(socket.assigns.current_user.id)
+
       {:ok,
        socket
        |> assign(:event_started, false)
+       |> assign(:attendee, socket.assigns.current_user.name)
+       |> assign(:ticket_type, ticket.ticket_type.name)
        |> push_event("start-countdown", %{end_time: Event.get_event_start_time!()})}
     end
   end

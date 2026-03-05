@@ -3,6 +3,8 @@ defmodule PearlWeb.Backoffice.ProductLive.Show do
 
   alias Pearl.Store
 
+  import PearlWeb.Components.Modal
+
   on_mount {PearlWeb.StaffRoles, show: %{"products" => ["show"]}, edit: %{"products" => ["edit"]}}
 
   @impl true

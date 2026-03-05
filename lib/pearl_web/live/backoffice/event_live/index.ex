@@ -5,6 +5,8 @@ defmodule PearlWeb.Backoffice.EventLive.Index do
   alias Pearl.Event.Faq
   alias Pearl.Teams
 
+  import PearlWeb.Components.{Button, Modal}
+
   on_mount {PearlWeb.StaffRoles,
             show: %{"event" => ["show"]},
             edit: %{"event" => ["edit"]},
@@ -15,10 +17,15 @@ defmodule PearlWeb.Backoffice.EventLive.Index do
   def mount(_params, _session, socket) do
     registrations_open = Event.registrations_open?()
     start_time = Event.get_event_start_time!()
+    landing_page_message = Event.get_landing_page_message!()
     feature_flags = Event.get_feature_flags()
 
     form =
-      %{"registrations_open" => registrations_open, "start_time" => start_time}
+      %{
+        "registrations_open" => registrations_open,
+        "start_time" => start_time,
+        "landing_page_message" => landing_page_message
+      }
       |> Map.merge(feature_flags)
       |> to_form()
 

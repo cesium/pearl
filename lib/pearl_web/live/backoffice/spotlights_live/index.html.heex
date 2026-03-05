@@ -2,9 +2,9 @@
   <:actions>
     <div>
       <.link patch={~p"/dashboard/spotlights/config"}>
-        <.button>
+        <.backoffice_button>
           <.icon name="hero-cog-6-tooth" class="w-5 h-5" />
-        </.button>
+        </.backoffice_button>
       </.link>
     </div>
   </:actions>
@@ -26,9 +26,9 @@
     <% else %>
       <p>{gettext("There are no companies on spotlight!")}</p>
       <.link patch={~p"/dashboard/spotlights/new"}>
-        <.button class="mt-4">
+        <.backoffice_button class="mt-4">
           {gettext("Create Spotlight")}
-        </.button>
+        </.backoffice_button>
       </.link>
     <% end %>
   </div>

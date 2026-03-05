@@ -171,25 +171,26 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
       class="
         relative z-10
         pt-10
-        pb-50
+        md:pb-50
         lg:py-10
         lg:pb-10
 
         max-h-100
         w-full
         overflow-x-clip
-        overflow-y-auto
+        overflow-y-clip
+        md:overflow-y-auto
         [scrollbar-width:none]
         [-ms-overflow-style:none]
         [&::-webkit-scrollbar]:hidden
         mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]
       "
-      id="speaker-list"
+      id={"speaker-list-#{@layout_mode}"}
       phx-hook="SpeakerScroll"
     >
       <div
         :for={%{speaker: speaker, activity: activity} <- @speakers}
-        id={"speaker-#{speaker.id}"}
+        id={"speaker-#{@layout_mode}-#{speaker.id}"}
         phx-click={@on_select}
         phx-value-speaker-id={speaker.id}
         class={[

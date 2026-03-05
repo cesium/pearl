@@ -8,6 +8,7 @@ defmodule PearlWeb.Components.Button do
 
   attr :title, :string, default: ""
   attr :subtitle, :string, default: ""
+  attr :subtitle_icon, :string, default: ""
   attr :disabled, :boolean, default: false
   attr :icon, :string, default: ""
   attr :class, :string, default: ""
@@ -21,7 +22,7 @@ defmodule PearlWeb.Components.Button do
   def action_button(assigns) do
     ~H"""
     <button
-      class={"m-auto block select-none rounded-full hover:opacity-75 disabled:hover:border-white disabled:hover:text-white disabled:cursor-not-allowed disabled:bg-gray-400 disabled:opacity-75 h-20 w-full border-2 border-white text-white transition-colors hover:border-accent hover:bg-accent/10 hover:text-accent #{@class}"}
+      class={"m-auto block select-none disabled:hover:border-white disabled:hover:text-white disabled:cursor-not-allowed disabled:bg-gray-400 disabled:opacity-75 h-20 w-full border-2 border-white text-white transition-colors hover:border-white hover:bg-white hover:text-black #{@class}"}
       disabled={@disabled}
       {@rest}
     >
@@ -29,7 +30,12 @@ defmodule PearlWeb.Components.Button do
         <.icon name={@icon} />
       <% end %>
       <p class={"uppercase text-2xl #{@title_class}"}>{@title}</p>
-      <p class="font-terminal">{@subtitle}</p>
+      <div class={["flex place-items-center justify-center", @subtitle_icon != "" && "gap-2"]}>
+        <%= if @subtitle_icon do %>
+          <.icon name={"fa-" <> @subtitle_icon} class="w-3.5" />
+        <% end %>
+        <p>{@subtitle}</p>
+      </div>
     </button>
     """
   end

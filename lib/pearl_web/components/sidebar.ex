@@ -133,13 +133,13 @@ defmodule PearlWeb.Components.Sidebar do
     >
       <div
         id="sidebar-overlay"
-        class="fixed inset-0 h-full min-h-screen bg-gray-800 bg-opacity-55 backdrop-blur-sm"
+        class="fixed inset-0 h-full min-h-screen bg-zinc-800 bg-opacity-55 backdrop-blur-sm"
         phx-click={hide_mobile_sidebar()}
       >
       </div>
       <div
         id="mobile-sidebar"
-        class="relative flex-col flex-1 hidden w-full max-w-xs pt-5 pb-4 rounded-r-3xl bg-background-dark h-dvh"
+        class="relative flex-col flex-1 hidden w-full max-w-xs pt-5 pb-4 bg-dark h-dvh"
       >
         <div class="flex flex-col flex-1 py-4 overflow-y-auto scrollbar-hide">
           <.link navigate={@logo_url} class="flex items-center flex-shrink-0 px-16 py-3 sm:pt-8">
@@ -175,7 +175,7 @@ defmodule PearlWeb.Components.Sidebar do
     </div>
     <!-- Static sidebar for desktop -->
     <div class="hidden lg:flex lg:flex-shrink-0">
-      <div class={"flex flex-col w-64 border-r #{@border} bg-background-dark pt-5"}>
+      <div class={"flex flex-col w-64 border-r #{@border} bg-dark pt-5"}>
         <.link navigate={@logo_url} class="flex items-center flex-shrink-0 px-16 pt-4 pb-4">
           <img class="hidden w-full h-full dark:block" src={@logo_images.light} />
           <img class="w-full h-full dark:hidden" src={@logo_images.dark} />

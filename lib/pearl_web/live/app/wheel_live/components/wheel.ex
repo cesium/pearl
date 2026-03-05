@@ -14,11 +14,11 @@ defmodule PearlWeb.App.WheelLive.Components.Wheel do
           <div
             id="wheel"
             class="h-full w-full rounded-full drop-shadow-[0_0px_10px_rgba(0,0,0,0.7)]"
-            style="background: conic-gradient(#ffdb0d,#ffe866,#ffdb0d,#ffe866,#ffdb0d);"
+            style="background: conic-gradient(#811824, #b84455, #811824, #b84455, #811824);"
           >
             <%= for i <- 0..@slices do %>
               <div
-                class="absolute top-[50%] left-[50%] h-[1px] w-[50%] rotate-[10deg] bg-white"
+                class="absolute top-[50%] left-[50%] h-px w-[50%] rotate-10 bg-white"
                 style={"transform: rotate(" <> to_string(i * (360/@slices)) <> "deg); transform-origin: 0% 50%;"}
               >
               </div>

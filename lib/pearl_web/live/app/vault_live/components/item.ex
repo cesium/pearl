@@ -19,7 +19,7 @@ defmodule PearlWeb.App.VaultLive.Components.Item do
         <% end %>
       </figure>
       <div class="py-4 px-4">
-        <h1 class="font-terminal uppercase text-2xl">
+        <h1 class="uppercase text-2xl">
           {@name}
         </h1>
         <p :if={!@redeemed}>

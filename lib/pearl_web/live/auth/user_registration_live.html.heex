@@ -17,7 +17,7 @@
         <div class="space-y-3">
           <.input
             field={@form[:name]}
-            label="Nome"
+            label="Nome*"
             label_class="block text-lg! font-bold text-dark"
             placeholder="John Doe"
             variant={:flushed}
@@ -29,7 +29,7 @@
           <.input
             field={@form[:email]}
             type="email"
-            label="Email"
+            label="Email*"
             label_class="block text-lg! font-bold text-dark"
             placeholder="johndoe@eneiconf.pt"
             variant={:flushed}
@@ -40,7 +40,7 @@
 
           <.input
             field={@form[:handle]}
-            label="Username"
+            label="Username*"
             label_class="block text-lg! font-bold text-dark"
             placeholder="johndoe"
             type="handle"
@@ -52,7 +52,7 @@
 
           <.input
             field={@form[:password]}
-            label="Palavra-passe"
+            label="Palavra-passe*"
             label_class="block text-lg! font-bold text-dark"
             type="password"
             placeholder="************"
@@ -65,7 +65,7 @@
           <.input
             field={@form[:phone]}
             placeholder="987654321"
-            label="Telefone"
+            label="Telefone*"
             label_class="block! text-lg! font-bold! text-dark!"
             variant={:flushed}
             wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
@@ -94,6 +94,17 @@
             variant={:flushed}
             wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
             class="text-lg! text-dark-muted"
+          />
+
+          <.input
+            field={@form[:referral_code]}
+            label="Código de Referência"
+            label_class="block! text-lg! font-bold! text-dark!"
+            placeholder="ABC123"
+            variant={:flushed}
+            wrapper_class="grid grid-cols-1 lg:grid-cols-[200px_1fr] xl:gap-25 items-baseline"
+            class="text-lg! text-dark-muted"
+            value={@referral_code}
           />
 
           <.input

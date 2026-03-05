@@ -6,6 +6,55 @@ defmodule PearlWeb.Components.Button do
 
   import PearlWeb.CoreComponents
 
+  attr :title, :string, required: true
+  attr :subtitle, :string, default: nil
+  attr :icon, :string, default: "hero-arrow-right"
+  attr :disabled, :boolean, default: false
+  attr :class, :string, default: ""
+  attr :title_class, :string, default: ""
+
+  attr :rest, :global,
+    include:
+      ~w(csrf_token download form href hreflang method name navigate patch referrerpolicy rel replace target type value autofocus tabindex),
+    doc: "Arbitrary HTML or phx attributes."
+
+  def navigate_button(assigns) do
+    ~H"""
+    <.link
+      class={[
+        "group flex items-center justify-between min-w-64 p-2",
+        "rounded-full bg-background-muted transition-all",
+        "hover:bg-background-muted/80",
+        @disabled && "opacity-50 cursor-not-allowed pointer-events-none",
+        @class
+      ]}
+      {@rest}
+    >
+      <div class="flex flex-col items-center mx-auto px-4">
+        <span class={[
+          "text-dark text-md lowercase tracking-tight leading-tight",
+          @title_class
+        ]}>
+          {@title}
+        </span>
+
+        <%= if @subtitle do %>
+          <span class="text-xs opacity-70 font-terminal lowercase">
+            {@subtitle}
+          </span>
+        <% end %>
+      </div>
+
+      <div
+        :if={@icon != ""}
+        class="flex items-center justify-center size-10 shrink-0 rounded-full bg-primary text-white transition-transform group-hover:scale-105"
+      >
+        <.icon name={@icon} class="size-5 transition-transform group-hover:scale-105" />
+      </div>
+    </.link>
+    """
+  end
+
   attr :title, :string, default: ""
   attr :subtitle, :string, default: ""
   attr :disabled, :boolean, default: false
@@ -78,7 +127,7 @@ defmodule PearlWeb.Components.Button do
   attr :small, :boolean, default: false
   attr :gap, :string, default: "gap-1.5"
   attr :class, :string, default: nil
-  attr :rest, :global, include: ~w(disabled phx-click phx-disable-with phx-target)
+  attr :rest, :global, include: ~w(disabled phx-click phx-disable-with phx-target form)
 
   def primary_button(assigns) do
     ~H"""

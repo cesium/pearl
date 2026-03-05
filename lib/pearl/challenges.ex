@@ -218,4 +218,19 @@ defmodule Pearl.Challenges do
   def change_challenge_prize(%ChallengePrize{} = challenge_prize, attrs \\ %{}) do
     ChallengePrize.changeset(challenge_prize, attrs)
   end
+
+  @doc """
+  Updates a challenge's image.
+
+  ## Examples
+
+      iex> update_challenge_image(challenge, %{image: image})
+      {:ok, %Challenge{}}
+
+  """
+  def update_challenge_image(%Challenge{} = challenge, attrs) do
+    challenge
+    |> Challenge.image_changeset(attrs)
+    |> Repo.update()
+  end
 end

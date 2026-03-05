@@ -28,34 +28,47 @@ defmodule PearlWeb.UserTicket do
   def require_paid_ticket(conn, _opts) do
     user = conn.assigns[:current_user]
 
-    if user do
-      ticket = Tickets.get_user_ticket(user.id)
-
-      if is_nil(ticket),
-        do:
-          conn
-          |> redirect(to: ~p"/tickets")
-          |> halt()
-
-      case Billing.get_payment_by_ticket(ticket.id) do
-        nil ->
-          conn
-          |> redirect(to: ~p"/checkout/payment")
-          |> halt()
-
-        payment ->
-          if payment.status == :completed do
-            conn
-          else
-            conn
-            |> put_flash(:error, "Ainda não efetuaste o pagamento.")
-            |> redirect(to: ~p"/checkout/payment/#{payment.order_id}")
-            |> halt()
-          end
-      end
+    if is_nil(user) do
+      redirect_no_ticket(conn)
+    else
+      user.id
+      |> Tickets.get_user_ticket()
+      |> validate_ticket_and_payment(conn)
     end
+  end
 
+  defp validate_ticket_and_payment(nil, conn) do
+    redirect_no_ticket(conn)
+  end
+
+  defp validate_ticket_and_payment(ticket, conn) do
+    ticket.id
+    |> Billing.get_payment_by_ticket()
+    |> validate_payment(conn)
+  end
+
+  defp validate_payment(nil, conn) do
     conn
+    |> redirect(to: ~p"/checkout/payment")
+    |> halt()
+  end
+
+  defp validate_payment(payment, conn) do
+    if payment.status == :completed do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Ainda não efetuaste o pagamento.")
+      |> redirect(to: ~p"/checkout/payment/#{payment.order_id}")
+      |> halt()
+    end
+  end
+
+  defp redirect_no_ticket(conn) do
+    conn
+    |> put_flash(:error, "Ainda não tens um bilhete")
+    |> redirect(to: ~p"/tickets")
+    |> halt()
   end
 
   def require_payment(conn, _opts) do

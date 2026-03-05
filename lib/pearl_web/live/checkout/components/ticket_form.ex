@@ -79,7 +79,7 @@ defmodule PearlWeb.Checkout.Components.TicketForm do
 
         <h2 class="font-extrabold text-xl mb-1">Alergénios*</h2>
         <span class="mb-3 block">
-          Se tiveres alguma alergia a alimentos, seleciona a opção correspondente e descrimina os alimentos a que és sensível.
+          Se tiveres alguma alergia a alimentos, seleciona a opção correspondente e discrimina os alimentos a que és sensível.
         </span>
         <.input
           type="radio"

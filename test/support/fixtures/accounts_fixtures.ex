@@ -10,8 +10,7 @@ defmodule Pearl.AccountsFixtures do
   def unique_handle, do: "user#{System.unique_integer([:positive])}"
 
   def valid_user_attributes(attrs \\ %{}) do
-    attrs
-    |> Enum.into(%{
+    Enum.into(attrs, %{
       "name" => "John Doe",
       "handle" => unique_handle(),
       "email" => unique_user_email(),
@@ -21,9 +20,8 @@ defmodule Pearl.AccountsFixtures do
   end
 
   def user_fixture(attrs \\ %{}) do
-    {:ok, %{user: user, attendee: _}} =
+    {:ok, %{user: user}} =
       attrs
-      |> Enum.into(%{"attendee" => %{}})
       |> valid_user_attributes()
       |> Pearl.Accounts.register_attendee_user()
 

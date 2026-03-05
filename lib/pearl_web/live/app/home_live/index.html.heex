@@ -1,5 +1,5 @@
 <.page
-  title={gettext("Hello, %{current_user_name} 👋", current_user_name: @current_user.name)}
+  title={gettext("OLá, %{current_user_name} 👋", current_user_name: @current_user.name)}
   size={:xl}
   title_class="font-termina uppercase"
 >
@@ -91,7 +91,7 @@
     </div>
     <div class="flex flex-col items-center gap-y-8">
       <div class="flex flex-row justify-between items-center mt-10 pb-2 h-12 w-full border-b-2 border-white">
-        <h1 class="font-semibold uppercase px-2">Last badge redeems</h1>
+        <h1 class="font-semibold uppercase px-2">Últimas badges obtidas</h1>
       </div>
       <div class="grid grid-cols-2 gap-4 min-w-72">
         <div id="badges" phx-update="stream" class="contents">

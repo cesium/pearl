@@ -14,7 +14,7 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Prizes do
         <%= for prize <- @prizes do %>
           <li class="py-1">
             <span class={"mr-2 font-bold #{medal_color(prize.place)}"}>
-              {prize.place}<sup><%= get_exponent(prize.place) %></sup> {gettext("Place")}:
+              {prize.place}º {gettext("Lugar")}:
             </span>
             {prize.prize.name}
           </li>
@@ -22,14 +22,6 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Prizes do
       </ol>
     </div>
     """
-  end
-
-  defp get_exponent(place) do
-    case place do
-      1 -> "st"
-      2 -> "nd"
-      3 -> "rd"
-    end
   end
 
   defp medal_color(place) do

@@ -61,7 +61,7 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
           name={@entry.name}
           size={:xl}
           src={get_picture_url(@entry)}
-          class="bg-light/5 border-2 border-accent bg-accent rounded-full"
+          class="border-2 border-primary rounded-full"
           link={~p"/app/user/#{@entry.handle}"}
         />
         <span class="bg-primary rounded-full px-2 -translate-y-3 select-none text-white font-semibold border-primary border-2">
@@ -81,7 +81,7 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
 
   defp leaderboard_entry(assigns) do
     ~H"""
-    <li class={"flex flex-row py-3 px-4 rounded-lg justify-between items-center text-white #{if @self do "bg-primary" else "bg-light/5" end}"}>
+    <li class={"flex flex-row py-3 px-4 justify-between items-center text-white #{if @self do "bg-primary" else "bg-light/5" end}"}>
       <div class="flex flex-row gap-4 items-center">
         <p class="font-bold text-xl">
           {@entry.position}

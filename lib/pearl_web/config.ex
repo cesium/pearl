@@ -79,8 +79,7 @@ defmodule PearlWeb.Config do
         %{
           key: :games,
           title: "Games",
-          # Fix: Change icon
-          icon: "hero-play",
+          image: "/images/icons/play.svg",
           url: "/app/games",
           enabled: attendee_eligible?
         },

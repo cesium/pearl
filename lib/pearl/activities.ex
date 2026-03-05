@@ -314,6 +314,7 @@ defmodule Pearl.Activities do
   def list_speakers_activities do
     Speaker
     |> join(:left, [s], a in assoc(s, :activities), as: :activities)
+    |> order_by([s], asc: s.name)
     |> preload([activities: a], activities: a)
     |> select([s, a], %{speaker: s, activity: a})
     |> Repo.all()

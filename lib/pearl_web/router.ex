@@ -21,6 +21,7 @@ defmodule PearlWeb.Router do
 
     scope "/api", PearlWeb do
       post "/midas/:pearl_api_key/webhook", MidasController, :handle_webhook
+      get "/pearl/:pearl_api_key/tickets_count", TicketsController, :tickets_count
     end
   end
 
@@ -84,7 +85,7 @@ defmodule PearlWeb.Router do
   scope "/checkout", PearlWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/init", TicketCheckoutController, :init
+    get "/init", TicketsController, :init
   end
 
   scope "/checkout", PearlWeb do
@@ -148,6 +149,8 @@ defmodule PearlWeb.Router do
         {PearlWeb.UserAuth, :ensure_authenticated},
         {PearlWeb.Spotlight, :fetch_current_spotlight}
       ] do
+      live "/settings", Landing.ProfileSettingsLive.Index, :index
+
       live "/users/confirmation_pending", ConfirmationPendingLive, :confirmation_pending
 
       live "/users/settings/confirm_email/:token", UserUpdateEmailConfirmation
@@ -176,21 +179,25 @@ defmodule PearlWeb.Router do
 
         live "/credential", CredentialLive.Index, :index
 
-        live "/wheel", WheelLive.Index, :index
+        live "/games", GamesLive.Index, :index
 
-        scope "/scratch_card", ScratchCardLive do
+        live "/games/wheel", WheelLive.Index, :index
+
+        scope "/games/scratch_card", ScratchCardLive do
           live "/", Index, :index
           live "/paytable", Index, :show_paytable
         end
 
-        live "/coin_flip", CoinFlipLive.Index, :index
+        live "/games/coin_flip", CoinFlipLive.Index, :index
+
+        live "/games/scratch_card", ScratchCardLive.Index, :index
 
         scope "/badges", BadgeLive do
           live "/", Index, :index
           live "/:id", Show, :show
         end
 
-        scope "/slots", SlotsLive do
+        scope "/games/slots", SlotsLive do
           live "/", Index, :index
           live "/paytable", Index, :show_paytable
         end
@@ -201,8 +208,6 @@ defmodule PearlWeb.Router do
         end
 
         live "/vault", VaultLive.Index, :index
-
-        live "/profile_settings", ProfileSettingsLive, :edit
       end
 
       scope "/downloads" do
@@ -249,6 +254,8 @@ defmodule PearlWeb.Router do
           live "/:id/edit/tokens", Show, :tokens_edit
           live "/:id/edit/eligibility", Show, :eligibility_edit
           live "/:id/redeem", Show, :redeem
+          live "/:id/ticket", Show, :ticket
+          live "/:id/credential", Show, :credential
         end
 
         scope "/event", EventLive do
@@ -321,6 +328,13 @@ defmodule PearlWeb.Router do
           live "/", Index, :index
           live "/new", Index, :new
           live "/:id/edit", Index, :edit
+        end
+
+        scope "/referrals", ReferralsLive do
+          live "/", Index, :index
+          live "/new", Index, :new
+          live "/:id/edit", Index, :edit
+          live "/:id/users", Index, :users
         end
 
         scope "/schedule", ScheduleLive do
@@ -460,6 +474,11 @@ defmodule PearlWeb.Router do
 
   scope "/", PearlWeb do
     pipe_through [:browser]
+
+    live_session :referral_redirect,
+      on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
+      live "/referral/:code", ReferralRedirectLive, :index
+    end
 
     delete "/users/log_out", UserSessionController, :delete
 

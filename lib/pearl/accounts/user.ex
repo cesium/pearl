@@ -9,6 +9,7 @@ defmodule Pearl.Accounts.User do
   alias Pearl.Accounts.Attendee
   alias Pearl.Accounts.Staff
   alias Pearl.Companies.Company
+  alias Pearl.Tickets.Ticket
 
   @required_fields ~w(name email handle password type)a
   @optional_fields ~w(confirmed_at allows_marketing phone university city)a
@@ -50,6 +51,7 @@ defmodule Pearl.Accounts.User do
     field :university, :string
     field :city, :string
 
+    has_one :ticket, Ticket, on_delete: :nothing
     has_one :attendee, Attendee, on_delete: :delete_all
     has_one :staff, Staff, on_delete: :delete_all, on_replace: :update
     has_one :company, Company, on_delete: :delete_all
@@ -105,7 +107,6 @@ defmodule Pearl.Accounts.User do
     |> validate_handle()
     |> validate_password(opts)
     |> validate_phone()
-    |> cast_assoc(:attendee, with: &Attendee.changeset/2)
     |> cast_assoc(:staff, with: &Staff.changeset/2)
   end
 

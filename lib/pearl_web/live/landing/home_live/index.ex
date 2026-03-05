@@ -15,7 +15,7 @@ defmodule PearlWeb.Landing.HomeLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    speakers = Activities.list_highlighted_speakers() |> Enum.take_random(5)
+    speakers = Activities.list_highlighted_speakers() |> Enum.take_random(4)
 
     {selected_speaker, selected_activity} =
       case speakers do

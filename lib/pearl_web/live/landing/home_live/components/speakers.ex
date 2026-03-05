@@ -37,7 +37,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
       </div>
       <.navigate_button
           navigate="/speakers"
-          class="relative z-40 mx-auto max-w-70 mt-10 text-lg"
+          class="hidden md:flex relative z-40 mx-auto max-w-70 mt-10 text-lg"
           title="conhece os oradores"
         />
     </div>
@@ -141,7 +141,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           />
         </div>
 
-        <div class="absolute bottom-0 right-0  lg:h-[60%] xl:h-[70%] 2xl:h-[80%] p-0 flex items-end justify-end overflow-hidden pointer-events-none select-none">
+        <div class="absolute bottom-0 right-0 lg:h-[60%] xl:h-[70%] 2xl:h-[80%] p-0 flex items-end justify-end overflow-hidden pointer-events-none select-none">
           <.speaker_image
             speaker={@selected_speaker}
             class="size-full blur-xl mask-[radial-gradient(ellipse_at_bottom_left,black_20%,transparent_70%)] scale-x-[-1] opacity-50"
@@ -169,8 +169,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     ~H"""
     <div
       class="
-        relative z-10
+        relative
+        z-10
         pt-10
+        pb-10
         md:pb-50
         lg:py-10
         lg:pb-10
@@ -195,7 +197,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         phx-value-speaker-id={speaker.id}
         class={[
           item_style(@layout_mode, @selected_speaker, speaker),
-          "p-2 pl-5 text-5.5 md:text-3xl hover:font-bold hover:scale-105 hover:ml-8 cursor-pointer transition-all duration-200"
+          "p-2 pl-5 text-5.5 md:text-[38px] hover:font-bold hover:scale-105 hover:ml-8 cursor-pointer transition-all duration-200"
         ]}
       >
         {speaker.name}

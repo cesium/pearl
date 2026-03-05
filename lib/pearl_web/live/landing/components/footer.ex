@@ -12,7 +12,7 @@ defmodule PearlWeb.Landing.Components.Footer do
   def footer(assigns) do
     assigns =
       assign(assigns,
-        landing_pages: PearlWeb.Config.landing_pages(),
+        landing_pages: PearlWeb.Config.landing_pages(Map.get(assigns, :current_user)),
         your_enei_links: your_enei_links(),
         more_pages_links: more_pages_links()
       )

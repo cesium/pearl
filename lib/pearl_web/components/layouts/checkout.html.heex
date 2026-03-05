@@ -1,7 +1,7 @@
 <div class="text-light font-iregular flex flex-col min-h-screen">
   <div class="min-h-screen">
     <.navbar
-      pages={PearlWeb.Config.landing_pages()}
+      pages={PearlWeb.Config.landing_pages(Map.get(assigns, :current_user))}
       registrations_open?={Pearl.Event.registrations_open?()}
       current_user={Map.get(assigns, :current_user)}
     />

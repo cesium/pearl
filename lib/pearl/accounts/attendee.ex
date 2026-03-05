@@ -5,7 +5,7 @@ defmodule Pearl.Accounts.Attendee do
   use Pearl.Schema
 
   @required_fields ~w(user_id)a
-  @optional_fields ~w(tokens entries course_id ineligible)a
+  @optional_fields ~w(tokens entries course_id ineligible referral_id)a
 
   schema "attendees" do
     field :tokens, :integer, default: 0
@@ -14,6 +14,7 @@ defmodule Pearl.Accounts.Attendee do
 
     belongs_to :course, Pearl.Accounts.Course
     belongs_to :user, Pearl.Accounts.User
+    belongs_to :referral, Pearl.Referrals.Referral, type: :binary_id
 
     has_many :enrolments, Pearl.Activities.Enrolment
 
@@ -25,6 +26,12 @@ defmodule Pearl.Accounts.Attendee do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_assoc(:user)
     |> cast_assoc(:course)
+    |> validate_required(@required_fields)
+  end
+
+  def registration_changeset(attendee, attrs) do
+    attendee
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
   end
 

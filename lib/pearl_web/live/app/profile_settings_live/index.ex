@@ -14,6 +14,7 @@ defmodule PearlWeb.App.ProfileSettingsLive do
         module={PearlWeb.UserAuth.Components.UserProfileSettings}
         id="attendee-user-profile-settings"
         user={@current_user}
+        context={:app}
       />
     </.page>
     """

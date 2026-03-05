@@ -4,7 +4,6 @@ defmodule PearlWeb.Landing.HomeLive.Index do
 
   import PearlWeb.Landing.HomeLive.Components.{
     Hero,
-    Partners,
     Sponsors,
     Activities,
     InfoSection,

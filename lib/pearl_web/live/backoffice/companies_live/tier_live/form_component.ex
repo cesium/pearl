@@ -29,6 +29,12 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent do
               required
             />
             <.field field={@form[:full_cv_access]} type="switch" label="Full CV Access" />
+            <.field
+              field={@form[:type]}
+              type="select"
+              options={Companies.Tier.list_tier_types()}
+              label="Type"
+            />
           </div>
           <:actions>
             <.backoffice_button phx-disable-with="Saving...">Save Tier</.backoffice_button>

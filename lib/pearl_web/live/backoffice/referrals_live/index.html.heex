@@ -1,0 +1,75 @@
+<.page title="Referral Codes">
+  <:actions>
+    <div class="flex flex-row gap-4 justify-center items-center">
+      <.ensure_permissions user={@current_user} permissions={%{"referrals" => ["edit"]}}>
+        <.link patch={~p"/dashboard/referrals/new"}>
+          <.backoffice_button>New Referral</.backoffice_button>
+        </.link>
+      </.ensure_permissions>
+    </div>
+  </:actions>
+
+  <div class="py-4">
+    <.table id="referrals-table" items={@streams.referrals} meta={@meta} params={@params}>
+      <:col :let={{_id, referral}} sortable field={:name} label="Code">{referral.code}</:col>
+      <:action :let={{id, referral}}>
+        <.ensure_permissions user={@current_user} permissions={%{"referrals" => ["edit"]}}>
+          <div class="flex flex-row gap-2 items-center">
+            <.link patch={~p"/dashboard/referrals/#{referral.id}/users"}>
+              <.icon name="hero-users" />
+            </.link>
+            <.link patch={~p"/dashboard/referrals/#{referral.id}/edit"}>
+              <.icon name="hero-pencil" class="w-5 h-5" />
+            </.link>
+            <.link
+              phx-click={JS.push("delete", value: %{id: referral.id}) |> hide("##{id}")}
+              data-confirm="Are you sure?"
+            >
+              <.icon name="hero-trash" class="w-5 h-5" />
+            </.link>
+            <span
+              :if={not referral.active}
+              class="items-center rounded-md bg-lightMuted/20 px-2 py-1 text-xs font-medium text-dark-muted ring-1 ring-inset ring-lightMuted/20"
+            >
+              Inactive
+            </span>
+          </div>
+        </.ensure_permissions>
+      </:action>
+    </.table>
+  </div>
+</.page>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="referral-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/referrals")}
+>
+  <.live_component
+    module={PearlWeb.Backoffice.ReferralsLive.FormComponent}
+    id={@referral.id || :new}
+    title={@page_title}
+    current_user={@current_user}
+    action={@live_action}
+    referral={@referral}
+    patch={~p"/dashboard/referrals"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:users]}
+  id="referral-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/referrals")}
+>
+  <.live_component
+    module={PearlWeb.Backoffice.ReferralsLive.Users}
+    id={@referral.id || :new}
+    title={@page_title}
+    current_user={@current_user}
+    action={@live_action}
+    referral={@referral}
+    patch={~p"/dashboard/referrals"}
+  />
+</.modal>

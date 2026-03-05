@@ -149,6 +149,8 @@ defmodule PearlWeb.Router do
         {PearlWeb.UserAuth, :ensure_authenticated},
         {PearlWeb.Spotlight, :fetch_current_spotlight}
       ] do
+      live "/settings", Landing.ProfileSettingsLive.Index, :index
+
       live "/users/confirmation_pending", ConfirmationPendingLive, :confirmation_pending
 
       live "/users/settings/confirm_email/:token", UserUpdateEmailConfirmation
@@ -197,8 +199,6 @@ defmodule PearlWeb.Router do
         end
 
         live "/vault", VaultLive.Index, :index
-
-        live "/profile_settings", ProfileSettingsLive, :edit
       end
 
       scope "/downloads" do
@@ -246,6 +246,7 @@ defmodule PearlWeb.Router do
           live "/:id/edit/eligibility", Show, :eligibility_edit
           live "/:id/redeem", Show, :redeem
           live "/:id/ticket", Show, :ticket
+          live "/:id/credential", Show, :credential
         end
 
         scope "/event", EventLive do
@@ -318,6 +319,13 @@ defmodule PearlWeb.Router do
           live "/", Index, :index
           live "/new", Index, :new
           live "/:id/edit", Index, :edit
+        end
+
+        scope "/referrals", ReferralsLive do
+          live "/", Index, :index
+          live "/new", Index, :new
+          live "/:id/edit", Index, :edit
+          live "/:id/users", Index, :users
         end
 
         scope "/schedule", ScheduleLive do
@@ -456,6 +464,11 @@ defmodule PearlWeb.Router do
 
   scope "/", PearlWeb do
     pipe_through [:browser]
+
+    live_session :referral_redirect,
+      on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
+      live "/referral/:code", ReferralRedirectLive, :index
+    end
 
     delete "/users/log_out", UserSessionController, :delete
 

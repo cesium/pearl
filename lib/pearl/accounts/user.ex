@@ -107,7 +107,6 @@ defmodule Pearl.Accounts.User do
     |> validate_handle()
     |> validate_password(opts)
     |> validate_phone()
-    |> cast_assoc(:attendee, with: &Attendee.changeset/2)
     |> cast_assoc(:staff, with: &Staff.changeset/2)
   end
 

@@ -26,7 +26,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Tiers.FormComponent do
             <.field field={@form[:max_spotlights]} type="number" label="Max Spotlights" required />
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

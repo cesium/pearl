@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.IneligibleLive.FormComponent do
   use PearlWeb, :live_component
 
   alias Pearl.Accounts
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Forms, Button}
 
   @impl true
   def render(assigns) do
@@ -21,9 +21,9 @@ defmodule PearlWeb.Backoffice.AttendeeLive.IneligibleLive.FormComponent do
         >
           <.field field={@form[:ineligible]} label="Ineligible" type="switch" />
           <:actions>
-            <.button phx-disable-with="Saving...">
+            <.backoffice_button phx-disable-with="Saving...">
               {gettext("Save Eligibility")}
-            </.button>
+            </.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

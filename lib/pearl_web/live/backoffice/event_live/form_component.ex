@@ -1,7 +1,7 @@
 defmodule PearlWeb.Backoffice.EventLive.FormComponent do
   use PearlWeb, :live_component
 
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button, Forms}
 
   alias Pearl.Event
   alias PearlWeb.Helpers
@@ -31,6 +31,7 @@ defmodule PearlWeb.Backoffice.EventLive.FormComponent do
               <.field field={@form[:speakers_enabled]} type="switch" label="Speaker Enabled" />
               <.field field={@form[:team_enabled]} type="switch" label="Team Enabled" />
               <.field field={@form[:faqs_enabled]} type="switch" label="FAQs Enabled" />
+              <.field field={@form[:tickets_enabled]} type="switch" label="Tickets Enabled" />
               <.field
                 field={@form[:call_for_staff_enabled]}
                 type="switch"
@@ -48,15 +49,23 @@ defmodule PearlWeb.Backoffice.EventLive.FormComponent do
               />
             </div>
             <!-- Other -->
-            <.field field={@form[:start_time]} type="datetime-local" label="Start Date/Time" required />
+            <div>
+              <.field
+                field={@form[:start_time]}
+                type="datetime-local"
+                label="Start Date/Time"
+                required
+              />
+              <.field field={@form[:landing_page_message]} type="text" label="Landing Page Message" />
+            </div>
           </div>
           <:actions>
-            <.button
+            <.backoffice_button
               data-confirm="Do you want to save these changes? It can break stuff if you are not careful"
               phx-disable-with="Saving..."
             >
               {gettext("Save Settings")}
-            </.button>
+            </.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>
@@ -86,6 +95,8 @@ defmodule PearlWeb.Backoffice.EventLive.FormComponent do
            Event.change_registrations_open(Helpers.string_to_bool(params["registrations_open"])),
          {:ok, _start_time} <-
            Event.change_event_start_time(Helpers.parse_date(params["start_time"])),
+         {:ok, _landing_page_message} <-
+           Event.change_landing_page_message(params["landing_page_message"]),
          :ok <-
            Event.change_feature_flags(flags) do
       {:noreply,

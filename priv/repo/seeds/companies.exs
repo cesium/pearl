@@ -40,7 +40,7 @@ defmodule Pearl.Repo.Seeds.Companies do
         },
         "name" => name,
         "url" => url,
-        "tier_id" => actual_tier.id
+        "tier_id" => actual_tier.id,
       }
 
       case Companies.upsert_company_and_user(%Company{}, company_seed) do
@@ -59,17 +59,20 @@ defmodule Pearl.Repo.Seeds.Companies do
         %Tier{
           name: "Gold",
           full_cv_access: true,
-          priority: 0
+          priority: 0,
+          color: "#B29C88"
         },
         %Tier{
           name: "Silver",
           full_cv_access: false,
-          priority: 1
+          priority: 1,
+          color: "#9E9E9E"
         },
         %Tier{
           name: "Bronze",
           full_cv_access: false,
-          priority: 2
+          priority: 2,
+          color: "#A88279"
         }
       ] |> Enum.map(&Repo.insert(&1))
   end

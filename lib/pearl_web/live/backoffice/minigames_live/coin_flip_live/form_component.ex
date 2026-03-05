@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.CoinFlip.FormComponent do
   @moduledoc false
   use PearlWeb, :live_component
 
-  import PearlWeb.Components.Forms
+  import PearlWeb.Components.{Button, Forms}
 
   alias Ecto.Changeset
   alias Pearl.Minigames
@@ -43,7 +43,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.CoinFlip.FormComponent do
               />
             </div>
             <div class="flex flex-row-reverse">
-              <.button phx-disable-with="Saving...">{gettext("Save Configuration")}</.button>
+              <.backoffice_button phx-disable-with="Saving...">
+                {gettext("Save Configuration")}
+              </.backoffice_button>
             </div>
           </.form>
         </div>

@@ -2,7 +2,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.Index do
   use PearlWeb, :live_component
 
   alias Pearl.Companies
-  import PearlWeb.Components.EnsurePermissions
+  import PearlWeb.Components.{EnsurePermissions, Button}
 
   @impl true
   def render(assigns) do
@@ -12,7 +12,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.Index do
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"companies" => ["edit"]}}>
             <.link navigate={~p"/dashboard/companies/tiers/new"}>
-              <.button>New Tier</.button>
+              <.backoffice_button>New Tier</.backoffice_button>
             </.link>
           </.ensure_permissions>
         </:actions>

@@ -3,7 +3,8 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
 
   alias Pearl.Challenges
   alias Pearl.Challenges.Challenge
-  import PearlWeb.Components.Forms
+  alias Pearl.Uploaders
+  import PearlWeb.Components.{Forms, Button, ImageUploader}
 
   @impl true
   def render(assigns) do
@@ -34,6 +35,17 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
           label="Description (supports markdown)"
           required
         />
+
+        <div class="space-y-2">
+          <.field_label>Challenge Image</.field_label>
+          <.image_uploader
+            class="h-80"
+            image_class="h-80"
+            icon="hero-trophy"
+            upload={@uploads.image}
+            image={Uploaders.Challenge.url({@challenge.image, @challenge}, :original, signed: true)}
+          />
+        </div>
 
         <h3 class="font-semibold leading-8">{gettext("Prizes")}</h3>
 
@@ -81,7 +93,7 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
             {gettext("New Prize")}
           </button>
 
-          <.button phx-disable-with="Saving...">Save Challenge</.button>
+          <.backoffice_button phx-disable-with="Saving...">Save Challenge</.backoffice_button>
         </:actions>
       </.simple_form>
     </div>
@@ -90,7 +102,13 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
 
   @impl true
   def mount(socket) do
-    {:ok, socket}
+    {:ok,
+     socket
+     |> assign(:uploaded_files, [])
+     |> allow_upload(:image,
+       accept: Challenge.extension_whitelist(),
+       max_entries: 1
+     )}
   end
 
   @impl true
@@ -115,11 +133,14 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
 
   defp save_challenge(socket, :edit, challenge_params) do
     case Challenges.update_challenge(socket.assigns.challenge, challenge_params) do
-      {:ok, _challenge} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Challenge updated successfully")
-         |> push_patch(to: socket.assigns.patch)}
+      {:ok, challenge} ->
+        case consume_image_data(challenge, socket) do
+          {:ok, _challenge} ->
+            {:noreply,
+             socket
+             |> put_flash(:info, "Challenge updated successfully")
+             |> push_patch(to: socket.assigns.patch)}
+        end
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
@@ -128,11 +149,14 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
 
   defp save_challenge(socket, :new, challenge_params) do
     case Challenges.create_challenge(challenge_params) do
-      {:ok, _challenge} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Challenge created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+      {:ok, challenge} ->
+        case consume_image_data(challenge, socket) do
+          {:ok, _challenge} ->
+            {:noreply,
+             socket
+             |> put_flash(:info, "Challenge created successfully")
+             |> push_patch(to: socket.assigns.patch)}
+        end
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
@@ -147,5 +171,24 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
 
   defp prize_options(prizes) do
     Enum.map(prizes, &{&1.name, &1.id})
+  end
+
+  defp consume_image_data(challenge, socket) do
+    consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
+      Challenges.update_challenge_image(challenge, %{
+        "image" => %Plug.Upload{
+          content_type: entry.client_type,
+          filename: entry.client_name,
+          path: path
+        }
+      })
+    end)
+    |> case do
+      [{:ok, challenge}] ->
+        {:ok, challenge}
+
+      _errors ->
+        {:ok, challenge}
+    end
   end
 end

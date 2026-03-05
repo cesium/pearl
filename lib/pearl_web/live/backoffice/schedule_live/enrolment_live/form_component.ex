@@ -30,7 +30,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.FormComponent do
               wrapper_class="w-full"
               placeholder={gettext("Search for attendees")}
             />
-            <.button phx-disable-with="Saving...">Save</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save</.backoffice_button>
           </.simple_form>
         </div>
       </.page>

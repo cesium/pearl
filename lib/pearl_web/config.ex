@@ -10,33 +10,45 @@ defmodule PearlWeb.Config do
 
     [
       %{
-        title: "Schedule",
+        key: :schedule,
+        title: "Calendário",
         url: "/schedule",
         feature_flag: "schedule_enabled"
       },
       %{
-        title: "Team",
-        url: "/team",
-        feature_flag: "team_enabled"
-      },
-      %{
-        title: "Challenges",
-        url: "/challenges",
-        feature_flag: "challenges_enabled"
-      },
-      %{
-        title: "Speakers",
+        key: :speakers,
+        title: "Oradores",
         url: "/speakers",
         feature_flag: "speakers_enabled"
       },
       %{
-        title: "FAQs",
+        key: :challenges,
+        title: "Desafios",
+        url: "/challenges",
+        feature_flag: "challenges_enabled"
+      },
+      %{
+        key: :team,
+        title: "Equipa",
+        url: "/team",
+        feature_flag: "team_enabled"
+      },
+      %{
+        key: :faqs,
+        title: "Informação & Ajuda",
         url: "/faqs",
         feature_flag: "faqs_enabled"
       },
       %{
+        key: :tickets,
+        title: "Bilhetes",
+        url: "/tickets",
+        feature_flag: "tickets_enabled"
+      },
+      %{
+        key: :call_for_staff,
         title: "Call for Staff",
-        url: "https://forms.gle/XWHoNu4LjC8BogF68",
+        url: "https://cesium.link/f/call-for-staff-enei-26",
         feature_flag: "call_for_staff_enabled"
       }
     ]
@@ -156,7 +168,21 @@ defmodule PearlWeb.Config do
         title: "Companies",
         icon: "hero-building-office",
         url: "/dashboard/companies",
-        scope: %{"companies" => ["edit"]}
+        scope: %{"companies" => ["show"]}
+      },
+      %{
+        key: :tickets,
+        title: "Tickets",
+        icon: "hero-ticket",
+        url: "/dashboard/tickets",
+        scope: %{"tickets" => ["show"]}
+      },
+      %{
+        key: :discount_codes,
+        title: "Discount Codes",
+        icon: "hero-tag",
+        url: "/dashboard/discount_codes",
+        scope: %{"discount_codes" => ["show"]}
       },
       %{
         key: :store,

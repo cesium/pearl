@@ -3,6 +3,8 @@ defmodule PearlWeb.Backoffice.ScannerLive.EnrolmentLive.Index do
 
   alias Pearl.{Accounts, Activities}
 
+  import PearlWeb.Components.{Modal}
+
   @impl true
   def render(assigns) do
     ~H"""
@@ -31,9 +33,9 @@ defmodule PearlWeb.Backoffice.ScannerLive.EnrolmentLive.Index do
                 "Make sure you allow the use of your camera on this browser and that it isn't being used elsewhere."
               )}
             </p>
-            <.button id="permission-button" type="button">
+            <.backoffice_button id="permission-button" type="button">
               {gettext("Request Permission")}
-            </.button>
+            </.backoffice_button>
           </div>
         </.page>
       </div>

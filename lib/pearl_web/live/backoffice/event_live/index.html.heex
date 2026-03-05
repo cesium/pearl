@@ -1,29 +1,29 @@
 <.page title="Event Settings">
   <:actions>
     <.link patch={~p"/dashboard/event/teams"}>
-      <.button>
+      <.backoffice_button>
         <.icon name="hero-user-group" class="w-5 h-5" />
-      </.button>
+      </.backoffice_button>
     </.link>
     <.link patch={~p"/dashboard/event/faqs"}>
-      <.button>
+      <.backoffice_button>
         <.icon name="hero-lifebuoy" class="w-5 h-5" />
-      </.button>
+      </.backoffice_button>
     </.link>
     <.link patch={~p"/dashboard/event/credentials"}>
-      <.button>
+      <.backoffice_button>
         <.icon name="hero-qr-code" class="w-5 h-5" />
-      </.button>
+      </.backoffice_button>
     </.link>
     <.link patch={~p"/dashboard/event/edit"}>
-      <.button>{gettext("Edit Settings")}</.button>
+      <.backoffice_button>{gettext("Edit Settings")}</.backoffice_button>
     </.link>
 
     <.link href={~p"/downloads/cv_challenge"} target="_blank">
-      <.button>{gettext("CV Challenge")}</.button>
+      <.backoffice_button>{gettext("CV Challenge")}</.backoffice_button>
     </.link>
     <.link patch={~p"/downloads/final_draw"} target="_blank">
-      <.button>{gettext("Export Final Draw CSV")}</.button>
+      <.backoffice_button>{gettext("Export Final Draw CSV")}</.backoffice_button>
     </.link>
   </:actions>
 
@@ -32,6 +32,9 @@
       <b>{gettext("Registrations Open:")}</b> {@form[:registrations_open].value}
     </p>
     <p class="my-1"><b>{gettext("Start Date/Time:")}</b> {@form[:start_time].value}</p>
+    <p class="my-1">
+      <b>{gettext("Landing Page Message:")}</b> {@form[:landing_page_message].value}
+    </p>
 
     <h3 class="font-semibold leading-8 text-lg ">Feature Flags</h3>
 
@@ -51,6 +54,12 @@
       <b>{gettext("Team Enabled:")}</b> {@form[:team_enabled].value}
     </p>
     <p class="my-1">
+      <b>{gettext("FAQs Enabled:")}</b> {@form[:faqs_enabled].value}
+    </p>
+    <p class="my-1">
+      <b>{gettext("Call for Staff Enabled:")}</b> {@form[:call_for_staff_enabled].value}
+    </p>
+    <p class="my-1">
       <b>{gettext("Survival Guide Enabled:")}</b> {@form[:survival_guide_enabled].value}
     </p>
     <p class="my-1">
@@ -58,6 +67,9 @@
     </p>
     <p class="my-1">
       <b>{gettext("Call for Staff Enabled:")}</b> {@form[:call_for_staff_enabled].value}
+    </p>
+    <p class="my-1">
+      <b>{gettext("Tickets Enabled:")}</b> {@form[:tickets_enabled].value}
     </p>
   </div>
 </.page>

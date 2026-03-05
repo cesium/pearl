@@ -91,7 +91,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
             </div>
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save Activity</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Activity</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

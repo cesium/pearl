@@ -3,6 +3,8 @@ defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.Index do
 
   alias Pearl.Contest
 
+  import PearlWeb.Components.Button
+
   @impl true
   def render(assigns) do
     ~H"""
@@ -13,7 +15,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.Index do
       >
         <:actions>
           <.link navigate={~p"/dashboard/badges/#{@badge.id}/conditions/new"}>
-            <.button>New Condition</.button>
+            <.backoffice_button>New Condition</.backoffice_button>
           </.link>
         </:actions>
 

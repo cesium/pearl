@@ -13,7 +13,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.CategoryLive.Index do
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"schedule" => ["edit"]}}>
             <.link navigate={~p"/dashboard/schedule/activities/categories/new"}>
-              <.button>New Category</.button>
+              <.backoffice_button>New Category</.backoffice_button>
             </.link>
           </.ensure_permissions>
         </:actions>

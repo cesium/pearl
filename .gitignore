@@ -40,3 +40,7 @@ npm-debug.log
 .env.*
 .env
 !.env.*.sample
+
+# Nix stuff
+shell.nix
+.direnv

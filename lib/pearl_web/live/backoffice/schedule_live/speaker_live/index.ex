@@ -14,7 +14,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.Index do
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"schedule" => ["edit"]}}>
             <.link navigate={~p"/dashboard/schedule/activities/speakers/new"}>
-              <.button>New Speaker</.button>
+              <.backoffice_button>New Speaker</.backoffice_button>
             </.link>
           </.ensure_permissions>
         </:actions>
@@ -32,7 +32,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.Index do
               <div class="flex gap-4 flex-center items-center">
                 <.avatar
                   src={Uploaders.Speaker.url({speaker.picture, speaker}, :original, signed: true)}
-                  handle={speaker.name}
+                  name={speaker.name}
                 />
                 <div class="self-center">
                   <p class="text-base font-semibold">{speaker.name}</p>

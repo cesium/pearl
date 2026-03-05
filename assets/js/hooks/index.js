@@ -11,3 +11,5 @@ export { ReelAnimation } from "./reel_animation.js";
 export { PaytableModal } from "./paytable_modal.js";
 export { ZipUpload } from "./zip_upload.js";
 export { HorseRace } from "./horse_race.js";
+export { TabsScroll } from "./tabs_scroll.js";
+export { Ticker } from "./ticker.js"

@@ -20,7 +20,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.CategoryLive.FormComponent do
             <.field field={@form[:name]} type="text" label="Name" required />
           </div>
           <:actions>
-            <.button phx-disable-with="Saving...">Save Category</.button>
+            <.backoffice_button phx-disable-with="Saving...">Save Category</.backoffice_button>
           </:actions>
         </.simple_form>
       </.page>

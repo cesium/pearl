@@ -1,0 +1,160 @@
+<.page title="Bilhetes">
+  <:actions>
+    <div class="flex flex-row gap-4 justify-center items-center">
+      <.table_search
+        id="ticket-table-name-search"
+        params={@params}
+        field={:user_name}
+        path={~p"/dashboard/tickets"}
+        placeholder={gettext("Search for users")}
+      />
+      <.ensure_permissions
+        user={@current_user}
+        permissions={%{"tickets" => ["ticket_types_show"]}}
+      >
+        <.link patch={~p"/dashboard/tickets/ticket_types"}>
+          <.backoffice_button>
+            <.icon name="hero-inbox-stack" class="w-5 h-5" />
+          </.backoffice_button>
+        </.link>
+      </.ensure_permissions>
+    </div>
+  </:actions>
+
+  <div class="py-4">
+    <.info_display id="tickets-info" items={@info_items} params={@params}>
+      <:item :let={item}>
+        <div class="flex flex-col justify-between items-start border-b last:border-0 p-8">
+          <span class="font-medium text-lg">{item.label}</span>
+          <span class="text-xl font-bold text-primary">{item.value}</span>
+        </div>
+      </:item>
+    </.info_display>
+  </div>
+
+  <div class="py-4">
+    <.table id="tickets-table" items={@streams.tickets} meta={@meta} params={@params}>
+      <:col :let={{_id, ticket}} sortable field={:user_name} label="User">
+        <.link patch={~p"/dashboard/attendees/#{ticket.user.attendee.id}"}>
+          {ticket.user.name}
+        </.link>
+      </:col>
+      <:col :let={{_id, ticket}} sortable field={:paid} label="Paid">
+        <.input
+          type="checkbox"
+          name="active"
+          value="true"
+          checked={ticket.paid}
+          disabled
+          class="text-wine"
+        />
+      </:col>
+      <:col :let={{_id, ticket}} sortable field={:ticket_type_name} label="Ticket Type">
+        {ticket.ticket_type.name}
+        <%= if not ticket.ticket_type.active do %>
+          <span class="border border-amber-600 rounded-full text-xs text-amber-800 px-1 bg-amber-200">
+            Inactive
+          </span>
+        <% end %>
+      </:col>
+      <:col :let={{_id, ticket}} label="Diet">
+        {ticket.diet}
+      </:col>
+      <:col :let={{_id, ticket}} label="Transport">
+        {ticket.intended_transport_to_enei || "No response"}
+      </:col>
+      <:col :let={{_id, ticket}} label="Tshirt Size">
+        {ticket.tshirt_size}
+      </:col>
+      <:col :let={{_id, ticket}} label="Disabilities">
+        {ticket.disabilities || "None"}
+      </:col>
+      <:col :let={{_id, ticket}} label="Inserted At">
+        {Calendar.strftime(ticket.inserted_at, "%d/%m/%Y %H:%M:%S")}
+      </:col>
+    </.table>
+  </div>
+</.page>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="ticket-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/tickets")}
+>
+  <.live_component
+    module={PearlWeb.Backoffice.TicketsLive.FormComponent}
+    id={@ticket.id || :new}
+    title={@page_title}
+    current_user={@current_user}
+    action={@live_action}
+    ticket={@ticket}
+    patch={~p"/dashboard/tickets"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:ticket_types]}
+  id="ticket-types-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/tickets")}
+>
+  <.live_component
+    module={PearlWeb.Backoffice.TicketsLive.TicketTypesLive.Index}
+    id="list-ticket-types"
+    title={@page_title}
+    current_user={@current_user}
+    action={@live_action}
+    patch={~p"/dashboard/tickets/ticket_types"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:ticket_types_edit, :ticket_types_new]}
+  id="ticket-types-form-modal"
+  show
+  on_cancel={JS.navigate(~p"/dashboard/tickets/ticket_types")}
+>
+  <.live_component
+    module={PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent}
+    id={@ticket_type.id || :new}
+    title={@page_title}
+    current_user={@current_user}
+    action={@live_action}
+    ticket_type={@ticket_type}
+    patch={~p"/dashboard/tickets/ticket_types"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:perks]}
+  id="perks-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/tickets/ticket_types/")}
+>
+  <.live_component
+    module={PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.Index}
+    id="list-perks"
+    title={@page_title}
+    current_user={@current_user}
+    action={@live_action}
+    patch={~p"/dashboard/tickets/ticket_types/perks"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:perks_edit, :perks_new]}
+  id="perks-modal"
+  show
+  on_cancel={JS.navigate(~p"/dashboard/tickets/ticket_types/perks")}
+>
+  <.live_component
+    module={PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.FormComponent}
+    id={@perk.id || :new}
+    title={@page_title}
+    current_user={@current_user}
+    action={@live_action}
+    perk={@perk}
+    patch={~p"/dashboard/tickets/ticket_types/perks/"}
+  />
+</.modal>

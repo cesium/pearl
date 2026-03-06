@@ -1,4 +1,4 @@
-defmodule PearlWeb.App.SlotsLive.Index do
+defmodule PearlWeb.App.GamesLive.SlotsLive.Index do
   use PearlWeb, :app_view
 
   import PearlWeb.App.SlotsLive.Components.ResultModal

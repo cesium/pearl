@@ -72,7 +72,7 @@
   </section>
 
   <.link
-    patch={~p"/app/scratch_card/paytable"}
+    patch={~p"/app/games/scratch_card/paytable"}
     class="flex items-center max-w-80 mx-auto mt-8 md:mt-20 justify-center"
   >
     <.icon name="hero-arrow-top-right-on-square" class="text-accent mr-2" />
@@ -97,5 +97,5 @@
   wrapper_class="px-6"
   show
   id="paytable-modal"
-  on_cancel={JS.patch(~p"/app/scratch_card")}
+  on_cancel={JS.patch(~p"/app/games/scratch_card")}
 />

@@ -1,4 +1,4 @@
-defmodule PearlWeb.App.WheelLive.Index do
+defmodule PearlWeb.App.GamesLive.WheelLive.Index do
   use PearlWeb, :app_view
 
   import PearlWeb.App.WheelLive.Components.LatestWins

@@ -1,4 +1,4 @@
-defmodule PearlWeb.App.ScratchCardLive.Index do
+defmodule PearlWeb.App.GamesLive.ScratchCardLive.Index do
   use PearlWeb, :app_view
 
   alias Pearl.{Contest, Minigames}

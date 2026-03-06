@@ -582,4 +582,116 @@ defmodule Pearl.Activities do
   def change_enrolment(%Enrolment{} = enrolment, attrs \\ %{}) do
     Enrolment.changeset(enrolment, attrs)
   end
+
+  alias Pearl.Activities.CalendarPicture
+
+  @doc """
+  Returns the list of calendar_pictures.
+
+  ## Examples
+
+      iex> list_calendar_pictures()
+      [%CalendarPicture{}, ...]
+
+  """
+  def list_calendar_pictures do
+    Repo.all(CalendarPicture)
+  end
+
+  @doc """
+  Gets a single calendar_picture.
+
+  Raises `Ecto.NoResultsError` if the Calendar picture does not exist.
+
+  ## Examples
+
+      iex> get_calendar_picture!(123)
+      %CalendarPicture{}
+
+      iex> get_calendar_picture!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_calendar_picture!(id), do: Repo.get!(CalendarPicture, id)
+
+  @doc """
+  Gets a single calendar_picture by date, or returns a new struct if none exists.
+  """
+  def get_calendar_picture_for_date(%Date{} = date) do
+    case Repo.get_by(CalendarPicture, date: date) do
+      nil -> %CalendarPicture{date: date}
+      picture -> picture
+    end
+  end
+
+  @doc """
+  Creates a calendar_picture.
+
+  ## Examples
+
+      iex> create_calendar_picture(%{field: value})
+      {:ok, %CalendarPicture{}}
+
+      iex> create_calendar_picture(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_calendar_picture(attrs) do
+    %CalendarPicture{}
+    |> CalendarPicture.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a calendar_picture.
+
+  ## Examples
+
+      iex> update_calendar_picture(calendar_picture, %{field: new_value})
+      {:ok, %CalendarPicture{}}
+
+      iex> update_calendar_picture(calendar_picture, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_calendar_picture(%CalendarPicture{} = calendar_picture, attrs) do
+    calendar_picture
+    |> CalendarPicture.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_calendar_picture_image(%CalendarPicture{} = calendar_picture, attrs) do
+    calendar_picture
+    |> CalendarPicture.image_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a calendar_picture.
+
+  ## Examples
+
+      iex> delete_calendar_picture(calendar_picture)
+      {:ok, %CalendarPicture{}}
+
+      iex> delete_calendar_picture(calendar_picture)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_calendar_picture(%CalendarPicture{} = calendar_picture) do
+    Repo.delete(calendar_picture)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking calendar_picture changes.
+
+  ## Examples
+
+      iex> change_calendar_picture(calendar_picture)
+      %Ecto.Changeset{data: %CalendarPicture{}}
+
+  """
+  def change_calendar_picture(%CalendarPicture{} = calendar_picture, attrs \\ %{}) do
+    CalendarPicture.changeset(calendar_picture, attrs)
+  end
 end

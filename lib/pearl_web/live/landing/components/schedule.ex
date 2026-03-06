@@ -115,6 +115,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
         user_role={@user_role}
         enrolments={@enrolments}
         myself={@myself}
+        calendar_pictures={Map.get(assigns, :calendar_pictures, %{})}
       />
 
       <.modal
@@ -222,10 +223,11 @@ defmodule PearlWeb.Landing.Components.Schedule do
   attr :user_role, :atom, required: true
   attr :enrolments, :list, default: []
   attr :myself, :any, required: true
+  attr :calendar_pictures, :map, default: %{}
 
   defp render_view(%{view_mode: :calendar} = assigns) do
     ~H"""
-    <.calendar_view url={@url} days={@days} filters={@filters} />
+    <.calendar_view url={@url} days={@days} filters={@filters} calendar_pictures={@calendar_pictures} />
     """
   end
 
@@ -265,7 +267,10 @@ defmodule PearlWeb.Landing.Components.Schedule do
     <div class="mb-10">
       <div class="text-3xl md:text-4xl font-bold text-dark space-y-3">
         <div class="flex items-center gap-3">
-          <.link patch={view_url(@url, :calendar, @current_date, @filters)} class="hover:scale-90 duration-200 flex">
+          <.link
+            patch={view_url(@url, :calendar, @current_date, @filters)}
+            class="hover:scale-90 duration-200 flex"
+          >
             <.icon name="hero-arrow-left" class="size-8" />
           </.link>
           <span>
@@ -302,6 +307,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   attr :url, :string, required: true
   attr :days, :list, required: true
   attr :filters, :list, required: true
+  attr :calendar_pictures, :map, default: %{}
 
   defp calendar_view(assigns) do
     ~H"""
@@ -312,7 +318,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
             url={@url}
             day={day}
             filters={@filters}
-            speakers={get_speakers_for_day(day)}
+            calendar_picture={Map.get(@calendar_pictures, day)}
           />
 
           <div class="hidden md:flex flex-1 py-3 pr-6 bg-light overflow-x-auto scrollbar-hide">
@@ -354,7 +360,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   attr :url, :string, required: true
   attr :day, Date, required: true
   attr :filters, :list, required: true
-  attr :speakers, :list, default: []
+  attr :calendar_picture, :map, default: nil
 
   defp day_card(assigns) do
     is_today = Date.compare(assigns.day, Date.utc_today()) == :eq
@@ -367,22 +373,15 @@ defmodule PearlWeb.Landing.Components.Schedule do
     >
       <div class="absolute inset-0 bg-linear-to-b from-black/40 to-black/60 z-10"></div>
 
-      <% speakers_with_pictures = Enum.filter(@speakers, & &1.picture) %>
-      <% cols = length(speakers_with_pictures) %>
-
-      <div
-        class="absolute inset-0 grid grid-rows-1 gap-0"
-        style={"grid-template-columns: repeat(#{cols}, minmax(0, 1fr))"}
-      >
-        <%= for speaker <- @speakers do %>
-          <div :if={speaker.picture} class="relative overflow-hidden">
-            <img
-              src={Uploaders.Speaker.url({speaker.picture, speaker}, :original, signed: true)}
-              alt={speaker.name}
-              class="w-full h-full object-cover"
-            />
-          </div>
-        <% end %>
+      <div :if={@calendar_picture} class="absolute inset-0">
+        <img
+          src={
+            Uploaders.Schedule.url({@calendar_picture.image, @calendar_picture}, :original,
+              signed: true
+            )
+          }
+          class="w-full h-full object-cover"
+        />
       </div>
 
       <div class="absolute inset-0 z-20 flex flex-col justify-between p-6">
@@ -645,7 +644,13 @@ defmodule PearlWeb.Landing.Components.Schedule do
   end
 
   defp prepare_view_data(:calendar, _date, _filters, assigns) do
-    [days: Date.range(assigns.event_start_date, assigns.event_end_date) |> Enum.to_list()]
+    calendar_pictures =
+      Activities.list_calendar_pictures() |> Map.new(&{&1.date, &1})
+
+    [
+      days: Date.range(assigns.event_start_date, assigns.event_end_date) |> Enum.to_list(),
+      calendar_pictures: calendar_pictures
+    ]
   end
 
   defp prepare_view_data(:day, date, filters, _assigns) do
@@ -768,12 +773,6 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
         "Na #{day_name}, tens #{summary} e mais atividades."
     end
-  end
-
-  defp get_speakers_for_day(day) do
-    Activities.list_daily_activities(day)
-    |> Enum.flat_map(& &1.speakers)
-    |> Enum.uniq_by(& &1.id)
   end
 
   defp view_url(base_url, view_mode, current_date, filters) do

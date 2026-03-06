@@ -37,6 +37,14 @@
           </.backoffice_button>
         </.link>
       </.ensure_permissions>
+
+      <.ensure_permissions user={@current_user} permissions={%{"schedule" => ["edit"]}}>
+        <.link patch={~p"/dashboard/schedule/activities/calendar_pictures"}>
+          <.backoffice_button>
+            <.icon name="hero-photo" class="w-5 h-5" />
+          </.backoffice_button>
+        </.link>
+      </.ensure_permissions>
     </div>
   </:actions>
 
@@ -207,6 +215,39 @@
     action={@live_action}
     category={@category}
     patch={~p"/dashboard/schedule/activities/categories"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:calendar_pictures]}
+  id="calendar-pictures-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/schedule/activities")}
+>
+  <.live_component
+    module={PearlWeb.Backoffice.ScheduleLive.CalendarPictures.Index}
+    id="calendar-pictures"
+    title={@page_title}
+    current_user={@current_user}
+    action={@live_action}
+    patch={~p"/dashboard/schedule/activities/calendar_pictures"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:calendar_pictures_edit]}
+  id="calendar-pictures-modal"
+  show
+  on_cancel={JS.navigate(~p"/dashboard/schedule/activities/calendar_pictures")}
+>
+  <.live_component
+    module={PearlWeb.Backoffice.ScheduleLive.CalendarPictures.FormComponent}
+    id={@calendar_picture.id || :new}
+    title={@page_title}
+    current_user={@current_user}
+    action={@live_action}
+    calendar_picture={@calendar_picture}
+    patch={~p"/dashboard/schedule/activities/calendar_pictures"}
   />
 </.modal>
 

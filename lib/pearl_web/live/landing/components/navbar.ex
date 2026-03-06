@@ -19,7 +19,7 @@ defmodule PearlWeb.Landing.Components.Navbar do
         else: "from-white via-white/50 bg-light-muted/60"
       )
     ]}>
-      <nav class="py-8.5 px-9 backdrop-blur-lg">
+      <nav class="py-8.5 px-6 md:px-9 backdrop-blur-lg">
         <div class="flex h-fit items-center justify-between">
           <div class="flex gap-8">
             <div class="shrink-0">

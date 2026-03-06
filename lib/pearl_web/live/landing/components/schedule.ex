@@ -94,8 +94,8 @@ defmodule PearlWeb.Landing.Components.Schedule do
     <div class={[
       "w-full select-none min-h-screen space-y-15",
       case @view_mode do
-        :calendar -> "pl-12.5"
-        :day -> "px-8"
+        :calendar -> "px-5 md:pr-0 md:pl-12.5"
+        :day -> "px-5 md:px-8"
       end
     ]}>
       <.schedule_header
@@ -265,7 +265,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
     ~H"""
     <div class="mb-10">
-      <div class="text-3xl md:text-4xl font-bold text-dark space-y-3">
+      <div class="text-3xl md:text-4xl font-semibold text-dark space-y-3">
         <div class="flex items-center gap-3">
           <.link
             patch={view_url(@url, :calendar, @current_date, @filters)}
@@ -276,12 +276,12 @@ defmodule PearlWeb.Landing.Components.Schedule do
           <span>
             Dia {@current_date |> Timex.format!("{D}")}
             <span class="ml-2 md:ml-6 font-light">
-              {@current_date |> Timex.format!("{WDfull}")}
+              {@current_date |> Timex.lformat!("%A", "pt", :strftime)}
             </span>
           </span>
         </div>
       </div>
-      <div class="text-lightMuted text-xl leading-relaxed">
+      <div class="text-lightMuted text-lg leading-relaxed">
         {(@view_mode == :calendar && gettext("Durante o ENEI, nunca te faltará o que fazer!")) ||
           get_day_summary(@current_date, @counts)}
       </div>
@@ -292,10 +292,10 @@ defmodule PearlWeb.Landing.Components.Schedule do
   defp schedule_header(%{view_mode: :calendar} = assigns) do
     ~H"""
     <div class="mb-10">
-      <div class="text-5xl font-bold text-dark mb-4">
+      <div class="text-2xl md:text-4xl font-semibold text-dark mb-4">
         {gettext("Calendário")}
       </div>
-      <div class="text-lightMuted text-xl leading-relaxed">
+      <div class="text-lightMuted text-lg leading-relaxed">
         {gettext(
           "Durante o ENEI, nunca te faltará o que fazer. Conhece nesta página o calendário detalhado e todas as atividades que temos para te oferecer."
         )}
@@ -313,7 +313,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
     ~H"""
     <div class="flex flex-col gap-6">
       <%= for day <- @days do %>
-        <div class="flex flex-row gap-6 mr-6 md:mr-0">
+        <div class="flex flex-row gap-6">
           <.day_card
             url={@url}
             day={day}
@@ -341,7 +341,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
   defp day_view(assigns) do
     ~H"""
-    <div class="bg-light rounded-[40px] p-10 min-h-150">
+    <div class="bg-light rounded-[30px] md:rounded-[40px] p-6 md:p-10 min-h-150">
       <div class="space-y-8">
         <%= for time_slot <- @activity_groups do %>
           <.time_slot_cell
@@ -369,7 +369,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
     ~H"""
     <.link
       patch={view_url(@url, :day, @day, @filters)}
-      class="w-full md:w-80 md:h-52 lg:w-100 lg:h-66  xl:w-120 shrink-0 h-80 relative group bg-dark/60 cursor-pointer rounded-[2.5rem] overflow-hidden trasnform transition-transform"
+      class="w-full md:w-80 lg:w-100 xl:w-120 shrink-0 aspect-7/5 relative group bg-dark/60 cursor-pointer rounded-[30px] md:rounded-[40px] overflow-hidden transform transition-transform"
     >
       <div class="absolute inset-0 bg-linear-to-b from-black/40 to-black/60 z-10"></div>
 
@@ -401,7 +401,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
               Dia {@day |> Timex.format!("{D}")}
             </div>
             <div class="text-2xl font-light">
-              {@day |> Timex.format!("{WDfull}")}
+              {@day |> Timex.lformat!("%A", "pt", :strftime)}
             </div>
           </div>
 
@@ -432,11 +432,11 @@ defmodule PearlWeb.Landing.Components.Schedule do
     <div class="flex flex-col px-6 pt-3 h-full shrink-0">
       <div class="border-olive/10 border-b-3 w-full pb-3 mb-4">
         <%= if @is_break do %>
-          <div class="size-9">
+          <div class="size-8">
             <.break_icon activity={@first_activity} />
           </div>
         <% else %>
-          <div class="text-3xl font-bold text-dark">
+          <div class="text-2xl font-bold text-dark">
             {@first_activity.time_start |> Timex.format!("{h24}:{m}")}-{@first_activity.time_end
             |> Timex.format!("{h24}:{m}")}
           </div>
@@ -478,11 +478,11 @@ defmodule PearlWeb.Landing.Components.Schedule do
         <% end %>
       </div>
 
-      <div class="flex-1 flex flex-col gap-6 md:gap-8 md:border-l-2 md:pl-6 md:border-light-muted">
+      <div class="flex-1 flex flex-col gap-6 md:gap-8 border-l-2 pl-5 border-light-muted">
         <%= for activity <- @time_slot do %>
           <%= if get_category_name(activity) == "Break" do %>
             <div class="flex items-center gap-3 md:hidden">
-              <div class="size-10 mr-4">
+              <div class="mr-4">
                 <.break_icon activity={activity} />
               </div>
               <div class="text-2xl mt-1 font-bold text-dark">{activity.title}</div>
@@ -561,8 +561,8 @@ defmodule PearlWeb.Landing.Components.Schedule do
     <div class="flex flex-col" id={"activity-#{@activity.id}"}>
       <div class="flex flex-col items-start justify-between gap-2">
         <div class="flex-1">
-          <span class="text-2xl text-lightMuted font-medium mb-3">{@category_name}</span>
-          <span class="text-2xl font-bold text-dark">{@activity.title}</span>
+          <span class="text-lg text-lightMuted font-medium mb-3">{@category_name}</span>
+          <span class="text-lg font-bold text-dark">{@activity.title}</span>
 
           <%= if @has_speakers do %>
             <div class="text-lg text-dark mt-5">
@@ -580,7 +580,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
             </div>
           <% end %>
 
-          <div class="text-lg text-lightMuted">{@activity.location}</div>
+          <div class="text-lightMuted">{@activity.location}</div>
         </div>
 
         <%= if @show_actions do %>
@@ -633,11 +633,19 @@ defmodule PearlWeb.Landing.Components.Schedule do
     ~H"""
     <%= if @is_meal do %>
       <div class="text-dark">
-        <img src={~p"/images/breaks/lunch.svg"} class="size-12" style="filter: brightness(0);" />
+        <img
+          src={~p"/images/breaks/lunch.svg"}
+          class="size-7 md:size-10"
+          style="filter: brightness(0);"
+        />
       </div>
     <% else %>
       <div class="text-dark">
-        <img src={~p"/images/breaks/coffee.svg"} class="size-12" style="filter: brightness(0);" />
+        <img
+          src={~p"/images/breaks/coffee.svg"}
+          class="size-7 md:size-10"
+          style="filter: brightness(0);"
+        />
       </div>
     <% end %>
     """
@@ -744,7 +752,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   defp get_enrolments(_), do: []
 
   defp get_day_summary(date, counts) do
-    day_name = Timex.format!(date, "{WDfull}") |> String.downcase()
+    day_name = date |> Timex.lformat!("%A", "pt", :strftime) |> String.downcase()
 
     parts =
       [
@@ -767,8 +775,8 @@ defmodule PearlWeb.Landing.Components.Schedule do
         summary =
           case Enum.reverse(parts) do
             [last] -> last
-            [last, first] -> "#{first} e #{last}"
-            [last | rest] -> "#{rest |> Enum.reverse() |> Enum.join(", ")} e #{last}"
+            [last, first] -> "#{first}, #{last}"
+            [last | rest] -> "#{rest |> Enum.reverse() |> Enum.join(", ")}, #{last}"
           end
 
         "Na #{day_name}, tens #{summary} e mais atividades."

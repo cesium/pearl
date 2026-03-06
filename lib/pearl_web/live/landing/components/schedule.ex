@@ -122,17 +122,18 @@ defmodule PearlWeb.Landing.Components.Schedule do
         id="activity-modal"
         on_cancel={JS.push("modal_closed", target: @myself)}
         backdrop_class="backdrop-blur-xl bg-light/20"
-        body_class="bg-transparent px-40 mx-auto"
-        close_button_class="absolute top-2 right-2"
+        container_class="flex min-h-full items-center justify-center px-4 md:px-16"
+        body_class="bg-transparent w-full max-w-2xl mx-auto py-12"
+        close_button_class="absolute top-20 xl:top-18 right-0"
         close_button_button_class="-m-3 flex-none p-3 text-dark hover:opacity-70"
-        close_button_icon_class="size-10"
+        close_button_icon_class="size-8"
       >
-        <div :if={@selected_activity} class="flex flex-col gap-2 pt-4 w-full">
-          <span class="text-4xl font-bold text-dark">
+        <div :if={@selected_activity} class="flex flex-col gap-2 pt-8 w-full">
+          <span class="text-2xl md:text-4xl font-bold text-dark pr-10">
             Informações
           </span>
 
-          <div class="flex flex-row space-x-2">
+          <div class="flex flex-row flex-wrap gap-2">
             <%= for speaker <- @selected_activity.speakers do %>
               <div
                 :if={speaker.picture}
@@ -141,11 +142,11 @@ defmodule PearlWeb.Landing.Components.Schedule do
                 <img
                   src={Uploaders.Speaker.url({speaker.picture, speaker}, :original, signed: true)}
                   alt={speaker.name}
-                  class="size-30 mt-6 mb-4 object-cover animate-[fade_in_0.5s_ease-out]"
+                  class="size-20 md:size-30 mt-4 md:mt-6 mb-2 md:mb-4 object-cover animate-[fade_in_0.5s_ease-out]"
                 />
 
                 <span class="absolute w-[95%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-               bg-dark/70 text-light text-sm px-2 py-1 rounded
+               bg-dark/70 text-light text-xs md:text-sm px-2 py-1 rounded
                opacity-0 group-hover:opacity-100 transition">
                   {speaker.name}
                 </span>
@@ -154,20 +155,20 @@ defmodule PearlWeb.Landing.Components.Schedule do
           </div>
 
           <%!-- Activity Type --%>
-          <div class="text-xl text-lightMuted font-normal">
+          <div class="text-base md:text-xl text-lightMuted font-normal">
             {get_category_name(@selected_activity)}
           </div>
 
           <%!-- Activity Name --%>
-          <h2 class="text-3xl font-bold text-dark leading-tight mb-2 tracking-tight">
+          <h2 class="text-xl md:text-3xl font-bold text-dark leading-tight mb-2 tracking-tight">
             {@selected_activity.title}
           </h2>
 
           <%!-- Speaker Info --%>
           <%= if length(@selected_activity.speakers) > 0 do %>
-            <div class="flex flex-col items-baseline gap-x-2  text-lg -mb-2">
+            <div class="flex flex-col items-baseline gap-x-2 text-base md:text-lg -mb-2">
               <%= for speaker <- @selected_activity.speakers do %>
-                <div class="flex items-baseline gap-2">
+                <div class="flex flex-wrap items-baseline gap-1 md:gap-2">
                   <span class="font-semibold text-primary">
                     {speaker.name}
                   </span>
@@ -192,7 +193,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
           <% end %>
 
           <%!-- Date and Location --%>
-          <div class="text-lg font-normal text-dark">
+          <div class="text-base md:text-lg font-normal text-dark">
             Dia {@selected_activity.date |> Timex.format!("{D}")}, {@selected_activity.time_start
             |> Timex.format!("{h24}:{m}")}-{@selected_activity.time_end
             |> Timex.format!("{h24}:{m}")}
@@ -202,10 +203,10 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
           <%!-- Description --%>
           <div>
-            <h3 class="text-lg font-bold text-dark mb-2">
+            <h3 class="text-base md:text-lg font-bold text-dark mb-2">
               {gettext("Descrição")}
             </h3>
-            <div class="text-lightMuted text-4 w-full leading-relaxed">
+            <div class="text-lightMuted text-sm md:text-4 w-full leading-relaxed">
               {@selected_activity.description || gettext("Sem descrição disponível.")}
             </div>
           </div>
@@ -692,22 +693,31 @@ defmodule PearlWeb.Landing.Components.Schedule do
   end
 
   defp can_enrol?(activity, user_role, enrolments) do
-    not_full = activity.max_enrolments > activity.enrolment_count
-    not_staff = user_role != :staff
+    with true <- activity.has_enrolments,
+         true <- activity.max_enrolments > activity.enrolment_count,
+         true <- user_role != :staff,
+         true <- future_event?(activity),
+         false <- has_conflict?(activity, enrolments) do
+      true
+    else
+      _ -> false
+    end
+  end
 
+  defp future_event?(activity) do
     activity_start =
-      NaiveDateTime.new!(activity.date, activity.time_end) |> Timex.to_datetime("Europe/Lisbon")
+      NaiveDateTime.new!(activity.date, activity.time_start)
+      |> Timex.to_datetime("Europe/Lisbon")
 
-    future_event = DateTime.compare(activity_start, DateTime.utc_now()) != :lt
+    DateTime.after?(activity_start, DateTime.utc_now())
+  end
 
-    has_conflict =
-      Enum.any?(enrolments, fn e ->
+  defp has_conflict?(activity, enrolments) do
+    Enum.any?(enrolments, fn e ->
+      e.activity.date == activity.date and
         Time.compare(e.activity.time_start, activity.time_end) == :lt and
-          Time.compare(e.activity.time_end, activity.time_start) == :gt and
-          e.activity.date == activity.date
-      end)
-
-    activity.has_enrolments and not_full and not_staff and future_event and not has_conflict
+        Time.compare(e.activity.time_end, activity.time_start) == :gt
+    end)
   end
 
   defp already_enrolled?(activity, enrolments) do

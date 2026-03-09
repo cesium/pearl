@@ -106,7 +106,7 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
           <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
             <div class="flex justify-between">
               <h4 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <span>Código de Referência</span>
+                <span>Código de Embaixador</span>
               </h4>
               <.tooltip
                 position="left"

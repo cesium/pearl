@@ -137,7 +137,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
                 <p class="text-lg mt-2 text-yellow-800 dark:text-yellow-300">
                   {gettext("Os pagamentos seriam calculados com base nas apostas feitas.")}
                 </p>
-                <div class="mt-4 text-5xl animate-pulse">🏇🎉</div>
               </div>
             </div>
           <% end %>
@@ -148,6 +147,14 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
   end
 
   def mount(socket) do
+    if connected?(socket) do
+      Minigames.subscribe_to_horse_race_config_update("is_active")
+      Minigames.subscribe_to_horse_race_config_update("multiplier")
+      Minigames.subscribe_to_horse_race_config_update("duration")
+      Minigames.subscribe_to_horse_race_config_update("number_of_horses")
+      Minigames.subscribe_to_horse_race_config_update("house_fee")
+    end
+
     number_of_horses = Minigames.get_horse_race_number_of_horses()
     duration_minutes = Minigames.get_horse_race_duration()
     total_race_time = duration_minutes * 60
@@ -160,7 +167,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
        is_active: Minigames.horse_race_active?(),
        multiplier: Minigames.get_horse_race_multiplier(),
        duration_minutes: duration_minutes,
-       entry_fee: Minigames.get_horse_race_entry_fee(),
        number_of_horses: number_of_horses,
        house_fee: Minigames.get_horse_race_house_fee(),
        horses: List.duplicate(0, number_of_horses),
@@ -172,6 +178,39 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
        total_race_time: total_race_time,
        race_start_time: nil
      )}
+  end
+
+  def handle_info({:horse_race_config_updated, "is_active", is_active}, socket) do
+    {:noreply, assign(socket, :is_active, is_active)}
+  end
+
+  def handle_info({:horse_race_config_updated, "multiplier", multiplier}, socket) do
+    {:noreply, assign(socket, :multiplier, multiplier)}
+  end
+
+  def handle_info({:horse_race_config_updated, "duration", duration}, socket) do
+    total_race_time = duration * 60
+    {:noreply, assign(socket, duration_minutes: duration, total_race_time: total_race_time)}
+  end
+
+  def handle_info({:horse_race_config_updated, "number_of_horses", number_of_horses}, socket) do
+    # If not currently racing, update the number of horses
+    if socket.assigns.racing do
+      {:noreply, socket}
+    else
+      horse_speeds = create_horse_speeds(number_of_horses)
+
+      {:noreply,
+       assign(socket,
+         number_of_horses: number_of_horses,
+         horses: List.duplicate(0, number_of_horses),
+         horse_speeds: horse_speeds
+       )}
+    end
+  end
+
+  def handle_info({:horse_race_config_updated, "house_fee", house_fee}, socket) do
+    {:noreply, assign(socket, :house_fee, house_fee)}
   end
 
   def handle_event("start_race", params, socket) do

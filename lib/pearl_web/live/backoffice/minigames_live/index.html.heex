@@ -180,18 +180,3 @@
     patch={~p"/dashboard/minigames/"}
   />
 </.modal>
-
-<.modal
-  :if={@live_action in [:horse_race]}
-  id="horse-race-game-modal"
-  wrapper_class="p-3"
-  show
-  on_cancel={JS.patch(~p"/dashboard/minigames/horse_race")}
->
-  <div class="w-full max-w-4xl mx-auto">
-    <.live_component
-      id="horse-race-game"
-      module={PearlWeb.Backoffice.MinigamesLive.HorseRace.Index}
-    />
-  </div>
-</.modal>

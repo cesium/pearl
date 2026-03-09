@@ -15,7 +15,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.FormComponent do
         subtitle={gettext("Configures horse race minigame's internal settings.")}
       >
         <:actions>
-          <.link patch={~p"/dashboard/minigames/horse_race/simulation"}>
+          <.link navigate={~p"/dashboard/minigames/horse_race/simulation"}>
             <.button>
               <.icon name="hero-play" class="w-5" />
             </.button>
@@ -56,13 +56,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.FormComponent do
                 type="number"
                 label={gettext("Race Duration (minutes)")}
                 help_text={gettext("How long the race animation will run in minutes.")}
-              />
-              <.field
-                field={@form[:entry_fee]}
-                name="entry_fee"
-                type="number"
-                label={gettext("Entry Fee (tokens)")}
-                help_text={gettext("Cost in tokens to participate in the horse race.")}
               />
             </div>
 
@@ -109,7 +102,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.FormComponent do
              "is_active" => Minigames.horse_race_active?(),
              "multiplier" => Minigames.get_horse_race_multiplier(),
              "duration_minutes" => Minigames.get_horse_race_duration(),
-             "entry_fee" => Minigames.get_horse_race_entry_fee(),
              "number_of_horses" => Minigames.get_horse_race_number_of_horses(),
              "house_fee" => Minigames.get_horse_race_house_fee()
            },
@@ -129,7 +121,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.FormComponent do
     if valid_config?(params) do
       Minigames.change_horse_race_multiplier(params["multiplier"] |> String.to_float())
       Minigames.change_horse_race_duration(params["duration_minutes"] |> String.to_integer())
-      Minigames.change_horse_race_entry_fee(params["entry_fee"] |> String.to_integer())
 
       Minigames.change_horse_race_number_of_horses(
         params["number_of_horses"]
@@ -151,7 +142,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.FormComponent do
        is_active: :boolean,
        multiplier: :float,
        duration_minutes: :integer,
-       entry_fee: :integer,
        number_of_horses: :integer,
        house_fee: :float
      }}
@@ -159,20 +149,17 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.FormComponent do
       :is_active,
       :multiplier,
       :duration_minutes,
-      :entry_fee,
       :number_of_horses,
       :house_fee
     ])
     |> Changeset.validate_required([
       :multiplier,
       :duration_minutes,
-      :entry_fee,
       :number_of_horses,
       :house_fee
     ])
     |> Changeset.validate_number(:multiplier, greater_than: 0)
     |> Changeset.validate_number(:duration_minutes, greater_than: 0)
-    |> Changeset.validate_number(:entry_fee, greater_than_or_equal_to: 0)
     |> Changeset.validate_number(:number_of_horses,
       greater_than_or_equal_to: 3,
       less_than_or_equal_to: 8

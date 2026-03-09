@@ -98,6 +98,13 @@ defmodule PearlWeb.Config do
           enabled: true
         },
         %{
+          key: :horse_race,
+          title: "Horse Race",
+          image: "/images/icons/horse_race.svg",
+          url: "/app/horse_race",
+          enabled: true
+        },
+        %{
           key: :leaderboard,
           title: "Leaderboard",
           image: "/images/icons/leaderboard.svg",

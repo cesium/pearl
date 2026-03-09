@@ -13,6 +13,7 @@ defmodule Pearl.Minigames do
 
   alias Pearl.Minigames.{
     CoinFlipRoom,
+    HorseRaceBet,
     Prize,
     SlotsPayline,
     SlotsPaytable,
@@ -1732,6 +1733,7 @@ defmodule Pearl.Minigames do
   """
   def change_horse_race_multiplier(multiplier) when is_number(multiplier) do
     Constants.set("horse_race_multiplier", multiplier)
+    broadcast_horse_race_config_update("multiplier", multiplier)
   end
 
   @doc """
@@ -1763,37 +1765,7 @@ defmodule Pearl.Minigames do
   """
   def change_horse_race_duration(minutes) when is_integer(minutes) do
     Constants.set("horse_race_duration", minutes)
-  end
-
-  @doc """
-  Gets the horse race entry fee.
-
-  ## Examples
-
-      iex> get_horse_race_entry_fee()
-      100
-  """
-  def get_horse_race_entry_fee do
-    case Constants.get("horse_race_entry_fee") do
-      {:ok, fee} ->
-        fee
-
-      {:error, _} ->
-        change_horse_race_entry_fee(100)
-        100
-    end
-  end
-
-  @doc """
-  Changes the horse race entry fee.
-
-  ## Examples
-
-      iex> change_horse_race_entry_fee(250)
-      :ok
-  """
-  def change_horse_race_entry_fee(fee) when is_integer(fee) do
-    Constants.set("horse_race_entry_fee", fee)
+    broadcast_horse_race_config_update("duration", minutes)
   end
 
   @doc """
@@ -1829,6 +1801,7 @@ defmodule Pearl.Minigames do
   def change_horse_race_number_of_horses(count)
       when is_integer(count) and count >= 3 and count <= 8 do
     Constants.set("horse_race_number_of_horses", count)
+    broadcast_horse_race_config_update("number_of_horses", count)
   end
 
   @doc """
@@ -1860,6 +1833,7 @@ defmodule Pearl.Minigames do
   """
   def change_horse_race_house_fee(fee) when is_number(fee) do
     Constants.set("horse_race_house_fee", fee)
+    broadcast_horse_race_config_update("house_fee", fee)
   end
 
   @doc """
@@ -1891,5 +1865,426 @@ defmodule Pearl.Minigames do
   """
   def change_horse_race_active(active?) when is_boolean(active?) do
     Constants.set("horse_race_active", active?)
+    broadcast_horse_race_config_update("is_active", active?)
+  end
+
+  @doc """
+  Subscribe to horse race config updates.
+
+  ## Examples
+
+      iex> subscribe_to_horse_race_config_update("is_active")
+      :ok
+  """
+  def subscribe_to_horse_race_config_update(config) do
+    Phoenix.PubSub.subscribe(@pubsub, horse_race_config_topic(config))
+  end
+
+  defp horse_race_config_topic(config), do: "horse_race_config:#{config}"
+
+  defp broadcast_horse_race_config_update(config, value) do
+    Phoenix.PubSub.broadcast(
+      @pubsub,
+      horse_race_config_topic(config),
+      {:horse_race_config_updated, config, value}
+    )
+  end
+
+  @doc """
+  Subscribes the current process to horse race result events.
+  """
+  def subscribe_to_horse_race_results do
+    Phoenix.PubSub.subscribe(@pubsub, "horse_race:results")
+  end
+
+  @doc """
+  Broadcasts that a horse race has finished with a winning horse.
+  """
+  def broadcast_horse_race_result(winning_horse) do
+    Phoenix.PubSub.broadcast(@pubsub, "horse_race:results", {:race_finished, winning_horse})
+  end
+
+  @doc """
+  Subscribes the current process to horse race start events (carries the shared race_id).
+  """
+  def subscribe_to_horse_race_start do
+    Phoenix.PubSub.subscribe(@pubsub, "horse_race:start")
+  end
+
+  @doc """
+  Broadcasts that a new horse race has started, including the canonical race_id that
+  attendees must use when placing bets.
+  """
+  def broadcast_horse_race_start(race_id) do
+    set_current_horse_race_id(race_id)
+    Phoenix.PubSub.broadcast(@pubsub, "horse_race:start", {:horse_race_started, race_id})
+  end
+
+  @doc """
+  Stores the currently-active race ID in the application environment so that
+  attendees who mount after the race starts can still read it.
+  """
+  def set_current_horse_race_id(race_id) do
+    Application.put_env(:pearl, :current_horse_race_id, race_id)
+  end
+
+  @doc """
+  Returns the currently-active race ID, or nil if no race is running.
+  """
+  def get_current_horse_race_id do
+    Application.get_env(:pearl, :current_horse_race_id)
+  end
+
+  @doc """
+  Cancels all pending bets that do not belong to `current_race_id`.
+  Called when a new race starts to clean up stale state from previous races.
+  """
+  def cancel_stale_pending_bets(current_race_id) do
+    now = DateTime.utc_now() |> DateTime.truncate(:second)
+
+    HorseRaceBet
+    |> where([b], b.status == "pending" and b.race_id != ^current_race_id)
+    |> Repo.update_all(set: [status: "cancelled", processed_at: now])
+  end
+
+  @doc """
+  Generates a unique race ID based on timestamp and random bytes.
+  """
+  def generate_race_id do
+    timestamp = System.system_time(:millisecond)
+    random = :crypto.strong_rand_bytes(4) |> Base.encode16(case: :lower)
+    "race-#{timestamp}-#{random}"
+  end
+
+  @doc """
+  Returns the current token balance of an attendee as a float.
+  """
+  def get_attendee_tokens(attendee_id) do
+    Repo.get!(Attendee, attendee_id).tokens * 1.0
+  end
+
+  @doc """
+  Returns the most recently processed (won/lost) bets for an attendee,
+  ordered by processed_at descending.
+  """
+  def get_attendee_recent_processed_bets(attendee_id) do
+    HorseRaceBet
+    |> where([b], b.attendee_id == ^attendee_id and b.status in ["won", "lost"])
+    |> order_by([b], desc: b.processed_at)
+    |> limit(10)
+    |> Repo.all()
+  end
+
+  # Horse Race Betting Functions
+
+  @doc """
+  Creates bets for an attendee on a horse race.
+
+  ## Parameters
+    - attendee_id: The ID of the attendee placing bets
+    - race_id: Unique identifier for the race session
+    - horse_bets: Map of %{horse_number => bet_amount}
+
+  ## Returns
+    - {:ok, bets} on success
+    - {:error, reason} on failure
+
+  ## Examples
+
+      iex> place_horse_race_bets(1, "race-123", %{1 => 10.5, 3 => 5.0})
+      {:ok, [%HorseRaceBet{}, ...]}
+
+      iex> place_horse_race_bets(1, "race-123", %{1 => 1000.0})
+      {:error, :insufficient_balance}
+  """
+  def place_horse_race_bets(attendee_id, race_id, horse_bets) when is_map(horse_bets) do
+    attendee = Repo.get!(Attendee, attendee_id)
+    total_bet = horse_bets |> Map.values() |> Enum.sum() |> to_string() |> Decimal.new()
+    attendee_balance = Decimal.new(attendee.tokens)
+
+    if Decimal.compare(total_bet, attendee_balance) == :gt do
+      {:error, :insufficient_balance}
+    else
+      Multi.new()
+      |> Multi.run(:check_no_existing_bets, fn _repo, _changes ->
+        existing =
+          HorseRaceBet
+          |> where([b], b.attendee_id == ^attendee_id and b.race_id == ^race_id)
+          |> Repo.exists?()
+
+        if existing do
+          {:error, :bets_already_placed}
+        else
+          {:ok, true}
+        end
+      end)
+      |> Multi.run(:validate_balance, fn _repo, _changes ->
+        # Re-check balance in transaction
+        fresh_attendee = Repo.get!(Attendee, attendee_id)
+        fresh_balance = Decimal.new(fresh_attendee.tokens)
+
+        if Decimal.compare(total_bet, fresh_balance) == :gt do
+          {:error, :insufficient_balance}
+        else
+          {:ok, fresh_attendee}
+        end
+      end)
+      |> Multi.update(:deduct_tokens, fn %{validate_balance: attendee} ->
+        new_balance = Decimal.sub(Decimal.new(attendee.tokens), total_bet)
+        new_balance_int = new_balance |> Decimal.round(0, :floor) |> Decimal.to_integer()
+        Attendee.update_tokens_changeset(attendee, %{tokens: new_balance_int})
+      end)
+      |> Multi.insert_all(:insert_bets, HorseRaceBet, fn _changes ->
+        now = DateTime.utc_now() |> DateTime.truncate(:second)
+
+        Enum.map(horse_bets, fn {horse_number, amount} ->
+          %{
+            attendee_id: attendee_id,
+            race_id: race_id,
+            horse_number: horse_number,
+            bet_amount: Decimal.new(to_string(amount)),
+            status: "pending",
+            inserted_at: now,
+            updated_at: now
+          }
+        end)
+      end)
+      |> Multi.run(:fetch_bets, fn _repo, _changes ->
+        bets =
+          HorseRaceBet
+          |> where([b], b.attendee_id == ^attendee_id and b.race_id == ^race_id)
+          |> Repo.all()
+
+        {:ok, bets}
+      end)
+      |> Repo.transaction()
+      |> case do
+        {:ok, %{fetch_bets: bets}} -> {:ok, bets}
+        {:error, _step, reason, _changes} -> {:error, reason}
+      end
+    end
+  end
+
+  @doc """
+  Processes payouts for a completed horse race.
+
+  ## Parameters
+    - race_id: The unique identifier for the race
+    - winning_horse: The number of the winning horse
+    - multiplier: The payout multiplier for winning bets
+
+  ## Returns
+    - {:ok, %{winners: winners, losers: losers}} on success
+    - {:error, reason} on failure
+
+  ## Examples
+
+      iex> process_horse_race_payouts("race-123", 3, 2.5)
+      {:ok, %{winners: [...], losers: [...]}}
+  """
+  def process_horse_race_payouts(race_id, winning_horse, multiplier) do
+    pending_bets =
+      HorseRaceBet
+      |> where([b], b.race_id == ^race_id and b.status == "pending")
+      |> preload(:attendee)
+      |> Repo.all()
+
+    if Enum.empty?(pending_bets) do
+      {:ok, %{winners: [], losers: []}}
+    else
+      Multi.new()
+      |> process_winning_bets(pending_bets, winning_horse, multiplier)
+      |> process_losing_bets(pending_bets, winning_horse)
+      |> Repo.transaction()
+      |> case do
+        {:ok, result} ->
+          winners = Map.get(result, :winners, [])
+          losers = Map.get(result, :losers, [])
+          {:ok, %{winners: winners, losers: losers}}
+
+        {:error, _step, reason, _changes} ->
+          {:error, reason}
+      end
+    end
+  end
+
+  @doc """
+  Processes payouts for ALL pending horse race bets regardless of race_id.
+  This is useful when the backoffice starts a race without a specific race_id.
+
+  ## Parameters
+    - winning_horse: The number of the winning horse
+    - multiplier: The payout multiplier for winning bets
+
+  ## Returns
+    - {:ok, %{winners: winners, losers: losers}} on success
+    - {:error, reason} on failure
+
+  ## Examples
+
+      iex> process_all_pending_horse_race_payouts(3, 2.5)
+      {:ok, %{winners: [...], losers: [...]}}
+  """
+  def process_all_pending_horse_race_payouts(winning_horse, multiplier) do
+    pending_bets =
+      HorseRaceBet
+      |> where([b], b.status == "pending")
+      |> preload(:attendee)
+      |> Repo.all()
+
+    if Enum.empty?(pending_bets) do
+      {:ok, %{winners: [], losers: []}}
+    else
+      Multi.new()
+      |> process_winning_bets(pending_bets, winning_horse, multiplier)
+      |> process_losing_bets(pending_bets, winning_horse)
+      |> Repo.transaction()
+      |> case do
+        {:ok, result} ->
+          winners = Map.get(result, :winners, [])
+          losers = Map.get(result, :losers, [])
+          {:ok, %{winners: winners, losers: losers}}
+
+        {:error, _step, reason, _changes} ->
+          {:error, reason}
+      end
+    end
+  end
+
+  defp process_winning_bets(multi, bets, winning_horse, multiplier) do
+    winning_bets = Enum.filter(bets, &(&1.horse_number == winning_horse))
+
+    Enum.reduce(winning_bets, multi, fn bet, acc ->
+      payout = Decimal.mult(bet.bet_amount, Decimal.new(Float.to_string(multiplier)))
+      payout_int = Decimal.to_integer(Decimal.round(payout, 0))
+
+      acc
+      |> Multi.update(
+        {:update_winning_bet, bet.id},
+        HorseRaceBet.changeset(bet, %{
+          status: "won",
+          payout_amount: payout,
+          processed_at: DateTime.utc_now() |> DateTime.truncate(:second)
+        })
+      )
+      |> Multi.run({:credit_winner, bet.id}, fn _repo, _changes ->
+        attendee = Repo.get!(Attendee, bet.attendee_id)
+        new_balance = attendee.tokens + payout_int
+
+        attendee
+        |> Attendee.update_tokens_changeset(%{tokens: new_balance})
+        |> Repo.update()
+      end)
+    end)
+    |> Multi.run(:winners, fn _repo, changes ->
+      winners =
+        winning_bets
+        |> Enum.map(fn bet ->
+          updated_bet = Map.get(changes, {:update_winning_bet, bet.id})
+          Map.put(updated_bet, :attendee, bet.attendee)
+        end)
+
+      {:ok, winners}
+    end)
+  end
+
+  defp process_losing_bets(multi, bets, winning_horse) do
+    losing_bets = Enum.filter(bets, &(&1.horse_number != winning_horse))
+
+    multi =
+      Enum.reduce(losing_bets, multi, fn bet, acc ->
+        acc
+        |> Multi.update(
+          {:update_losing_bet, bet.id},
+          HorseRaceBet.changeset(bet, %{
+            status: "lost",
+            payout_amount: Decimal.new(0),
+            processed_at: DateTime.utc_now() |> DateTime.truncate(:second)
+          })
+        )
+      end)
+
+    Multi.run(multi, :losers, fn _repo, changes ->
+      losers =
+        losing_bets
+        |> Enum.map(fn bet ->
+          updated_bet = Map.get(changes, {:update_losing_bet, bet.id})
+          Map.put(updated_bet, :attendee, bet.attendee)
+        end)
+
+      {:ok, losers}
+    end)
+  end
+
+  @doc """
+  Gets all bets for a specific race.
+
+  ## Examples
+
+      iex> get_race_bets("race-123")
+      [%HorseRaceBet{}, ...]
+  """
+  def get_race_bets(race_id) do
+    HorseRaceBet
+    |> where([b], b.race_id == ^race_id)
+    |> preload(:attendee)
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets all bets for a specific attendee in a specific race.
+
+  ## Examples
+
+      iex> get_attendee_race_bets(1, "race-123")
+      [%HorseRaceBet{}, ...]
+  """
+  def get_attendee_race_bets(attendee_id, race_id) do
+    HorseRaceBet
+    |> where([b], b.attendee_id == ^attendee_id and b.race_id == ^race_id)
+    |> Repo.all()
+  end
+
+  @doc """
+  Cancels all pending bets for a race (e.g., if race is cancelled).
+
+  ## Examples
+
+      iex> cancel_race_bets("race-123")
+      {:ok, %{count: 5}}
+  """
+  def cancel_race_bets(race_id) do
+    pending_bets =
+      HorseRaceBet
+      |> where([b], b.race_id == ^race_id and b.status == "pending")
+      |> preload(:attendee)
+      |> Repo.all()
+
+    Multi.new()
+    |> Multi.run(:refund_bets, fn _repo, _changes ->
+      Enum.each(pending_bets, fn bet ->
+        attendee = Repo.get!(Attendee, bet.attendee_id)
+        refund_amount = bet.bet_amount |> Decimal.round(0, :floor) |> Decimal.to_integer()
+        new_balance = attendee.tokens + refund_amount
+
+        attendee
+        |> Attendee.update_tokens_changeset(%{tokens: new_balance})
+        |> Repo.update!()
+
+        bet
+        |> HorseRaceBet.changeset(%{
+          status: "cancelled",
+          processed_at: DateTime.utc_now() |> DateTime.truncate(:second)
+        })
+        |> Repo.update!()
+      end)
+
+      {:ok, length(pending_bets)}
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{refund_bets: count}} -> {:ok, %{count: count}}
+      {:error, _step, reason, _changes} -> {:error, reason}
+    end
   end
 end

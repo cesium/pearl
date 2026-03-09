@@ -36,10 +36,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         </div>
       </div>
       <.navigate_button
-          navigate="/speakers"
-          class="hidden md:flex relative z-40 mx-auto max-w-70 mt-10 text-lg"
-          title="conhece os oradores"
-        />
+        navigate="/speakers"
+        class="hidden md:flex relative z-40 mx-auto max-w-70 mt-10 text-lg"
+        title="conhece os oradores"
+      />
     </div>
     """
   end
@@ -95,11 +95,11 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           class="relative z-40"
         />
         <div class="flex flex-1 items-center relative z-40 py-7.5 my-auto">
-        <.navigate_button
-          navigate="/speakers"
-          class="relative z-40 mx-auto max-w-70 text-lg"
-          title="conhece os oradores"
-        />
+          <.navigate_button
+            navigate="/speakers"
+            class="relative z-40 mx-auto max-w-70 text-lg"
+            title="conhece os oradores"
+          />
         </div>
 
         <.speaker_image

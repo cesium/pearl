@@ -18,8 +18,18 @@ defmodule PearlWeb.UserUpdateEmailConfirmation do
           put_flash(socket, :error, "Email change link is invalid or it has expired.")
       end
 
+    redirect_path = get_redirect_path(user)
+
     {:ok,
      socket
-     |> push_navigate(to: "/#{get_base_path_by_user_type(user)}/profile_settings")}
+     |> push_navigate(to: redirect_path)}
+  end
+
+  defp get_redirect_path(user) do
+    case user.type do
+      :attendee -> "/settings"
+      :staff -> "/dashboard/profile_settings"
+      :company -> "/dashboard/profile_settings"
+    end
   end
 end

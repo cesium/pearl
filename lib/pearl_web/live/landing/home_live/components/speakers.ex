@@ -2,9 +2,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   @moduledoc false
   use PearlWeb, :component
   alias Pearl.Uploaders
-
   import PearlWeb.Components.Button
-
   attr :speakers, :list, required: true
   attr :selected_speaker, :map, default: nil
   attr :selected_activity, :map, default: nil
@@ -25,7 +23,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
             on_select={@on_select}
           />
         </div>
-
         <div class="hidden md:flex h-220 w-full pl-7 pt-7">
           <.desktop_layout
             speakers={@speakers}
@@ -46,7 +43,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
 
   defp mobile_layout(assigns) do
     ~H"""
-    <div class="flex flex-col min-h-screen backdrop-blur-2xl">
+    <div class="flex flex-col h-screen overflow-hidden backdrop-blur-2xl">
       <div class="py-6 shrink-0 relative">
         <.speaker_image
           speaker={@selected_speaker}
@@ -61,7 +58,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           <.header_text class="relative" />
         </div>
       </div>
-
       <div class="relative w-full aspect-square object-cover shrink-0 overflow-hidden">
         <div class="absolute inset-0 w-full h-full">
           <.speaker_image
@@ -75,9 +71,8 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           >
           </div>
         </div>
-
         <div class="absolute bottom-0 left-0 w-full z-20 flex flex-col justify-end h-2/3">
-          <div class="overflow-y-auto max-h-full [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden mask-[linear-gradient(to_bottom,transparent,black_20%)]">
+          <div class="overflow-hidden max-h-full [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden mask-[linear-gradient(to_bottom,transparent,black_20%)]">
             <.speaker_list
               speakers={@speakers}
               selected_speaker={@selected_speaker}
@@ -87,7 +82,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           </div>
         </div>
       </div>
-
       <div class="flex flex-col items-center justify-start pt-4 px-6 grow relative">
         <.info_card
           activity={@selected_activity}
@@ -101,7 +95,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
             title="conhece os oradores"
           />
         </div>
-
         <.speaker_image
           speaker={@selected_speaker}
           class="absolute blur-xl scale-y-[-1] z-0 top-0 w-full opacity-90"
@@ -121,7 +114,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     <div class="flex flex-row w-full h-full justify-between items-end relative">
       <div class="flex flex-col h-full w-1/2 justify-between relative z-20">
         <.header_text class="mb-8" />
-
         <div class="">
           <.speaker_list
             speakers={@speakers}
@@ -131,7 +123,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           />
         </div>
       </div>
-
       <div class="flex flex-col h-full w-full items-end justify-end z-10">
         <div class="absolute bottom-30 -translate-x-1/2 z-30" style="left: calc(1/2 * 100% - 28px)">
           <.info_card
@@ -140,7 +131,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
             class="bg-background-muted/80 backdrop-blur-sm shadow-xl min-w-[300px]"
           />
         </div>
-
         <div class="absolute bottom-0 right-0 lg:h-[60%] xl:h-[70%] 2xl:h-[80%] p-0 flex items-end justify-end overflow-hidden pointer-events-none select-none">
           <.speaker_image
             speaker={@selected_speaker}
@@ -176,11 +166,9 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         md:pb-50
         lg:py-10
         lg:pb-10
-
         max-h-100
         w-full
-        overflow-x-clip
-        overflow-y-clip
+        overflow-hidden
         md:overflow-y-auto
         [scrollbar-width:none]
         [-ms-overflow-style:none]
@@ -197,7 +185,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         phx-value-speaker-id={speaker.id}
         class={[
           item_style(@layout_mode, @selected_speaker, speaker),
-          "p-2 pl-5 text-5.5 md:text-[38px] hover:font-bold hover:scale-105 hover:ml-8 cursor-pointer transition-all duration-200"
+          "p-2 pl-5 text-5.5 md:text-[38px] hover:font-bold hover:scale-105 hover:ml-8 cursor-pointer transition-all duration-200 overflow-hidden"
         ]}
       >
         {speaker.name}
@@ -232,7 +220,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           <span class="font-extrabold">{@speaker.company}</span>
         </span>
       </p>
-
       <%= if @activity do %>
         <p class="text-xs mt-1 font-medium text-center">
           <span class="opacity-60">
@@ -279,7 +266,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     do: "background: rgba(#{r},#{g},#{b},0.2);"
 
   defp overlay_style(_pos, _), do: ""
-
   defp bg_style(%{"r" => r, "g" => g, "b" => b}), do: "--r: #{r}; --g: #{g}; --b: #{b};"
   defp bg_style(_), do: "--r: 26; --g: 26; --b: 46;"
 

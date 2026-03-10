@@ -1,5 +1,5 @@
-alias Pearl.Repo
 alias Pearl.DiscountCodes.DiscountCode
+alias Pearl.Repo
 alias Pearl.Tickets.TicketType
 
 ticket_types = Repo.all(TicketType)

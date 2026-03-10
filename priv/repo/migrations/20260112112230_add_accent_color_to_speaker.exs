@@ -3,7 +3,7 @@ defmodule Pearl.Repo.Migrations.AddAccentColorToSpeaker do
 
   def change do
     alter table(:speakers) do
-      add :accent_color, :map, default: %{r: 26, g: 26, b: 46}
+      add :accent_color, :string, default: "#811824"
     end
   end
 end

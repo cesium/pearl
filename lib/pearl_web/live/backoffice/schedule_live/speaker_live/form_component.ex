@@ -65,13 +65,13 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
                   <div class="flex items-center gap-3 mt-1">
                     <input
                       type="color"
-                      id={@form[:accent_color_hex].id}
-                      name={@form[:accent_color_hex].name}
-                      value={@form[:accent_color_hex].value}
+                      id={@form[:accent_color].id}
+                      name={@form[:accent_color].name}
+                      value={@form[:accent_color].value}
                       class="h-10 w-16 cursor-pointer rounded border border-gray-300 p-0.5"
                     />
                     <span class="text-sm font-mono text-gray-600">
-                      {@form[:accent_color_hex].value}
+                      {@form[:accent_color].value}
                     </span>
                   </div>
                 </span>

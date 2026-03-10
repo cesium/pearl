@@ -1,6 +1,7 @@
 defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
   @moduledoc false
   use PearlWeb, :component
+  alias Pearl.Activities.Speaker
   alias Pearl.Uploaders
   import PearlWeb.Components.Button
   attr :speakers, :list, required: true
@@ -13,7 +14,9 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     <div :if={@speakers}>
       <div
         class="relative w-full overflow-hidden transition-colors duration-300 ease-in-out bg-primary text-light dynamic-gradient-bg"
-        style={bg_style(@selected_speaker && @selected_speaker.accent_color)}
+        style={
+          bg_style(@selected_speaker && Speaker.accent_color_rgb(@selected_speaker.accent_color))
+        }
       >
         <div class="block md:hidden">
           <.mobile_layout
@@ -52,7 +55,12 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         <div
           :if={@selected_speaker && @selected_speaker.picture}
           class="absolute inset-0 z-10 pointer-events-none"
-          style={overlay_style(:top, @selected_speaker && @selected_speaker.accent_color)}
+          style={
+            overlay_style(
+              :top,
+              @selected_speaker && Speaker.accent_color_rgb(@selected_speaker.accent_color)
+            )
+          }
         />
         <div class="flex flex-col items-center justify-center relative z-20 px-6">
           <.header_text class="relative" />
@@ -67,7 +75,12 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           <div
             :if={@selected_speaker && @selected_speaker.picture}
             class="absolute inset-0 pointer-events-none"
-            style={overlay_style(:image, @selected_speaker && @selected_speaker.accent_color)}
+            style={
+              overlay_style(
+                :image,
+                @selected_speaker && Speaker.accent_color_rgb(@selected_speaker.accent_color)
+              )
+            }
           >
           </div>
         </div>
@@ -102,7 +115,12 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         <div
           :if={@selected_speaker && @selected_speaker.picture}
           class="absolute inset-0 z-10 pointer-events-none"
-          style={overlay_style(:bottom, @selected_speaker && @selected_speaker.accent_color)}
+          style={
+            overlay_style(
+              :bottom,
+              @selected_speaker && Speaker.accent_color_rgb(@selected_speaker.accent_color)
+            )
+          }
         />
       </div>
     </div>

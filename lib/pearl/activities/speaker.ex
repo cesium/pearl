@@ -3,13 +3,11 @@ defmodule Pearl.Activities.Speaker do
   Speakers participate in the event's activities.
   """
   use Pearl.Schema
-  import Bitwise
 
   alias Pearl.Activities
 
   @required_fields ~w(name company title)a
   @optional_fields ~w(biography highlighted accent_color)a
-  @virtual_fields ~w(accent_color_hex)a
 
   @derive {
     Flop.Schema,
@@ -34,8 +32,7 @@ defmodule Pearl.Activities.Speaker do
     field :company, :string
     field :biography, :string
     field :highlighted, :boolean, default: false
-    field :accent_color, :map, default: %{"r" => 129, "g" => 24, "b" => 36}
-    field :accent_color_hex, :string, virtual: true
+    field :accent_color, :string, default: "#811824"
 
     embeds_one :socials, Activities.Speaker.Socials
 
@@ -49,38 +46,10 @@ defmodule Pearl.Activities.Speaker do
   @doc false
   def changeset(speaker, attrs) do
     speaker
-    |> cast(attrs, @required_fields ++ @optional_fields ++ @virtual_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_embed(:socials)
     |> validate_required(@required_fields)
-    |> sync_accent_color()
-  end
-
-  defp sync_accent_color(changeset) do
-    case get_change(changeset, :accent_color_hex) do
-      "#" <> hex when byte_size(hex) == 6 ->
-        case Integer.parse(hex, 16) do
-          {int, ""} ->
-            r = int >>> 16 &&& 0xFF
-            g = int >>> 8 &&& 0xFF
-            b = int &&& 0xFF
-            put_change(changeset, :accent_color, %{"r" => r, "g" => g, "b" => b})
-
-          _ ->
-            changeset
-        end
-
-      _ ->
-        case get_field(changeset, :accent_color) do
-          %{"r" => r, "g" => g, "b" => b} ->
-            hex =
-              "##{Integer.to_string(r * 65536 + g * 256 + b + 0x1000000, 16) |> String.slice(1, 6)}"
-
-            put_change(changeset, :accent_color_hex, hex)
-
-          _ ->
-            changeset
-        end
-    end
+    |> validate_format(:accent_color, ~r/^#[0-9a-fA-F]{6}$/, message: "must be a valid hex color")
   end
 
   @doc false
@@ -88,6 +57,20 @@ defmodule Pearl.Activities.Speaker do
     speaker
     |> cast_attachments(attrs, [:picture])
   end
+
+  @doc """
+  Converts a hex color string (e.g. "#811824") to an RGB map.
+  Returns a default dark color if the input is invalid.
+  """
+  def accent_color_rgb("#" <> <<rr::binary-2, gg::binary-2, bb::binary-2>>) do
+    %{
+      "r" => String.to_integer(rr, 16),
+      "g" => String.to_integer(gg, 16),
+      "b" => String.to_integer(bb, 16)
+    }
+  end
+
+  def accent_color_rgb(_), do: %{"r" => 129, "g" => 24, "b" => 36}
 end
 
 defmodule Pearl.Activities.Speaker.Socials do

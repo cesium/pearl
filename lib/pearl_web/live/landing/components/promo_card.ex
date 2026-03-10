@@ -20,7 +20,7 @@ defmodule PearlWeb.Landing.Components.PromoCard do
     ~H"""
     <section class={"relative w-full self-stretch overflow-hidden #{@text_color} #{@bg_color}"}>
       <div class="relative z-10 flex flex-col items-center text-center w-full h-full pt-[40px] lg:pt-8 gap-[20px]">
-        <div class="shrink-0 pt-8 px-[40px] lg:px-[44px]">
+        <div class="shrink-0 pt-8 px-[40px] lg:px-[90px]">
           <h1 class="text-3xl font-semibold mb-4 text-balance">
             {@title}
           </h1>

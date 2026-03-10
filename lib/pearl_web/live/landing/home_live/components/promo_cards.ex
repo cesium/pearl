@@ -1,14 +1,17 @@
 defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
   use PearlWeb, :component
   import PearlWeb.Landing.Components.PromoCard
-  import PearlWeb.Gettext
 
   def promo_cards(assigns) do
     ~H"""
     <div class="flex flex-col lg:flex-row gap-[10px] w-full items-stretch">
       <.promo_card
         title={gettext("A cereja no topo do bolo")}
-        description={gettext("Do ENEI, levarás sempre como recordação, no mínimo, o teu kit de boas vindas. Porém, ao participares em desafios, habilitas-te a ganhar <strong>grandes prémios</strong>.")}
+        description={
+          gettext(
+            "Do ENEI, levarás sempre como recordação, no mínimo, o teu kit de boas vindas. Porém, ao participares em desafios, habilitas-te a ganhar <strong>grandes prémios</strong>."
+          )
+        }
         text_color="text-light"
         bg_color="bg-black"
         button_text={gettext("conhece os desafios")}
@@ -22,7 +25,11 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
       </.promo_card>
       <.promo_card
         title={gettext("Regime tudo-incluído")}
-        description={gettext("Na compra do bilhete para o ENEI 2026, podes assegurar a tua alimentação e alojamento, juntamente com uma ótima experiência, claro.")}
+        description={
+          gettext(
+            "Na compra do bilhete para o ENEI 2026, podes assegurar a tua alimentação e alojamento, juntamente com uma ótima experiência, claro."
+          )
+        }
         text_color="text-black"
         bg_color="bg-light-muted"
         button_text={gettext("mais informações")}
@@ -36,16 +43,47 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
 
   defp included_items_data do
     [
-      %{icon: "ticket.svg",  title: gettext("Bilhete"),       description: nil,                                                        border: "#f18f01", bg: "#ffdeae"},
-      %{icon: "coffee.svg",  title: gettext("Coffee Breaks"), description: gettext("Lanches de manhã e de tarde garantidos."),          border: "#f18f01", bg: "#ffdeae"},
-      %{icon: "food.svg",    title: gettext("Alimentação"),   description: gettext("Podes incluir almoços e jantares no teu bilhete."), border: "#e35c3b", bg: "#f5c4b8"},
-      %{icon: "bed.svg",     title: gettext("Alojamento"),    description: gettext("Na Universidade do Minho ou na Pousada da Juventude."), border: "#2e86ab", bg: "#bfe0ee"},
-      %{icon: "bus.svg",     title: gettext("Transportes"),   description: gettext("Entre o evento e o alojamento."),                   border: "#ae5583", bg: "#e9c3d7"},
+      %{
+        icon: "ticket.svg",
+        title: gettext("Bilhete"),
+        description: nil,
+        border: "#f18f01",
+        bg: "#ffdeae"
+      },
+      %{
+        icon: "coffee.svg",
+        title: gettext("Coffee Breaks"),
+        description: gettext("Lanches de manhã e de tarde garantidos."),
+        border: "#f18f01",
+        bg: "#ffdeae"
+      },
+      %{
+        icon: "food.svg",
+        title: gettext("Alimentação"),
+        description: gettext("Podes incluir almoços e jantares no teu bilhete."),
+        border: "#e35c3b",
+        bg: "#f5c4b8"
+      },
+      %{
+        icon: "bed.svg",
+        title: gettext("Alojamento"),
+        description: gettext("Na Universidade do Minho ou na Pousada da Juventude."),
+        border: "#2e86ab",
+        bg: "#bfe0ee"
+      },
+      %{
+        icon: "bus.svg",
+        title: gettext("Transportes"),
+        description: gettext("Entre o evento e o alojamento."),
+        border: "#ae5583",
+        bg: "#e9c3d7"
+      }
     ]
   end
 
   defp included_items(assigns) do
     assigns = assign(assigns, :items, included_items_data())
+
     ~H"""
     <div class="flex flex-wrap lg:hidden justify-center pb-[60px] pt-[40px] px-2">
       <div

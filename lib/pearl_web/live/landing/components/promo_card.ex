@@ -1,5 +1,4 @@
 defmodule PearlWeb.Landing.Components.PromoCard do
-
   use Phoenix.Component
   use PearlWeb, :html
 
@@ -25,9 +24,7 @@ defmodule PearlWeb.Landing.Components.PromoCard do
             {raw(@description)}
           </p>
         </div>
-        <.link
-          navigate={@button_link}
-        >
+        <.link navigate={@button_link}>
           <.primary_button title={@button_text} class="text-sm" />
         </.link>
         <div class="relative w-full flex mt-auto justify-center">
@@ -37,5 +34,4 @@ defmodule PearlWeb.Landing.Components.PromoCard do
     </section>
     """
   end
-
 end

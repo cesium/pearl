@@ -7,7 +7,8 @@ defmodule PearlWeb.Landing.HomeLive.Index do
     Sponsors,
     Activities,
     InfoSection,
-    Wrapup
+    Wrapup,
+    PromoCards
   }
 
   alias Pearl.{Activities, Event}

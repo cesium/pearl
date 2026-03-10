@@ -1,5 +1,10 @@
 defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
   use PearlWeb, :component
+
+  @moduledoc """
+  Renders the promo cards section for the landing page home view.
+  """
+
   import PearlWeb.Landing.Components.PromoCard
 
   def promo_cards(assigns) do

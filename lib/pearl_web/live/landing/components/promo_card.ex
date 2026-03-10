@@ -2,6 +2,10 @@ defmodule PearlWeb.Landing.Components.PromoCard do
   use Phoenix.Component
   use PearlWeb, :html
 
+  @moduledoc """
+  Renders a single promo card with a title, description, button, and optional inner content.
+  """
+
   import PearlWeb.Components.Button
 
   attr :title, :string, required: true

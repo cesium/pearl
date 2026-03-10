@@ -57,6 +57,6 @@ defmodule Pearl.ActivitiesFixtures do
       })
       |> Pearl.Activities.create_speaker()
 
-    %{speaker}
+    speaker
   end
 end

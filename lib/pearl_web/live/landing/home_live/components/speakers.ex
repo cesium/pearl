@@ -88,10 +88,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           speaker={@selected_speaker}
           class="relative z-40"
         />
-        <div class="flex flex-1 items-center relative z-40 py-7.5 my-auto">
+        <div class="flex flex-1 items-end justify-center relative z-40 pb-10">
           <.navigate_button
             navigate="/speakers"
-            class="relative z-40 mx-auto max-w-70 text-lg"
+            class="z-40 mx-auto max-w-70 text-lg"
             title="conhece os oradores"
           />
         </div>

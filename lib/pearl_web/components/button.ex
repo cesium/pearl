@@ -22,7 +22,7 @@ defmodule PearlWeb.Components.Button do
     ~H"""
     <.link
       class={[
-        "group flex items-center justify-between min-w-64 p-2",
+        "flex group items-center justify-between min-w-64 p-2",
         "rounded-full bg-background-muted transition-all",
         "hover:bg-background-muted/80",
         @disabled && "opacity-50 cursor-not-allowed pointer-events-none",

@@ -460,18 +460,28 @@ defmodule Pearl.Activities do
   @doc """
   Returns the list of highlighted speakers.
 
+  If a speaker has an associated activity of type `Talk`, it is included; otherwise, the activity can be `null`.
+
+  Each speaker is shown only once.
+
   ## Examples
 
       iex> list_highlighted_speakers()
-      [%Speaker{}, ...]
+      [%{speaker: %Speaker{}, activity: %Activity{}}]
 
   """
   def list_highlighted_speakers(opts \\ []) do
     Speaker
     |> apply_filters(opts)
     |> where([s], s.highlighted)
+    |> join(:left, [s], as in "activities_speakers", on: s.id == as.speaker_id)
+    |> join(:left, [s, as], a in Activity, on: as.activity_id == a.id)
+    |> join(:left, [s, as, a], c in ActivityCategory,
+      on: a.category_id == c.id and c.name == "Talk"
+    )
+    |> distinct([s], s.id)
+    |> select([s, as, a, c], %{speaker: s, activity: a, category: c})
     |> Repo.all()
-    |> Repo.preload(:activities)
   end
 
   @doc """

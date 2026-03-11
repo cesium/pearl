@@ -38,7 +38,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
         text_color="text-black"
         bg_color="bg-light-muted"
         button_text={gettext("mais informações")}
-        button_link="/tickets"
+        button_link={~p"/tickets"}
       >
         <.included_items />
       </.promo_card>
@@ -52,15 +52,17 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
         icon: "ticket.svg",
         title: gettext("Bilhete"),
         description: nil,
-        border: "#f18f01",
-        bg: "#ffdeae"
+        border: nil,
+        bg: "#f2bac1"
       },
       %{
         icon: "coffee.svg",
         title: gettext("Coffee Breaks"),
         description: gettext("Lanches de manhã e de tarde garantidos."),
         border: "#f18f01",
-        bg: "#ffdeae"
+        bg: "#ffdeae",
+        class: "ml-[5px] mr-[3px]",
+        class_mobile: "ml-2"
       },
       %{
         icon: "food.svg",
@@ -72,16 +74,20 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
       %{
         icon: "bed.svg",
         title: gettext("Alojamento"),
-        description: gettext("Na Universidade do Minho ou na Pousada da Juventude."),
+        description: gettext("No pavilhão da Escola Secundária Alberto Sampaio."),
         border: "#2e86ab",
-        bg: "#bfe0ee"
+        bg: "#bfe0ee",
+        class: "w-[22px] h-[22px]",
+        class_mobile: "w-10 h-10"
       },
       %{
-        icon: "bus.svg",
-        title: gettext("Transportes"),
-        description: gettext("Entre o evento e o alojamento."),
+        icon: "apparel.svg",
+        title: gettext("Kit de Participante"),
+        description: gettext("Para começar bem o evento, um kit recheado de brindes incríveis."),
         border: "#ae5583",
-        bg: "#e9c3d7"
+        bg: "#e9c3d7",
+        class: "w-[22px] h-[22px]",
+        class_mobile: "w-10 h-10"
       }
     ]
   end
@@ -96,10 +102,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
         class="w-15 h-15 flex items-center justify-center"
         style={"background-color: #{item.bg}"}
       >
-        <img src={~p"/images/icons/#{item.icon}"} class="w-8 h-8" />
+        <img src={~p"/images/icons/#{item.icon}"} class={"w-8 h-8 #{Map.get(item, :class_mobile, "")}"} />
       </div>
     </div>
-    <div class="hidden lg:grid grid-cols-2 w-full gap-2 py-[83px] px-[44px]">
+    <div class="hidden lg:grid grid-cols-2 w-full gap-2 py-[83px] px-11">
       <.info_card
         :for={item <- Enum.filter(@items, & &1.description)}
         title={item.title}
@@ -107,6 +113,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
         icon={item.icon}
         icon_bg={item.bg}
         icon_border={item.border}
+        class={Map.get(item, :class, "")}
       />
     </div>
     """
@@ -117,16 +124,17 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
   attr :icon, :string, required: true
   attr :icon_bg, :string, required: true
   attr :icon_border, :string, required: true
+  attr :class, :string, default: ""
 
   defp info_card(assigns) do
     ~H"""
-    <div class="rounded-[30px] p-[20px] w-full bg-light-shade">
+    <div class="rounded-[30px] p-5 w-full bg-light-shade">
       <div class="flex items-center gap-3 mb-2">
         <div
-          class="rounded-lg border p-1"
+          class={"rounded-lg border w-[26px] h-[26px] flex items-center justify-center"}
           style={"background-color: #{@icon_bg}; border-color: #{@icon_border}"}
         >
-          <img src={~p"/images/icons/#{@icon}"} class="w-[1em] h-[1em] block" />
+          <img src={~p"/images/icons/#{@icon}"} class={"w-4 h-4 block #{@class}"} />
         </div>
         <span class="font-semibold text-black">{@title}</span>
       </div>

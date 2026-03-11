@@ -543,7 +543,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   end
 
   defp render_activity_cell(assigns) do
-    has_speakers = length(assigns.activity.speakers) > 0
+    has_speakers = assigns.activity.speakers != []
     show_actions = assigns.variant == :day
 
     can_enrol =

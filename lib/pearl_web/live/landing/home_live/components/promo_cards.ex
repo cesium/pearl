@@ -102,7 +102,10 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
         class="w-15 h-15 flex items-center justify-center"
         style={"background-color: #{item.bg}"}
       >
-        <img src={~p"/images/icons/#{item.icon}"} class={"w-8 h-8 #{Map.get(item, :class_mobile, "")}"} />
+        <img
+          src={~p"/images/icons/#{item.icon}"}
+          class={"w-8 h-8 #{Map.get(item, :class_mobile, "")}"}
+        />
       </div>
     </div>
     <div class="hidden lg:grid grid-cols-2 w-full gap-2 py-[83px] px-11">
@@ -131,7 +134,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
     <div class="rounded-[30px] p-5 w-full bg-light-shade">
       <div class="flex items-center gap-3 mb-2">
         <div
-          class={"rounded-lg border w-[26px] h-[26px] flex items-center justify-center"}
+          class="rounded-lg border w-[26px] h-[26px] flex items-center justify-center"
           style={"background-color: #{@icon_bg}; border-color: #{@icon_border}"}
         >
           <img src={~p"/images/icons/#{@icon}"} class={"w-4 h-4 block #{@class}"} />

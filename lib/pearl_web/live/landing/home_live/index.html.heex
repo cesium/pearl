@@ -8,8 +8,13 @@
     <.info_section />
   </div>
 </div>
+<.activities />
+<.speakers
+  speakers={@speakers}
+  selected_speaker={@selected_speaker}
+  selected_activity={@selected_activity}
+/>
 <div class="px-8 md:px-12.5 lg:px-16 bg-white">
-  <.activities />
   <.sponsors :if={@has_sponsors?} tiers={@tiers} />
   <.promo_cards />
   <.link_wrapup is_register_open?={@is_register_open?} />

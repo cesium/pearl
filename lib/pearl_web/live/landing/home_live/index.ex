@@ -8,7 +8,7 @@ defmodule PearlWeb.Landing.HomeLive.Index do
     Activities,
     InfoSection,
     Wrapup,
-    PromoCards
+    PromoCards,
     Speakers
   }
 

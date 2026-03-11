@@ -34,12 +34,12 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
             on_select={@on_select}
           />
         </div>
+        <.navigate_button
+          navigate="/speakers"
+          class="hidden md:flex relative z-40 mx-auto max-w-70 mt-10 mb-10 text-lg"
+          title="conhece os oradores"
+        />
       </div>
-      <.navigate_button
-        navigate="/speakers"
-        class="hidden md:flex relative z-40 mx-auto max-w-70 mt-10 text-lg"
-        title="conhece os oradores"
-      />
     </div>
     """
   end
@@ -101,7 +101,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           speaker={@selected_speaker}
           class="relative z-40"
         />
-        <div class="flex flex-1 items-end justify-center relative z-40 pb-10">
+        <div class="flex flex-1 items-end justify-center relative z-40 pb-6">
           <.navigate_button
             navigate="/speakers"
             class="z-40 mx-auto max-w-70 text-lg"
@@ -142,7 +142,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
         </div>
       </div>
       <div class="flex flex-col h-full w-full items-end justify-end z-10">
-        <div class="absolute bottom-30 -translate-x-1/2 z-30" style="left: calc(1/2 * 100% - 28px)">
+        <div class="absolute bottom-22 -translate-x-1/2 z-30" style="left: calc(1/2 * 100% - 28px)">
           <.info_card
             activity={@selected_activity}
             speaker={@selected_speaker}

@@ -131,7 +131,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
 
   defp info_card(assigns) do
     ~H"""
-    <div class="rounded-[30px] p-5 w-full bg-light-shade">
+    <div class="rounded-[30px] p-5 w-full bg-radial to-dark/10 from-dark/5">
       <div class="flex items-center gap-3 mb-2">
         <div
           class="rounded-lg border w-[26px] h-[26px] flex items-center justify-center"

@@ -59,7 +59,15 @@ defmodule PearlWeb.Config do
     end)
   end
 
-  def app_pages(attendee_eligible?) do
+  def app_pages(attendee_eligible?, horse_race_active? \\ nil) do
+    # If horse_race_active? is not provided, fetch from database
+    horse_race_active =
+      if horse_race_active? != nil do
+        horse_race_active?
+      else
+        Pearl.Minigames.horse_race_active?()
+      end
+
     if Event.event_started?() do
       [
         %{
@@ -102,7 +110,7 @@ defmodule PearlWeb.Config do
           title: "Horse Race",
           image: "/images/icons/horse_race.svg",
           url: "/app/horse_race",
-          enabled: true
+          enabled: horse_race_active
         },
         %{
           key: :leaderboard,

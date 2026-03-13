@@ -5,7 +5,10 @@
       current_user={@current_user}
       pages={
         if Pearl.Accounts.attendee_has_credential?(@current_user.attendee.id) do
-          PearlWeb.Config.app_pages(!@current_user.attendee.ineligible)
+          PearlWeb.Config.app_pages(
+            !@current_user.attendee.ineligible,
+            Map.get(assigns, :horse_race_active?, nil)
+          )
         else
           []
         end

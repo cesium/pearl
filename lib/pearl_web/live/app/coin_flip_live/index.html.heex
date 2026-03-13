@@ -1,13 +1,14 @@
-<.page title={gettext("Coin Flip")} size={:xl} title_class="font-terminal uppercase">
+<.page title={gettext("Coin Flip")} size={:xl} title_class="uppercase">
   <:actions>
-    <span class="text-semibold text-xl border-2 px-4 py-2 rounded-full font-terminal">
-      💰 {@attendee_tokens}
+    <span class="text-semibold text-xl border-2 px-4 py-2 flex place-items-center gap-2">
+      <.icon name="fa-sack-euro-solid" />
+      {@attendee_tokens}
     </span>
   </:actions>
   <div class="flex flex-col sm:flex-row justify-between mt-12 w-full gap-6 sm:gap-10 items-center">
-    <div class="flex border-2 divide-x-2 rounded-full w-full sm:px-3 max-w-lg overflow-hidden">
-      <div class="flex items-center py-2 w-full pl-2">
-        <.icon name="hero-currency-dollar-solid" class="text-yellow-300 ml-2" />
+    <div class="flex border-2 divide-x-2 w-full sm:px-3 max-w-lg overflow-hidden">
+      <div class="flex items-center justify-center py-2 w-full pl-2">
+        <.icon name="hero-currency-euro-solid" class="ml-2 mt-1" />
         <.form for={%{}} phx-change="set-bet" class="w-full">
           <input
             name="bet"
@@ -24,21 +25,21 @@
         <button
           phx-click="set-bet"
           phx-value-bet={round(@bet / 2)}
-          class="px-3 py-2 sm:px-4 sm:py-3 active:bg-blue-900/35 transition duration-200 font-terminal font-bold"
+          class="px-3 py-2 sm:px-4 sm:py-3 active:bg-blue-900/35 transition duration-200 font-bold"
         >
           1/2
         </button>
         <button
           phx-click="set-bet"
           phx-value-bet={@bet * 2}
-          class="px-3 py-2 sm:px-5 sm:py-3 active:bg-blue-900/35 transition duration-200 font-terminal font-bold"
+          class="px-3 py-2 sm:px-5 sm:py-3 active:bg-blue-900/35 transition duration-200 font-bold"
         >
           x2
         </button>
         <button
           phx-click="set-bet"
           phx-value-bet={@attendee_tokens}
-          class="pl-3 pr-4 py-2 sm:px-4 sm:py-3 active:bg-blue-900/35 transition duration-200 font-terminal font-bold"
+          class="pl-3 pr-4 py-2 sm:px-4 sm:py-3 active:bg-blue-900/35 transition duration-200 font-bold"
         >
           MAX
         </button>
@@ -52,7 +53,7 @@
       phx-click="create-room"
     />
   </div>
-  <h2 class="text-3xl font-semibold font-terminal mt-10 pl-2">
+  <h2 class="text-3xl font-semibold mt-10 pl-2">
     {gettext("CURRENT GAMES:")}
   </h2>
   <p :if={@room_list_count == 0} class="text-2xl  w-full text-center my-16 sm:my-24">
@@ -72,7 +73,7 @@
       coin_flip_fee={@coin_flip_fee}
     />
   </div>
-  <h2 class="text-3xl font-semibold font-terminal mt-6 pl-2">
+  <h2 class="text-3xl font-semibold mt-6 pl-2">
     {gettext("PREVIOUS GAMES:")}
   </h2>
   <p :if={@previous_room_list_count == 0} class="text-2xl w-full text-center my-16 sm:my-24">

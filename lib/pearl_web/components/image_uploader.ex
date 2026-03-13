@@ -22,7 +22,6 @@ defmodule PearlWeb.Components.ImageUploader do
       class={[
         "transition-colors hover:cursor-pointer hover:bg-lightShade/30 dark:hover:bg-darkShade/20 border-2 border-dashed border-lightShade dark:border-darkShade",
         @rounded && "rounded-full overflow-hidden",
-        not @rounded && "rounded-xl",
         @class
       ]}
       onclick={"document.getElementById('#{@upload.ref}').click()"}

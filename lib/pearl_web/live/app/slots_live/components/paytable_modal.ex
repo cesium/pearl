@@ -15,8 +15,7 @@ defmodule PearlWeb.App.SlotsLive.Components.PaytableModal do
   attr :on_cancel, JS, default: %JS{}
 
   attr :body_class, :string,
-    default:
-      "bg-primary ring-4 ring-white py-8 px-5 max-h-[500px] overflow-y-scroll scrollbar-hide"
+    default: "bg-dark ring-4 ring-white py-8 px-5 max-h-[500px] overflow-y-scroll scrollbar-hide"
 
   def paytable_modal(assigns) do
     paylines = Minigames.list_slots_paylines()
@@ -42,7 +41,7 @@ defmodule PearlWeb.App.SlotsLive.Components.PaytableModal do
       wrapper_class={@wrapper_class}
       body_class={@body_class}
     >
-      <h2 class="text-3xl font-terminal font-bold text-center mb-6">
+      <h2 class="text-3xl font-bold text-center mb-6">
         {gettext("PAYTABLE")}
       </h2>
 
@@ -50,7 +49,7 @@ defmodule PearlWeb.App.SlotsLive.Components.PaytableModal do
         <%= for {paytable, paylines_filtered} <- @paylines_by_multiplier do %>
           <div class="flex justify-between border-b border-white/20 pb-4 last:border-0">
             <div class="flex flex-col gap-1">
-              <h3 class="text-xl font-terminal font-semibold uppercase">
+              <h3 class="text-xl font-semibold uppercase">
                 {if paytable.multiplier == 1,
                   do: "Refund",
                   else: "#{paytable.multiplier}x Multiplier"}
@@ -66,9 +65,9 @@ defmodule PearlWeb.App.SlotsLive.Components.PaytableModal do
               <%= for {payline, idx} <- Enum.with_index(paylines_filtered) do %>
                 <div class={"flex items-center justify-center gap-2 payline-item #{if idx != 0, do: "hidden", else: ""}"}>
                   <%= for {position, reel_idx} <- Enum.with_index([payline.position_0, payline.position_1, payline.position_2]) do %>
-                    <div class="size-14 sm:size-16 bg-primary rounded-lg overflow-hidden flex items-center justify-center">
+                    <div class="size-14 sm:size-16 rounded-lg overflow-hidden flex items-center justify-center">
                       <%= if is_nil(position) do %>
-                        <span class="text-3xl font-terminal font-semibold">ANY</span>
+                        <span class="text-3xl font-semibold">ANY</span>
                       <% else %>
                         <%= if icon = @reel_icons_map[reel_idx][position] do %>
                           <img

@@ -3,7 +3,6 @@ defmodule PearlWeb.Landing.HomeLive.Components.Sponsors do
   use PearlWeb, :component
 
   alias Pearl.Uploaders
-  import PearlWeb.Components.Button
 
   def sponsors(assigns) do
     ~H"""

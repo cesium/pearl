@@ -25,12 +25,8 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
           <div class="flex flex-col gap-3">
             <span class="text-black text-3xl font-extrabold">{@ticket_type.name}</span>
             <div class="flex flex-col gap-3">
-              <div :for={perk <- @ticket_type.perks} class="flex gap-2">
-                <img
-                  src={~p"/images/check.svg"}
-                  alt={gettext("Check")}
-                  class="max-w-fit"
-                />
+              <div :for={perk <- @ticket_type.perks} class="flex items-start justify-start gap-2">
+                <.icon name="hero-check" class="min-w-6 min-h-6" />
                 <span class="text-black text-lg">{perk.description}</span>
               </div>
             </div>

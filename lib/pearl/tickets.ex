@@ -202,6 +202,7 @@ defmodule Pearl.Tickets do
           %Ticket{}
           |> Ticket.changeset(attrs)
           |> Ecto.Changeset.add_error(:ticket_type_id, "is not active")
+
         {:error, changeset}
 
       _ ->

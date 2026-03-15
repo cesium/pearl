@@ -194,7 +194,7 @@ defmodule Pearl.Tickets do
   """
   def create_ticket(attrs \\ %{}) do
     active_ticket_types = TicketTypes.list_active_ticket_types()
-    current_ticket_type = attrs["ticket_type_id"]
+    current_ticket_type = attrs["ticket_type_id"] || attrs[:ticket_type_id]
 
     case Enum.find(active_ticket_types, fn tt -> tt.id == current_ticket_type end) do
       nil ->

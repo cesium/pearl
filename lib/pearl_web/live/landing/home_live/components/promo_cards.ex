@@ -9,7 +9,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.PromoCards do
 
   def promo_cards(assigns) do
     ~H"""
-    <div class="flex flex-col lg:flex-row gap-[10px] w-full items-stretch">
+    <div class="flex flex-col lg:flex-row gap-2.5 px-3 bg-white w-full items-stretch">
       <.promo_card
         title={gettext("A cereja no topo do bolo")}
         description={

@@ -8,6 +8,7 @@ defmodule Pearl.Tickets do
   alias Pearl.Repo
 
   alias Pearl.Tickets.{Perk, Ticket}
+  alias Pearl.TicketTypes
 
   @doc """
   Returns the list of tickets.
@@ -192,9 +193,22 @@ defmodule Pearl.Tickets do
 
   """
   def create_ticket(attrs \\ %{}) do
-    %Ticket{}
-    |> Ticket.changeset(attrs)
-    |> Repo.insert()
+    active_ticket_types = TicketTypes.list_active_ticket_types()
+    current_ticket_type = attrs["ticket_type_id"]
+
+    case Enum.find(active_ticket_types, fn tt -> tt.id == current_ticket_type end) do
+      nil ->
+        changeset =
+          %Ticket{}
+          |> Ticket.changeset(attrs)
+          |> Ecto.Changeset.add_error(:ticket_type_id, "is not active")
+        {:error, changeset}
+
+      _ ->
+        %Ticket{}
+        |> Ticket.changeset(attrs)
+        |> Repo.insert()
+    end
   end
 
   @doc """

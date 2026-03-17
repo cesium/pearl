@@ -19,11 +19,11 @@ defmodule PearlWeb.App.SlotsLive.Components.Machine do
     ~H"""
     <div id="slots-machine" phx-hook="ReelAnimation">
       <div class="flex justify-center my-12">
-        <div class="slots-container flex gap-5 rounded-3xl py-6 px-2 items-center justify-center ring-2 ring-white w-full max-w-96">
+        <div class="slots-container flex gap-5 py-6 px-2 items-center justify-center ring-2 ring-white w-full max-w-96">
           <%= for reel_num <- 0..2 do %>
             <div
               id={"slots-reel-#{reel_num}"}
-              class="reel-slot rounded-3xl ring-2 ring-white"
+              class="reel-slot ring-2 ring-white"
               data-reel={reel_num}
               style={"width: 79px; height: 237px; background-size: 79px #{@reel_height}px; background-position-y: #{build_background_positions(@reels_by_position[reel_num])}; background-image: #{build_reel_background(@reels_by_position[reel_num])};"}
             />

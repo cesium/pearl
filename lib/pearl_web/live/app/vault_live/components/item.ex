@@ -13,21 +13,21 @@ defmodule PearlWeb.App.VaultLive.Components.Item do
   def item(assigns) do
     ~H"""
     <li id={@id} class={"flex flex-row #{if @redeemed do "opacity-50" end}"}>
-      <figure class="w-32 h-32 bg-light/5 rounded-xl flex-shrink-0">
+      <figure class="w-32 h-32 bg-light/5 shrink-0">
         <%= if @image do %>
           <img class="w-full p-4" src={@image} />
         <% end %>
       </figure>
       <div class="py-4 px-4">
-        <h1 class="font-terminal uppercase text-2xl">
+        <h1 class="uppercase text-2xl">
           {@name}
         </h1>
         <p :if={!@redeemed}>
-          {gettext("Go to the accreditation to redeem your item!")}
+          {gettext("Dirija-se à acreditação para coletar o teu item!")}
         </p>
         <p :if={@redeemed} class="flex flex-row justify-center items-center">
           <.icon name="hero-check" class="w-5 h-5 mr-1" />
-          {gettext("You have redeemed this item!")}
+          {gettext("Adquiriste este item!")}
         </p>
       </div>
     </li>

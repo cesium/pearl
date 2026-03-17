@@ -11,6 +11,7 @@ defmodule Pearl.Uploaders.Speaker do
 
   def validate({file, _}) do
     file_extension = file.file_name |> Path.extname() |> String.downcase()
+
     Enum.member?(extension_whitelist(), file_extension)
   end
 

@@ -60,8 +60,8 @@ defmodule PearlWeb.App.BadgeLive.Index do
 
   defp next_selection_text(selection) do
     case selection do
-      :all -> gettext("Mine")
-      :redeemed -> gettext("All")
+      :all -> gettext("Minhas")
+      :redeemed -> gettext("Todas")
     end
   end
 end

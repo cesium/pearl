@@ -7,6 +7,12 @@ defmodule PearlWeb.App.GamesLive.Index do
   def mount(_params, _session, socket) do
     games = [
       %{
+        name: "Horse Race",
+        icon: "horse_race.svg",
+        path: "horse_race",
+        desc: "Aposta nos cavalos e testa a tua sorte nas corridas emocionantes"
+      },
+      %{
         name: "Lucky Wheel",
         icon: "wheel.svg",
         path: "wheel",

@@ -66,7 +66,7 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
   end
 
   def handle_info({:race_finished, winning_horse}, socket) do
-    if length(socket.assigns.active_bets) > 0 do
+    if socket.assigns.active_bets != [] do
       attendee_id = socket.assigns.current_user.attendee.id
       bets = Minigames.get_attendee_recent_processed_bets(attendee_id)
       updated_tokens = Minigames.get_attendee_tokens(attendee_id)
@@ -77,7 +77,7 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
         Enum.filter(bets, fn b -> MapSet.member?(active_bet_ids, b.id) && b.status == "won" end)
 
       socket =
-        if length(winning_bets) > 0 do
+        if winning_bets != [] do
           total_payout =
             winning_bets
             |> Enum.map(& &1.payout_amount)
@@ -154,7 +154,7 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
       map_size(horse_bets) == 0 ->
         {:noreply, put_flash(socket, :error, "Não há apostas para confirmar!")}
 
-      length(socket.assigns.active_bets) > 0 ->
+      socket.assigns.active_bets != [] ->
         {:noreply, put_flash(socket, :error, "Já tens apostas ativas nesta corrida!")}
 
       is_nil(socket.assigns.current_race_id) ->

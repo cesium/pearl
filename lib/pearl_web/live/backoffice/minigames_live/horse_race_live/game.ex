@@ -262,14 +262,10 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
           |> Decimal.to_float()
 
         message =
-          "💰 Payouts processed! #{winner_count} winner(s) received #{Float.round(total_payout, 2)} tokens total. #{loser_count} losing bet(s)."
+          "Payouts processed! #{winner_count} winner(s) received #{Float.round(total_payout, 3)} tokens total. #{loser_count} losing bet(s)."
 
-        # Broadcast race finish event to all connected clients
         Pearl.Minigames.broadcast_horse_race_result(winning_horse)
 
-        # Prepare a fresh race_id for the next betting round.
-        # Cancel any pending bets that are leftover from this or older races,
-        # then broadcast the new id so attendees can start betting immediately.
         new_race_id = generate_race_id()
         Pearl.Minigames.cancel_stale_pending_bets(new_race_id)
         Pearl.Minigames.broadcast_horse_race_start(new_race_id)

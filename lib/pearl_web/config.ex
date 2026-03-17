@@ -92,27 +92,6 @@ defmodule PearlWeb.Config do
           enabled: attendee_eligible?
         },
         %{
-          key: :coin_flip,
-          title: "Coin Flip",
-          image: "/images/icons/coin-flip.svg",
-          url: "/app/coin_flip",
-          enabled: attendee_eligible?
-        },
-        %{
-          key: :slots,
-          title: "Slots",
-          image: "/images/icons/slots.svg",
-          url: "/app/slots",
-          enabled: true
-        },
-        %{
-          key: :horse_race,
-          title: "Horse Race",
-          image: "/images/icons/horse_race.svg",
-          url: "/app/horse_race",
-          enabled: horse_race_active
-        },
-        %{
           key: :leaderboard,
           title: "Leaderboard",
           image: "/images/icons/leaderboard.svg",

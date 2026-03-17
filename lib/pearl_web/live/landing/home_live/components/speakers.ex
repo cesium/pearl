@@ -11,7 +11,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
 
   def speakers(assigns) do
     ~H"""
-    <div :if={@speakers}>
+    <div :if={@speakers} class="flex flex-col bg-white gap-7.5">
       <div
         class="relative w-full overflow-hidden transition-colors duration-300 ease-in-out bg-primary text-light dynamic-gradient-bg"
         style={
@@ -34,12 +34,12 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
             on_select={@on_select}
           />
         </div>
-        <.navigate_button
-          navigate="/speakers"
-          class="hidden md:flex relative z-40 mx-auto max-w-70 mt-10 mb-10 text-lg"
-          title="conhece os oradores"
-        />
       </div>
+      <.navigate_button
+        navigate="/speakers"
+        class="hidden md:flex relative z-40 mx-auto max-w-70 text-lg"
+        title="conhece os oradores"
+      />
     </div>
     """
   end

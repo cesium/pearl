@@ -36,6 +36,7 @@ defmodule Pearl.Accounts do
     |> where(type: :attendee)
     |> join(:left, [o], p in assoc(o, :attendee), as: :attendee)
     |> preload(:attendee)
+    |> order_by([o, attendee: a], desc: a.inserted_at)
     |> Flop.validate_and_run(params, for: User)
   end
 
@@ -45,6 +46,7 @@ defmodule Pearl.Accounts do
     |> where(type: :attendee)
     |> join(:left, [o], p in assoc(o, :attendee), as: :attendee)
     |> preload(:attendee)
+    |> order_by([o, attendee: a], desc: a.inserted_at)
     |> Flop.validate_and_run(params, for: User)
   end
 

@@ -46,7 +46,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
 
   defp mobile_layout(assigns) do
     ~H"""
-    <div class="flex flex-col h-screen overflow-hidden backdrop-blur-2xl">
+    <div class="flex flex-col h-fit overflow-hidden backdrop-blur-2xl">
       <div class="py-6 shrink-0 relative">
         <.speaker_image
           speaker={@selected_speaker}
@@ -95,13 +95,13 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
           </div>
         </div>
       </div>
-      <div class="flex flex-col items-center justify-start pt-4 px-6 grow relative">
+      <div class="flex flex-col items-center justify-start px-6 grow relative">
         <.info_card
           activity={@selected_activity}
           speaker={@selected_speaker}
           class="relative z-40"
         />
-        <div class="flex flex-1 items-end justify-center relative z-40 pb-6">
+        <div class="flex flex-1 items-end justify-center relative z-40 pt-3.5 pb-7.5">
           <.navigate_button
             navigate="/speakers"
             class="z-40 mx-auto max-w-70 text-lg"
@@ -227,7 +227,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     <div
       :if={@speaker}
       class={[
-        "rounded-[40px] md:rounded-full px-6 py-4 min-h-2 flex flex-col items-center justify-center animate-[fade_in_0.5s_both] md:text-dark",
+        "rounded-[40px] md:rounded-full px-6 py-6 min-h-2 flex flex-col items-center justify-center animate-[fade_in_0.5s_both] md:text-dark",
         @class
       ]}
     >

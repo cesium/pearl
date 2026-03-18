@@ -28,7 +28,10 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
      )
      |> assign(:current_race_id, Minigames.get_current_horse_race_id())
      |> assign(:horse_bets, %{})
-     |> assign(:active_bets, [])}
+     |> assign(
+       :active_bets,
+       Minigames.get_attendee_pending_bets(socket.assigns.current_user.attendee.id)
+     )}
   end
 
   @impl true

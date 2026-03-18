@@ -29,7 +29,11 @@
                 )
               ]}>
                 <span class="text-lg font-bold mb-2">Horse #{horse_num}</span>
-                <img src="/images/icons/horse.png" alt="Horse #{horse_num}" class="w-12 h-12 mb-3 brightness-0 invert" />
+                <img
+                  src="/images/icons/horse.png"
+                  alt="Horse #{horse_num}"
+                  class="w-12 h-12 mb-3 brightness-0 invert"
+                />
                 <form phx-change="update_horse_bet" class="w-full mb-2">
                   <input type="hidden" name="horse" value={horse_num} />
                   <input
@@ -121,14 +125,21 @@
     </div>
   <% else %>
     <div class="flex flex-col items-center justify-center gap-6 py-24 text-center">
-      <img src="/images/icons/horse.png" alt="Horse" class="w-20 h-20 opacity-50 brightness-0 invert" />
+      <img
+        src="/images/icons/horse.png"
+        alt="Horse"
+        class="w-20 h-20 opacity-50 brightness-0 invert"
+      />
       <div>
         <h2 class="text-3xl font-bold">{gettext("Horse Race is Inactive")}</h2>
         <p class="text-gray-400 mt-2">
           {gettext("The horse race is not available at the moment. Check back soon.")}
         </p>
       </div>
-      <.link navigate={~p"/app"} class="px-6 py-3 border-2 rounded-lg font-bold hover:bg-white/5 transition">
+      <.link
+        navigate={~p"/app"}
+        class="px-6 py-3 border-2 rounded-lg font-bold hover:bg-white/5 transition"
+      >
         {gettext("Back to Games")}
       </.link>
     </div>

@@ -78,4 +78,14 @@ defmodule Pearl.Constants do
     |> Pair.changeset(%{value: Map.put(pair.value, key, value)})
     |> Repo.update()
   end
+
+  def delete(key) do
+    case Repo.get_by(Pair, key: key) do
+      nil ->
+        {:ok, nil}
+
+      pair ->
+        Repo.delete(pair)
+    end
+  end
 end

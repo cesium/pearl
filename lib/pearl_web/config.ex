@@ -61,7 +61,7 @@ defmodule PearlWeb.Config do
 
   def app_pages(attendee_eligible?, horse_race_active? \\ nil) do
     # If horse_race_active? is not provided, fetch from database
-    horse_race_active =
+    _horse_race_active =
       if horse_race_active? != nil do
         horse_race_active?
       else

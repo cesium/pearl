@@ -160,24 +160,30 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
     total_race_time = duration_minutes * 60
 
     horse_speeds = create_horse_speeds(number_of_horses)
+    racing = Minigames.horse_race_running?()
 
-    {:ok,
-     socket
-     |> assign(
-       is_active: Minigames.horse_race_active?(),
-       multiplier: Minigames.get_horse_race_multiplier(),
-       duration_minutes: duration_minutes,
-       number_of_horses: number_of_horses,
-       house_fee: Minigames.get_horse_race_house_fee(),
-       horses: List.duplicate(0, number_of_horses),
-       horse_speeds: horse_speeds,
-       racing: false,
-       winner: nil,
-       time_remaining: total_race_time,
-       time_elapsed: 0,
-       total_race_time: total_race_time,
-       race_start_time: nil
-     )}
+    socket =
+      socket
+      |> assign(
+        is_active: Minigames.horse_race_active?(),
+        multiplier: Minigames.get_horse_race_multiplier(),
+        duration_minutes: duration_minutes,
+        number_of_horses: number_of_horses,
+        house_fee: Minigames.get_horse_race_house_fee(),
+        horses: List.duplicate(0, number_of_horses),
+        horse_speeds: horse_speeds,
+        racing: racing,
+        winner: nil,
+        time_remaining: total_race_time,
+        time_elapsed: 0,
+        total_race_time: total_race_time,
+        race_start_time: if(racing, do: System.monotonic_time(:millisecond), else: nil)
+      )
+
+    socket =
+      if racing, do: push_event(socket, "start_race", %{duration: total_race_time}), else: socket
+
+    {:ok, socket}
   end
 
   def handle_info({:horse_race_config_updated, "is_active", is_active}, socket) do
@@ -218,6 +224,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
     horse_speeds = create_horse_speeds(number_of_horses)
     duration = String.to_integer(params["duration"] || "#{socket.assigns.total_race_time}")
 
+    Minigames.set_horse_race_running(true)
+
     socket =
       socket
       |> assign(
@@ -235,6 +243,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
   end
 
   def handle_event("stop_race", _params, socket) do
+    Minigames.set_horse_race_running(false)
+
     socket =
       socket
       |> assign(racing: false)
@@ -245,6 +255,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
 
   def handle_event("reset_race", _params, socket) do
     number_of_horses = socket.assigns.number_of_horses
+
+    Minigames.set_horse_race_running(false)
 
     socket =
       socket
@@ -309,6 +321,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
       if elapsed >= socket.assigns.total_race_time do
         horses = Enum.map(socket.assigns.horses, &min(&1, 100))
         winner = if Enum.any?(horses, &(&1 >= 100)), do: find_winner(horses), else: nil
+
+        Minigames.set_horse_race_running(false)
 
         {:ok,
          assign(socket,

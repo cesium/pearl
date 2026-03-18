@@ -197,7 +197,7 @@ defmodule PearlWeb.Router do
           live "/paytable", Index, :show_paytable
         end
 
-        live "games/horse_race", HorseRaceLive.Index, :index
+        live "/games/horse_race", HorseRaceLive.Index, :index
 
         scope "/store", StoreLive do
           live "/", Index, :index

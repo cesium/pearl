@@ -2287,4 +2287,79 @@ defmodule Pearl.Minigames do
       {:error, _step, reason, _changes} -> {:error, reason}
     end
   end
+
+  @doc """
+  Gets all pending horse race bets for an attendee.
+
+  ## Examples
+
+      iex> get_attendee_pending_bets(1)
+      [%HorseRaceBet{}, ...]
+  """
+  def get_attendee_pending_bets(attendee_id) do
+    HorseRaceBet
+    |> where([b], b.attendee_id == ^attendee_id and b.status == "pending")
+    |> order_by([b], desc: b.inserted_at)
+    |> Repo.all()
+  end
+
+  @doc """
+  Checks if a horse race is currently running.
+  """
+  def horse_race_running? do
+    case Constants.get("horse_race_running") do
+      {:ok, running} -> running
+      {:error, _} -> false
+    end
+  end
+
+  @doc """
+  Sets the horse race running state.
+  """
+  def set_horse_race_running(running?) when is_boolean(running?) do
+    Constants.set("horse_race_running", running?)
+  end
+
+  @doc """
+  Gets the saved horse race positions as a list.
+  """
+  def get_horse_race_positions do
+    case Constants.get("horse_race_positions") do
+      {:ok, positions} -> positions
+      {:error, _} -> []
+    end
+  end
+
+  @doc """
+  Saves the horse race positions.
+  """
+  def set_horse_race_positions(positions) when is_list(positions) do
+    Constants.set("horse_race_positions", positions)
+  end
+
+  @doc """
+  Gets the saved race elapsed time in milliseconds.
+  """
+  def get_horse_race_elapsed_time do
+    case Constants.get("horse_race_elapsed_time") do
+      {:ok, elapsed} -> elapsed
+      {:error, _} -> 0
+    end
+  end
+
+  @doc """
+  Saves the race elapsed time in milliseconds.
+  """
+  def set_horse_race_elapsed_time(elapsed) when is_integer(elapsed) do
+    Constants.set("horse_race_elapsed_time", elapsed)
+  end
+
+  @doc """
+  Clears all saved horse race state.
+  """
+  def clear_horse_race_state do
+    Constants.delete("horse_race_running")
+    Constants.delete("horse_race_positions")
+    Constants.delete("horse_race_elapsed_time")
+  end
 end

@@ -6,7 +6,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
   import PearlWeb.Components.Button
 
   def mount(_params, session, socket) do
-    ticket_types = TicketTypes.list_ticket_types()
+    ticket_types = TicketTypes.list_event_ticket_types()
 
     ticket_type_id =
       case Map.get(session, "ticket_type_id") do
@@ -57,7 +57,10 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       |> assign(:active_orbs, [%{disabilities: "active"}, %{allergens: "active"}])
     else
       socket
-      |> put_flash(:error, "Por favor completa todos os campos obrigatórios antes de prosseguir.")
+      |> put_flash(
+        :error,
+        "Por favor completa todos os campos obrigatórios antes de prosseguir."
+      )
       |> push_patch(to: ~p"/checkout/choose_ticket")
     end
   end
@@ -82,7 +85,10 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       ])
     else
       socket
-      |> put_flash(:error, "Por favor completa todos os campos obrigatórios antes de prosseguir.")
+      |> put_flash(
+        :error,
+        "Por favor completa todos os campos obrigatórios antes de prosseguir."
+      )
       |> push_patch(to: ~p"/checkout/precautions")
     end
   end

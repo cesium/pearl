@@ -592,4 +592,100 @@ defmodule Pearl.Activities do
   def change_enrolment(%Enrolment{} = enrolment, attrs \\ %{}) do
     Enrolment.changeset(enrolment, attrs)
   end
+
+  alias Pearl.Activities.ActivityTicket
+
+  @doc """
+  Returns the list of activity_tickets.
+
+  ## Examples
+
+      iex> list_activity_tickets()
+      [%ActivityTicket{}, ...]
+
+  """
+  def list_activity_tickets do
+    Repo.all(ActivityTicket)
+  end
+
+  @doc """
+  Gets a single activity_ticket.
+
+  Raises `Ecto.NoResultsError` if the Activity ticket does not exist.
+
+  ## Examples
+
+      iex> get_activity_ticket!(123)
+      %ActivityTicket{}
+
+      iex> get_activity_ticket!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_activity_ticket!(id), do: Repo.get!(ActivityTicket, id)
+
+  @doc """
+  Creates a activity_ticket.
+
+  ## Examples
+
+      iex> create_activity_ticket(%{field: value})
+      {:ok, %ActivityTicket{}}
+
+      iex> create_activity_ticket(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_activity_ticket(attrs) do
+    %ActivityTicket{}
+    |> ActivityTicket.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a activity_ticket.
+
+  ## Examples
+
+      iex> update_activity_ticket(activity_ticket, %{field: new_value})
+      {:ok, %ActivityTicket{}}
+
+      iex> update_activity_ticket(activity_ticket, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_activity_ticket(%ActivityTicket{} = activity_ticket, attrs) do
+    activity_ticket
+    |> ActivityTicket.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a activity_ticket.
+
+  ## Examples
+
+      iex> delete_activity_ticket(activity_ticket)
+      {:ok, %ActivityTicket{}}
+
+      iex> delete_activity_ticket(activity_ticket)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_activity_ticket(%ActivityTicket{} = activity_ticket) do
+    Repo.delete(activity_ticket)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking activity_ticket changes.
+
+  ## Examples
+
+      iex> change_activity_ticket(activity_ticket)
+      %Ecto.Changeset{data: %ActivityTicket{}}
+
+  """
+  def change_activity_ticket(%ActivityTicket{} = activity_ticket, attrs \\ %{}) do
+    ActivityTicket.changeset(activity_ticket, attrs)
+  end
 end

@@ -217,7 +217,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Speakers do
     <img
       :if={@speaker && @speaker.picture}
       src={speaker_image_url(@speaker)}
-      class={[@class, "animate-[fade_in_0.5s_ease-out]"]}
+      class={[@class, "animate-[fade_in_0.5s_ease-out] aspect-square object-cover"]}
     />
     """
   end

@@ -8,6 +8,7 @@ defmodule Pearl.Billing do
   alias Pearl.Accounts
   alias Pearl.Billing.Payment
   alias Pearl.Tickets
+  alias Pearl.Activities
 
   @pubsub Pearl.PubSub
 
@@ -53,6 +54,59 @@ defmodule Pearl.Billing do
              order_id: body["id"],
              status: :pending,
              ticket_id: ticket_id
+           })}
+
+        {:ok, %Req.Response{status: status, body: body}} ->
+          {:error, %{status: status, body: body}}
+
+        {:error, reason} ->
+          {:error, reason}
+      end
+    end
+  end
+
+  def start_payment(:mbway, :activity, ticket_id, order_data) do
+    ticket = Activities.get_activity_ticket!(ticket_id)
+    ticket_type = ticket.ticket_type
+    user = ticket.user
+    checkout_info = get_checkout_information(ticket_type)
+
+    with :ok <- validate_midas_config(ticket_type) do
+      case Req.post(midas_api_url() <> "/orders",
+             headers: [{"authorization", "Bearer " <> midas_api_key()}],
+             json: %{
+               order: %{
+                 lines: [
+                   %{
+                     product_id: ticket_type.product_key,
+                     quantity: checkout_info.quantity,
+                     discount: 0
+                   }
+                 ],
+                 customer_email: user.email,
+                 customer_name: user.name,
+                 customer_tax_id:
+                   if order_data["tax_id"] == "" do
+                     nil
+                   else
+                     order_data["tax_id"]
+                   end,
+                 payment: %{
+                   method: "mbway",
+                   phone_number: order_data["phone_number"]
+                 },
+                 message: "CeSIUM - ENEI 2026 Tickets",
+                 extra_fields: %{ticket_id: ticket_id}
+               }
+             }
+           ) do
+        {:ok, %Req.Response{status: 201, body: body}} ->
+          {:ok,
+           create_payment(%{
+             amount: checkout_info.total,
+             order_id: body["id"],
+             status: :pending,
+             activity_ticket_id: ticket_id
            })}
 
         {:ok, %Req.Response{status: status, body: body}} ->
@@ -157,7 +211,7 @@ defmodule Pearl.Billing do
   """
   def get_payment_by_order_id!(order_id) do
     Payment
-    |> preload(:ticket)
+    |> preload([:ticket, :activity_ticket])
     |> Repo.get_by!(order_id: order_id)
   end
 
@@ -257,7 +311,16 @@ defmodule Pearl.Billing do
   def mark_payment_completed(order_id) do
     payment = get_payment_by_order_id!(order_id)
 
-    Tickets.mark_ticket_as_paid(payment.ticket)
+    cond do
+      not is_nil(payment.ticket) ->
+        Tickets.mark_ticket_as_paid(payment.ticket)
+
+      not is_nil(payment.activity_ticket) ->
+        Activities.mark_activity_ticket_as_paid(payment.activity_ticket)
+
+      true ->
+        nil
+    end
 
     update_payment(payment, %{status: :completed})
     |> broadcast_payment_order_update()

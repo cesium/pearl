@@ -622,7 +622,15 @@ defmodule Pearl.Activities do
       ** (Ecto.NoResultsError)
 
   """
-  def get_activity_ticket!(id), do: Repo.get!(ActivityTicket, id)
+  def get_activity_ticket!(id) do
+    ActivityTicket
+    |> preload([:user, :ticket_type])
+    |> Repo.get!(id)
+  end
+
+  def mark_activity_ticket_as_paid(%ActivityTicket{} = activity_ticket) do
+    update_activity_ticket(activity_ticket, %{paid: true})
+  end
 
   @doc """
   Creates a activity_ticket.

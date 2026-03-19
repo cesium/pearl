@@ -1,4 +1,4 @@
-<div class="bg-white">
+<div class="bg-light">
   <div
     class="relative h-100 flex flex-col bg-bottom justify-end place-items-center"
     style="background: linear-gradient(to bottom, rgba(239, 239, 237, 0.7) 0%, rgba(239, 239, 237, 0.1) 70%, transparent 100%), linear-gradient(to right, rgba(249, 128, 141, 0.3) 0%, rgba(219, 179, 127, 0.3) 25%, rgba(216, 158, 208, 0.3) 50%, rgba(154, 183, 193, 0.3) 75%, rgba(179, 193, 146, 0.3) 100%);"
@@ -15,10 +15,29 @@
       class="w-[671px] relative pointer-events-none select-none"
     />
   </div>
-  <div class="pb-14 sm:pb-28 px-6.5 md:px-10 xl:px-16 bg-white relative">
-    <div class="relative z-20 flex flex-col justify-between lg:h-3/4"></div>
+  <div class="pb-14 sm:pb-28 px-6.5 md:px-10 xl:px-16 bg-light relative">
     <div class="mt-16 grid sm:grid-cols-2 xl:grid-cols-3 md:justify-between place-items-start gap-8">
-      <.card :for={ticket_type <- @ticket_types} ticket_type={ticket_type} />
+      <.card
+        :for={ticket_type <- @event_ticket_types}
+        ticket_type={ticket_type}
+        user_ticket={@user_ticket}
+      />
+    </div>
+
+    <div class="mt-16">
+      <div class="mb-8">
+        <p class="text-black text-2xl font-extrabold">Atividades</p>
+        <p class="text-dark/50 text-lg mt-1">
+          Bilhetes para atividades individuais durante o evento.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-2 xl:grid-cols-3 md:justify-between place-items-start gap-8">
+        <.card
+          :for={ticket_type <- @activity_ticket_types}
+          ticket_type={ticket_type}
+          user_ticket={@user_ticket}
+        />
+      </div>
     </div>
   </div>
 </div>

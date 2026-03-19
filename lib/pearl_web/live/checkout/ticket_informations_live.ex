@@ -49,6 +49,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     changeset =
       %Ticket{}
       |> apply_step_validation(:choose_ticket, socket.assigns.ticket_data)
+      |> validate_ticket_active()
 
     if changeset.valid? do
       socket
@@ -69,6 +70,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     changeset =
       %Ticket{}
       |> apply_step_validation(:precautions, socket.assigns.ticket_data)
+      |> validate_ticket_active()
 
     if changeset.valid? do
       socket
@@ -97,6 +99,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     changeset =
       %Ticket{}
       |> apply_step_validation(:informations, socket.assigns.ticket_data)
+      |> validate_ticket_active()
 
     if changeset.valid? do
       socket
@@ -145,6 +148,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     changeset =
       %Ticket{}
       |> apply_step_validation(socket.assigns.current_step, socket.assigns.ticket_data)
+      |> validate_ticket_active()
 
     if changeset.valid? do
       next_route = get_next_route(socket.assigns.current_step)
@@ -226,5 +230,15 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
 
   defp apply_step_validation(changeset, :conclusion, ticket_data) do
     changeset |> Tickets.change_ticket(ticket_data)
+  end
+
+  defp validate_ticket_active(changeset) do
+    changeset
+    |> Ecto.Changeset.validate_change(:ticket_type_id, fn :ticket_type_id, ticket_type_id ->
+      case Enum.find(TicketTypes.list_active_ticket_types(), fn tt -> tt.id == ticket_type_id end) do
+        nil -> [ticket_type_id: "Selected ticket type is not active"]
+        _ -> []
+      end
+    end)
   end
 end

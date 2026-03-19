@@ -173,7 +173,7 @@ defmodule PearlWeb.Router do
       live "/attendee/:credential_id", AttendeeLive.Index, :index
 
       scope "/app", App do
-        pipe_through [:require_confirmed_user, :require_attendee_user]
+        pipe_through [:require_confirmed_user, :require_attendee_user, :require_paid_ticket]
 
         live "/waiting", WaitingLive.Index, :index
 

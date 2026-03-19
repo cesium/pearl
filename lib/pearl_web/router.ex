@@ -86,6 +86,7 @@ defmodule PearlWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     get "/init", TicketsController, :init
+    get "/activity/init", TicketsController, :init_activity
   end
 
   scope "/checkout", PearlWeb do
@@ -106,6 +107,20 @@ defmodule PearlWeb.Router do
       live "/precautions", Checkout.TicketInformationsLive, :precautions
       live "/informations", Checkout.TicketInformationsLive, :informations
       live "/conclusion", Checkout.TicketInformationsLive, :conclusion
+    end
+  end
+
+  scope "/checkout", PearlWeb do
+    pipe_through [
+      :browser,
+      :require_authenticated_user,
+      :require_confirmed_user,
+      :redirect_if_user_is_staff
+    ]
+
+    live_session :activity_checkout,
+      on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
+      live "/activity/confirm", Checkout.ActivityTicketLive, :confirm
     end
   end
 

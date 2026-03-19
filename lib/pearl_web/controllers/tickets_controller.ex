@@ -9,6 +9,12 @@ defmodule PearlWeb.TicketsController do
     |> redirect(to: "/checkout/choose_ticket")
   end
 
+  def init_activity(conn, %{"ticket_type_id" => ticket_type_id}) do
+    conn
+    |> put_session(:activity_ticket_type_id, ticket_type_id)
+    |> redirect(to: "/checkout/activity/confirm")
+  end
+
   def tickets_count(conn, %{"pearl_api_key" => pearl_api_key} = _params) do
     if pearl_api_key == Application.fetch_env!(:pearl, Pearl.Billing)[:pearl_api_key] do
       conn

@@ -1,5 +1,5 @@
 <div>
-  <div class="bg-dotted flex flex-col gap-10 py-16 xl:px-28 md:px-20 px-8 relative">
+  <div class="bg-dotted flex flex-col gap-10 py-16 xl:px-28 md:px-20 px-4 relative">
     <div class="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background-muted to-transparent pointer-events-none">
     </div>
     <h1 class="text-4xl font-semibold">
@@ -8,7 +8,7 @@
     <div class="bg-white h-full">
       <div class="w-full lg:h-35 flex lg:flex-row flex-col">
         <!-- Countdown -->
-        <div class="py-9 px-9 flex flex-col lg:flex-row lg:w-1/2 w-full gap-4">
+        <div class="p-6 md:p-9 flex flex-col lg:flex-row lg:w-1/2 w-full gap-4">
           <div class="w-full">
             <p class="uppercase opacity-50 text-sm lg:text-regular">Countdown</p>
             <p class="font-semibold xl:text-2xl text-xl">
@@ -60,14 +60,16 @@
       </div>
     </div>
   </div>
-  <div class="xl:px-28 md:px-20 px-10 flex flex-col gap-12 pb-20">
+  <div class="xl:px-28 md:px-20 px-4 flex flex-col gap-12 pb-20">
     <div>
-      <h2 class="text-2xl font-semibold">{gettext("FAQs")}</h2>
-      <p class="pt-1 pb-6">
-        {gettext(
-          "Esclarece as tuas dúvidas relativas ao evento com as nossas respostas (e aproveita algumas dicas)."
-        )}
-      </p>
+      <div class="px-3.5">
+        <h2 class="text-2xl font-semibold">{gettext("FAQs")}</h2>
+        <p class="pt-1 pb-6">
+          {gettext(
+            "Esclarece as tuas dúvidas relativas ao evento com as nossas respostas (e aproveita algumas dicas)."
+          )}
+        </p>
+      </div>
       <.faq
         :for={{id, faq} <- @streams.faqs}
         id={id}

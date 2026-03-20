@@ -40,7 +40,7 @@ defmodule PearlWeb.Landing.FAQLive.Components.Contacts do
     assigns = Map.put(assigns, :contacts, @contacts)
 
     ~H"""
-    <div>
+    <div class="px-3">
       <h2 class="text-2xl font-semibold">{gettext("Contacta-nos")}</h2>
       <p class="py-1">{gettext("Para qualquer problema, fala connosco.")}</p>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-2.5 pt-6">

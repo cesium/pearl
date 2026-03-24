@@ -604,7 +604,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
                 phx-click="enrol"
                 phx-target={@myself}
                 phx-value-activity_id={@activity.id}
-                data-confirm={gettext("Are you sure you want to enrol?")}
+                data-confirm={gettext("Tem certeza de que te queres increver?")}
                 class="mt-2 px-5 py-2 bg-dark text-light text-base font-bold rounded-full hover:bg-dark transition-colors"
               >
                 {gettext("Inscrever")}

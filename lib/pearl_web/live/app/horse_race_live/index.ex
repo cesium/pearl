@@ -3,6 +3,8 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
 
   alias Pearl.Minigames
 
+  import PearlWeb.Components.Modal
+
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket) do
@@ -28,6 +30,7 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
      )
      |> assign(:current_race_id, Minigames.get_current_horse_race_id())
      |> assign(:horse_bets, %{})
+     |> assign(:race_result, nil)
      |> assign(
        :active_bets,
        Minigames.get_attendee_pending_bets(socket.assigns.current_user.attendee.id)
@@ -79,26 +82,25 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
       winning_bets =
         Enum.filter(bets, fn b -> MapSet.member?(active_bet_ids, b.id) && b.status == "won" end)
 
-      socket =
-        if winning_bets != [] do
-          total_payout =
-            winning_bets
-            |> Enum.map(& &1.payout_amount)
-            |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
-            |> Decimal.to_float()
+        socket =
+    if winning_bets != [] do
+      total_payout =
+        winning_bets
+        |> Enum.map(& &1.payout_amount)
+        |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
+        |> Decimal.to_float()
 
-          put_flash(
-            socket,
-            :info,
-            "Parabéns! O cavalo ##{winning_horse} ganhou! Recebeste #{format_tokens(total_payout)} tokens!"
-          )
-        else
-          put_flash(
-            socket,
-            :error,
-            "O cavalo ##{winning_horse} ganhou. Melhor sorte da próxima vez!"
-          )
-        end
+      assign(socket, :race_result, %{
+        winning_horse: winning_horse,
+        winnings: format_tokens(total_payout)
+      })
+    else
+      assign(socket, :race_result, %{
+        winning_horse: winning_horse,
+        winnings: 0
+      })
+    end
+
 
       {:noreply,
        socket
@@ -111,6 +113,10 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
 
   def handle_info(_msg, socket) do
     {:noreply, socket}
+  end
+
+    def handle_event("clear_result", _params, socket) do
+    {:noreply, assign(socket, :race_result, nil)}
   end
 
   @impl true
@@ -180,6 +186,7 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
              socket
              |> assign(:attendee_tokens, Minigames.get_attendee_tokens(attendee_id))
              |> assign(:horse_bets, %{})
+     |> assign(:race_result, nil)
              |> assign(:active_bets, bets)
              |> put_flash(
                :info,

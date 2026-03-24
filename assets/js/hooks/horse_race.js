@@ -255,7 +255,11 @@ export const HorseRace = {
 
         this.updateHorsePositions(elapsed, durationSeconds);
 
-        this.pushEvent("update_race", { elapsed: Math.floor(elapsed) });
+        this.pushEvent("update_race", { 
+          elapsed: Math.floor(elapsed), 
+          positions: this.horses,
+          js_winner: this.firstWinner
+        });
 
         if (remaining <= 0) {
           this.endRace();
@@ -343,8 +347,8 @@ export const HorseRace = {
       }
 
       let newPosition = Math.max(this.horses[index], basePosition);
-      newPosition = Math.min(newPosition, 100);
-      this.horses[index] = newPosition;
+      this.horses[index] = newPosition; // We don't cap it at 100 internally anymore, so the server can see who won
+      newPosition = Math.min(newPosition, 100); // Only cap for visual rendering
 
       const visualPosition = newPosition;
 

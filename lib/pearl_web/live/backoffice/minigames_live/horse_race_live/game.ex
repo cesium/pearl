@@ -125,6 +125,10 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
     {:noreply, socket}
   end
 
+  def handle_event("clear_winner", _params, socket) do
+    {:noreply, assign(socket, winner: nil)}
+  end
+
   def handle_event("stop_race", _params, socket) do
     socket =
       socket
@@ -162,9 +166,30 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
 
       time_remaining = max(0, socket.assigns.total_race_time - elapsed)
 
+      client_horses = 
+        if is_list(params["positions"]) do
+          Enum.map(params["positions"], fn 
+            p when is_binary(p) -> 
+              case Float.parse(p) do
+                {f, _} -> f
+                :error -> 0.0
+              end
+            p when is_number(p) -> p * 1.0
+            _ -> 0.0 
+          end)
+        else
+          nil
+        end
+
       if elapsed >= socket.assigns.total_race_time do
-        horses = Enum.map(socket.assigns.horses, &min(&1, 100))
-        winner = if Enum.any?(horses, &(&1 >= 100)), do: find_winner(horses), else: nil
+        horses = client_horses || Enum.map(socket.assigns.horses, &min(&1, 100))
+        
+        winner = 
+          case params["js_winner"] do
+            w when is_integer(w) -> w
+            w when is_binary(w) -> String.to_integer(w)
+            _ -> find_winner(horses)
+          end
 
         # Process payouts if there's a winner and active race
         socket =
@@ -183,8 +208,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
            time_elapsed: socket.assigns.total_race_time
          )}
       else
-        new_horses =
-          update_horse_positions(socket.assigns.horses, socket.assigns.horse_speeds)
+        new_horses = client_horses || update_horse_positions(socket.assigns.horses, socket.assigns.horse_speeds)
 
         # Don't determine winner until time runs out - just keep racing
         {:noreply,
@@ -318,23 +342,23 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
             </div>
           </div>
 
-          <div class="p-8 bg-black rounded-xl border-2 border-white/20 shadow-2xl">
+          <div class="p-8 bg-[#811824] rounded-xl border-2 border-[#ffdb0d]/50 shadow-2xl relative overflow-hidden">
             <div class="mb-6">
-              <h3 class="text-xl font-bold mb-4 text-white">{gettext("Race Track")}</h3>
+              <h3 class="text-2xl font-bold mb-6 text-[#ffdb0d] uppercase tracking-wider">{gettext("Race Track")}</h3>
               <div class="space-y-2" id="horses-container" phx-update="ignore">
                 <%= for {horse, index} <- Enum.with_index(@horses) do %>
                   <div class="relative">
-                    <div class="absolute left-0 top-0 h-full w-20 bg-gray-900 flex flex-col items-center justify-center font-bold text-sm border-r-2 border-white/40 rounded-l-lg">
-                      <div class="text-yellow-400 text-lg font-bold">#{index + 1}</div>
+                    <div class="absolute left-0 top-0 h-full w-20 bg-black/40 flex flex-col items-center justify-center font-bold text-sm border-r-2 border-[#ffdb0d]/50 rounded-l-lg z-10">
+                      <div class="text-[#ffdb0d] text-2xl font-black">#{index + 1}</div>
                       <div class="text-white text-xs mt-1">Lane</div>
                     </div>
 
-                    <div class="relative h-20 bg-gray-900 rounded-lg overflow-hidden border-2 border-white/30 ml-20">
+                    <div class="relative h-20 bg-[#f8f9fa] rounded-lg overflow-hidden border-2 border-[#ffdb0d]/50 ml-20 shadow-inner">
                       <div class="absolute inset-0 flex">
-                        <div class="flex-1 border-r border-dashed border-white/20"></div>
-                        <div class="flex-1 border-r border-dashed border-white/20"></div>
-                        <div class="flex-1 border-r border-dashed border-white/20"></div>
-                        <div class="flex-1 border-r border-dashed border-white/20"></div>
+                        <div class="flex-1 border-r-2 border-dashed border-black/10"></div>
+                        <div class="flex-1 border-r-2 border-dashed border-black/10"></div>
+                        <div class="flex-1 border-r-2 border-dashed border-black/10"></div>
+                        <div class="flex-1 border-r-2 border-dashed border-black/10"></div>
                       </div>
 
                       <div
@@ -351,7 +375,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                         />
                       </div>
 
-                      <div class="absolute right-0 top-0 h-full w-1 bg-gradient-to-b from-red-500 via-red-600 to-red-500 finish-line shadow-lg shadow-red-500/50">
+                      <div class="absolute right-0 top-0 h-full w-2 bg-gradient-to-b from-[#ffdb0d] via-yellow-400 to-[#ffdb0d] finish-line shadow-lg shadow-[#ffdb0d]/50">
                       </div>
 
                       <div class="absolute right-2 top-0 h-full flex items-center">
@@ -362,9 +386,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                     </div>
 
                     <div class="absolute right-2 top-0 h-full flex items-center">
-                      <div class="bg-black/80 border border-green-500/50 rounded px-3 py-1 shadow-lg">
+                      <div class="bg-black/90 border-2 border-[#ffdb0d] rounded px-3 py-1 shadow-lg">
                         <span
-                          class="text-sm font-mono font-bold text-green-400 horse-percentage"
+                          class="text-sm font-mono font-bold text-[#ffdb0d] horse-percentage"
                           id={"horse-percent-#{index}"}
                         >
                           {round(horse)}%
@@ -381,7 +405,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                   disabled={@racing || @winner != nil}
                   id="btn-start-race"
                   phx-value-duration={@total_race_time}
-                  class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-3 px-6 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 transition-all"
+                  class="bg-[#ffdb0d] hover:bg-yellow-400 text-[#811824] font-black py-3 px-8 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 transition-all text-lg border-2 border-[#811824]"
                 >
                   <.icon name="hero-play" class="w-6 mr-2" />
                   {gettext("Start Race")}
@@ -411,31 +435,34 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
               </div>
 
               <%= if @winner && !@racing do %>
-                <div class="mt-8 p-6 bg-gradient-to-r from-yellow-500/20 via-yellow-400/20 to-yellow-500/20 border-2 border-yellow-500 rounded-xl shadow-2xl backdrop-blur-sm">
-                  <div class="text-center">
-                    <div class="mb-3 flex justify-center">
+                <div 
+                  class="absolute inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-xl"
+                  phx-hook="Confetti"
+                  id="backoffice-horse-race-result"
+                  data-is_win="true"
+                >
+                  <div class="p-8 w-11/12 max-w-3xl bg-gradient-to-r from-yellow-900/90 via-yellow-800/90 to-yellow-900/90 border-4 border-yellow-500 rounded-2xl shadow-[0_0_50px_rgba(234,179,8,0.5)] text-center animate-in zoom-in duration-300">
+                    <div class="mb-4 flex justify-center">
                       <img
                         src={~p"/images/icons/horse.png"}
                         alt="Winner"
-                        class="w-20 h-20 animate-bounce"
+                        class="w-24 h-24 animate-bounce drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]"
                       />
                     </div>
-                    <p class="font-bold text-3xl text-yellow-400 mb-3 drop-shadow-lg">
+                    <p class="font-black text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-500 mb-6 drop-shadow-lg uppercase tracking-widest">
                       {gettext("VENCEDOR: Cavalo #%{horse}!", horse: @winner)}
                     </p>
-                    <div class="flex items-center justify-center gap-3 my-3">
-                      <img
-                        src={~p"/images/icons/horse.png"}
-                        alt="Winner"
-                        class="w-14 h-14 animate-bounce"
-                      />
-                      <span class="text-4xl">🏁</span>
-                      <img
-                        src={~p"/images/icons/horse.png"}
-                        alt="Winner"
-                        class="w-14 h-14 animate-bounce"
-                      />
+                    <div class="flex items-center justify-center gap-6 my-6">
+                      <img src={~p"/images/icons/horse.png"} class="w-16 h-16 animate-bounce" style="animation-delay: 0.1s" />
+                      <span class="text-6xl drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">🏁</span>
+                      <img src={~p"/images/icons/horse.png"} class="w-16 h-16 animate-bounce" style="animation-delay: 0.2s" />
                     </div>
+                    <button 
+                      phx-click="clear_winner" 
+                      class="mt-4 px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-yellow-900 font-bold text-xl rounded-full shadow-lg transition-transform hover:scale-105 uppercase tracking-wide"
+                    >
+                      {gettext("Fechar")}
+                    </button>
                   </div>
                 </div>
               <% end %>

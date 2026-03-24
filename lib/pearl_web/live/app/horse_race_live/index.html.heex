@@ -1,4 +1,30 @@
 <.page title={gettext("Horse Race")} size={:xl} title_class="uppercase">
+  <%= if @race_result do %>
+    <.modal
+      id="horse-race-result"
+      show={true}
+      on_cancel={JS.push("clear_result")}
+      body_class="bg-primary ring-4 ring-white py-14 px-5"
+      phx-hook="Confetti"
+      data-is_win={@race_result.winnings > 0}
+    >
+      <div class="font-terminal uppercase text-3xl md:text-4xl text-center">
+        <%= if @race_result.winnings > 0 do %>
+          {gettext("Parabéns! Ganhaste!")}
+        <% else %>
+          {gettext("Perdeste...")}
+        <% end %>
+      </div>
+      <div class="text-center mt-4 text-xl">
+        <%= if @race_result.winnings > 0 do %>
+          {gettext("O cavalo #%{horse} ganhou e tu recebeste %{winnings} tokens!", horse: @race_result.winning_horse, winnings: @race_result.winnings)}
+        <% else %>
+          {gettext("O cavalo #%{horse} ganhou. Melhor sorte da próxima vez!", horse: @race_result.winning_horse)}
+        <% end %>
+      </div>
+    </.modal>
+  <% end %>
+
   <:actions>
     <span class="text-semibold text-xl border-2 px-4 py-2 flex place-items-center gap-2">
       <.icon name="fa-sack-dollar-solid" />
@@ -17,7 +43,7 @@
           <h2 class="text-2xl uppercase font-bold mb-6">
             {gettext("Place Your Bets")}
           </h2>
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full md:w-auto">
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full md:w-auto">
             <%= for horse_num <- 1..@number_of_horses do %>
               <% horse_bet = Map.get(@horse_bets, horse_num, 0) %>
               <% has_bet = horse_bet > 0 %>
@@ -87,7 +113,7 @@
             <span class="inline-block w-3 h-3 rounded-full bg-primary animate-pulse"></span>
             {gettext("Active Bets")}
           </h3>
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <%= for bet <- @active_bets do %>
               <div class="border border-primary/40 bg-primary/10 p-3 rounded text-center">
                 <p class="text-lg font-bold">#{bet.horse_number}</p>

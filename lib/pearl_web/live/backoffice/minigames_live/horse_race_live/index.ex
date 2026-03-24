@@ -40,9 +40,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
           </div>
         </div>
 
-        <div class="p-6 bg-linear-to-b dark:from-darkShade/30 dark:to-darkShade/10 from-lightShade/30 to-lightShade/10 rounded-lg border-2 dark:border-darkShade/20 border-lightShade/20">
+        <div class="p-6 bg-[#811824] rounded-xl border-2 border-[#ffdb0d]/50 shadow-2xl relative overflow-hidden">
           <div class="mb-6">
-            <h3 class="text-xl font-bold mb-4">{gettext("Race Track")}</h3>
+            <h3 class="text-2xl font-bold mb-4 text-[#ffdb0d] uppercase tracking-wider">{gettext("Race Track")}</h3>
 
             <div class="mb-4 w-full h-2 bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden">
               <div
@@ -56,18 +56,18 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
             <div class="space-y-3" id="horses-container">
               <%= for {horse, index} <- Enum.with_index(@horses) do %>
                 <div class="relative">
-                  <div class="absolute left-0 top-0 h-full w-16 dark:bg-darkShade/50 bg-lightShade/50 flex flex-col items-center justify-center font-bold text-sm border-r dark:border-darkShade/20 border-lightShade/20 rounded-l">
-                    <div>🐴</div>
-                    <div class="text-xs">#{index + 1}</div>
+                  <div class="absolute left-0 top-0 h-full w-16 bg-black/40 flex flex-col items-center justify-center font-bold text-sm border-r-2 border-[#ffdb0d]/50 rounded-l-lg z-10">
+                    <div class="text-[#ffdb0d] text-xl font-black">##{index + 1}</div>
+                    <div class="text-white text-xs mt-1">Lane</div>
                   </div>
 
-                  <div class="relative h-16 dark:bg-darkShade/30 bg-lightShade/30 rounded-lg overflow-hidden border dark:border-darkShade/20 border-lightShade/20 ml-16">
+                  <div class="relative h-16 bg-[#f8f9fa] rounded-lg overflow-hidden border-2 border-[#ffdb0d]/50 ml-16 shadow-inner">
                     <div class="absolute inset-0 flex">
-                      <div class="flex-1 border-r dark:border-darkShade/10 border-lightShade/10">
+                      <div class="flex-1 border-r-2 border-dashed border-black/10">
                       </div>
-                      <div class="flex-1 border-r dark:border-darkShade/10 border-lightShade/10">
+                      <div class="flex-1 border-r-2 border-dashed border-black/10">
                       </div>
-                      <div class="flex-1 border-r dark:border-darkShade/10 border-lightShade/10">
+                      <div class="flex-1 border-r-2 border-dashed border-black/10">
                       </div>
                     </div>
 
@@ -77,24 +77,20 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
                       data-horse-index={index}
                       style={"left: calc(#{horse}%)"}
                     >
-                      <%= if horse >= 95 do %>
-                        <span class="text-3xl">🏇</span>
-                      <% else %>
-                        <span class="text-3xl">🐎</span>
-                      <% end %>
+                        <img src={~p"/images/icons/horse.png"} alt="Horse" class="w-10 h-10 animate-bounce horse-icon" />
                     </div>
 
-                    <div class="absolute right-0 top-0 h-full w-1 dark:bg-red-500 bg-red-600 finish-line">
+                    <div class="absolute right-0 top-0 h-full w-2 bg-gradient-to-b from-[#ffdb0d] via-yellow-400 to-[#ffdb0d] finish-line shadow-lg shadow-[#ffdb0d]/50">
                     </div>
                   </div>
 
                   <div class="absolute right-2 top-0 h-full flex items-center">
-                    <span
-                      class="text-sm font-bold dark:text-gray-300 text-gray-700 horse-percentage"
+                    <div class="bg-black/90 border-2 border-[#ffdb0d] rounded px-2 py-1 shadow-lg mr-2"><span
+                      class="text-sm font-mono font-bold text-[#ffdb0d] horse-percentage"
                       id={"horse-percent-#{index}"}
                     >
                       {round(horse)}%
-                    </span>
+                    </span></div>
                   </div>
                 </div>
               <% end %>
@@ -107,7 +103,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
                 disabled={@racing}
                 id="btn-start-race"
                 phx-value-duration={@total_race_time}
-                class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                class="bg-[#ffdb0d] hover:bg-yellow-400 text-[#811824] font-black py-2 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-all border-2 border-[#811824]"
               >
                 <.icon name="hero-play" class="w-5 mr-2" />
                 {gettext("Start Race")}
@@ -128,15 +124,35 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
           </div>
 
           <%= if @winner do %>
-            <div class="mt-6 p-6 bg-linear-to-r from-yellow-200 to-yellow-100 dark:from-yellow-900/60 dark:to-yellow-900/30 border-l-4 border-yellow-500 rounded-lg shadow-xl winner-announcement">
-              <div class="text-center">
-                <div class="text-6xl mb-4 animate-bounce">🏆</div>
-                <p class="font-bold text-2xl text-yellow-900 dark:text-yellow-200 mb-2">
-                  🐎 {gettext("Cavalo #%{horse} venceu a corrida! 🐎", horse: @winner)}
+            <div 
+              class="absolute inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-xl"
+              phx-hook="Confetti"
+              id="backoffice-horse-race-result"
+              data-is_win="true"
+            >
+              <div class="p-8 w-11/12 max-w-3xl bg-gradient-to-r from-yellow-900/90 via-yellow-800/90 to-yellow-900/90 border-4 border-yellow-500 rounded-2xl shadow-[0_0_50px_rgba(234,179,8,0.5)] text-center animate-in zoom-in duration-300">
+                <div class="mb-4 flex justify-center">
+                  <img
+                    src={~p"/images/icons/horse.png"}
+                    alt="Winner"
+                    class="w-24 h-24 animate-bounce drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]"
+                  />
+                </div>
+                <p class="font-black text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-500 mb-6 drop-shadow-lg uppercase tracking-widest">
+                  {gettext("VENCEDOR: Cavalo #%{horse}!", horse: @winner)}
                 </p>
-                <p class="text-lg mt-2 text-yellow-800 dark:text-yellow-300">
-                  {gettext("Os pagamentos seriam calculados com base nas apostas feitas.")}
-                </p>
+                <div class="flex items-center justify-center gap-6 my-6">
+                  <img src={~p"/images/icons/horse.png"} class="w-16 h-16 animate-bounce" style="animation-delay: 0.1s" />
+                  <span class="text-6xl drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">🏁</span>
+                  <img src={~p"/images/icons/horse.png"} class="w-16 h-16 animate-bounce" style="animation-delay: 0.2s" />
+                </div>
+                <button 
+                  phx-click="clear_winner" 
+                  phx-target={@myself}
+                  class="mt-4 px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-yellow-900 font-bold text-xl rounded-full shadow-lg transition-transform hover:scale-105 uppercase tracking-wide"
+                >
+                  {gettext("Fechar")}
+                </button>
               </div>
             </div>
           <% end %>
@@ -242,6 +258,10 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
     {:noreply, socket}
   end
 
+  def handle_event("clear_winner", _params, socket) do
+    {:noreply, assign(socket, winner: nil)}
+  end
+
   def handle_event("stop_race", _params, socket) do
     Minigames.set_horse_race_running(false)
 
@@ -315,12 +335,43 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
 
   def handle_update(%{update: "update_race", params: params}, socket) do
     if socket.assigns.racing do
-      elapsed = String.to_integer(params["elapsed"])
+      elapsed =
+        case params["elapsed"] do
+          e when is_integer(e) -> e
+          e when is_binary(e) -> String.to_integer(e)
+          _ -> 0
+        end
+
       time_remaining = max(0, socket.assigns.total_race_time - elapsed)
 
+      client_horses =
+        if is_list(params["positions"]) do
+          Enum.map(params["positions"], fn
+            p when is_binary(p) ->
+              case Float.parse(p) do
+                {f, _} -> f
+                :error -> 0.0
+              end
+
+            p when is_number(p) ->
+              p * 1.0
+
+            _ ->
+              0.0
+          end)
+        else
+          nil
+        end
+
       if elapsed >= socket.assigns.total_race_time do
-        horses = Enum.map(socket.assigns.horses, &min(&1, 100))
-        winner = if Enum.any?(horses, &(&1 >= 100)), do: find_winner(horses), else: nil
+        horses = client_horses || Enum.map(socket.assigns.horses, &min(&1, 100))
+        
+        winner = 
+          case params["js_winner"] do
+            w when is_integer(w) -> w
+            w when is_binary(w) -> String.to_integer(w)
+            _ -> find_winner(horses)
+          end
 
         Minigames.set_horse_race_running(false)
 
@@ -334,7 +385,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
          )}
       else
         new_horses =
-          update_horse_positions(socket.assigns.horses, socket.assigns.horse_speeds)
+          client_horses ||
+            update_horse_positions(socket.assigns.horses, socket.assigns.horse_speeds)
 
         winner =
           if Enum.any?(new_horses, &(&1 >= 100)), do: find_winner(new_horses), else: nil

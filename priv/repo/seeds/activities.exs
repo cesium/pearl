@@ -135,6 +135,8 @@ defmodule Pearl.Repo.Seeds.Activities do
         activity
         |> Map.put(:date, next_first_tuesday_of_february())
         |> Map.put(:category_id, Map.get(categories, type).id)
+        |> Map.put(:has_enrolments, false)
+        |> Map.put(:max_enrolments, 0)
         |> Map.put(:title, Map.get(activity, :title) || Faker.Company.bs() |> String.capitalize())
         |> Map.put(:description, Faker.Lorem.paragraph())
         |> Map.put(:location, Map.get(activity, :location) || "CP2 - B1"))
@@ -147,11 +149,15 @@ defmodule Pearl.Repo.Seeds.Activities do
     for i <- 1..3 do
       for activity <- last_days_seed_data() do
         type = activity.type
+
+        is_workshop = type == :workshop
+
         changeset = Activities.change_activity(%Activity{},
           activity
           |> Map.put(:date, Date.shift(next_first_tuesday_of_february(), day: i))
           |> Map.put(:category_id, Map.get(categories, type).id)
-          |> Map.put(:enrolable, type == :workshop)
+          |> Map.put(:has_enrolments, is_workshop)
+          |> Map.put(:max_enrolments, if(is_workshop, do: 30, else: 0))
           |> Map.put(:title, Map.get(activity, :title) || Faker.Company.bs() |> String.capitalize())
           |> Map.put(:description, Faker.Lorem.paragraph())
           |> Map.put(:location, Map.get(activity, :location) || "CP2 - B1"))
@@ -213,20 +219,65 @@ defmodule Pearl.Repo.Seeds.Activities do
   end
 
   defp last_days_seed_data do
+    rooms = ["CP2 - 0.14", "CP2 - 0.15", "CP2 - 0.17"]
+
+    build_workshop_entries = fn slot ->
+      rooms
+      |> Enum.shuffle()
+      |> Enum.take(:rand.uniform(length(rooms)))
+      |> Enum.map(fn room ->
+        slot
+        |> Map.put(:location, room)
+        |> Map.put(:type, :workshop)
+      end)
+    end
+
+    build_slot_events = fn slot, as_workshop? ->
+      if as_workshop? do
+        build_workshop_entries.(slot)
+      else
+        [slot |> Map.put(:location, "CP2 - B1") |> Map.put(:type, :talk)]
+      end
+    end
+
+    morning_workshops =
+      Enum.map(rooms, fn room ->
+        %{time_start: ~T[09:00:00], time_end: ~T[11:00:00], location: room, type: :workshop}
+      end)
+
+    early_afternoon_slots = [
+      %{time_start: ~T[14:00:00], time_end: ~T[15:00:00]},
+      %{time_start: ~T[15:00:00], time_end: ~T[16:00:00]}
+    ]
+
+    early_choice_set =
+      early_afternoon_slots
+      |> Enum.shuffle()
+      |> Enum.take(:rand.uniform(length(early_afternoon_slots)))
+      |> Enum.map(&{&1.time_start, &1.time_end})
+      |> MapSet.new()
+
+    early_afternoon =
+      Enum.flat_map(early_afternoon_slots, fn slot ->
+        build_slot_events.(slot, MapSet.member?(early_choice_set, {slot.time_start, slot.time_end}))
+      end)
+
+    late_afternoon =
+      build_slot_events.(%{time_start: ~T[17:00:00], time_end: ~T[18:00:00]}, :rand.uniform(2) == 1)
+
+    morning_workshops ++
     [
-      %{time_start: ~T[09:00:00], time_end: ~T[11:00:00], location: "CP2 - 0.14", type: :workshop},
-      %{time_start: ~T[09:00:00], time_end: ~T[11:00:00], location: "CP2 - 0.15", type: :workshop},
-      %{time_start: ~T[09:00:00], time_end: ~T[11:00:00], location: "CP2 - 0.17", type: :workshop},
       %{title: "Coffee Break", time_start: ~T[11:00:00], time_end: ~T[11:30:00], type: :break},
       %{time_start: ~T[11:30:00], time_end: ~T[12:30:00], location: "CP2 - B1", type: :talk},
-      %{title: "Lunch Break", time_start: ~T[12:30:00], time_end: ~T[14:00:00], type: :break},
-      %{time_start: ~T[14:00:00], time_end: ~T[15:00:00], type: :talk},
-      %{time_start: ~T[15:00:00], time_end: ~T[16:00:00], type: :talk},
+      %{title: "Lunch Break", time_start: ~T[12:30:00], time_end: ~T[14:00:00], type: :break}
+    ] ++
+    early_afternoon ++
+    [
       %{title: "Coffee Break", time_start: ~T[16:00:00], time_end: ~T[16:30:00], type: :break},
       %{time_start: ~T[16:30:00], time_end: ~T[16:45:00], type: :pitch},
-      %{time_start: ~T[16:45:00], time_end: ~T[17:00:00], type: :pitch},
-      %{time_start: ~T[17:00:00], time_end: ~T[18:00:00], type: :talk}
-    ]
+      %{time_start: ~T[16:45:00], time_end: ~T[17:00:00], type: :pitch}
+    ] ++
+    late_afternoon
   end
 end
 

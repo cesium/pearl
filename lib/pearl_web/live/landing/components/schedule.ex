@@ -8,6 +8,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   alias Plug.Conn.Query
 
   import PearlWeb.Components.Modal
+  import PearlWeb.Components.Button
 
   @impl true
   def mount(socket) do
@@ -40,7 +41,8 @@ defmodule PearlWeb.Landing.Components.Schedule do
       filters: filters,
       user_role: get_user_role(user),
       enrolments: get_enrolments(user),
-      selected_activity: nil
+      selected_activity: nil,
+      current_user: user
     )
     |> assign(view_data)
     |> then(&{:ok, &1})
@@ -48,7 +50,10 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
   @impl true
   def handle_event("show_details", %{"activity_id" => id}, socket) do
-    activity = Activities.get_activity!(id) |> Pearl.Repo.preload(:speakers)
+    activity =
+      Activities.get_activity!(id)
+      |> Pearl.Repo.preload([:speakers, :category])
+
     {:noreply, assign(socket, :selected_activity, activity)}
   end
 
@@ -115,6 +120,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
         user_role={@user_role}
         enrolments={@enrolments}
         myself={@myself}
+        current_user={@current_user}
         calendar_pictures={Map.get(assigns, :calendar_pictures, %{})}
       />
 
@@ -224,6 +230,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   attr :user_role, :atom, required: true
   attr :enrolments, :list, default: []
   attr :myself, :any, required: true
+  attr :current_user, :map, default: nil
   attr :calendar_pictures, :map, default: %{}
 
   defp render_view(%{view_mode: :calendar} = assigns) do
@@ -239,6 +246,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
       user_role={@user_role}
       enrolments={@enrolments}
       myself={@myself}
+      current_user={@current_user}
     />
     """
   end
@@ -339,6 +347,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   attr :user_role, :atom, required: true
   attr :enrolments, :list, default: []
   attr :myself, :any, required: true
+  attr :current_user, :map, default: nil
 
   defp day_view(assigns) do
     ~H"""
@@ -351,6 +360,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
             user_role={@user_role}
             enrolments={@enrolments}
             myself={@myself}
+            current_user={@current_user}
           />
         <% end %>
       </div>
@@ -418,6 +428,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   attr :user_role, :atom, default: :guest
   attr :enrolments, :list, default: []
   attr :myself, :any, default: nil
+  attr :current_user, :map, default: nil
 
   defp time_slot_cell(%{variant: :calendar} = assigns) do
     first_activity = List.first(assigns.time_slot)
@@ -446,7 +457,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
       <div class="flex flex-row gap-6">
         <%= for activity <- @time_slot do %>
           <span class="min-w-67">
-            <.activity_cell activity={activity} variant={:calendar} />
+            <.activity_cell activity={activity} variant={:calendar} current_user={@current_user} />
           </span>
         <% end %>
       </div>
@@ -495,6 +506,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
                 user_role={@user_role}
                 enrolments={@enrolments}
                 myself={@myself}
+                current_user={@current_user}
               />
             </div>
           <% else %>
@@ -504,6 +516,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
               user_role={@user_role}
               enrolments={@enrolments}
               myself={@myself}
+              current_user={@current_user}
             />
           <% end %>
         <% end %>
@@ -551,22 +564,27 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
     is_enrolled = show_actions and already_enrolled?(assigns.activity, assigns.enrolments)
 
+    is_full =
+      assigns.activity.has_enrolments and
+        assigns.activity.enrolment_count >= assigns.activity.max_enrolments
+
     assigns =
       assigns
       |> assign(:has_speakers, has_speakers)
       |> assign(:show_actions, show_actions)
       |> assign(:can_enrol, can_enrol)
       |> assign(:is_enrolled, is_enrolled)
+      |> assign(:is_full, is_full)
 
     ~H"""
     <div class="flex flex-col" id={"activity-#{@activity.id}"}>
-      <div class="flex flex-col items-start justify-between gap-2">
-        <div class="flex-1">
-          <span class="text-lg text-lightMuted font-medium mb-3">{@category_name}</span>
-          <span class="text-lg font-bold text-dark">{@activity.title}</span>
+      <div class="flex flex-col items-start gap-5">
+        <div class="w-full">
+          <span class="text-lg text-lightMuted font-medium mb-2 block">{@category_name}</span>
+          <span class="text-xl font-bold text-dark">{@activity.title}</span>
 
           <%= if @has_speakers do %>
-            <div class="text-lg text-dark mt-5">
+            <div class="text-lg text-dark mt-3">
               {case @activity.speakers do
                 [] ->
                   ""
@@ -581,11 +599,11 @@ defmodule PearlWeb.Landing.Components.Schedule do
             </div>
           <% end %>
 
-          <div class="text-lightMuted">{@activity.location}</div>
+          <div class="text-lightMuted mt-1">{@activity.location}</div>
         </div>
 
         <%= if @show_actions do %>
-          <div class="flex flex-col items-end gap-3 shrink-0">
+          <div class="flex flex-wrap items-center gap-4 shrink-0">
             <button
               type="button"
               phx-click={
@@ -593,28 +611,36 @@ defmodule PearlWeb.Landing.Components.Schedule do
                 |> show_modal("activity-modal")
               }
               phx-target={@myself}
-              class="flex items-center gap-2 text-base text-primary/70 hover:text-primary font-medium transition-colors"
+              class="flex items-center gap-2 text-sm text-primary/70 hover:text-primary font-medium transition-colors"
             >
               <.icon name="hero-information-circle" class="size-5" />
               {gettext("ver informações")}
             </button>
 
-            <%= if @can_enrol do %>
-              <button
-                phx-click="enrol"
-                phx-target={@myself}
-                phx-value-activity_id={@activity.id}
-                data-confirm={gettext("Tem certeza de que te queres increver?")}
-                class="mt-2 px-5 py-2 bg-dark text-light text-base font-bold rounded-full hover:bg-dark transition-colors"
-              >
-                {gettext("Inscrever")}
-              </button>
-            <% end %>
-
             <%= if @is_enrolled do %>
-              <span class="mt-2 text-base font-bold text-green-600">
+              <div class="flex items-center gap-2 px-5 py-2.5 bg-green-100 text-green-700 font-bold text-sm">
+                <.icon name="hero-check-circle" class="size-5" />
                 {gettext("Inscrito")}
-              </span>
+              </div>
+            <% else %>
+              <%= if @can_enrol do %>
+                <.primary_button
+                  title={gettext("Inscrever")}
+                  icon="hero-plus"
+                  phx-click="enrol"
+                  phx-value-activity_id={@activity.id}
+                  phx-target={@myself}
+                  data-confirm={gettext("Tem certeza de que te queres inscrever?")}
+                  class="text-sm font-bold"
+                  disabled={is_nil(@current_user)}
+                />
+              <% end %>
+
+              <%= if @is_full and not @can_enrol do %>
+                <span class="px-5 py-2.5 bg-gray-100 text-gray-400 font-bold text-sm">
+                  {gettext("Esgotado")}
+                </span>
+              <% end %>
             <% end %>
           </div>
         <% end %>

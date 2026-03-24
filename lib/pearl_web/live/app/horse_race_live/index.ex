@@ -82,25 +82,24 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
       winning_bets =
         Enum.filter(bets, fn b -> MapSet.member?(active_bet_ids, b.id) && b.status == "won" end)
 
-        socket =
-    if winning_bets != [] do
-      total_payout =
-        winning_bets
-        |> Enum.map(& &1.payout_amount)
-        |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
-        |> Decimal.to_float()
+      socket =
+        if winning_bets != [] do
+          total_payout =
+            winning_bets
+            |> Enum.map(& &1.payout_amount)
+            |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
+            |> Decimal.to_float()
 
-      assign(socket, :race_result, %{
-        winning_horse: winning_horse,
-        winnings: format_tokens(total_payout)
-      })
-    else
-      assign(socket, :race_result, %{
-        winning_horse: winning_horse,
-        winnings: 0
-      })
-    end
-
+          assign(socket, :race_result, %{
+            winning_horse: winning_horse,
+            winnings: format_tokens(total_payout)
+          })
+        else
+          assign(socket, :race_result, %{
+            winning_horse: winning_horse,
+            winnings: 0
+          })
+        end
 
       {:noreply,
        socket
@@ -115,7 +114,7 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
     {:noreply, socket}
   end
 
-    def handle_event("clear_result", _params, socket) do
+  def handle_event("clear_result", _params, socket) do
     {:noreply, assign(socket, :race_result, nil)}
   end
 
@@ -186,7 +185,7 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
              socket
              |> assign(:attendee_tokens, Minigames.get_attendee_tokens(attendee_id))
              |> assign(:horse_bets, %{})
-     |> assign(:race_result, nil)
+             |> assign(:race_result, nil)
              |> assign(:active_bets, bets)
              |> put_flash(
                :info,

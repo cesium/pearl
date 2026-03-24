@@ -425,5 +425,4 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
   defp parse_js_winner(w, _horses) when is_integer(w), do: w
   defp parse_js_winner(w, _horses) when is_binary(w), do: String.to_integer(w)
   defp parse_js_winner(_, horses), do: find_winner(horses)
-
 end

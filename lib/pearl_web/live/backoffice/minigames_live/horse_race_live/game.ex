@@ -196,7 +196,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
   end
 
   defp continue_race(socket, elapsed, time_remaining, client_horses) do
-    new_horses = client_horses || update_horse_positions(socket.assigns.horses, socket.assigns.horse_speeds)
+    new_horses =
+      client_horses || update_horse_positions(socket.assigns.horses, socket.assigns.horse_speeds)
 
     assign(socket,
       horses: new_horses,

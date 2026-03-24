@@ -530,6 +530,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   attr :user_role, :atom, default: :guest
   attr :enrolments, :list, default: []
   attr :myself, :any, default: nil
+  attr :current_user, :any, default: nil
 
   defp activity_cell(assigns) do
     category_name = get_category_name(assigns.activity)

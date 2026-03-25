@@ -6,7 +6,7 @@ defmodule Pearl.Activities do
   use Pearl.Context
 
   alias Pearl.Accounts.{Attendee, User}
-  alias Pearl.Activities.{Activity, ActivityCategory, Enrolment, Speaker, CalendarPicture}
+  alias Pearl.Activities.{Activity, ActivityCategory, CalendarPicture, Enrolment, Speaker}
 
   @doc """
   Returns the list of activities.

@@ -7,8 +7,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   alias Pearl.Activities
   alias Plug.Conn.Query
 
-  import PearlWeb.Components.Modal
-  import PearlWeb.Components.Button
+  import PearlWeb.Components.{Modal, Button}
 
   @impl true
   def mount(socket) do

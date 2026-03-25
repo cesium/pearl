@@ -6,7 +6,7 @@ defmodule Pearl.Activities do
   use Pearl.Context
 
   alias Pearl.Accounts.{Attendee, User}
-  alias Pearl.Activities.{Activity, ActivityCategory, Enrolment, Speaker}
+  alias Pearl.Activities.{Activity, ActivityCategory, Enrolment, Speaker, CalendarPicture}
 
   @doc """
   Returns the list of activities.
@@ -592,8 +592,6 @@ defmodule Pearl.Activities do
   def change_enrolment(%Enrolment{} = enrolment, attrs \\ %{}) do
     Enrolment.changeset(enrolment, attrs)
   end
-
-  alias Pearl.Activities.CalendarPicture
 
   @doc """
   Returns the list of calendar_pictures.

@@ -2,7 +2,7 @@ defmodule PearlWeb.Checkout.ActivityTicketLive do
   use PearlWeb, :landing_view
 
   alias Ecto.Changeset
-  alias Pearl.{Billing, Activities, TicketTypes}
+  alias Pearl.{Activities, Billing, TicketTypes}
   import PearlWeb.Components.Button
 
   def mount(_params, session, socket) do

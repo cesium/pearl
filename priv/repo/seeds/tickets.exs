@@ -4,7 +4,7 @@ defmodule Pearl.Repo.Seeds.Tickets do
   alias Pearl.Accounts.User
   alias Pearl.Activities.Activity
   alias Pearl.Billing
-  alias Pearl.{Perks, Repo, Tickets, TicketTypes}
+  alias Pearl.{Perks, Repo, TicketTypes}
   alias Pearl.Tickets.{Perk, Ticket, TicketType}
 
   @perks [
@@ -19,7 +19,8 @@ defmodule Pearl.Repo.Seeds.Tickets do
   @ticket_types [
     %{name: "Passe Geral", description: "A nice ticket", price: 15, active: true, product_key: "b757d845-bbcd-4c10-ad6f-4effe3406a3c", priority: 0, perks: ["Entry"], type: :event},
     %{name: "Passe Geral com Refeições", description: "A much nicer ticket", price: 25, active: true, product_key: "021743b2-6ff1-4666-b70c-977c303a5da1", priority: 1, perks: ["Entry", "Meals"], type: :event},
-    %{name: "Passe Geral com Refeições e Alojamento da Universidade do Minho", description: "An awesome ticket", price: 35, active: true, product_key: "0ff1e663-481a-4e42-9a52-a4ac02b72437", priority: 2, perks: ["Entry", "Meals", "Accommodation"], type: :event},
+    %{name: "Passe Geral com Refeições e Alojamento da Universidade do Minho",
+    description: "An awesome ticket", price: 35, active: true, product_key: "0ff1e663-481a-4e42-9a52-a4ac02b72437", priority: 2, perks: ["Entry", "Meals", "Accommodation"], type: :event},
 
     %{name: "Bilhete Arraial Minhoto", description: "Acesso exclusivo ao Arraial Minhoto", price: 5, active: true, product_key: "a1b2c3d4-e5f6-4a1b-8c9d-0e1f2a3b4c5d", priority: 3, perks: ["Arraial Minhoto Entry"], type: :activity},
     %{name: "Bilhete Rally pela Sé", description: "Acesso exclusivo ao Rally pela Sé", price: 3, active: true, product_key: "f1e2d3c4-b5a6-4f1e-8d9c-0b1a2f3e4d5c", priority: 4, perks: ["Rally pela Sé Entry"], type: :activity}

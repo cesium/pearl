@@ -6,9 +6,9 @@ defmodule Pearl.Billing do
   use Pearl.Context
 
   alias Pearl.Accounts
+  alias Pearl.Activities
   alias Pearl.Billing.Payment
   alias Pearl.Tickets
-  alias Pearl.Activities
 
   @pubsub Pearl.PubSub
 

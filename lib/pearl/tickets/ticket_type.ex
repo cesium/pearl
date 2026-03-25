@@ -4,9 +4,9 @@ defmodule Pearl.Tickets.TicketType do
   """
   use Pearl.Schema
 
+  alias Pearl.Activities.Activity
   alias Pearl.DiscountCodes.DiscountCode
   alias Pearl.Tickets.{Perk, Ticket}
-  alias Pearl.Activities.Activity
 
   @required_fields ~w(name priority price active product_key type)a
   @optional_fields ~w(activity_id)a

@@ -647,6 +647,8 @@ defmodule Pearl.Activities do
   def create_activity_ticket(attrs) do
     %ActivityTicket{}
     |> ActivityTicket.changeset(attrs)
+  end
+
   @doc """
   Returns the list of calendar_pictures.
 
@@ -719,8 +721,9 @@ defmodule Pearl.Activities do
   def update_activity_ticket(%ActivityTicket{} = activity_ticket, attrs) do
     activity_ticket
     |> ActivityTicket.changeset(attrs)
-  Updates a calendar_picture.
+  end
 
+  @doc """
   ## Examples
 
       iex> update_calendar_picture(calendar_picture, %{field: new_value})
@@ -769,6 +772,9 @@ defmodule Pearl.Activities do
   """
   def change_activity_ticket(%ActivityTicket{} = activity_ticket, attrs \\ %{}) do
     ActivityTicket.changeset(activity_ticket, attrs)
+  end
+
+  @doc """
   Deletes a calendar_picture.
 
   ## Examples

@@ -1,7 +1,8 @@
-<.page back_to_link={~p"/app/store"} back_to_link_text="Back to store">
+<.page back_to_link={~p"/app/store"} back_to_link_text="Voltar à loja">
   <:actions>
-    <span class="text-semibold text-xl border-2 px-4 py-2 rounded-full font-terminal">
-      💰 {@current_user.attendee.tokens}
+    <span class="text-semibold text-xl border-2 px-4 py-2 flex justify-center items-center gap-2">
+      <.icon name="fa-sack-dollar-solid" />
+      {@current_user.attendee.tokens}
     </span>
   </:actions>
   <div class="w-full flex sm:flex-row flex-col sm:gap-16 gap-8 py-8 sm:py-0">
@@ -17,7 +18,7 @@
     </div>
     <div class="w-full sm:p-16 flex flex-col gap-4 justify-between">
       <div>
-        <h1 class="font-terminal uppercase text-4xl sm:text-6xl text-center sm:text-left">
+        <h1 class="uppercase text-4xl sm:text-6xl text-center sm:text-left">
           {@product.name}
         </h1>
         <div class="py-4">
@@ -27,18 +28,19 @@
       <div class="w-full uppercase text-center font-semibold flex flex-col gap-4">
         <%= if @product.stock < 1000 do %>
           <%= if @product.stock > 1 do %>
-            {gettext("%{quantity_left} items in stock", quantity_left: @product.stock)}
+            {gettext("%{quantity_left} items em stock", quantity_left: @product.stock)}
           <% else %>
             <%= if @product.stock == 1 do %>
-              ⚠️{gettext("Only one remaining!")}
+              ⚠️{gettext("Apenas um restante!")}
             <% else %>
-              ⚠️{gettext("Out of stock")}
+              ⚠️{gettext("Sem estoque")}
             <% end %>
           <% end %>
         <% end %>
         <.action_button
-          title={gettext("Purchase")}
-          subtitle={"💰 #{@product.price}"}
+          title={gettext("Adquirir")}
+          subtitle={"#{@product.price}"}
+          subtitle_icon="sack-dollar-solid"
           class="w-full"
           disabled={!can_purchase?(@product, @current_user.attendee)}
           phx-click="purchase"

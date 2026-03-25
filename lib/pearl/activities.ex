@@ -6,7 +6,7 @@ defmodule Pearl.Activities do
   use Pearl.Context
 
   alias Pearl.Accounts.{Attendee, User}
-  alias Pearl.Activities.{Activity, ActivityCategory, Enrolment, Speaker}
+  alias Pearl.Activities.{Activity, ActivityCategory, CalendarPicture, Enrolment, Speaker}
 
   @doc """
   Returns the list of activities.
@@ -302,6 +302,24 @@ defmodule Pearl.Activities do
     Repo.all(Speaker)
   end
 
+  @doc """
+  Returns the list of speakers and their activities.
+
+  ## Examples
+
+      iex> list_speakers()
+      [%{speaker: s, activity: a}, ...]
+
+  """
+  def list_speakers_activities do
+    Speaker
+    |> join(:left, [s], a in assoc(s, :activities), as: :activities)
+    |> order_by([s], asc: s.name)
+    |> preload([activities: a], activities: a)
+    |> select([s, a], %{speaker: s, activity: a})
+    |> Repo.all()
+  end
+
   def list_speakers(opts) when is_list(opts) do
     Speaker
     |> apply_filters(opts)
@@ -310,12 +328,16 @@ defmodule Pearl.Activities do
 
   def list_speakers(params) do
     Speaker
+    |> join(:left, [s], a in assoc(s, :activities), as: :activities)
+    |> preload([activities: a], activities: a)
     |> Flop.validate_and_run(params, for: Speaker)
   end
 
   def list_speakers(%{} = params, opts) when is_list(opts) do
     Speaker
     |> apply_filters(opts)
+    |> join(:left, [s], a in assoc(s, :activities), as: :activities)
+    |> preload([activities: a], activities: a)
     |> Flop.validate_and_run(params, for: Speaker)
   end
 
@@ -438,18 +460,28 @@ defmodule Pearl.Activities do
   @doc """
   Returns the list of highlighted speakers.
 
+  If a speaker has an associated activity of type `Talk`, it is included; otherwise, the activity can be `null`.
+
+  Each speaker is shown only once.
+
   ## Examples
 
       iex> list_highlighted_speakers()
-      [%Speaker{}, ...]
+      [%{speaker: %Speaker{}, activity: %Activity{}}]
 
   """
   def list_highlighted_speakers(opts \\ []) do
     Speaker
     |> apply_filters(opts)
     |> where([s], s.highlighted)
+    |> join(:left, [s], as in "activities_speakers", on: s.id == as.speaker_id)
+    |> join(:left, [s, as], a in Activity, on: as.activity_id == a.id)
+    |> join(:left, [s, as, a], c in ActivityCategory,
+      on: a.category_id == c.id and c.name == "Talk"
+    )
+    |> distinct([s], s.id)
+    |> select([s, as, a, c], %{speaker: s, activity: a, category: c})
     |> Repo.all()
-    |> Repo.preload(:activities)
   end
 
   @doc """
@@ -559,5 +591,115 @@ defmodule Pearl.Activities do
   """
   def change_enrolment(%Enrolment{} = enrolment, attrs \\ %{}) do
     Enrolment.changeset(enrolment, attrs)
+  end
+
+  @doc """
+  Returns the list of calendar_pictures.
+
+  ## Examples
+
+      iex> list_calendar_pictures()
+      [%CalendarPicture{}, ...]
+
+  """
+  def list_calendar_pictures do
+    Repo.all(CalendarPicture)
+  end
+
+  @doc """
+  Gets a single calendar_picture.
+
+  Raises `Ecto.NoResultsError` if the Calendar picture does not exist.
+
+  ## Examples
+
+      iex> get_calendar_picture!(123)
+      %CalendarPicture{}
+
+      iex> get_calendar_picture!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_calendar_picture!(id), do: Repo.get!(CalendarPicture, id)
+
+  @doc """
+  Gets a single calendar_picture by date, or returns a new struct if none exists.
+  """
+  def get_calendar_picture_for_date(%Date{} = date) do
+    case Repo.get_by(CalendarPicture, date: date) do
+      nil -> %CalendarPicture{date: date}
+      picture -> picture
+    end
+  end
+
+  @doc """
+  Creates a calendar_picture.
+
+  ## Examples
+
+      iex> create_calendar_picture(%{field: value})
+      {:ok, %CalendarPicture{}}
+
+      iex> create_calendar_picture(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_calendar_picture(attrs) do
+    %CalendarPicture{}
+    |> CalendarPicture.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a calendar_picture.
+
+  ## Examples
+
+      iex> update_calendar_picture(calendar_picture, %{field: new_value})
+      {:ok, %CalendarPicture{}}
+
+      iex> update_calendar_picture(calendar_picture, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_calendar_picture(%CalendarPicture{} = calendar_picture, attrs) do
+    calendar_picture
+    |> CalendarPicture.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_calendar_picture_image(%CalendarPicture{} = calendar_picture, attrs) do
+    calendar_picture
+    |> CalendarPicture.image_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a calendar_picture.
+
+  ## Examples
+
+      iex> delete_calendar_picture(calendar_picture)
+      {:ok, %CalendarPicture{}}
+
+      iex> delete_calendar_picture(calendar_picture)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_calendar_picture(%CalendarPicture{} = calendar_picture) do
+    Repo.delete(calendar_picture)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking calendar_picture changes.
+
+  ## Examples
+
+      iex> change_calendar_picture(calendar_picture)
+      %Ecto.Changeset{data: %CalendarPicture{}}
+
+  """
+  def change_calendar_picture(%CalendarPicture{} = calendar_picture, attrs \\ %{}) do
+    CalendarPicture.changeset(calendar_picture, attrs)
   end
 end

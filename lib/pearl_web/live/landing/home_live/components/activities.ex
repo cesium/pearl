@@ -6,6 +6,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
     activities = [
       %{
         "img_path" => "/images/activities/stands.webp",
+        "img_pos" => "object-center",
         "icon_name" => "hero-briefcase",
         "title" => "Stands",
         "description" =>
@@ -13,6 +14,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
       },
       %{
         "img_path" => "/images/activities/talks.webp",
+        "img_pos" => "object-top",
         "icon_name" => "hero-presentation-chart-line",
         "title" => "Talks",
         "description" =>
@@ -20,6 +22,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
       },
       %{
         "img_path" => "/images/activities/workshops.webp",
+        "img_pos" => "object-top",
         "icon_name" => "hero-wrench-screwdriver",
         "title" => "Workshops",
         "description" =>
@@ -27,50 +30,54 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
       },
       %{
         "img_path" => "/images/activities/panel-discussions.webp",
+        "img_pos" => "object-center",
         "icon_name" => "hero-user-group",
-        "title" => "Panel Discussions",
+        "title" => "Tertúlias",
         "description" =>
-          "Tertúlios com múltiplos convidados que discutem um assunto entre si, criando um momento de aprendizagem."
+          "Mesa redonda com múltiplos convidados que discutem um assunto entre si, criando um momento de aprendizagem."
       },
       %{
-        "img_path" => "/images/activities/pitch.webp",
-        "icon_name" => "hero-megaphone",
-        "title" => "Pitch",
+        "img_path" => "/images/activities/eventos-sociais.webp",
+        "img_pos" => "object-center",
+        "icon_name" => "hero-chat-bubble-left-right",
+        "title" => "Sala de Convívio",
         "description" =>
-          "Durante 15 minutos, vais ouvir sobre a experiência de trabalho numa empresa - aí, podes deixar o teu contacto."
+          "Focados em ligar-te a toda a gente do evento: tanto colegas como profissionais."
       },
       %{
         "img_path" => "/images/activities/gameshows.webp",
+        "img_pos" => "object-top",
         "icon_name" => "hero-puzzle-piece",
         "title" => "Gameshows",
         "description" =>
           "Concursos ao vivo nos quais podes ser tanto espectador como participante - e, possivelmente, premiado!"
       },
       %{
-        "img_path" => "/images/activities/eventos-sociais.webp",
-        "icon_name" => "hero-chat-bubble-left-right",
-        "title" => "Eventos sociais",
-        "description" =>
-          "Focados em ligar-te a toda a gente do evento; tanto colegas como profissionais."
+        "img_path" => "/images/activities/eventos_noturnos.webp",
+        "img_pos" => "object-top",
+        "icon_name" => "hero-moon",
+        "title" => "Eventos Noturnos",
+        "description" => "Momentos de descontração e diversão em locais icónicos da cidade."
       }
     ]
 
     assigns = assign(assigns, :activities, activities)
 
     ~H"""
-    <div class="pb-12 pt-3 w-full flex flex-col items-center gap-10 bg-white">
-      <span class="flex flex-col gap-3.5 items-center text-dark-text max-w-[755px] text-center">
-        <h1 class="text-[32px] font-semibold">{"São quatro dias preenchidos"}</h1>
+    <div class="pb-12 pt-3 w-full flex flex-col items-center gap-10 px-4 md:px-10">
+      <span class="flex flex-col gap-3.5 items-center text-dark-text max-w-2xl text-center">
+        <h1 class="text-2xl md:text-3xl font-semibold">{"Serão quatro dias preenchidos"}</h1>
         <p>
           {gettext(
-            "Durante o ENEI, nunca te faltará o que fazer. Conhece os tipos de atividades que temos e vê o calendário detalhado."
+            "Durante o ENEI, nunca te faltará o que fazer. Conhece os tipos de atividades que teremos e vê o calendário detalhado."
           )}
         </p>
       </span>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1 overflow-hidden border-light-muted border-2 max-w-[1180px]">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1 overflow-hidden border-light-muted border-2 max-w-7xl">
         <%= for activity <- @activities do %>
           <.activity_card
             img_path={activity["img_path"]}
+            img_pos={activity["img_pos"]}
             icon_name={activity["icon_name"]}
             title={activity["title"]}
             description={activity["description"]}
@@ -84,7 +91,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
           <div class="flex flex-col justify-end h-full z-20 pb-3 px-3">
             <p class="font-grotesk text-sm text-black/50">
               {gettext(
-                "Imagens da SEI ‘25 - Semena da Engenharia Informática 2025 em Braga, organizada também pelo CeSIUM."
+                "Imagens da SEI ‘25 - Semana da Engenharia Informática 2025 em Braga, organizada também pelo CeSIUM."
               )}
             </p>
           </div>
@@ -100,7 +107,7 @@ defmodule PearlWeb.Landing.HomeLive.Components.Activities do
       <img
         src={@img_path}
         alt={@title}
-        class="w-full h-20 object-cover rounded-lg"
+        class={["w-full h-20 object-cover rounded-lg", @img_pos]}
       />
       <div class="flex flex-col gap-2.5 font-grotesk pb-8">
         <.icon name={@icon_name} class="size-8" />

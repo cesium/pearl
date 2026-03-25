@@ -11,7 +11,7 @@ defmodule PearlWeb.App.WheelLive.Components.ResultModal do
   attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}
   attr :wrapper_class, :string, default: ""
-  attr :content_class, :string, default: "bg-primary ring-4 ring-white p-14"
+  attr :content_class, :string, default: "bg-dark ring-4 ring-white p-14"
   attr :show_vault_link, :boolean, default: true
 
   def result_modal(assigns) do
@@ -27,7 +27,7 @@ defmodule PearlWeb.App.WheelLive.Components.ResultModal do
     >
       <div
         id={"#{@id}-content-inner"}
-        class="font-terminal uppercase text-3xl md:text-4xl text-center"
+        class="uppercase text-3xl md:text-4xl text-center"
       >
         <p>{get_drop_result_text(@drop_type, @drop)}</p>
       </div>
@@ -52,7 +52,7 @@ defmodule PearlWeb.App.WheelLive.Components.ResultModal do
 
       <div :if={@drop_type == :prize and @show_vault_link} class="font-md text-center mt-4">
         {gettext("You can redeem this prize at the accreditation by showing your")}
-        <.link navigate={~p"/app/vault"} class="text-accent underline">
+        <.link navigate={~p"/app/vault"} class="text-primary underline">
           {gettext("vault")}
         </.link>
       </div>

@@ -6,8 +6,58 @@ defmodule PearlWeb.Components.Button do
 
   import PearlWeb.CoreComponents
 
+  attr :title, :string, required: true
+  attr :subtitle, :string, default: nil
+  attr :icon, :string, default: "hero-arrow-right"
+  attr :disabled, :boolean, default: false
+  attr :class, :string, default: ""
+  attr :title_class, :string, default: ""
+
+  attr :rest, :global,
+    include:
+      ~w(csrf_token download form href hreflang method name navigate patch referrerpolicy rel replace target type value autofocus tabindex),
+    doc: "Arbitrary HTML or phx attributes."
+
+  def navigate_button(assigns) do
+    ~H"""
+    <.link
+      class={[
+        "flex group items-center justify-between min-w-64 p-2",
+        "rounded-full bg-background-muted transition-all",
+        "hover:bg-background-muted/80",
+        @disabled && "opacity-50 cursor-not-allowed pointer-events-none",
+        @class
+      ]}
+      {@rest}
+    >
+      <div class="flex flex-col items-center mx-auto px-4">
+        <span class={[
+          "text-dark text-md lowercase tracking-tight leading-tight",
+          @title_class
+        ]}>
+          {@title}
+        </span>
+
+        <%= if @subtitle do %>
+          <span class="text-xs opacity-70 font-terminal lowercase">
+            {@subtitle}
+          </span>
+        <% end %>
+      </div>
+
+      <div
+        :if={@icon != ""}
+        class="flex items-center justify-center size-10 shrink-0 rounded-full bg-primary text-white transition-transform group-hover:scale-105"
+      >
+        <.icon name={@icon} class="size-5 transition-transform group-hover:scale-105" />
+      </div>
+    </.link>
+    """
+  end
+
   attr :title, :string, default: ""
   attr :subtitle, :string, default: ""
+  attr :subtitle_icon, :string, default: ""
   attr :disabled, :boolean, default: false
   attr :icon, :string, default: ""
   attr :class, :string, default: ""
@@ -21,15 +71,20 @@ defmodule PearlWeb.Components.Button do
   def action_button(assigns) do
     ~H"""
     <button
-      class={"m-auto block select-none rounded-full hover:opacity-75 disabled:hover:border-white disabled:hover:text-white disabled:cursor-not-allowed disabled:bg-gray-400 disabled:opacity-75 h-20 w-full border-2 border-white text-white transition-colors hover:border-accent hover:bg-accent/10 hover:text-accent #{@class}"}
+      class={"m-auto block select-none disabled:hover:border-white disabled:hover:text-white disabled:cursor-not-allowed disabled:bg-gray-400 disabled:opacity-75 h-20 w-full border-2 border-white text-white transition-colors hover:border-white hover:bg-white hover:text-black #{@class}"}
       disabled={@disabled}
       {@rest}
     >
       <%= if @icon != "" do %>
         <.icon name={@icon} />
       <% end %>
-      <p class={"uppercase font-terminal text-2xl #{@title_class}"}>{@title}</p>
-      <p class="font-terminal">{@subtitle}</p>
+      <p class={"uppercase text-2xl #{@title_class}"}>{@title}</p>
+      <div class={["flex place-items-center justify-center", @subtitle_icon != "" && "gap-2"]}>
+        <%= if @subtitle_icon do %>
+          <.icon name={"fa-" <> @subtitle_icon} class="w-3.5" />
+        <% end %>
+        <p>{@subtitle}</p>
+      </div>
     </button>
     """
   end
@@ -78,7 +133,7 @@ defmodule PearlWeb.Components.Button do
   attr :small, :boolean, default: false
   attr :gap, :string, default: "gap-1.5"
   attr :class, :string, default: nil
-  attr :rest, :global, include: ~w(disabled phx-click phx-disable-with phx-target)
+  attr :rest, :global, include: ~w(disabled phx-click phx-disable-with phx-target form)
 
   def primary_button(assigns) do
     ~H"""

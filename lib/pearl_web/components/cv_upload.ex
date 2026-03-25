@@ -29,7 +29,7 @@ defmodule PearlWeb.Components.CVUpload do
               <:placeholder>
                 <div class="select-none flex flex-col gap-2 items-center text-lightMuted dark:text-darkMuted">
                   <.icon name="hero-arrow-up-tray" class="w-12 h-12" />
-                  <p class="px-4 text-center">Upload your Curriculum Vitae</p>
+                  <p class="px-4 text-center">Faz upload do teu CV</p>
                 </div>
               </:placeholder>
             </.image_uploader>

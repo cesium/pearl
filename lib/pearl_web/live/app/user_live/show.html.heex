@@ -3,7 +3,7 @@
     <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 w-full sm:w-fit py-8">
       <.avatar
         size={:xl}
-        handle={@user.handle}
+        name={@user.name}
         src={Uploaders.UserPicture.url({@user.picture, @user}, :original, signed: true)}
       />
       <div class="flex flex-col gap-2">
@@ -12,10 +12,17 @@
           <p class="">@{@user.handle}</p>
         </div>
         <div class="grid gap-0.5">
-          <p>🏅 {gettext("%{badge_count} Badges", badge_count: @attendee_badge_count)}</p>
-          <p>💰 {gettext("%{attendee_tokens} tokens", attendee_tokens: @attendee_tokens)}</p>
-          <p>
-            🎫 {gettext("%{attendee_entries} entries", attendee_entries: @attendee_entries)}
+          <p class="flex justify-center items-center gap-2">
+            <.icon name="hero-currency-euro-solid" />
+            {gettext("%{badge_count} badges", badge_count: @attendee_badge_count)}
+          </p>
+          <p class="flex justify-center items-center gap-2">
+            <.icon name="fa-sack-dollar-solid" />
+            {gettext("%{attendee_tokens} tokens", attendee_tokens: @attendee_tokens)}
+          </p>
+          <p class="flex justify-center items-center gap-2">
+            <.icon name="fa-ticket-solid" />
+            {gettext("%{attendee_entries} entries", attendee_entries: @attendee_entries)}
           </p>
         </div>
       </div>

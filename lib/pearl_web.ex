@@ -119,6 +119,15 @@ defmodule PearlWeb do
     end
   end
 
+  def checkout_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {PearlWeb.Layouts, :checkout}
+
+      unquote(html_helpers())
+    end
+  end
+
   def auth_view do
     quote do
       use Phoenix.LiveView,

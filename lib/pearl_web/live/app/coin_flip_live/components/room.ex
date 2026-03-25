@@ -28,8 +28,8 @@ defmodule PearlWeb.App.CoinFlipLive.Components.Room do
       class={[
         "relative flex flex-row items-center justify-between bg-primary rounded-md w-full max-w-96 h-52 p-3 sm:p-4",
         @current_user.attendee.id in [@room.player1_id, @room.player2_id] && not @room.finished &&
-          "ring-1 ring-accent shadow-[0px_0px_16px_1px]
-    shadow-accent",
+          "ring-1 ring-primary shadow-[0px_0px_16px_1px]
+    shadow-primary",
         (@current_user.attendee.id not in [@room.player1_id, @room.player2_id] || @room.finished) &&
           "ring-1 ring-darkShade"
       ]}
@@ -43,14 +43,14 @@ defmodule PearlWeb.App.CoinFlipLive.Components.Room do
         room={@room}
       />
       <div class="absolute inset-0 flex flex-col items-center justify-center h-full z-20 pointer-events-none">
-        <h1 id={@id <> "-vs-text"} class="font-terminal font-bold align-middle">VS</h1>
+        <h1 id={@id <> "-vs-text"} class="font-bold align-middle">VS</h1>
         <div id={@id <> "-coin"} class="coin hidden">
           <div class="side-a"></div>
           <div class="side-b"></div>
         </div>
         <h1
           id={@id <> "-countdown"}
-          class="absolute text-2xl p-2 rounded-full bg-blue-900/25 font-terminal font-bold size-16 justify-center hidden items-center"
+          class="absolute text-2xl p-2 rounded-full bg-blue-900/25 font-bold size-16 justify-center hidden items-center"
         >
           3
         </h1>
@@ -78,12 +78,12 @@ defmodule PearlWeb.App.CoinFlipLive.Components.Room do
     ~H"""
     <div
       id={"#{@stream_id}-#{@player_id}-card"}
-      class="relative flex flex-col flex-shrink-0 items-center space-y-1 border border-darkShade/80 bg-blue-900/25 rounded-md h-full w-32 p-1 select-none"
+      class="relative flex flex-col flex-shrink-0 items-center space-y-1 border border-darkShade/80 rounded-md h-full w-32 p-1 select-none"
     >
       <%= if @player_id do %>
         <div class="h-full flex items-center">
           <.avatar
-            handle={@player.user.handle}
+            name={@player.user.name}
             src={
               Uploaders.UserPicture.url({@player.user.picture, @player.user}, :original, signed: true)
             }
@@ -94,8 +94,8 @@ defmodule PearlWeb.App.CoinFlipLive.Components.Room do
           {@player.user.handle}
         </span>
         <span class="text-nowrap bg-primary/60 py-1 px-2 rounded-md align-middle">
-          <.icon name="hero-currency-dollar-solid" class="text-yellow-300" />
-          <span id={"#{@stream_id}-#{@player_id}-bet"} class="font-terminal" data-bet={@room.bet}>
+          <.icon name="hero-currency-euro-solid" />
+          <span id={"#{@stream_id}-#{@player_id}-bet"} class="" data-bet={@room.bet}>
             {@room.bet}
           </span>
         </span>

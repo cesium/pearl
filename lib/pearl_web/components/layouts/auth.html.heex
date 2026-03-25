@@ -1,9 +1,9 @@
 <div
-  class="bg-background-muted text-light font-iregular relative min-h-screen bg-no-repeat bg-cover bg-top"
+  class="bg-background-muted text-dark font-iregular relative min-h-screen bg-no-repeat bg-cover bg-top"
   style="background-image: url('/images/braga_background.webp');"
 >
   <.navbar
-    pages={PearlWeb.Config.landing_pages()}
+    pages={PearlWeb.Config.landing_pages(Map.get(assigns, :current_user))}
     registrations_open?={Pearl.Event.registrations_open?()}
     current_user={Map.get(assigns, :current_user)}
   />
@@ -11,14 +11,5 @@
     <.flash_group flash={@flash} />
     {@inner_content}
   </main>
-  <.footer>
-    <:tip :if={
-      Map.get(assigns, :current_page, nil) in [:home, :schedule, :speakers, :faqs] and
-        Pearl.Event.get_feature_flag("challenges_enabled")
-    }>
-      Have you checked out the
-      <.link class="underline" navigate={~p"/challenges"}>challenges</.link>
-      yet? <.link href="https://www.youtube.com/watch?v=xvFZjo5PgG0">🏆</.link>
-    </:tip>
-  </.footer>
+  <.footer />
 </div>

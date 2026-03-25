@@ -1,11 +1,11 @@
-<.page title={@badge.name} size={:xl} title_class="font-terminal uppercase">
+<.page title={@badge.name} size={:xl} title_class="uppercase">
   <div class="flex flex-col lg:flex-row w-full mt-8 gap-12">
     <div class="w-full flex flex-col text-center gap-10">
       <.badge id={@badge.id} badge={@badge} disabled={!@owns_badge} width="max-w-96" show_tokens />
       <p class="lg:px-16">{@badge.description}</p>
     </div>
     <div class="w-full">
-      <h2 class="font-terminal uppercase text-2xl">
+      <h2 class="uppercase text-2xl">
         {gettext("Owners")} ({@owners_count})
       </h2>
       <ul id="owners" class="py-4" phx-update="stream">
@@ -16,7 +16,7 @@
           >
             <div class="flex gap-4 flex-center items-center">
               <.avatar
-                handle={redeem.attendee.user.handle}
+                name={redeem.attendee.user.name}
                 src={
                   Uploaders.UserPicture.url(
                     {redeem.attendee.user.picture, redeem.attendee.user},

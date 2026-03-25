@@ -6,9 +6,10 @@ defmodule Pearl.Challenges.Challenge do
   use Pearl.Schema
 
   alias Pearl.Challenges.ChallengePrize
+  alias Pearl.Uploaders
 
   @required_fields ~w(name description type)a
-  @optional_fields ~w(display_priority date)a
+  @optional_fields ~w(display_priority date image)a
 
   @challenge_types ~w(daily global other)a
 
@@ -20,6 +21,7 @@ defmodule Pearl.Challenges.Challenge do
     field :name, :string
     field :description, :string
     field :display_priority, :integer, default: 0
+    field :image, Uploaders.Challenge.Type
 
     field :type, Ecto.Enum, values: @challenge_types
     field :date, :date
@@ -43,5 +45,14 @@ defmodule Pearl.Challenges.Challenge do
 
   def challenge_types do
     @challenge_types
+  end
+
+  def image_changeset(challenge, attrs) do
+    challenge
+    |> cast_attachments(attrs, [:image])
+  end
+
+  def extension_whitelist do
+    ~w(.jpg .jpeg .png .svg)
   end
 end

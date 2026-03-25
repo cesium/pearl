@@ -14,7 +14,7 @@ defmodule PearlWeb.App.StoreLive.Components.ProductCard do
       patch={~p"/app/store/product/#{@data.id}"}
       class={"w-full flex flex-col items-center sm:w-min group #{if @data.stock == 0 do "opacity-50" end}"}
     >
-      <figure class="bg-light/5 rounded-xl w-80 h-80">
+      <figure class="bg-light/5 w-80 h-80">
         <%= if @data.image do %>
           <img
             class={"w-full p-4 #{if @data.stock > 0 do "group-hover:scale-105" end} transition-transform duration-300"}
@@ -26,9 +26,10 @@ defmodule PearlWeb.App.StoreLive.Components.ProductCard do
         {@data.name}
       </p>
       <p class="text-center py-1">
-        <span class="rounded-full border-2 border-light px-4 py-2 font-semibold font-terminal uppercase">
+        <span class="border-2 border-light px-4 py-2 font-semibold uppercase flex justify-center gap-2 items-center">
           <%= if @data.stock != 0 do %>
-            💰 {@data.price}
+            <.icon name="fa-sack-dollar-solid" class="w-3.5" />
+            {@data.price}
           <% else %>
             🚫 {gettext("Out of stock")}
           <% end %>

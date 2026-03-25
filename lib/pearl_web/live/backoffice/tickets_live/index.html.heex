@@ -1,4 +1,4 @@
-<.page title="Tickets">
+<.page title="Bilhetes">
   <:actions>
     <div class="flex flex-row gap-4 justify-center items-center">
       <.table_search
@@ -22,9 +22,22 @@
   </:actions>
 
   <div class="py-4">
+    <.info_display id="tickets-info" items={@info_items} params={@params}>
+      <:item :let={item}>
+        <div class="flex flex-col justify-between items-start border-b last:border-0 p-8">
+          <span class="font-medium text-lg">{item.label}</span>
+          <span class="text-xl font-bold text-primary">{item.value}</span>
+        </div>
+      </:item>
+    </.info_display>
+  </div>
+
+  <div class="py-4">
     <.table id="tickets-table" items={@streams.tickets} meta={@meta} params={@params}>
-      <:col :let={{_id, ticket}} label="User">
-        {ticket.user.name}
+      <:col :let={{_id, ticket}} sortable field={:user_name} label="User">
+        <.link patch={~p"/dashboard/attendees/#{ticket.user.attendee.id}"}>
+          {ticket.user.name}
+        </.link>
       </:col>
       <:col :let={{_id, ticket}} sortable field={:paid} label="Paid">
         <.input
@@ -36,13 +49,23 @@
           class="text-wine"
         />
       </:col>
-      <:col :let={{_id, ticket}} sortable field={:ticket_type} label="Ticket Type">
+      <:col :let={{_id, ticket}} sortable field={:ticket_type_name} label="Ticket Type">
         {ticket.ticket_type.name}
-        <%= if not ticket.ticket_type.active do %>
-          <span class="border border-amber-600 rounded-full text-xs text-amber-800 px-1 bg-amber-200">
-            Inactive
-          </span>
-        <% end %>
+      </:col>
+      <:col :let={{_id, ticket}} label="Diet">
+        {ticket.diet}
+      </:col>
+      <:col :let={{_id, ticket}} label="Transport">
+        {ticket.intended_transport_to_enei || "No response"}
+      </:col>
+      <:col :let={{_id, ticket}} label="Tshirt Size">
+        {ticket.tshirt_size}
+      </:col>
+      <:col :let={{_id, ticket}} label="Disabilities">
+        {ticket.disabilities || "None"}
+      </:col>
+      <:col :let={{_id, ticket}} label="Inserted At" sortable field={:inserted_at}>
+        {Calendar.strftime(ticket.inserted_at, "%d/%m/%Y %H:%M:%S")}
       </:col>
     </.table>
   </div>

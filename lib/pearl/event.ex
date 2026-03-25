@@ -158,7 +158,8 @@ defmodule Pearl.Event do
       "faqs_enabled",
       "general_regulation_enabled",
       "team_enabled",
-      "call_for_staff_enabled"
+      "call_for_staff_enabled",
+      "tickets_enabled"
     ]
   end
 
@@ -337,6 +338,24 @@ defmodule Pearl.Event do
   def get_faq!(id), do: Repo.get!(Faq, id)
 
   @doc """
+  Gets a single FAQ by its slug.
+
+  ## Examples
+
+      iex> get_faq_by_slug!("is-enei-free")
+      %Faq{}
+
+      iex> get_faq_by_slug!("non-existent-slug")
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_faq_by_slug!(slug) do
+    Faq
+    |> Repo.all()
+    |> Enum.find(fn faq -> slugify(faq.question) == slug end)
+  end
+
+  @doc """
   Returns the list of FAQs.
 
   ## Examples
@@ -387,5 +406,22 @@ defmodule Pearl.Event do
   """
   def change_faq(%Faq{} = faq, attrs \\ %{}) do
     Faq.changeset(faq, attrs)
+  end
+
+  @doc """
+  Slugifies a given text.
+
+  ## Examples
+
+      iex> slugify("Is ENEI free?")
+      "is-enei-free"
+  """
+  def slugify(text) do
+    text
+    |> String.downcase()
+    |> String.replace(~r/[^\w\s-]/u, "")
+    |> String.normalize(:nfd)
+    |> String.replace(~r/[^A-z\s]/u, "")
+    |> String.replace(~r/\s+/u, "-")
   end
 end

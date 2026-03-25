@@ -1,0 +1,113 @@
+<div class="text-black flex flex-col md:flex-row w-full gap-8">
+  <.live_component
+    module={PearlWeb.Checkout.Components.InfoCard}
+    id="ticket-form"
+    current_user={@current_user}
+    step={@live_action}
+    ticket_data={@ticket}
+    ticket_type={@ticket_type}
+  />
+
+  <div class="flex flex-col justify-between gap-4 w-full">
+    <.form for={@payment_form} phx-change="validate-payment" phx-submit="submit-payment">
+      <div class="flex flex-col lg:flex-row gap-8">
+        <div class="w-full">
+          <h2 class="text-xl pb-2">Informação de contacto</h2>
+          <div class="w-full flex flex-col gap-4 pb-6">
+            <.input
+              name="name"
+              label="Nome"
+              value={@current_user.name}
+              type="text"
+              readonly
+              variant={:flushed}
+            />
+            <.input
+              name="email"
+              label="Endereço de Email"
+              value={@current_user.email}
+              type="email"
+              readonly
+              variant={:flushed}
+            />
+          </div>
+          <h2 class="text-xl pb-2">Informação de faturação</h2>
+          <div class="flex items-center gap-2">
+            <input
+              id="include-invoice-info"
+              type="checkbox"
+              class="checkbox checkbox-primary text-primary"
+              phx-click="toggle-invoice-info"
+              checked={@include_invoice_info}
+            />
+            <label for="include-invoice-info" class="text-sm">
+              Incluir informação de faturação
+            </label>
+          </div>
+          <div :if={@include_invoice_info} class="mt-4">
+            <.input
+              field={@payment_form[:iva_number]}
+              label="NIF"
+              placeholder="212345678"
+              type="text"
+              variant={:flushed}
+            />
+          </div>
+          <h2 class="text-xl pb-2 mt-6">Método de pagamento</h2>
+          <div class="flex items-start gap-2">
+            <input
+              id="payment-method-mb-way"
+              type="radio"
+              name="payment_method"
+              class="radio radio-primary mt-1 text-primary"
+              value="mb_way"
+              checked={@payment_method == "mb_way"}
+            />
+            <label for="payment-method-mb-way" class="text-sm">
+              <img src="/images/mbway.svg" alt="Mb Way" class="inline h-8 ml-1 mr-2 mb-1" />
+            </label>
+          </div>
+          <div class="mt-4">
+            <.input
+              field={@payment_form[:mb_way_phone]}
+              label="Número de telefone"
+              value={@phone}
+              type="tel"
+              placeholder="912345678"
+              phx-debounce="300"
+              variant={:flushed}
+            />
+          </div>
+        </div>
+        <div class="w-full">
+          <h2 class="text-xl pb-2">Resumo do pedido</h2>
+          <div class="mt-4 p-4 border border-dark-muted/20">
+            <div class="flex flex-row justify-between mb-2">
+              <div>
+                <p>1 × {@ticket_type.name}</p>
+              </div>
+            </div>
+            <div class="flex flex-row justify-between font-bold border-t border-gray-700 pt-2">
+              <p>Total</p>
+              <p>€{@ticket_type.price}</p>
+            </div>
+          </div>
+          <div class="flex">
+            <.secondary_button
+              title="cancelar pagamento"
+              class="btn btn-primary h-fit w-full mt-6"
+              disabled={false}
+              icon_position="left"
+              phx-click="cancel-payment"
+            />
+            <.primary_button
+              title="completar pagamento"
+              class="btn btn-primary h-fit w-full mt-6"
+              disabled={false}
+            />
+          </div>
+        </div>
+      </div>
+    </.form>
+  </div>
+</div>

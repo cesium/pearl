@@ -59,4 +59,18 @@ defmodule Pearl.ActivitiesFixtures do
 
     speaker
   end
+
+  @doc """
+  Generate a calendar_picture.
+  """
+  def calendar_picture_fixture(attrs \\ %{}) do
+    {:ok, calendar_picture} =
+      attrs
+      |> Enum.into(%{
+        date: ~D[2024-10-27]
+      })
+      |> Pearl.Activities.create_calendar_picture()
+
+    calendar_picture
+  end
 end

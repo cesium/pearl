@@ -55,18 +55,17 @@ defmodule Pearl.Repo.Seeds.Accounts do
         }
       }
 
-      case User.registration_changeset(%User{}, Map.delete(attrs, "attendee")) |> Repo.insert() do
-        {:ok, user} ->
-          case Attendee.changeset(%Attendee{}, Map.put(Map.get(attrs, "attendee"), "user_id", user.id)) |> Repo.insert() do
-            {:ok, attendee} ->
-              Repo.update!(Accounts.User.confirm_changeset(user))
-              # Create daily tokens
-              for date <- Event.list_event_dates() do
-                Repo.insert(%DailyTokens{attendee_id: attendee.id, tokens: attendee.tokens, date: date})
-              end
-            {:error, changeset} ->
-              Mix.shell().error(Kernel.inspect(changeset.errors))
-          end
+      with {:ok, user} <-
+             User.registration_changeset(%User{}, Map.delete(attrs, "attendee")) |> Repo.insert(),
+           {:ok, attendee} <-
+             Attendee.changeset(%Attendee{}, Map.put(Map.get(attrs, "attendee"), "user_id", user.id))
+             |> Repo.insert() do
+        Repo.update!(Accounts.User.confirm_changeset(user))
+        # Create daily tokens
+        for date <- Event.list_event_dates() do
+          Repo.insert(%DailyTokens{attendee_id: attendee.id, tokens: attendee.tokens, date: date})
+        end
+      else
         {:error, changeset} ->
           Mix.shell().error(Kernel.inspect(changeset.errors))
       end

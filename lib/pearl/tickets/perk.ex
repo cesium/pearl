@@ -8,7 +8,9 @@ defmodule Pearl.Tickets.Perk do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  @required_fields ~w(name description icon color active)a
+  @required_fields ~w(name description icon color active priority)a
+
+  @derive {Flop.Schema, sortable: [:priority], filterable: []}
 
   schema "perks" do
     field :name, :string
@@ -16,6 +18,7 @@ defmodule Pearl.Tickets.Perk do
     field :icon, :string
     field :color, :string
     field :active, :boolean
+    field :priority, :integer
 
     many_to_many :ticket_types, Pearl.Tickets.TicketType, join_through: "ticket_types_perks"
 

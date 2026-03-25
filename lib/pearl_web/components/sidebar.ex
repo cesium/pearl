@@ -133,13 +133,13 @@ defmodule PearlWeb.Components.Sidebar do
     >
       <div
         id="sidebar-overlay"
-        class="fixed inset-0 h-full min-h-screen bg-gray-800 bg-opacity-55 backdrop-blur-sm"
+        class="fixed inset-0 h-full min-h-screen bg-zinc-800 bg-opacity-55 backdrop-blur-sm"
         phx-click={hide_mobile_sidebar()}
       >
       </div>
       <div
         id="mobile-sidebar"
-        class="relative flex-col flex-1 hidden w-full max-w-xs pt-5 pb-4 rounded-r-3xl bg-background-dark h-dvh"
+        class="relative flex-col flex-1 hidden w-full max-w-xs pt-5 pb-4 bg-dark h-dvh"
       >
         <div class="flex flex-col flex-1 py-4 overflow-y-auto scrollbar-hide">
           <.link navigate={@logo_url} class="flex items-center flex-shrink-0 px-16 py-3 sm:pt-8">
@@ -175,7 +175,7 @@ defmodule PearlWeb.Components.Sidebar do
     </div>
     <!-- Static sidebar for desktop -->
     <div class="hidden lg:flex lg:flex-shrink-0">
-      <div class={"flex flex-col w-64 border-r #{@border} bg-background-dark pt-5"}>
+      <div class={"flex flex-col w-64 border-r #{@border} bg-dark pt-5"}>
         <.link navigate={@logo_url} class="flex items-center flex-shrink-0 px-16 pt-4 pb-4">
           <img class="hidden w-full h-full dark:block" src={@logo_images.light} />
           <img class="w-full h-full dark:hidden" src={@logo_images.dark} />
@@ -228,7 +228,6 @@ defmodule PearlWeb.Components.Sidebar do
       <:title color={@title_color}>{@user.name}</:title>
       <:subtitle color={@subtitle_color}>@{@user.handle}</:subtitle>
       <:link navigate={"/app/user/#{@user.handle}"}>Profile</:link>
-      <:link navigate={"/#{@base_path}/profile_settings"}>Settings</:link>
       <:link href="/users/log_out" method={:delete}>Sign out</:link>
     </.app_user_dropdown>
     """
@@ -271,7 +270,7 @@ defmodule PearlWeb.Components.Sidebar do
             <span class="flex items-center justify-between min-w-0 space-x-3">
               <.avatar
                 size={:sm}
-                handle={@user.handle}
+                name={@user.name}
                 src={Uploaders.UserPicture.url({@user.picture, @user}, :original, signed: true)}
               />
               <span class="flex flex-col flex-1 min-w-0">
@@ -368,7 +367,7 @@ defmodule PearlWeb.Components.Sidebar do
     <.user_dropdown id={@id} border={@border} icon_color={@icon_color} user={@user}>
       <:title color={@title_color}>{@user.name}</:title>
       <:subtitle color={@subtitle_color}>@{@user.handle}</:subtitle>
-      <:link navigate={"/#{@base_path}/profile_settings"}>Profile Settings</:link>
+      <:link navigate="/dashboard/profile_settings">Settings</:link>
       <:link href="/users/log_out" method={:delete}>Sign out</:link>
     </.user_dropdown>
     """
@@ -415,7 +414,7 @@ defmodule PearlWeb.Components.Sidebar do
             <span class="flex items-center justify-between min-w-0 space-x-3">
               <.avatar
                 size={:sm}
-                handle={@user.handle}
+                name={@user.name}
                 src={Uploaders.UserPicture.url({@user.picture, @user}, :original, signed: true)}
               />
               <span class="flex flex-col flex-1 min-w-0">

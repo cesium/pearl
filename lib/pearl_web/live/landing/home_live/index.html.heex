@@ -8,23 +8,18 @@
     <.info_section />
   </div>
 </div>
-<.activities />
-<div class="px-5 md:px-32 xl:px-32 pt-20">
-  <.live_component
-    :if={@has_schedule?}
-    id={:schedule}
-    module={PearlWeb.Landing.Components.Schedule}
-    event_start_date={@event_start_date}
-    event_end_date={@event_end_date}
-    url={~p"/"}
-    params={@params}
-    has_filters?={false}
-    descriptions_enabled={false}
-    current_user={@current_user}
-  />
+<div class="px-8 md:px-12.5 lg:px-16 bg-white">
+  <.activities />
 </div>
-<div class="px-8 md:px-12.5 lg:px-16">
-  <.speakers :if={@has_highlighted_speakers?} speakers={@streams.speakers} />
+<.speakers
+  speakers={@speakers}
+  selected_speaker={@selected_speaker}
+  selected_activity={@selected_activity}
+/>
+<div class="px-8 md:px-12.5 lg:px-16 bg-white">
   <.sponsors :if={@has_sponsors?} tiers={@tiers} />
-  <.partners />
+</div>
+<.promo_cards />
+<div class="px-8 md:px-12.5 lg:px-16 bg-white">
+  <.link_wrapup is_register_open?={@is_register_open?} />
 </div>

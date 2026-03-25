@@ -4,12 +4,15 @@ defmodule Pearl.Accounts.User do
   """
   use Pearl.Schema
 
+  alias Ecto.Changeset
+
   alias Pearl.Accounts.Attendee
   alias Pearl.Accounts.Staff
   alias Pearl.Companies.Company
+  alias Pearl.Tickets.Ticket
 
   @required_fields ~w(name email handle password type)a
-  @optional_fields ~w(confirmed_at allows_marketing)a
+  @optional_fields ~w(confirmed_at allows_marketing phone university city)a
 
   @derive {
     Flop.Schema,
@@ -36,6 +39,7 @@ defmodule Pearl.Accounts.User do
     field :name, :string
     field :email, :string
     field :handle, :string
+    field :phone, :string
     field :picture, Pearl.Uploaders.UserPicture.Type
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
@@ -44,7 +48,10 @@ defmodule Pearl.Accounts.User do
     field :type, Ecto.Enum, values: [:attendee, :staff, :company], default: :attendee
     field :allows_marketing, :boolean, default: false
     field :cv, Uploaders.CV.Type
+    field :university, :string
+    field :city, :string
 
+    has_one :ticket, Ticket, on_delete: :nothing
     has_one :attendee, Attendee, on_delete: :delete_all
     has_one :staff, Staff, on_delete: :delete_all, on_replace: :update
     has_one :company, Company, on_delete: :delete_all
@@ -86,6 +93,20 @@ defmodule Pearl.Accounts.User do
     |> validate_handle()
     |> validate_password(opts)
     |> cast_assoc(:attendee, with: &Attendee.changeset/2)
+    |> cast_assoc(:staff, with: &Staff.changeset/2)
+  end
+
+  def registration_attendee_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, (@required_fields |> Enum.reject(&(&1 == :type))) ++ @optional_fields)
+    |> validate_required(
+      (@required_fields ++ [:phone])
+      |> Enum.reject(&(&1 in [:email, :password, :handle, :type]))
+    )
+    |> validate_email(opts)
+    |> validate_handle()
+    |> validate_password(opts)
+    |> validate_phone()
     |> cast_assoc(:staff, with: &Staff.changeset/2)
   end
 
@@ -151,6 +172,31 @@ defmodule Pearl.Accounts.User do
     )
     |> unsafe_validate_unique(:handle, Pearl.Repo)
     |> unique_constraint(:handle)
+  end
+
+  defp validate_phone(changeset) do
+    changeset
+    |> validate_required([:phone])
+    |> validate_pt_phone(:phone)
+  end
+
+  defp valid_phone?(phone) do
+    normalized =
+      phone
+      |> String.trim()
+      |> String.replace(~r/\s+/, "")
+
+    Regex.match?(~r/^\+?[1-9]\d{7,14}$/, normalized)
+  end
+
+  defp validate_pt_phone(changeset, field) do
+    Changeset.validate_change(changeset, field, fn _, value ->
+      if value in [nil, ""] or valid_phone?(value) do
+        []
+      else
+        [{field, "invalid phone number"}]
+      end
+    end)
   end
 
   defp maybe_hash_password(changeset, opts) do

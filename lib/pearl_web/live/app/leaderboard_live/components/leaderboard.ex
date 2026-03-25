@@ -6,6 +6,7 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
   use PearlWeb, :component
 
   import PearlWeb.Components.Avatar
+  alias Pearl.Accounts.User
 
   attr :entries, :list, required: true
   attr :user_position, :any, required: true
@@ -57,12 +58,13 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
           class="w-10 h-10 translate-y-6 text-accent"
         />
         <.avatar
-          handle={@entry.handle}
+          name={@entry.name}
           size={:xl}
-          class="bg-light/5 border-2 border-accent bg-accent rounded-full"
+          src={get_picture_url(@entry)}
+          class="border-2 border-primary rounded-full"
           link={~p"/app/user/#{@entry.handle}"}
         />
-        <span class="bg-accent rounded-full px-2 -translate-y-3 select-none text-primary/80 font-semibold border-primary border-2">
+        <span class="bg-primary rounded-full px-2 -translate-y-3 select-none text-white font-semibold border-primary border-2">
           {@pos}
         </span>
         <p class="font-semibold truncate max-w-28 sm:max-w-full">{@entry.name}</p>
@@ -79,19 +81,18 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
 
   defp leaderboard_entry(assigns) do
     ~H"""
-    <li class={"flex flex-row py-3 px-4 rounded-lg justify-between items-center #{if @self do "bg-accent text-primary/80" else "bg-light/5 text-white" end}"}>
+    <li class={"flex flex-row py-3 px-4 justify-between items-center text-white #{if @self do "bg-primary" else "bg-light/5" end}"}>
       <div class="flex flex-row gap-4 items-center">
         <p class="font-bold text-xl">
           {@entry.position}
         </p>
-        <p>
-          <.avatar
-            handle={@entry.handle}
-            size={:sm}
-            class={"#{if @self do "bg-primary/10 border-2 border-primary/10" else "bg-light/5 border-2 border-light/5" end} rounded-full"}
-            link={~p"/app/user/#{@entry.handle}"}
-          />
-        </p>
+        <.avatar
+          name={@entry.name}
+          size={:sm}
+          class={"#{if @self do "bg-primary/10 border-2 border-primary/10" else "bg-light/5 border-2 border-light/5" end} rounded-full"}
+          src={get_picture_url(@entry)}
+          link={~p"/app/user/#{@entry.handle}"}
+        />
         <p class="font-semibold truncate max-w-40">
           {@entry.name}
         </p>
@@ -107,4 +108,11 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
     </li>
     """
   end
+
+  defp get_picture_url(%{picture: picture, user_id: user_id}) when not is_nil(picture) do
+    user = %User{id: user_id, picture: picture}
+    Uploaders.UserPicture.url({picture, user}, :original, signed: true)
+  end
+
+  defp get_picture_url(_entry), do: nil
 end

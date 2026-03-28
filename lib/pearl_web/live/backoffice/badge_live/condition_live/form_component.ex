@@ -139,7 +139,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.FormComponent do
       {:ok, _condition} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Badge condition updated successfully")
+        |> put_flash(:info, "Condição do badge atualizada com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -152,7 +152,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.FormComponent do
       {:ok, _condition} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Badge condition added successfully")
+        |> put_flash(:info, "Condição do badge adicionada com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

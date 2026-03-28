@@ -92,7 +92,7 @@ defmodule PearlWeb.UserResetPasswordLive do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, gettext("Palavra-passe redefinida com sucesso."))
+         |> put_flash(:success, gettext("Palavra-passe redefinida com sucesso."))
          |> redirect(to: ~p"/users/log_in")}
 
       {:error, changeset} ->

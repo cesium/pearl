@@ -60,7 +60,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.FormComponen
       {:ok, _perk} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Perk updated successfully")
+         |> put_flash(:info, gettext("Benefício atualizado com sucesso."))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -77,7 +77,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.FormComponen
       {:ok, _perk} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Perk created successfully")
+         |> put_flash(:info, gettext("Benefício criado com sucesso."))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

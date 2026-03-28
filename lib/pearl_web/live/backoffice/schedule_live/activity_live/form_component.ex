@@ -165,7 +165,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
           {:ok, _activity} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Activity updated successfully")
+            |> put_flash(:info, "Atividade atualizada com sucesso")
              |> push_patch(to: socket.assigns.patch)}
 
           {:error, %Ecto.Changeset{} = changeset} ->
@@ -187,7 +187,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
           {:ok, _activity} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Activity created successfully")
+            |> put_flash(:info, "Atividade criada com sucesso")
              |> push_patch(to: socket.assigns.patch)}
 
           {:error, %Ecto.Changeset{} = changeset} ->

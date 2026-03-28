@@ -49,7 +49,7 @@ defmodule PearlWeb.UserConfirmationLive do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Utilizador confirmado com sucesso.")
+         |> put_flash(:success, "Utilizador confirmado com sucesso.")
          |> push_event("redirect", %{url: ~p"/app", time: 1200})}
 
       :error ->

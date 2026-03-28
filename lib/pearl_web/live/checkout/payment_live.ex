@@ -114,7 +114,7 @@ defmodule PearlWeb.Checkout.PaymentLive do
       {:ok, _ticket} ->
         {:noreply,
          socket
-         |> put_flash(:success, "Pagamento cancelado com sucesso.")
+         |> put_flash(:info, "Pagamento cancelado com sucesso.")
          |> push_navigate(to: ~p"/checkout/choose_ticket")}
 
       {:error, %Ecto.Changeset{}} ->
@@ -125,7 +125,7 @@ defmodule PearlWeb.Checkout.PaymentLive do
       {:error, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, "O bilhete já foi removido.")
+         |> put_flash(:tip, "O bilhete já foi removido.")
          |> push_navigate(to: ~p"/checkout/choose_ticket")}
     end
   end

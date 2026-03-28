@@ -50,7 +50,7 @@ defmodule PearlWeb.UserRegistrationLive do
          socket
          |> assign(trigger_submit: true)
          |> assign_form(changeset)
-         |> put_flash(:info, "Account successfully created")
+         |> put_flash(:success, gettext("Conta criada com sucesso."))
          |> redirect(to: "/users/log_in")}
 
       {:error, :referral, reason, _} ->

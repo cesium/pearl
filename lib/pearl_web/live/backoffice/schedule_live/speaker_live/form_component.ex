@@ -136,7 +136,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
           {:ok, _speaker} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Speaker updated successfully")
+            |> put_flash(:info, "Orador atualizado com sucesso")
              |> push_patch(to: socket.assigns.patch)}
         end
 
@@ -152,7 +152,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
           {:ok, _speaker} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Speaker created successfully")
+            |> put_flash(:info, "Orador criado com sucesso")
              |> push_patch(to: socket.assigns.patch)}
         end
 

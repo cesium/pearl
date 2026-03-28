@@ -154,7 +154,7 @@ defmodule PearlWeb.PrizeLive.Daily.FormComponent do
 
       {:noreply,
        socket
-       |> put_flash(:info, "Daily prizes changed successfully")
+      |> put_flash(:info, "Prémios diários alterados com sucesso")
        |> push_patch(to: socket.assigns.patch)}
     else
       {:noreply, socket}

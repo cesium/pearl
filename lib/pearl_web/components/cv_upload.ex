@@ -92,7 +92,7 @@ defmodule PearlWeb.Components.CVUpload do
           {:ok, user} ->
             {:noreply,
              socket
-             |> put_flash(:info, "CV uploaded successfully.")
+             |> put_flash(:success, gettext("CV carregado com sucesso."))
              |> assign(current_user: Map.put(socket.assigns.current_user, :cv, user.cv))
              |> push_patch(to: socket.assigns.patch)}
 

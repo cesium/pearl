@@ -158,20 +158,20 @@ defmodule PearlWeb.Backoffice.AttendeeLive.CredentialLive.FormComponent do
 
             {:noreply,
              socket
-             |> put_flash(:info, "New credential linked to the user")
+            |> put_flash(:info, "Nova credencial associada ao utilizador")
              |> push_patch(to: ~p"/dashboard/attendees/#{socket.assigns.attendee.id}")}
           end
         else
           {:noreply,
            socket
-           |> put_flash(:error, "This credential is not registered in the event's system! (404)")
+           |> put_flash(:error, gettext("Esta credencial não está registada no sistema do evento! (404)"))
            |> push_patch(to: ~p"/dashboard/attendees/#{socket.assigns.attendee.id}")}
         end
 
       {:error, _} ->
         {:noreply,
          socket
-         |> put_flash(:error, "Not a vlaid credential! (400)")
+         |> put_flash(:error, gettext("Credencial inválida! (400)"))
          |> push_patch(to: ~p"/dashboard/attendees/#{socket.assigns.attendee.id}")}
     end
   end

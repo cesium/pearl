@@ -144,7 +144,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.FormComponent do
           {:ok, _badge} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Badge updated successfully")
+            |> put_flash(:info, "Badge atualizado com sucesso")
              |> push_patch(to: socket.assigns.patch)}
         end
 
@@ -160,7 +160,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.FormComponent do
           {:ok, _badge} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Badge created successfully")
+            |> put_flash(:info, "Badge criado com sucesso")
              |> push_patch(to: socket.assigns.patch)}
         end
 

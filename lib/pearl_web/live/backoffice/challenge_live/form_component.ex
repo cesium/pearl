@@ -138,7 +138,7 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
           {:ok, _challenge} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Challenge updated successfully")
+            |> put_flash(:info, "Desafio atualizado com sucesso")
              |> push_patch(to: socket.assigns.patch)}
         end
 
@@ -154,7 +154,7 @@ defmodule PearlWeb.ChallengeLive.FormComponent do
           {:ok, _challenge} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Challenge created successfully")
+            |> put_flash(:info, "Desafio criado com sucesso")
              |> push_patch(to: socket.assigns.patch)}
         end
 

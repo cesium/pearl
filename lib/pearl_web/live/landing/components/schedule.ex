@@ -64,11 +64,15 @@ defmodule PearlWeb.Landing.Components.Schedule do
       {nil, _} ->
         {:noreply,
          socket
-         |> put_flash(:error, gettext("You must be logged in to enrol in activities"))
+         |> put_flash(
+           :help,
+           gettext("Precisas de ter sessão iniciada e bilhete para te inscreveres nas atividades")
+         )
          |> redirect(to: ~p"/users/log_in?action=enrol&action_id=#{id}&return_to=/")}
 
       {%{type: type}, _} when type != :attendee ->
-        {:noreply, put_flash(socket, :error, gettext("Only attendees can enrol in activities"))}
+        {:noreply,
+         put_flash(socket, :tip, gettext("Apenas participantes se podem inscrever em atividades"))}
 
       {%{attendee: attendee}, :attendee} ->
         perform_enrolment(attendee.id, id, socket)
@@ -83,11 +87,16 @@ defmodule PearlWeb.Landing.Components.Schedule do
   defp perform_enrolment(attendee_id, activity_id, socket) do
     case Activities.enrol(attendee_id, activity_id) do
       {:ok, _} ->
-        send(self(), {:update_flash, {:info, gettext("Successfully enrolled")}})
+        send(self(), {:update_flash, {:success, gettext("Inscrição realizada com sucesso")}})
         {:noreply, assign(socket, :enrolments, Activities.get_attendee_enrolments(attendee_id))}
 
       {:error, _} ->
-        send(self(), {:update_flash, {:info, gettext("Unable to enrol")}})
+        send(
+          self(),
+          {:update_flash,
+           {:error, gettext("Não foi possível realizar a inscrição, tente mais tarde")}}
+        )
+
         {:noreply, socket}
     end
   end

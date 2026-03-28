@@ -23,6 +23,6 @@ defmodule PearlWeb.Checkout.PaymentStatusLive do
     {:noreply,
      socket
      |> assign(payment: payment)
-     |> put_flash(:info, "Pagamento confirmado com sucesso.")}
+     |> put_flash(:success, "Pagamento confirmado com sucesso.")}
   end
 end

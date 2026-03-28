@@ -77,7 +77,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.CategoryLive.FormComponent do
       {:ok, _category} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Badge category updated successfully")
+        |> put_flash(:info, "Categoria de badge atualizada com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -90,7 +90,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.CategoryLive.FormComponent do
       {:ok, _category} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Badge category created successfully")
+        |> put_flash(:info, "Categoria de badge criada com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

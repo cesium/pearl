@@ -95,7 +95,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.CalendarPictures.FormComponent do
           {:ok, _saved} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Calendar picture saved successfully")
+            |> put_flash(:info, "Imagem do calendário guardada com sucesso")
              |> push_patch(to: socket.assigns.patch)}
         end
 

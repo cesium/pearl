@@ -54,7 +54,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Confirm do
         {:ok, _spotlight} ->
           {:noreply,
            socket
-           |> put_flash(:info, "Spotlight started successfully.")
+           |> put_flash(:info, gettext("Spotlight iniciado com sucesso."))
            |> push_navigate(to: ~p"/dashboard/spotlights")}
 
         {:error, msg} ->
@@ -64,7 +64,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Confirm do
            |> push_patch(to: ~p"/dashboard/spotlights")}
       end
     else
-      {:noreply, socket |> put_flash(:error, "Missing company or duration information.")}
+      {:noreply, socket |> put_flash(:error, gettext("Falta informação da empresa ou duração."))}
     end
   end
 

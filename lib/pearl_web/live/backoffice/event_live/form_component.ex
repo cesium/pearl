@@ -99,15 +99,15 @@ defmodule PearlWeb.Backoffice.EventLive.FormComponent do
            Event.change_landing_page_message(params["landing_page_message"]),
          :ok <-
            Event.change_feature_flags(flags) do
-      {:noreply,
-       socket
-       |> put_flash(:info, "Event settings updated successfully")
+        {:noreply,
+         socket
+         |> put_flash(:info, "Definições do evento atualizadas com sucesso")
        |> push_navigate(to: socket.assigns.navigate)}
     else
       {:error, _reason} ->
-        {:noreply,
-         socket
-         |> put_flash(:error, "Failed to save event settings")}
+          {:noreply,
+           socket
+           |> put_flash(:error, "Falha ao guardar as definições do evento")}
     end
   end
 

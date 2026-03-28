@@ -4,7 +4,7 @@ defmodule Pearl.Repo.Seeds.Tickets do
   alias Pearl.Accounts.User
   alias Pearl.Activities.Activity
   alias Pearl.Billing
-  alias Pearl.{Perks, Repo, TicketTypes}
+  alias Pearl.{Perks, Repo, TicketTypes, Tickets}
   alias Pearl.Tickets.{Perk, Ticket, TicketType}
 
   @perks [
@@ -191,42 +191,47 @@ defmodule Pearl.Repo.Seeds.Tickets do
     end
   end
 
-defp seed_activity_tickets do
-  case Repo.all(Pearl.Activities.ActivityTicket) do
-    [] ->
-      activity_ticket_types = Repo.all(from t in TicketType, where: t.type == :activity)
-      users = Repo.all(from u in User, where: u.type == :attendee, limit: 20)
+  defp seed_activity_tickets do
+    case Repo.all(Pearl.Activities.ActivityTicket) do
+      [] ->
+        activity_ticket_types = Repo.all(from t in TicketType, where: t.type == :activity)
+        users = Repo.all(from u in User, where: u.type == :attendee, limit: 20)
 
-      cond do
-        Enum.empty?(activity_ticket_types) ->
-          Mix.shell().error("No activity ticket types found.")
-        Enum.empty?(users) ->
-          Mix.shell().error("No attendee users found. Please create users first.")
-        true ->
-          seed_activity_tickets_for_users(users, activity_ticket_types)
-          Mix.shell().info("Seeded activity tickets successfully.")
-      end
+        cond do
+          Enum.empty?(activity_ticket_types) ->
+            Mix.shell().error("No activity ticket types found.")
+          Enum.empty?(users) ->
+            Mix.shell().error("No attendee users found. Please create users first.")
+          true ->
+            seed_activity_tickets_for_users(users, activity_ticket_types)
+            Mix.shell().info("Seeded activity tickets successfully.")
+        end
 
-    _ ->
-      Mix.shell().info("Found activity tickets, skipping seeding.")
+      _ ->
+        Mix.shell().info("Found activity tickets, skipping seeding.")
+    end
   end
-end
 
-defp seed_activity_tickets_for_users(users, activity_ticket_types) do
-  users
-  |> Enum.with_index()
-  |> Enum.each(fn {user, user_idx} ->
-    activity_ticket_types
+  defp seed_activity_tickets_for_users(users, activity_ticket_types) do
+    users
     |> Enum.with_index()
-    |> Enum.each(fn {ticket_type, tt_idx} ->
-      insert_activity_ticket(%{
-        user_id: user.id,
-        ticket_type_id: ticket_type.id,
-        paid: rem(user_idx + tt_idx, 3) != 0
-      })
+    |> Enum.each(fn {user, user_idx} ->
+      activity_ticket_types
+      |> Enum.with_index()
+      |> Enum.each(fn {ticket_type, tt_idx} ->
+        insert_activity_ticket(%{
+          user_id: user.id,
+          ticket_type_id: ticket_type.id,
+          paid: rem(user_idx + tt_idx, 3) != 0
+        })
+      end)
     end)
-  end)
-end
+  end
+
+    defp insert_activity_ticket(other) do
+    Mix.shell().error("[BUG] insert_activity_ticket/1 called with unexpected input: #{inspect(other)}")
+    nil
+  end
 
   defp insert_activity_ticket(attrs) do
     case Pearl.Activities.create_activity_ticket(attrs) do

@@ -1,5 +1,5 @@
 defmodule PearlWeb.Checkout.ActivityTicketLive do
-  use PearlWeb, :landing_view
+  use PearlWeb, :checkout_view
 
   alias Ecto.Changeset
   alias Pearl.{Activities, Billing, TicketTypes}
@@ -90,8 +90,9 @@ defmodule PearlWeb.Checkout.ActivityTicketLive do
             {:ok, {:ok, payment}} ->
               {:noreply, push_navigate(socket, to: ~p"/checkout/payment/#{payment.order_id}")}
 
-            {:error, _reason} ->
+            {:error, reason} ->
               Activities.delete_activity_ticket(activity_ticket)
+              IO.inspect(reason, label: "Payment initiation error")
 
               {:noreply,
                socket

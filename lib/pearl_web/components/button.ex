@@ -110,6 +110,7 @@ defmodule PearlWeb.Components.Button do
       class={[
         "phx-submit-loading:opacity-75 rounded-lg bg-dark text-light dark:bg-light dark:text-dark hover:bg-darkShade dark:hover:bg-lightShade/95 py-2 px-3",
         "text-sm font-semibold leading-6 transition-colors",
+        "disabled:opacity-50 disabled:cursor-not-allowed",
         @class
       ]}
       {@rest}

@@ -90,7 +90,7 @@ defmodule PearlWeb.Checkout.ActivityTicketLive do
             {:ok, {:ok, payment}} ->
               {:noreply, push_navigate(socket, to: ~p"/checkout/payment/#{payment.order_id}")}
 
-            {:error, reason} ->
+            {:error, _reason} ->
               Activities.delete_activity_ticket(activity_ticket)
 
               {:noreply,

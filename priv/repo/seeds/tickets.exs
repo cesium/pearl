@@ -4,7 +4,7 @@ defmodule Pearl.Repo.Seeds.Tickets do
   alias Pearl.Accounts.User
   alias Pearl.Activities.Activity
   alias Pearl.Billing
-  alias Pearl.{Perks, Repo, TicketTypes, Tickets}
+  alias Pearl.{Perks, Repo, Tickets, TicketTypes}
   alias Pearl.Tickets.{Perk, Ticket, TicketType}
 
   @perks [

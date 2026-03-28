@@ -92,7 +92,6 @@ defmodule PearlWeb.Checkout.ActivityTicketLive do
 
             {:error, reason} ->
               Activities.delete_activity_ticket(activity_ticket)
-              IO.inspect(reason, label: "Payment initiation error")
 
               {:noreply,
                socket

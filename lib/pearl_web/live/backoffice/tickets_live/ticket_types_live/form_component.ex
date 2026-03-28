@@ -1,7 +1,7 @@
 defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
   use PearlWeb, :live_component
 
-  alias Pearl.{Perks, TicketTypes, Activities}
+  alias Pearl.{Activities, Perks, TicketTypes}
 
   import PearlWeb.Components.Forms
 
@@ -25,12 +25,24 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
       >
         <.field field={@form[:name]} type="text" label="Name" required />
         <.field field={@form[:price]} type="number" label="Price" required step="0.01" />
-        <.field field={@form[:product_key]} type="text" label="Product Key (UUID)" required placeholder="e.g. 550e8400-e29b-41d4-a716-446655440000" />
+        <.field
+          field={@form[:product_key]}
+          type="text"
+          label="Product Key (UUID)"
+          required
+          placeholder="e.g. 550e8400-e29b-41d4-a716-446655440000"
+        />
 
-        <.field field={@form[:type]} type="select" label="Type" required options={[
-          {"Event", "event"},
-          {"Activity", "activity"}
-        ]} />
+        <.field
+          field={@form[:type]}
+          type="select"
+          label="Type"
+          required
+          options={[
+            {"Event", "event"},
+            {"Activity", "activity"}
+          ]}
+        />
 
         <%= if @show_activity_selector do %>
           <.field
@@ -81,9 +93,10 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
     perks = Perks.list_perks()
     activities = Activities.list_activities()
 
-    activity_options = Enum.map(activities, fn activity ->
-      {activity.title, activity.id}
-    end)
+    activity_options =
+      Enum.map(activities, fn activity ->
+        {activity.title, activity.id}
+      end)
 
     selected_ids =
       case ticket_type.perks do
@@ -105,11 +118,14 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
      |> assign_new(:form, fn ->
        # Ensure type has a default value for new records
        changeset = TicketTypes.change_ticket_type(ticket_type)
-       changeset = if is_nil(ticket_type.type) do
-         Ecto.Changeset.put_change(changeset, :type, :event)
-       else
-         changeset
-       end
+
+       changeset =
+         if is_nil(ticket_type.type) do
+           Ecto.Changeset.put_change(changeset, :type, :event)
+         else
+           changeset
+         end
+
        to_form(changeset)
      end)}
   end
@@ -153,6 +169,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
   defp maybe_clear_activity_id(%{"type" => "event"} = params) do
     Map.put(params, "activity_id", nil)
   end
+
   defp maybe_clear_activity_id(params), do: params
 
   defp clean_empty_strings(params) do

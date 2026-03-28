@@ -6,44 +6,23 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
   alias Pearl.Tickets
   import PearlWeb.Components.Button
 
-  defp button_state(ticket_type, user_ticket) do
+  defp button_state(%{type: :activity} = ticket_type, user_ticket), do: activity_button_state(ticket_type, user_ticket)
+  defp button_state(%{type: :event} = ticket_type, user_ticket), do: event_button_state(ticket_type, user_ticket)
 
-    if ticket_type.type == :activity do
-      cond do
-        is_nil(user_ticket) ->
-          {:disabled, "Precisas de um passe geral"}
+  defp activity_button_state(_ticket_type, nil), do: {:disabled, "Precisas de um passe geral"}
+  defp activity_button_state(_ticket_type, user_ticket) when not Tickets.paid?(user_ticket), do: {:disabled, "Precisas de um passe geral"}
+  defp activity_button_state(_ticket_type, %{ticket_type: %{type: :event}}), do: :enabled
+  defp activity_button_state(_ticket_type, _), do: {:disabled, "Precisas de um passe geral"}
 
-        not Tickets.paid?(user_ticket) ->
-          {:disabled, "Precisas de um passe geral"}
-
-        user_ticket.ticket_type.type == :event ->
-          :enabled
-
-        true ->
-          {:disabled, "Precisas de um passe geral"}
-      end
-    else
-      cond do
-        is_nil(user_ticket) ->
-          :enabled
-
-        not Tickets.paid?(user_ticket) ->
-          :enabled
-
-        Tickets.paid?(user_ticket) and user_ticket.ticket_type.type == :event ->
-          cond do
-            user_ticket.ticket_type.priority >= ticket_type.priority ->
-              {:disabled, "Já tens um bilhete igual ou melhor"}
-
-            user_ticket.ticket_type.priority < ticket_type.priority ->
-              {:disabled, "Para upgrades contacta a equipa ENEI"}
-          end
-
-        true ->
-          :enabled
-      end
+  defp event_button_state(_ticket_type, nil), do: :enabled
+  defp event_button_state(_ticket_type, user_ticket) when not Tickets.paid?(user_ticket), do: :enabled
+  defp event_button_state(ticket_type, %{ticket_type: %{type: :event, priority: user_priority}} = user_ticket) when Tickets.paid?(user_ticket) do
+    cond do
+      user_priority >= ticket_type.priority -> {:disabled, "Já tens um bilhete igual ou melhor"}
+      user_priority < ticket_type.priority -> {:disabled, "Para upgrades contacta a equipa ENEI"}
     end
   end
+  defp event_button_state(_ticket_type, _), do: :enabled
 
   def card(assigns) do
     assigns =

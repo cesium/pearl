@@ -87,7 +87,7 @@ defmodule PearlWeb.PrizeLive.FormComponent do
           {:ok, _prize} ->
             {:noreply,
              socket
-            |> put_flash(:info, "Prémio atualizado com sucesso")
+             |> put_flash(:info, "Prémio atualizado com sucesso")
              |> push_patch(to: socket.assigns.patch)}
         end
 
@@ -103,7 +103,7 @@ defmodule PearlWeb.PrizeLive.FormComponent do
           {:ok, _prize} ->
             {:noreply,
              socket
-            |> put_flash(:info, "Prémio criado com sucesso")
+             |> put_flash(:info, "Prémio criado com sucesso")
              |> push_patch(to: socket.assigns.patch)}
         end
 

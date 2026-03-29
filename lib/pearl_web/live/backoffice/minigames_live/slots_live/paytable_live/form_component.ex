@@ -186,7 +186,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPaytable.FormComponent do
     else
       {:noreply,
        socket
-      |> put_flash(:error, gettext("Por favor corrige os erros antes de guardar"))}
+       |> put_flash(:error, gettext("Por favor corrige os erros antes de guardar"))}
     end
   end
 

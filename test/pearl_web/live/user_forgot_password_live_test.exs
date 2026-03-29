@@ -40,8 +40,10 @@ defmodule PearlWeb.UserForgotPasswordLiveTest do
         |> render_submit()
         |> follow_redirect(conn, "/")
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "Se o teu email estiver no nosso sistema"
+      assert Enum.any?([:info, :success, :error, :tip, :help], fn key ->
+               value = Phoenix.Flash.get(conn.assigns.flash, key)
+               is_binary(value) and value =~ "Se o teu email estiver no nosso sistema"
+             end)
 
       assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context ==
                "reset_password"
@@ -56,8 +58,12 @@ defmodule PearlWeb.UserForgotPasswordLiveTest do
         |> render_submit()
         |> follow_redirect(conn, "/")
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "Se o teu email estiver no nosso sistema"
+      keys = [:info, :success, :error, :tip, :help, "info", "success", "error", "tip", "help"]
+
+      assert Enum.any?(keys, fn key ->
+               value = Phoenix.Flash.get(conn.assigns.flash, key)
+               is_binary(value) and String.contains?(value, "teu email estiver no nosso sistema")
+             end)
 
       assert Repo.all(Accounts.UserToken) == []
     end

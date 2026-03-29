@@ -156,7 +156,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ReelsPosition.FormComponent do
       {:ok, _results} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Configuração do Reel guardada com sucesso")
+         |> put_flash(:info, "Configuração do Reel guardada com sucesso")
          |> push_patch(to: ~p"/dashboard/minigames/slots")}
 
       {:error, reason} ->

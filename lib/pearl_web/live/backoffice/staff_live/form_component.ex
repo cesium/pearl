@@ -85,13 +85,13 @@ defmodule PearlWeb.Backoffice.StaffLive.FormComponent do
       {:ok, _staff} ->
         {:noreply,
          socket
-          |> put_flash(:info, "Staff criado com sucesso")
+         |> put_flash(:info, "Staff criado com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, _, %Ecto.Changeset{} = changeset, _} ->
         {:noreply,
          socket
-        |> put_flash(:error, gettext("Ocorreu um erro ao criar o staff."))
+         |> put_flash(:error, gettext("Ocorreu um erro ao criar o staff."))
          |> assign(:form, to_form(changeset, action: :validate))}
     end
   end
@@ -101,13 +101,13 @@ defmodule PearlWeb.Backoffice.StaffLive.FormComponent do
       {:ok, _staff} ->
         {:noreply,
          socket
-          |> put_flash(:info, gettext("Staff atualizado com sucesso."))
+         |> put_flash(:info, gettext("Staff atualizado com sucesso."))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply,
          socket
-          |> put_flash(:error, gettext("Ocorreu um erro ao atualizar o staff."))
+         |> put_flash(:error, gettext("Ocorreu um erro ao atualizar o staff."))
          |> assign(:form, to_form(changeset))}
     end
   end

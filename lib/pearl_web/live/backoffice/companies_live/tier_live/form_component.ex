@@ -75,7 +75,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent do
       {:ok, _tier} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Tier da empresa atualizado com sucesso")
+         |> put_flash(:info, "Tier da empresa atualizado com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -91,7 +91,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent do
       {:ok, _tier} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Tier da empresa criado com sucesso")
+         |> put_flash(:info, "Tier da empresa criado com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

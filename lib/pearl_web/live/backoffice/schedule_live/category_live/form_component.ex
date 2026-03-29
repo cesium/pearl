@@ -58,7 +58,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.CategoryLive.FormComponent do
       {:ok, _category} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Categoria de atividade atualizada com sucesso")
+         |> put_flash(:info, "Categoria de atividade atualizada com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -71,7 +71,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.CategoryLive.FormComponent do
       {:ok, _category} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Categoria de atividade criada com sucesso")
+         |> put_flash(:info, "Categoria de atividade criada com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

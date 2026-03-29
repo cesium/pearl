@@ -106,7 +106,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
       {:ok, _} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Membro eliminado com sucesso")
+         |> put_flash(:info, "Membro eliminado com sucesso")
          |> stream_delete(:members, member)}
 
       {:error, _reason} ->
@@ -119,7 +119,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
       {:ok, _team} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Equipa atualizada com sucesso")
+         |> put_flash(:info, "Equipa atualizada com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -137,7 +137,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
       {:ok, _team} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Equipa criada com sucesso")
+         |> put_flash(:info, "Equipa criada com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

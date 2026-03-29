@@ -51,7 +51,7 @@ defmodule PearlWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-101 ring-1 ring-black/10",
+        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-101 ring-1 ring-black/10"
       ]}
       {@rest}
     >

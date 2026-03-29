@@ -70,9 +70,7 @@ defmodule PearlWeb.UserForgotPasswordLive do
     end
 
     info =
-      gettext(
-        "Se o teu email estiver no nosso sistema, receberás instruções para redefinir a tua palavra-passe em breve."
-      )
+      "Se o teu email estiver no nosso sistema, receberás instruções para redefinir a tua palavra-passe em breve."
 
     {:noreply,
      socket

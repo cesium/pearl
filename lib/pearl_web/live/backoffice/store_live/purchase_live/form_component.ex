@@ -54,7 +54,7 @@ defmodule PearlWeb.Backoffice.PurchaseLive.FormComponent do
       {:ok, _item} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Esta compra foi marcada como entregue com sucesso.")
+         |> put_flash(:info, "Esta compra foi marcada como entregue com sucesso.")
          |> push_navigate(to: ~p"/dashboard/store/purchases")}
 
       {:error, _reason} ->
@@ -69,7 +69,7 @@ defmodule PearlWeb.Backoffice.PurchaseLive.FormComponent do
       {:ok, _} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Esta compra foi reembolsada com sucesso.")
+         |> put_flash(:info, "Esta compra foi reembolsada com sucesso.")
          |> push_navigate(to: ~p"/dashboard/store/purchases")}
 
       {:error, _} ->

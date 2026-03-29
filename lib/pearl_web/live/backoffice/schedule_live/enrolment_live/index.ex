@@ -119,7 +119,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.Index do
 
       {:noreply,
        socket
-      |> put_flash(:info, "Inscrições alteradas com sucesso")
+       |> put_flash(:info, "Inscrições alteradas com sucesso")
        |> push_patch(to: socket.assigns.patch)}
     else
       {:noreply, socket}

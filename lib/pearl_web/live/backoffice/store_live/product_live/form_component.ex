@@ -89,7 +89,7 @@ defmodule PearlWeb.Backoffice.ProductLive.FormComponent do
           {:ok, _product} ->
             {:noreply,
              socket
-            |> put_flash(:info, "Produto atualizado com sucesso")
+             |> put_flash(:info, "Produto atualizado com sucesso")
              |> push_patch(to: socket.assigns.patch)}
         end
 
@@ -105,7 +105,7 @@ defmodule PearlWeb.Backoffice.ProductLive.FormComponent do
           {:ok, _product} ->
             {:noreply,
              socket
-            |> put_flash(:info, "Produto criado com sucesso")
+             |> put_flash(:info, "Produto criado com sucesso")
              |> push_patch(to: socket.assigns.patch)}
         end
 

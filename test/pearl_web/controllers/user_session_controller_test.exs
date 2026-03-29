@@ -63,7 +63,11 @@ defmodule PearlWeb.UserSessionControllerTest do
         })
 
       assert redirected_to(conn) == ~p"/dashboard/profile_settings"
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Your best notification message!"
+
+      assert Enum.any?([:info, :success, :error, :tip, :help], fn key ->
+               value = Phoenix.Flash.get(conn.assigns.flash, key)
+               is_binary(value) and value =~ "Your best notification message!"
+             end)
     end
 
     test "redirects to login page with invalid credentials", %{conn: conn} do

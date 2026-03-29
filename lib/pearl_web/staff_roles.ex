@@ -25,7 +25,10 @@ defmodule PearlWeb.StaffRoles do
         else
           {:halt,
            socket
-           |> Phoenix.LiveView.put_flash(:error, gettext("Não estás autorizado a aceder a esta página."))
+           |> Phoenix.LiveView.put_flash(
+             :error,
+             "Não estás autorizado a aceder a esta página."
+           )
            |> Phoenix.LiveView.redirect(to: "/dashboard/scanner")}
         end
     end

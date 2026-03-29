@@ -197,7 +197,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     else
       {:noreply,
        socket
-      |> put_flash(:error, gettext("Email não verificado"))}
+       |> put_flash(:error, gettext("Email não verificado"))}
     end
   end
 

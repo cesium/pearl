@@ -79,7 +79,7 @@ defmodule PearlWeb.UserRoles do
       conn
     else
       conn
-      |> put_flash(:error, gettext("Não tens acesso a esta página."))
+      |> put_flash(:error, "Não tens acesso a esta página.")
       |> redirect(to: ~p"/")
       |> halt()
     end

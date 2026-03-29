@@ -83,7 +83,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.FormComponent do
       {:ok, _} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Inscrição efetuada com sucesso")
+         |> put_flash(:info, "Inscrição efetuada com sucesso")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, _, _, _} ->

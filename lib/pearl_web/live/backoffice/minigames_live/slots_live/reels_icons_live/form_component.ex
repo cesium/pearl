@@ -116,7 +116,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ReelIcons.FormComponent do
       {:ok, _results} ->
         {:noreply,
          socket
-        |> put_flash(:info, "Reels criados com sucesso")
+         |> put_flash(:info, "Reels criados com sucesso")
          |> push_patch(to: ~p"/dashboard/minigames/slots")}
 
       {:error, reason} ->

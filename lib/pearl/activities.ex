@@ -737,6 +737,7 @@ defmodule Pearl.Activities do
   def update_activity_ticket(%ActivityTicket{} = activity_ticket, attrs) do
     activity_ticket
     |> ActivityTicket.changeset(attrs)
+    |> Repo.update()
   end
 
   @doc """

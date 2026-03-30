@@ -82,6 +82,15 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
       winning_bets =
         Enum.filter(bets, fn b -> MapSet.member?(active_bet_ids, b.id) && b.status == "won" end)
 
+      losing_bets =
+        Enum.filter(bets, fn b -> MapSet.member?(active_bet_ids, b.id) && b.status == "lost" end)
+
+      total_losses =
+        losing_bets
+        |> Enum.map(& &1.bet_amount)
+        |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
+        |> Decimal.to_float()
+
       socket =
         if winning_bets != [] do
           total_payout =
@@ -92,12 +101,14 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
 
           assign(socket, :race_result, %{
             winning_horse: winning_horse,
-            winnings: format_tokens(total_payout)
+            winnings: format_tokens(total_payout),
+            losses: format_tokens(total_losses)
           })
         else
           assign(socket, :race_result, %{
             winning_horse: winning_horse,
-            winnings: 0
+            winnings: 0,
+            losses: format_tokens(total_losses)
           })
         end
 

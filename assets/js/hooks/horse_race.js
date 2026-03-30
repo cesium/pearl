@@ -207,6 +207,7 @@ export const HorseRace = {
   startRace(data) {
     if (this.isRunning) return;
 
+    this.raceFinished = false;
     this.horses.fill(0);
     const horseMarkers = document.querySelectorAll(".horse-marker");
     const horsePercentages = document.querySelectorAll(".horse-percentage");
@@ -255,10 +256,10 @@ export const HorseRace = {
 
         this.updateHorsePositions(elapsed, durationSeconds);
 
-        this.pushEvent("update_race", { 
-          elapsed: Math.floor(elapsed), 
+        this.pushEvent("update_race", {
+          elapsed: Math.floor(elapsed),
           positions: this.horses,
-          js_winner: this.firstWinner
+          js_winner: this.firstWinner,
         });
 
         if (remaining <= 0) {
@@ -269,27 +270,41 @@ export const HorseRace = {
   },
 
   showCountdown(callback) {
+    const existing = document.getElementById("race-countdown");
+    if (existing) existing.remove();
+
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+      this.countdownInterval = null;
+    }
+
     const countdown = document.createElement("div");
     countdown.id = "race-countdown";
     countdown.className =
-      "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-black bg-opacity-80 text-white text-9xl font-bold rounded-full w-48 h-48 flex items-center justify-center countdown-pulse";
+      "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-black bg-opacity-80 text-white text-9xl font-bold rounded-full w-48 h-48 flex items-center justify-center countdown-pulse";
 
-    document.body.appendChild(countdown);
+    this.el.style.position = "relative";
+    this.el.appendChild(countdown);
 
     let count = 3;
     countdown.textContent = count;
 
-    const countdownInterval = setInterval(() => {
+    this.countdownInterval = setInterval(() => {
       count--;
       if (count > 0) {
         countdown.textContent = count;
       } else {
         countdown.textContent = "GO!";
         setTimeout(() => {
-          countdown.remove();
-          callback();
+          if (document.getElementById("race-countdown") === countdown) {
+            countdown.remove();
+          }
+          if (!this.raceFinished) {
+            callback();
+          }
         }, 500);
-        clearInterval(countdownInterval);
+        clearInterval(this.countdownInterval);
+        this.countdownInterval = null;
       }
     }, 1000);
   },
@@ -507,6 +522,14 @@ export const HorseRace = {
       clearInterval(this.raceTimer);
       this.raceTimer = null;
     }
+
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+      this.countdownInterval = null;
+    }
+
+    const countdown = document.getElementById("race-countdown");
+    if (countdown) countdown.remove();
 
     for (let i = 0; i < 1000; i++) {
       clearTimeout(i);

@@ -4,7 +4,7 @@
       id="horse-race-result"
       show={true}
       on_cancel={JS.push("clear_result")}
-      body_class="bg-darkShade border border-white/10 p-10 rounded-3xl shadow-2xl relative overflow-hidden max-w-2xl w-full"
+      body_class="bg-darkShade border border-white/10 p-10 rounded-3xl shadow-2xl relative overflow-hidden max-w-2xl w-full mx-auto"
       phx-hook="Confetti"
       data-is_win={@race_result.winnings > 0}
       close_button={false}
@@ -13,11 +13,11 @@
       </div>
 
       <div class="relative z-10 flex flex-col items-center text-center">
-        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-primary/10 border border-primary/20 mb-6 shadow-lg shadow-primary/20">
+        <div class="inline-flex items-center justify-center w-32 h-32 md:w-40 md:h-40 rounded-full bg-primary/10 border border-primary/20 mb-8 shadow-lg shadow-primary/20">
           <img
             src={~p"/images/icons/horse.png"}
             alt="Result"
-            class="w-12 h-12 brightness-0 invert opacity-90 animate-bounce"
+            class="w-24 h-24 md:w-32 md:h-32 object-contain brightness-0 invert opacity-90"
           />
         </div>
 
@@ -32,10 +32,15 @@
         <p class="font-grotesk text-4xl md:text-5xl font-bold text-light mb-6 drop-shadow-md leading-tight">
           <%= if @race_result.winnings > 0 do %>
             {gettext("Ganhaste")}
-            <span class="text-accent block mt-2">{@race_result.winnings} tokens!</span>
+            <span class="text-accent block mt-2">
+              {format_tokens(@race_result.winnings)} tokens!
+            </span>
           <% else %>
             {gettext("Perdeste")}
-            <span class="text-accent block mt-2 opacity-50">{gettext("desta vez...")}</span>
+            <span class="text-red-500/90 block mt-2">
+              {format_tokens(@race_result.losses)} tokens!
+            </span>
+            <span class="text-lightMuted block mt-2 text-2xl">{gettext("desta vez...")}</span>
           <% end %>
         </p>
 
@@ -79,24 +84,24 @@
           <h2 class="text-2xl uppercase font-bold mb-6">
             {gettext("Place Your Bets")}
           </h2>
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full md:w-auto">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full md:w-auto">
             <%= for horse_num <- 1..@number_of_horses do %>
               <% horse_bet = Map.get(@horse_bets, horse_num, 0) %>
               <% has_bet = horse_bet > 0 %>
               <div class={[
-                "flex flex-col items-center p-4 border-2 rounded-lg transition-all",
+                "flex flex-col items-center p-6 md:p-8 border-2 rounded-xl transition-all",
                 if(has_bet,
                   do: "border-primary bg-primary/20",
                   else: "border-white/20 hover:border-white/40"
                 )
               ]}>
-                <span class="text-lg font-bold mb-2">Horse #{horse_num}</span>
+                <span class="text-xl md:text-2xl font-bold mb-4">Horse #{horse_num}</span>
                 <img
                   src="/images/icons/horse.png"
                   alt="Horse #{horse_num}"
-                  class="w-12 h-12 mb-3 brightness-0 invert"
+                  class="w-16 h-16 md:w-24 md:h-24 mb-4 brightness-0 invert"
                 />
-                <form phx-change="update_horse_bet" class="w-full mb-2">
+                <form phx-change="update_horse_bet" class="w-full mb-4">
                   <input type="hidden" name="horse" value={horse_num} />
                   <input
                     type="number"
@@ -108,14 +113,14 @@
                     max={trunc(available_tokens + horse_bet)}
                     placeholder="Amount"
                     disabled={@active_bets != []}
-                    class="w-full px-2 py-1 text-center text-sm rounded border-2 border-white/20 bg-white/5 text-white placeholder-white/40 focus:border-primary focus:outline-none disabled:opacity-40"
+                    class="w-full px-4 py-3 text-center text-lg md:text-xl rounded-lg border-2 border-white/20 bg-white/5 text-white placeholder-white/40 focus:border-primary focus:outline-none disabled:opacity-40"
                   />
                 </form>
                 <%= if has_bet do %>
                   <button
                     phx-click="clear_horse_bet"
                     phx-value-horse={horse_num}
-                    class="w-full px-2 py-1 text-xs rounded bg-red-900/30 hover:bg-red-900/50 text-red-300 transition"
+                    class="w-full px-4 py-2 text-sm md:text-base rounded bg-red-900/30 hover:bg-red-900/50 text-red-300 transition"
                   >
                     {gettext("Clear")}
                   </button>
@@ -149,12 +154,14 @@
             <span class="inline-block w-3 h-3 rounded-full bg-primary animate-pulse"></span>
             {gettext("Active Bets")}
           </h3>
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
             <%= for bet <- @active_bets do %>
-              <div class="border border-primary/40 bg-primary/10 p-3 rounded text-center">
-                <p class="text-lg font-bold">#{bet.horse_number}</p>
-                <p class="text-xs text-gray-400 mt-1">{format_tokens(bet.bet_amount)}</p>
-                <p class="text-sm font-bold text-primary mt-2">
+              <div class="border border-primary/40 bg-primary/10 p-6 rounded-xl text-center">
+                <p class="text-2xl font-bold">#{bet.horse_number}</p>
+                <p class="text-sm md:text-base text-gray-400 mt-2">
+                  {format_tokens(bet.bet_amount)}
+                </p>
+                <p class="text-xl font-bold text-primary mt-3">
                   {(format_tokens(bet.bet_amount) * @multiplier) |> format_tokens()}
                 </p>
               </div>
@@ -171,14 +178,14 @@
         <button
           phx-click="clear_all_bets"
           disabled={map_size(@horse_bets) == 0 || @active_bets != []}
-          class="px-6 py-3 border-2 rounded-lg font-bold disabled:opacity-40 disabled:cursor-not-allowed"
+          class="px-6 py-3 border-2 font-bold disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {gettext("Clear All")}
         </button>
         <button
           phx-click="confirm_bets"
           disabled={map_size(@horse_bets) == 0 || @active_bets != []}
-          class="h-20 border-2 w-full sm:w-auto border-white text-white transition-all hover:bg-white hover:text-black hover:border-white select-none disabled:opacity-75 disabled:cursor-not-allowed"
+          class="p-2 h-20 border-2 w-full sm:w-auto border-white text-white hover:bg-white hover:text-black hover:border-white select-none disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-white disabled:hover:bg-black/10"
         >
           <p class="uppercase text-2xl font-bold">{gettext("Confirm Bets")}</p>
           <p class="text-sm">{gettext("%{amount} tokens", amount: format_tokens(total_bets))}</p>
@@ -193,7 +200,7 @@
         class="w-20 h-20 opacity-50 brightness-0 invert"
       />
       <div>
-        <h2 class="text-3xl font-bold">{gettext("Horse Race is Inactive")}</h2>
+        <h2 class="text-3xl font-bold">{gettext("Horse Race is currently not running")}</h2>
         <p class="text-gray-400 mt-2">
           {gettext("The horse race is not available at the moment. Check back soon.")}
         </p>

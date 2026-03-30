@@ -112,7 +112,7 @@
                     step="1"
                     max={trunc(available_tokens + horse_bet)}
                     placeholder="Amount"
-                    disabled={@active_bets != []}
+                    disabled={@active_bets != [] || @horse_race_running?}
                     class="w-full px-4 py-3 text-center text-lg md:text-xl rounded-lg border-2 border-white/20 bg-white/5 text-white placeholder-white/40 focus:border-primary focus:outline-none disabled:opacity-40"
                   />
                 </form>
@@ -120,7 +120,8 @@
                   <button
                     phx-click="clear_horse_bet"
                     phx-value-horse={horse_num}
-                    class="w-full px-4 py-2 text-sm md:text-base rounded bg-red-900/30 hover:bg-red-900/50 text-red-300 transition"
+                    disabled={@horse_race_running?}
+                    class="w-full px-4 py-2 text-sm md:text-base rounded bg-red-900/30 hover:bg-red-900/50 text-red-300 transition disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     {gettext("Clear")}
                   </button>
@@ -173,18 +174,26 @@
         </div>
       <% end %>
 
+      <%= if @horse_race_running? do %>
+        <div class="text-center p-4 bg-primary/20 border border-primary text-primary rounded-lg font-bold animate-pulse">
+          {gettext(
+            "A corrida está a decorrer! Aguarda pelo final para poderes apostar novamente."
+          )}
+        </div>
+      <% end %>
+
       <%!-- Action Buttons --%>
       <div class="flex gap-4 flex-col sm:flex-row">
         <button
           phx-click="clear_all_bets"
-          disabled={map_size(@horse_bets) == 0 || @active_bets != []}
+          disabled={map_size(@horse_bets) == 0 || @active_bets != [] || @horse_race_running?}
           class="px-6 py-3 border-2 font-bold disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {gettext("Clear All")}
         </button>
         <button
           phx-click="confirm_bets"
-          disabled={map_size(@horse_bets) == 0 || @active_bets != []}
+          disabled={map_size(@horse_bets) == 0 || @active_bets != [] || @horse_race_running?}
           class="p-2 h-20 border-2 w-full sm:w-auto border-white text-white hover:bg-white hover:text-black hover:border-white select-none disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-white disabled:hover:bg-black/10"
         >
           <p class="uppercase text-2xl font-bold">{gettext("Confirm Bets")}</p>

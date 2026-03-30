@@ -1929,6 +1929,28 @@ defmodule Pearl.Minigames do
   end
 
   @doc """
+  Stores whether the horse race is currently running.
+  """
+  def set_horse_race_running(is_running) do
+    Application.put_env(:pearl, :horse_race_running, is_running)
+    Phoenix.PubSub.broadcast(@pubsub, "horse_race:running", {:horse_race_running, is_running})
+  end
+
+  @doc """
+  Returns whether the horse race is currently running.
+  """
+  def horse_race_running? do
+    Application.get_env(:pearl, :horse_race_running, false)
+  end
+
+  @doc """
+  Subscribes to horse race running state updates.
+  """
+  def subscribe_to_horse_race_running do
+    Phoenix.PubSub.subscribe(@pubsub, "horse_race:running")
+  end
+
+  @doc """
   Returns the currently-active race ID, or nil if no race is running.
   """
   def get_current_horse_race_id do

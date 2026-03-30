@@ -122,6 +122,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
       )
       |> push_event("start_race", %{duration: duration})
 
+    Minigames.set_horse_race_running(true)
+
     {:noreply, socket}
   end
 
@@ -134,6 +136,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
       socket
       |> assign(racing: false)
       |> push_event("stop_race", %{})
+
+    Minigames.set_horse_race_running(false)
 
     {:noreply, socket}
   end
@@ -152,6 +156,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
       )
       |> push_event("reset_race", %{})
 
+    Minigames.set_horse_race_running(false)
+
     {:noreply, socket}
   end
 
@@ -168,7 +174,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
     time_remaining = max(0, socket.assigns.total_race_time - elapsed)
     client_horses = parse_client_horses(params["positions"])
 
-    if elapsed >= socket.assigns.total_race_time do
+    if elapsed >= socket.assigns.total_race_time - 1 do
       finish_race(socket, client_horses, params["js_winner"])
     else
       continue_race(socket, elapsed, time_remaining, client_horses)
@@ -179,12 +185,16 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
     horses = client_horses || Enum.map(socket.assigns.horses, &min(&1, 100))
     winner = parse_js_winner(js_winner, horses)
 
+    horses = Enum.map(horses, fn _ -> 100 end)
+
     socket =
       if winner && socket.assigns.current_race_id do
         process_race_payouts(socket, winner)
       else
         socket
       end
+
+    Minigames.set_horse_race_running(false)
 
     assign(socket,
       horses: horses,
@@ -478,7 +488,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                         phx-click="clear_winner"
                         class="inline-flex items-center justify-center px-8 py-3 bg-light hover:bg-light/90 text-dark font-grotesk font-semibold text-lg rounded-full transition-transform hover:scale-105 shadow-lg shadow-light/10"
                       >
-                        {gettext("Fechar Painel")}
+                        {gettext("Continuar")}
                       </button>
                     </div>
                   </div>

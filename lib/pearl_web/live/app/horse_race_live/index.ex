@@ -15,12 +15,14 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
       Minigames.subscribe_to_horse_race_config_update("house_fee")
       Minigames.subscribe_to_horse_race_results()
       Minigames.subscribe_to_horse_race_start()
+      Minigames.subscribe_to_horse_race_running()
     end
 
     {:ok,
      socket
      |> assign(:current_page, :horse_race)
      |> assign(:horse_race_active?, Minigames.horse_race_active?())
+     |> assign(:horse_race_running?, Minigames.horse_race_running?())
      |> assign(:multiplier, Minigames.get_horse_race_multiplier())
      |> assign(:duration_minutes, Minigames.get_horse_race_duration())
      |> assign(:number_of_horses, Minigames.get_horse_race_number_of_horses())
@@ -61,6 +63,10 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
 
   def handle_info({:horse_race_config_updated, "house_fee", _house_fee}, socket) do
     {:noreply, socket}
+  end
+
+  def handle_info({:horse_race_running, is_running}, socket) do
+    {:noreply, assign(socket, :horse_race_running?, is_running)}
   end
 
   def handle_info({:horse_race_started, race_id}, socket) do
@@ -131,25 +137,29 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
 
   @impl true
   def handle_event("update_horse_bet", %{"horse" => horse_str, "amount" => amount_str}, socket) do
-    horse_number = String.to_integer(horse_str)
-    other_bets = socket.assigns.horse_bets |> Map.delete(horse_number) |> calculate_total_bets()
-    available = trunc(socket.assigns.attendee_tokens) - other_bets
+    if socket.assigns.horse_race_running? do
+      {:noreply, socket}
+    else
+      horse_number = String.to_integer(horse_str)
+      other_bets = socket.assigns.horse_bets |> Map.delete(horse_number) |> calculate_total_bets()
+      available = trunc(socket.assigns.attendee_tokens) - other_bets
 
-    bet_amount =
-      case Integer.parse(amount_str) do
-        {value, _} when value >= 1 and value <= available -> value
-        {value, _} when value > available -> available
-        _ -> 0
-      end
+      bet_amount =
+        case Integer.parse(amount_str) do
+          {value, _} when value >= 1 and value <= available -> value
+          {value, _} when value > available -> available
+          _ -> 0
+        end
 
-    horse_bets =
-      if bet_amount >= 1 do
-        Map.put(socket.assigns.horse_bets, horse_number, bet_amount)
-      else
-        Map.delete(socket.assigns.horse_bets, horse_number)
-      end
+      horse_bets =
+        if bet_amount >= 1 do
+          Map.put(socket.assigns.horse_bets, horse_number, bet_amount)
+        else
+          Map.delete(socket.assigns.horse_bets, horse_number)
+        end
 
-    {:noreply, assign(socket, :horse_bets, horse_bets)}
+      {:noreply, assign(socket, :horse_bets, horse_bets)}
+    end
   end
 
   def handle_event("update_horse_bet", _params, socket) do
@@ -157,20 +167,34 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
   end
 
   def handle_event("clear_horse_bet", %{"horse" => horse_str}, socket) do
-    horse_number = String.to_integer(horse_str)
-    horse_bets = Map.delete(socket.assigns.horse_bets, horse_number)
-    {:noreply, assign(socket, :horse_bets, horse_bets)}
+    if socket.assigns.horse_race_running? do
+      {:noreply, socket}
+    else
+      horse_number = String.to_integer(horse_str)
+      horse_bets = Map.delete(socket.assigns.horse_bets, horse_number)
+      {:noreply, assign(socket, :horse_bets, horse_bets)}
+    end
   end
 
   def handle_event("clear_all_bets", _params, socket) do
-    {:noreply, assign(socket, :horse_bets, %{})}
+    if socket.assigns.horse_race_running? do
+      {:noreply, socket}
+    else
+      {:noreply, assign(socket, :horse_bets, %{})}
+    end
   end
 
   def handle_event("confirm_bets", _params, socket) do
-    horse_bets = socket.assigns.horse_bets
-
     cond do
-      map_size(horse_bets) == 0 ->
+      socket.assigns.horse_race_running? ->
+        {:noreply,
+         put_flash(
+           socket,
+           :error,
+           gettext("The race is already running! You can't place bets now.")
+         )}
+
+      map_size(socket.assigns.horse_bets) == 0 ->
         {:noreply, put_flash(socket, :error, "Não há apostas para confirmar!")}
 
       socket.assigns.active_bets != [] ->
@@ -178,40 +202,41 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
 
       is_nil(socket.assigns.current_race_id) ->
         {:noreply,
-         put_flash(
-           socket,
-           :error,
-           "Nenhuma corrida ativa. Aguarda o início da próxima corrida."
-         )}
+         put_flash(socket, :error, "Nenhuma corrida ativa. Aguarda o início da próxima corrida.")}
 
       true ->
-        attendee_id = socket.assigns.current_user.attendee.id
-        race_id = socket.assigns.current_race_id
+        process_bets(socket)
+    end
+  end
 
-        case Minigames.place_horse_race_bets(attendee_id, race_id, horse_bets) do
-          {:ok, bets} ->
-            total_bet = calculate_total_bets(horse_bets)
+  defp process_bets(socket) do
+    attendee_id = socket.assigns.current_user.attendee.id
+    race_id = socket.assigns.current_race_id
+    horse_bets = socket.assigns.horse_bets
 
-            {:noreply,
-             socket
-             |> assign(:attendee_tokens, Minigames.get_attendee_tokens(attendee_id))
-             |> assign(:horse_bets, %{})
-             |> assign(:race_result, nil)
-             |> assign(:active_bets, bets)
-             |> put_flash(
-               :info,
-               "Apostas confirmadas! Total: #{format_tokens(total_bet)} tokens. Aguarda o fim da corrida!"
-             )}
+    case Minigames.place_horse_race_bets(attendee_id, race_id, horse_bets) do
+      {:ok, bets} ->
+        total_bet = calculate_total_bets(horse_bets)
 
-          {:error, :insufficient_balance} ->
-            {:noreply, put_flash(socket, :error, "Saldo insuficiente!")}
+        {:noreply,
+         socket
+         |> assign(:attendee_tokens, Minigames.get_attendee_tokens(attendee_id))
+         |> assign(:horse_bets, %{})
+         |> assign(:race_result, nil)
+         |> assign(:active_bets, bets)
+         |> put_flash(
+           :info,
+           "Apostas confirmadas! Total: #{format_tokens(total_bet)} tokens. Aguarda o fim da corrida!"
+         )}
 
-          {:error, :bets_already_placed} ->
-            {:noreply, put_flash(socket, :error, "Já colocaste apostas nesta corrida!")}
+      {:error, :insufficient_balance} ->
+        {:noreply, put_flash(socket, :error, "Saldo insuficiente!")}
 
-          {:error, _reason} ->
-            {:noreply, put_flash(socket, :error, "Erro ao colocar apostas. Tenta novamente.")}
-        end
+      {:error, :bets_already_placed} ->
+        {:noreply, put_flash(socket, :error, "Já colocaste apostas nesta corrida!")}
+
+      {:error, _reason} ->
+        {:noreply, put_flash(socket, :error, "Erro ao colocar apostas. Tenta novamente.")}
     end
   end
 

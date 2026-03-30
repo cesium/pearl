@@ -263,6 +263,12 @@ export const HorseRace = {
         });
 
         if (remaining <= 0) {
+          this.pushEvent("update_race", {
+            elapsed: durationSeconds,
+            positions: this.horses,
+            js_winner: this.firstWinner,
+          });
+
           this.endRace();
         }
       }, 100);

@@ -77,9 +77,11 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                     </h2>
                     <p class="text-lg text-dark/90">
                       <%= if @ticket_type && Map.get(@ticket_type, :type) == :activity do %>
-                        A tua inscrição na atividade foi concluída com sucesso, <%= get_display_name(@current_user.name) %>.
+                        A tua inscrição na atividade foi concluída com sucesso, {get_display_name(
+                          @current_user.name
+                        )}.
                       <% else %>
-                        É um gosto ter-te connosco, <%= get_display_name(@current_user.name) %>.
+                        É um gosto ter-te connosco, {get_display_name(@current_user.name)}.
                       <% end %>
                     </p>
                     <.primary_button

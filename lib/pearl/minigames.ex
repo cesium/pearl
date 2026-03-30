@@ -2326,23 +2326,6 @@ defmodule Pearl.Minigames do
   end
 
   @doc """
-  Checks if a horse race is currently running.
-  """
-  def horse_race_running? do
-    case Constants.get("horse_race_running") do
-      {:ok, running} -> running
-      {:error, _} -> false
-    end
-  end
-
-  @doc """
-  Sets the horse race running state.
-  """
-  def set_horse_race_running(running?) when is_boolean(running?) do
-    Constants.set("horse_race_running", running?)
-  end
-
-  @doc """
   Gets the saved horse race positions as a list.
   """
   def get_horse_race_positions do

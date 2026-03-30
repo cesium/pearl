@@ -7,6 +7,7 @@ defmodule Pearl.Activities do
 
   alias Pearl.Accounts.{Attendee, User}
   alias Pearl.Activities.{Activity, ActivityCategory, CalendarPicture, Enrolment, Speaker}
+  alias Pearl.TicketTypes
 
   @doc """
   Returns the list of activities.
@@ -644,9 +645,24 @@ defmodule Pearl.Activities do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_activity_ticket(attrs) do
-    %ActivityTicket{}
-    |> ActivityTicket.changeset(attrs)
+  def create_activity_ticket(attrs \\ %{}) do
+    active_ticket_types = TicketTypes.list_active_ticket_types()
+    current_ticket_type = attrs["ticket_type_id"] || attrs[:ticket_type_id]
+
+    case Enum.find(active_ticket_types, fn tt -> tt.id == current_ticket_type end) do
+      nil ->
+        changeset =
+          %ActivityTicket{}
+          |> ActivityTicket.changeset(attrs)
+          |> Ecto.Changeset.add_error(:ticket_type_id, "is not active")
+
+        {:error, changeset}
+
+      _ ->
+        %ActivityTicket{}
+        |> ActivityTicket.changeset(attrs)
+        |> Repo.insert()
+    end
   end
 
   @doc """

@@ -629,6 +629,22 @@ defmodule Pearl.Activities do
     |> Repo.get!(id)
   end
 
+  @doc """
+  Gets an unpaid activity_ticket for a user and ticket_type.
+  Optionally filter by paid status (default: false).
+  """
+  def get_activity_ticket_by_user_and_type(user_id, ticket_type_id, opts \\ [paid: false]) do
+    paid = Keyword.get(opts, :paid, false)
+
+    ActivityTicket
+    |> where(
+      [at],
+      at.user_id == ^user_id and at.ticket_type_id == ^ticket_type_id and at.paid == ^paid
+    )
+    |> preload([:user, :ticket_type])
+    |> Repo.one()
+  end
+
   def mark_activity_ticket_as_paid(%ActivityTicket{} = activity_ticket) do
     update_activity_ticket(activity_ticket, %{paid: true})
   end

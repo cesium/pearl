@@ -196,6 +196,13 @@ defmodule Pearl.Billing do
   end
 
   @doc """
+  Gets a payment by activity_ticket_id.
+  """
+  def get_payment_by_activity_ticket(activity_ticket_id) do
+    Payment |> Repo.get_by(activity_ticket_id: activity_ticket_id)
+  end
+
+  @doc """
   Gets a single payment by order_id.
 
   Raises `Ecto.NoResultsError` if the Payment does not exist.

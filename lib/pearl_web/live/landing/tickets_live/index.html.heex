@@ -20,7 +20,8 @@
       <.card
         :for={ticket_type <- @event_ticket_types}
         ticket_type={ticket_type}
-        user_ticket={@user_ticket}
+        user_event_ticket={@user_event_ticket}
+        user_activity_tickets={@user_activity_tickets}
       />
     </div>
 
@@ -35,7 +36,8 @@
         <.card
           :for={ticket_type <- @activity_ticket_types}
           ticket_type={ticket_type}
-          user_ticket={@user_ticket}
+          user_event_ticket={@user_event_ticket}
+          user_activity_tickets={@user_activity_tickets}
         />
       </div>
     </div>

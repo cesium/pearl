@@ -47,10 +47,10 @@ defmodule PearlWeb.Components.Avatar do
     ~H"""
     <span class={generate_avatar_classes(assigns)}>
       <%= if @src do %>
-        <img src={@src} class={"pearl-avatar--#{@type} h-full w-full rounded-full"} />
+        <img src={@src} class="h-full w-full rounded-full" />
       <% else %>
         <div
-          class="flex items-center justify-center text-xl text-white w-full h-full rounded-full"
+          class="flex items-center justify-center text-white w-full h-full rounded-full"
           style={"background-color: #{generate_avatar_color(@name)}"}
         >
           <span>{get_handle_initials(@name)}</span>
@@ -64,6 +64,7 @@ defmodule PearlWeb.Components.Avatar do
     [
       "pearl-avatar",
       "pearl-avatar--#{assigns.size}",
+      "pearl-avatar--#{assigns.type}",
       assigns.class
     ]
   end

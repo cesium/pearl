@@ -24,8 +24,11 @@ defmodule PearlWeb.Components.CVUpload do
         phx-submit="save"
       >
         <div class="flex flex-col md:flex-row w-full gap-4">
-          <div class="w-full">
-            <.image_uploader class="h-40" upload={@uploads.cv}>
+          <div class="w-full space-y-2">
+            <.image_uploader
+              class="h-40 rounded-2xl border-light/20! hover:border-primary/50! hover:shadow-[0_0_20px_2px] hover:shadow-primary/25 transition-all! duration-300! hover:bg-primary/10!"
+              upload={@uploads.cv}
+            >
               <:placeholder>
                 <div class="select-none flex flex-col gap-2 items-center text-lightMuted dark:text-darkMuted">
                   <.icon name="hero-arrow-up-tray" class="w-12 h-12" />

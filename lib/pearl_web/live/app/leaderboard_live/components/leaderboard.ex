@@ -15,7 +15,7 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
     ~H"""
     <div class="w-full">
       <.leaderboard_top_3 entries={Enum.take(@entries, 3)} />
-      <ul class="flex flex-col gap-4 mt-6">
+      <ul class="flex flex-col mt-6 w-full divide-y divide-light/5 bg-light/2 border border-light/5 rounded-xl">
         <.leaderboard_entry
           :for={entry <- Enum.drop(@entries, 3)}
           entry={entry}
@@ -36,7 +36,7 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
 
   defp leaderboard_top_3(assigns) do
     ~H"""
-    <div class="flex flex-row justify-between w-full">
+    <div class="flex flex-row justify-between max-w-xl mx-auto">
       <.leaderboard_top_person entry={Enum.at(@entries, 1)} pos={2} />
       <.leaderboard_top_person entry={Enum.at(@entries, 0)} winner={true} pos={1} />
       <.leaderboard_top_person entry={Enum.at(@entries, 2)} pos={3} />
@@ -55,16 +55,16 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
         <.icon
           :if={@winner}
           name="fa-crown fa-crown-solid"
-          class="w-10 h-10 translate-y-6 text-accent"
+          class="w-10 h-10 translate-y-4 text-accent"
         />
         <.avatar
           name={@entry.name}
           size={:xl}
           src={get_picture_url(@entry)}
-          class="border-2 border-primary rounded-full"
+          class="border-3 border-light shadow-[0_0_20px_2px] shadow-white/25 rounded-full"
           link={~p"/app/user/#{@entry.handle}"}
         />
-        <span class="bg-primary rounded-full px-2 -translate-y-3 select-none text-white font-semibold border-primary border-2">
+        <span class="bg-light text-dark rounded-full px-2 -translate-y-4 select-none font-semibold border-light border-2">
           {@pos}
         </span>
         <p class="font-semibold truncate max-w-28 sm:max-w-full">{@entry.name}</p>
@@ -81,9 +81,12 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
 
   defp leaderboard_entry(assigns) do
     ~H"""
-    <li class={"flex flex-row py-3 px-4 justify-between items-center text-white #{if @self do "bg-primary" else "bg-light/5" end}"}>
+    <li class={[
+      "flex flex-row py-4 pl-3 pr-4 md:pl-7 md:pr-8 justify-between items-center text-white",
+      @self && "bg-primary/20 rounded-b-xl"
+    ]}>
       <div class="flex flex-row gap-4 items-center">
-        <p class="font-bold text-xl">
+        <p class="font-bold text-center tabular-nums min-w-[3ch] shrink-0 leading-none">
           {@entry.position}
         </p>
         <.avatar
@@ -93,12 +96,16 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
           src={get_picture_url(@entry)}
           link={~p"/app/user/#{@entry.handle}"}
         />
-        <p class="font-semibold truncate max-w-40">
-          {@entry.name}
-        </p>
+        <div>
+          <p class="font-medium truncate max-w-40">
+            {@entry.name}
+          </p>
+          <p class="text-light/50 text-sm">@{@entry.handle}</p>
+        </div>
       </div>
+
       <div>
-        <p class="font-semibold">
+        <p class="font-medium">
           {@entry.badges}
           <span class="hidden lg:inline">
             {gettext(" badges")}

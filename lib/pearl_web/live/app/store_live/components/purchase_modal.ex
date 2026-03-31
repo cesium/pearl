@@ -1,0 +1,56 @@
+defmodule PearlWeb.App.StoreLive.Components.PurchaseModal do
+  @moduledoc """
+  Store purchase modal component that shows the user bought a product
+  """
+
+  use PearlWeb, :component
+
+  import PearlWeb.Components.Modal
+
+  attr :id, :string, required: true
+  attr :show, :boolean, default: false
+  attr :wrapper_class, :string, default: ""
+  attr :container_class, :string, default: "w-full max-w-lg"
+  attr :on_cancel, JS, default: %JS{}
+  attr :product, :map, required: true
+  attr :tokens, :integer, required: true
+
+  attr :body_class, :string,
+    default: "bg-dark w-full rounded-2xl border border-light/10 ring-white p-8 pt-9"
+
+  def purchase_modal(assigns) do
+    ~H"""
+    <.modal
+      id={@id}
+      show={@show}
+      on_cancel={@on_cancel}
+      wrapper_class={@wrapper_class}
+      container_class={@container_class}
+      body_class={@body_class}
+    >
+      <div class="flex flex-col items-center gap-6">
+        <.icon name="fa-bag-shopping-solid" class="size-12" />
+        <span class="text-center space-y-2">
+          <h2 class="uppercase text-xl font-bold">{gettext("Compra Confirmada")}</h2>
+          <p class="text-sm text-light/50">{gettext("Produto adicionado ao cofre")}</p>
+        </span>
+
+        <div class="flex flex-col items-center gap-4 mt-2 w-full bg-dark-muted/10 p-4 rounded-xl border border-light/5">
+          <p class="font-bold text-lg">{@product.name}</p>
+
+          <div class="flex items-center justify-center gap-2 w-full rounded-xl border border-primary/40 bg-primary/5 p-4">
+            <.icon name="fa-sack-dollar-solid" class="size-4" />
+            <p class="text-xl md:text-2xl font-black">{@product.price}</p>
+            <p class="text-sm text-light/50 -mb-2">tokens</p>
+          </div>
+
+          <div class="inline-flex w-full mt-4 items-center text-light/50 justify-between gap-2">
+            <p>Novo saldo:</p>
+            <p class="text-light font-medium">{@tokens} tokens</p>
+          </div>
+        </div>
+      </div>
+    </.modal>
+    """
+  end
+end

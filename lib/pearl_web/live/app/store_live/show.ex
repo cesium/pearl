@@ -3,6 +3,8 @@ defmodule PearlWeb.App.StoreLive.Show do
 
   alias Pearl.{Accounts, Store}
 
+  import PearlWeb.App.StoreLive.Components.PurchaseModal
+
   @impl true
   def mount(%{"id" => id}, _session, socket) do
     if connected?(socket) do
@@ -42,7 +44,8 @@ defmodule PearlWeb.App.StoreLive.Show do
          :attendee,
          Accounts.get_user_attendee(socket.assigns.current_user.id)
        )
-     )}
+     )
+     |> push_patch(to: ~p"/app/store/product/#{socket.assigns.product.id}/purchase")}
   end
 
   def can_purchase?(product, attendee) do

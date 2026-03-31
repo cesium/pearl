@@ -13,6 +13,8 @@ defmodule PearlWeb.Components.Modal do
 
   attr :wrapper_class, :string, default: ""
 
+  attr :container_class, :string, default: "w-full max-w-4xl"
+
   attr :body_class, :string,
     default: "bg-light dark:bg-dark p-8 sm:p-14 shadow-zinc-700/10 shadow-lg rounded-2xl"
 
@@ -46,7 +48,7 @@ defmodule PearlWeb.Components.Modal do
         tabindex="0"
       >
         <div class="flex min-h-full items-center justify-center">
-          <div class="w-full max-w-4xl">
+          <div class={@container_class}>
             <.focus_wrap
               id={"#{@id}-container"}
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}

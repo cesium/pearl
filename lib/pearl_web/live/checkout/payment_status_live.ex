@@ -34,7 +34,7 @@ defmodule PearlWeb.Checkout.PaymentStatusLive do
     {:noreply,
      socket
      |> assign(payment: payment)
-     |> put_flash(:info, "Pagamento confirmado com sucesso.")}
-    |> redirect(to: ~p"/app")
+     |> put_flash(:info, "Pagamento confirmado com sucesso.")
+     |> redirect(to: ~p"/app")}
   end
 end

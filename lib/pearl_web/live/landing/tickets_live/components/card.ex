@@ -21,7 +21,7 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
   end
 
   defp button_state(
-         %{type: :event, priority: priority},
+         %{type: :event, priority: _priority},
          user_event_ticket,
          _user_activity_tickets
        ) do
@@ -29,12 +29,9 @@ defmodule PearlWeb.Landing.TicketsLive.Components.Card do
       nil ->
         :enabled
 
-      %{ticket_type: %{type: :event, priority: user_priority}} = t ->
+      %{ticket_type: %{type: :event, priority: _user_priority}} = t ->
         if Tickets.paid?(t) do
-          cond do
-            user_priority >= priority -> {:disabled, "Já tens um bilhete igual ou melhor"}
-            user_priority < priority -> {:disabled, "Para upgrades contacta a equipa ENEI"}
-          end
+          {:disabled, ""}
         else
           :enabled
         end

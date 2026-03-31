@@ -9,6 +9,7 @@ defmodule Pearl.Billing do
   alias Pearl.Activities
   alias Pearl.Billing.Payment
   alias Pearl.Tickets
+  alias Pearl.TicketTypes
 
   @pubsub Pearl.PubSub
 
@@ -324,6 +325,17 @@ defmodule Pearl.Billing do
 
       not is_nil(payment.activity_ticket) ->
         Activities.mark_activity_ticket_as_paid(payment.activity_ticket)
+
+        ticket_type = TicketTypes.get_ticket_type!(payment.activity_ticket.ticket_type_id)
+        activity_id = ticket_type.activity_id
+
+        if activity_id do
+          attendee = Accounts.get_user_attendee(payment.activity_ticket.user_id)
+
+          if attendee do
+            Activities.enrol(attendee.id, activity_id)
+          end
+        end
 
       true ->
         nil

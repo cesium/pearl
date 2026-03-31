@@ -24,22 +24,5 @@
         user_activity_tickets={@user_activity_tickets}
       />
     </div>
-
-    <div class="mt-16">
-      <div class="mb-8">
-        <p class="text-black text-2xl font-extrabold">Atividades</p>
-        <p class="text-dark/50 text-lg mt-1">
-          Bilhetes para atividades individuais durante o evento.
-        </p>
-      </div>
-      <div class="grid sm:grid-cols-2 xl:grid-cols-3 md:justify-between place-items-start gap-8">
-        <.card
-          :for={ticket_type <- @activity_ticket_types}
-          ticket_type={ticket_type}
-          user_event_ticket={@user_event_ticket}
-          user_activity_tickets={@user_activity_tickets}
-        />
-      </div>
-    </div>
   </div>
 </div>

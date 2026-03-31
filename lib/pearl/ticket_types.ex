@@ -79,6 +79,14 @@ defmodule Pearl.TicketTypes do
     |> Repo.preload(perks: from(p in Perk, order_by: [asc: p.priority]))
   end
 
+  def list_active_activity_ticket_types do
+    TicketType
+    |> where([t], t.type == :activity and t.active == true)
+    |> order_by(:priority)
+    |> Repo.all()
+    |> Repo.preload(perks: from(p in Perk, order_by: [asc: p.priority]))
+  end
+
   @doc """
   Returns the list of active ticket_types.
 

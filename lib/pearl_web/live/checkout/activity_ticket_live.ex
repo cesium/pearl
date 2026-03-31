@@ -72,75 +72,7 @@ defmodule PearlWeb.Checkout.ActivityTicketLive do
       |> Map.put(:action, :validate)
 
     if changeset.valid? do
-      user_id = socket.assigns.current_user.id
-      ticket_type = socket.assigns.ticket_type
-
-      # Check for existing unpaid activity_ticket
-      case Activities.get_activity_ticket_by_user_and_type(user_id, ticket_type.id, paid: false) do
-        nil ->
-          # No unpaid ticket, create one
-          case Activities.create_activity_ticket(%{
-                 user_id: user_id,
-                 ticket_type_id: ticket_type.id,
-                 paid: false
-               }) do
-            {:ok, activity_ticket} ->
-              order_data = %{
-                "phone_number" => phone,
-                "tax_id" => if(socket.assigns.include_invoice_info, do: iva_number, else: "")
-              }
-
-              case Billing.start_payment(:mbway, :activity, activity_ticket.id, order_data) do
-                {:ok, {:ok, payment}} ->
-                  {:noreply, push_navigate(socket, to: ~p"/checkout/payment/#{payment.order_id}")}
-
-                {:error, _reason} ->
-                  Activities.delete_activity_ticket(activity_ticket)
-
-                  {:noreply,
-                   socket
-                   |> put_flash(
-                     :error,
-                     "Falha ao iniciar o pagamento. Por favor, tenta novamente."
-                   )
-                   |> assign_payment_form(changeset)}
-              end
-
-            {:error, _changeset} ->
-              {:noreply,
-               socket
-               |> put_flash(:error, "Não foi possível criar o bilhete.")
-               |> assign_payment_form(changeset)}
-          end
-
-        activity_ticket ->
-          # Unpaid ticket exists, check for payment
-          case Billing.get_payment_by_activity_ticket(activity_ticket.id) do
-            %{} = payment ->
-              {:noreply, push_navigate(socket, to: ~p"/checkout/payment/#{payment.order_id}")}
-
-            nil ->
-              # No payment yet, start payment
-              order_data = %{
-                "phone_number" => phone,
-                "tax_id" => if(socket.assigns.include_invoice_info, do: iva_number, else: "")
-              }
-
-              case Billing.start_payment(:mbway, :activity, activity_ticket.id, order_data) do
-                {:ok, {:ok, payment}} ->
-                  {:noreply, push_navigate(socket, to: ~p"/checkout/payment/#{payment.order_id}")}
-
-                {:error, _reason} ->
-                  {:noreply,
-                   socket
-                   |> put_flash(
-                     :error,
-                     "Falha ao iniciar o pagamento. Por favor, tenta novamente."
-                   )
-                   |> assign_payment_form(changeset)}
-              end
-          end
-      end
+      process_payment_submission(socket, phone, iva_number, changeset)
     else
       {:noreply, assign_payment_form(socket, changeset)}
     end
@@ -148,6 +80,76 @@ defmodule PearlWeb.Checkout.ActivityTicketLive do
 
   def handle_event("cancel", _params, socket) do
     {:noreply, push_navigate(socket, to: ~p"/tickets")}
+  end
+
+  defp process_payment_submission(socket, phone, iva_number, changeset) do
+    user_id = socket.assigns.current_user.id
+    ticket_type = socket.assigns.ticket_type
+
+    case Activities.get_activity_ticket_by_user_and_type(user_id, ticket_type.id, paid: false) do
+      nil ->
+        create_and_pay_activity_ticket(socket, ticket_type, user_id, phone, iva_number, changeset)
+
+      activity_ticket ->
+        handle_existing_unpaid_ticket(socket, activity_ticket, phone, iva_number, changeset)
+    end
+  end
+
+  defp create_and_pay_activity_ticket(socket, ticket_type, user_id, phone, iva_number, changeset) do
+    case Activities.create_activity_ticket(%{
+           user_id: user_id,
+           ticket_type_id: ticket_type.id,
+           paid: false
+         }) do
+      {:ok, activity_ticket} ->
+        start_payment_and_navigate(socket, activity_ticket, phone, iva_number, changeset, true)
+
+      {:error, _changeset} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, "Não foi possível criar o bilhete.")
+         |> assign_payment_form(changeset)}
+    end
+  end
+
+  defp handle_existing_unpaid_ticket(socket, activity_ticket, phone, iva_number, changeset) do
+    case Billing.get_payment_by_activity_ticket(activity_ticket.id) do
+      %{} = payment ->
+        {:noreply, push_navigate(socket, to: ~p"/checkout/payment/#{payment.order_id}")}
+
+      nil ->
+        start_payment_and_navigate(socket, activity_ticket, phone, iva_number, changeset, false)
+    end
+  end
+
+  defp start_payment_and_navigate(
+         socket,
+         activity_ticket,
+         phone,
+         iva_number,
+         changeset,
+         delete_on_error
+       ) do
+    order_data = %{
+      "phone_number" => phone,
+      "tax_id" => if(socket.assigns.include_invoice_info, do: iva_number, else: "")
+    }
+
+    case Billing.start_payment(:mbway, :activity, activity_ticket.id, order_data) do
+      {:ok, {:ok, payment}} ->
+        {:noreply, push_navigate(socket, to: ~p"/checkout/payment/#{payment.order_id}")}
+
+      {:error, _reason} ->
+        if delete_on_error, do: Activities.delete_activity_ticket(activity_ticket)
+
+        {:noreply,
+         socket
+         |> put_flash(
+           :error,
+           "Falha ao iniciar o pagamento. Por favor, tenta novamente."
+         )
+         |> assign_payment_form(changeset)}
+    end
   end
 
   defp assign_payment_form(socket, %Changeset{} = changeset) do

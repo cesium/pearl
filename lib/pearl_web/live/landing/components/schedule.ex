@@ -392,7 +392,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
     ~H"""
     <.link
-      patch={view_url(@url, :day, @day, @filters)}
+      navigate={view_url(@url, :day, @day, @filters)}
       class="w-full md:w-80 lg:w-100 xl:w-120 shrink-0 aspect-7/5 relative group bg-dark/60 cursor-pointer rounded-[30px] md:rounded-[40px] overflow-hidden transform transition-transform"
     >
       <div class="absolute inset-0 bg-linear-to-b from-black/40 to-black/60 z-10"></div>

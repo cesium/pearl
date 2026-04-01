@@ -26,16 +26,19 @@
 }
 
 .horse-icon {
-    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+    filter: brightness(0) invert(1)
+        drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
     transition: all 0.3s ease;
 }
 
 .horse-marker.racing .horse-icon {
-    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
+    filter: brightness(0) invert(1)
+        drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
 }
 
 .horse-marker.near-finish .horse-icon {
-    filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.9)) brightness(1.2);
+    filter: brightness(0) invert(1) drop-shadow(0 0 16px rgba(255, 215, 0, 0.9))
+        brightness(1.2);
     animation:
         horse-gallop 0.2s infinite ease-in-out,
         glow-pulse 0.5s infinite ease-in-out;
@@ -44,10 +47,12 @@
 @keyframes glow-pulse {
     0%,
     100% {
-        filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.9)) brightness(1.2);
+        filter: brightness(0) invert(1)
+            drop-shadow(0 0 16px rgba(255, 215, 0, 0.9)) brightness(1.2);
     }
     50% {
-        filter: drop-shadow(0 0 24px rgba(255, 215, 0, 1)) brightness(1.4);
+        filter: brightness(0) invert(1)
+            drop-shadow(0 0 24px rgba(255, 215, 0, 1)) brightness(1.4);
     }
 }
 
@@ -229,8 +234,8 @@
 
 .horse-icon.scale-125 {
     animation: winner-scale 1s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1)) brightness(1.5)
-        saturate(1.5);
+    filter: brightness(0) invert(1) drop-shadow(0 0 20px rgba(255, 215, 0, 1))
+        brightness(1.5) saturate(1.5);
 }
 
 /* Racing track shimmer effect */

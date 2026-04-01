@@ -30,88 +30,26 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
             <p class="text-sm text-gray-500">{gettext("Race Duration")}</p>
             <p class="text-2xl font-bold">{@duration_minutes} min</p>
           </div>
-          <div class="p-4 rounded-lg dark:bg-darkShade/20 bg-lightShade/20">
-            <p class="text-sm text-gray-500">{gettext("Time Remaining")}</p>
-            <p class="text-2xl font-bold">
-              <span class="text-green-600 dark:text-green-400" id="race-timer">
-                {format_time(@time_remaining)}
-              </span>
-            </p>
-          </div>
-        </div>
-
-        <div class="p-6 bg-[#811824] rounded-xl border-2 border-[#ffdb0d]/50 shadow-2xl relative overflow-hidden">
-          <div class="mb-6">
-            <h3 class="text-2xl font-bold mb-4 text-[#ffdb0d] uppercase tracking-wider">
-              {gettext("Race Track")}
-            </h3>
-
-            <div class="mb-4 w-full h-2 bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden">
-              <div
-                class="h-full bg-linear-to-r from-purple-500 to-pink-500 transition-all duration-300"
-                id="race-progress-bar"
-                style={"width: #{div(@time_elapsed * 100, @total_race_time)}%"}
-              >
-              </div>
+          <div class="p-4 rounded-lg dark:bg-darkShade/20 bg-lightShade/20 flex justify-between items-center">
+            <div>
+              <p class="text-sm text-gray-500">{gettext("Time Remaining")}</p>
+              <p class="text-2xl font-bold">
+                <span class="text-green-600 dark:text-green-400" id="race-timer">
+                  {format_time(@time_remaining)}
+                </span>
+              </p>
             </div>
-
-            <div class="space-y-3" id="horses-container">
-              <%= for {horse, index} <- Enum.with_index(@horses) do %>
-                <div class="relative">
-                  <div class="absolute left-0 top-0 h-full w-16 bg-black/40 flex flex-col items-center justify-center font-bold text-sm border-r-2 border-[#ffdb0d]/50 rounded-l-lg z-10">
-                    <div class="text-[#ffdb0d] text-xl font-black">##{index + 1}</div>
-                    <div class="text-white text-xs mt-1">Lane</div>
-                  </div>
-
-                  <div class="relative h-16 bg-[#f8f9fa] rounded-lg overflow-hidden border-2 border-[#ffdb0d]/50 ml-16 shadow-inner">
-                    <div class="absolute inset-0 flex">
-                      <div class="flex-1 border-r-2 border-dashed border-black/10"></div>
-                      <div class="flex-1 border-r-2 border-dashed border-black/10"></div>
-                      <div class="flex-1 border-r-2 border-dashed border-black/10"></div>
-                    </div>
-
-                    <div
-                      class="absolute top-0 h-full w-8 flex items-center justify-center text-2xl transition-all duration-75 animate-bounce horse-marker"
-                      id={"horse-marker-#{index}"}
-                      data-horse-index={index}
-                      style={"left: calc(#{horse}%)"}
-                    >
-                      <img
-                        src={~p"/images/icons/horse.png"}
-                        alt="Horse"
-                        class="w-10 h-10 animate-bounce horse-icon"
-                      />
-                    </div>
-
-                    <div class="absolute right-0 top-0 h-full w-2 bg-gradient-to-b from-[#ffdb0d] via-yellow-400 to-[#ffdb0d] finish-line shadow-lg shadow-[#ffdb0d]/50">
-                    </div>
-                  </div>
-
-                  <div class="absolute right-2 top-0 h-full flex items-center">
-                    <div class="bg-black/90 border-2 border-[#ffdb0d] rounded px-2 py-1 shadow-lg mr-2">
-                      <span
-                        class="text-sm font-mono font-bold text-[#ffdb0d] horse-percentage"
-                        id={"horse-percent-#{index}"}
-                      >
-                        {round(horse)}%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-
-            <div class="mt-6 flex gap-4">
+            <div class="flex gap-2">
               <.button
                 phx-click="start_race"
                 phx-target={@myself}
                 disabled={@racing}
                 id="btn-start-race"
                 phx-value-duration={@total_race_time}
-                class="bg-[#ffdb0d] hover:bg-yellow-400 text-[#811824] font-black py-2 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-all border-2 border-[#811824]"
+                class="bg-black hover:bg-zinc-900 text-white font-bold py-2 px-4 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 transition-all text-sm border-2 border-red-800"
               >
-                <.icon name="hero-play" class="w-5 mr-2" />
-                {gettext("Start Race")}
+                <.icon name="hero-play" class="w-5 mr-1" />
+                {gettext("Start")}
               </.button>
 
               <%= if @racing do %>
@@ -119,55 +57,71 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
                   phx-click="stop_race"
                   phx-target={@myself}
                   id="btn-stop-race"
-                  class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-2 px-4 rounded-lg shadow-lg transform hover:scale-105 transition-all text-sm"
                 >
-                  <.icon name="hero-stop" class="w-5 mr-2" />
-                  {gettext("Stop Race")}
+                  <.icon name="hero-stop" class="w-5 mr-1" />
+                  {gettext("Stop")}
                 </.button>
               <% end %>
             </div>
           </div>
+        </div>
 
-          <%= if @winner do %>
-            <div
-              class="absolute inset-0 z-50 flex items-center justify-center bg-dark/80 backdrop-blur-md rounded-xl"
-              phx-hook="Confetti"
-              id="backoffice-horse-race-result"
-              data-is_win="true"
-            >
-              <div class="relative p-10 w-11/12 max-w-2xl bg-darkShade border border-white/10 rounded-3xl shadow-2xl text-center animate-in zoom-in duration-300 overflow-hidden">
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-primary/20 blur-[100px] pointer-events-none">
-                </div>
-
-                <div class="relative z-10 flex flex-col items-center">
-                  <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 border border-primary/20 mb-6 shadow-lg shadow-primary/20">
-                    <img
-                      src={~p"/images/icons/horse.png"}
-                      alt="Winner"
-                      class="w-10 h-10 brightness-0 invert opacity-90 animate-bounce"
-                    />
+        <div class="p-2 bg-black rounded-sm border-2 border-red-500 shadow-2xl relative overflow-hidden font-mono">
+          <div class="mb-2">
+            <div class="space-y-1" id="horses-container" phx-update="ignore">
+              <%= for {horse, index} <- Enum.with_index(@horses) do %>
+                <div class="relative flex">
+                  <div class="w-16 h-12 bg-black flex items-center justify-center font-bold text-sm border border-gray-600 z-10">
+                    <div class="text-white text-xl">#{index + 1}</div>
                   </div>
 
-                  <h3 class="font-grotesk text-sm font-semibold tracking-widest text-lightMuted uppercase mb-3">
-                    {gettext("Fim da Corrida")}
-                  </h3>
+                  <div class="relative h-12 flex-1 bg-black overflow-hidden border border-gray-600 ml-1">
+                    <div class="absolute inset-0 flex items-center justify-between px-2 text-gray-700 opacity-50">
+                      <div class="w-full border-t border-dashed border-gray-600"></div>
+                    </div>
 
-                  <p class="font-grotesk text-4xl md:text-5xl font-bold text-light mb-8 drop-shadow-md">
-                    {gettext("O cavalo")}
-                    <span class="text-accent">{@winner}</span> {gettext("venceu!")}
-                  </p>
+                    <div class="absolute inset-0 hidden items-center justify-center z-20 winner-banner" id={"winner-banner-#{index}"}>
+                      <div class="bg-black px-6 py-1 border border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)] flex items-center justify-center">
+                        <span class="text-red-500 text-sm font-bold tracking-[0.2em]">
+                          HORSE #{index + 1} WINS!
+                        </span>
+                      </div>
+                    </div>
 
-                  <button
-                    phx-click="clear_winner"
-                    phx-target={@myself}
-                    class="inline-flex items-center justify-center px-8 py-3 bg-light hover:bg-light/90 text-dark font-grotesk font-semibold text-lg rounded-full transition-transform hover:scale-105 shadow-lg shadow-light/10"
-                  >
-                    {gettext("Fechar Painel")}
-                  </button>
+                    <div
+                      class="absolute top-0 h-full w-8 flex items-center justify-center transition-all duration-75 horse-marker z-10"
+                      id={"horse-marker-#{index}"}
+                      data-horse-index={index}
+                      data-position={horse}
+                      style={"left: calc(#{horse}%)"}
+                    >
+                      <img
+                        src={~p"/images/icons/horse.png"}
+                        alt="Horse"
+                        class="horse-icon w-8 h-8 object-contain"
+                      />
+                    </div>
+
+                    <div class="absolute right-0 top-0 h-full w-8 border-l border-gray-600 flex flex-col justify-between p-[2px]">
+                      <%= for _ <- 1..6 do %>
+                        <div class="w-full h-[2px] bg-white"></div>
+                      <% end %>
+                    </div>
+                  </div>
+
+                  <div class="w-16 h-12 flex items-center justify-center ml-1 bg-black border border-gray-600">
+                    <span
+                      class="text-sm font-mono font-bold text-white horse-percentage"
+                      id={"horse-percent-#{index}"}
+                    >
+                      {round(horse)}%
+                    </span>
+                  </div>
                 </div>
-              </div>
+              <% end %>
             </div>
-          <% end %>
+          </div>
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ export const HorseRace = {
     this.firstWinner = null;
     this.winnerAnnounced = false;
     this.isResetting = false;
+    this.winnerLaneIndex = null;
 
     this.componentId = this.el.getAttribute("id");
 
@@ -37,6 +38,7 @@ export const HorseRace = {
       this.firstWinner = null;
       this.winnerAnnounced = false;
       this.horses.fill(0);
+      this.winnerLaneIndex = null;
 
       const announcement = document.getElementById("winner-announcement");
       if (announcement) announcement.remove();
@@ -52,13 +54,20 @@ export const HorseRace = {
         timerElement.textContent = this.formatTime(totalTime);
       }
 
+      const laneRows = document.querySelectorAll("[data-lane-index]");
+      laneRows.forEach((row) => {
+        row.classList.remove(
+          "is-winner-lane",
+          "border-red-500",
+          "shadow-[0_0_15px_rgba(239,68,68,0.5)]",
+        );
+      });
+
       const resetHorses = () => {
         const horseMarkers = document.querySelectorAll(".horse-marker");
         const horsePercentages = document.querySelectorAll(".horse-percentage");
 
         horseMarkers.forEach((marker, index) => {
-          const currentLeft = window.getComputedStyle(marker).left;
-
           marker.style = "";
           marker.removeAttribute("style");
 
@@ -89,8 +98,21 @@ export const HorseRace = {
             );
           }
 
+          if (horseIcon) {
+            horseIcon.style.setProperty(
+              "filter",
+              "brightness(0) invert(1)",
+              "important",
+            );
+          }
+
           if (horsePercentages[index]) {
             horsePercentages[index].textContent = "0%";
+            horsePercentages[index].classList.remove(
+              "text-red-500",
+              "border-red-500",
+            );
+            horsePercentages[index].classList.add("text-white");
           }
 
           this.horses[index] = 0;
@@ -125,39 +147,46 @@ export const HorseRace = {
 
     horseMarkers.forEach((marker, index) => {
       const dataPosition = marker.getAttribute("data-position");
-      if (dataPosition !== null) {
-        const position = parseFloat(dataPosition);
+      if (dataPosition === null) return;
 
-        marker.style.left = `${position}%`;
+      const position = parseFloat(dataPosition);
+      marker.style.left = `${position}%`;
 
-        const horseIcon = marker.querySelector(".horse-icon");
-        if (horseIcon) {
-          horseIcon.classList.remove(
-            "animate-bounce",
-            "scale-125",
-            "brightness-125",
+      const horseIcon = marker.querySelector(".horse-icon");
+      if (horseIcon) {
+        horseIcon.classList.remove(
+          "animate-bounce",
+          "scale-125",
+          "brightness-125",
+        );
+
+        horseIcon.style.setProperty(
+          "filter",
+          "brightness(0) invert(1)",
+          "important",
+        );
+
+        if (position >= 100) {
+          this.winnerLaneIndex = index;
+
+          horseIcon.classList.add("animate-bounce");
+
+          const laneRow = document.querySelector(
+            `[data-lane-index="${index}"]`,
           );
 
           if (position >= 95) {
             horseIcon.classList.add("animate-bounce");
           }
-
-          if (position === 0) {
-            horseIcon.classList.remove(
-              "animate-bounce",
-              "scale-125",
-              "brightness-125",
-            );
-          }
         }
+      }
 
-        if (this.horses[index] !== undefined) {
-          this.horses[index] = position;
-        }
+      if (this.horses[index] !== undefined) {
+        this.horses[index] = position;
+      }
 
-        if (horsePercentages[index]) {
-          horsePercentages[index].textContent = `${Math.round(position)}%`;
-        }
+      if (horsePercentages[index]) {
+        horsePercentages[index].textContent = `${Math.round(position)}%`;
       }
     });
   },
@@ -286,11 +315,18 @@ export const HorseRace = {
 
     const countdown = document.createElement("div");
     countdown.id = "race-countdown";
-    countdown.className =
-      "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-black bg-opacity-80 text-white text-9xl font-bold rounded-full w-48 h-48 flex items-center justify-center countdown-pulse";
 
-    this.el.style.position = "relative";
-    this.el.appendChild(countdown);
+    countdown.className =
+      "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-black text-red-500 text-2xl font-mono font-bold tracking-[0.2em] border border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)] px-10 py-2 flex items-center justify-center countdown-pulse pointer-events-none";
+
+    const container = document.getElementById("horses-container");
+    if (container) {
+      container.style.position = "relative";
+      container.appendChild(countdown);
+    } else {
+      this.el.style.position = "relative";
+      this.el.appendChild(countdown);
+    }
 
     let count = 3;
     countdown.textContent = count;

@@ -459,6 +459,7 @@ defmodule PearlWeb.Router do
           end
 
           live "/enrolments/:id", EnrolmentLive.Index, :index
+          live "/tickets", TicketsLive.Index, :index
         end
 
         live "/profile_settings", ProfileSettingsLive, :edit

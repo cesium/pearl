@@ -87,10 +87,10 @@
 </section>
 
 <.purchase_modal
-  :if={@live_action in [:show_purchase]}
+  :if={@purchase}
   show
   id="purchase-modal"
-  product={@product}
+  purchase={@purchase}
   tokens={@current_user.attendee.tokens}
-  on_cancel={JS.patch(~p"/app/store/product/#{@product.id}")}
+  on_cancel={JS.push("close-modal")}
 />

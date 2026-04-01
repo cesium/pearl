@@ -12,7 +12,7 @@ defmodule PearlWeb.App.StoreLive.Components.PurchaseModal do
   attr :wrapper_class, :string, default: ""
   attr :container_class, :string, default: "w-full max-w-lg"
   attr :on_cancel, JS, default: %JS{}
-  attr :product, :map, required: true
+  attr :purchase, :map, required: true
   attr :tokens, :integer, required: true
 
   attr :body_class, :string,
@@ -36,11 +36,11 @@ defmodule PearlWeb.App.StoreLive.Components.PurchaseModal do
         </span>
 
         <div class="flex flex-col items-center gap-4 mt-2 w-full bg-dark-muted/10 p-4 rounded-xl border border-light/5">
-          <p class="font-bold text-lg">{@product.name}</p>
+          <p class="font-bold text-lg">{@purchase.name}</p>
 
           <div class="flex items-center justify-center gap-2 w-full rounded-xl border border-primary/40 bg-primary/5 p-4">
             <.icon name="fa-sack-dollar-solid" class="size-4" />
-            <p class="text-xl md:text-2xl font-black">{@product.price}</p>
+            <p class="text-xl md:text-2xl font-black">{@purchase.price}</p>
             <p class="text-sm text-light/50 -mb-2">tokens</p>
           </div>
 
@@ -49,6 +49,17 @@ defmodule PearlWeb.App.StoreLive.Components.PurchaseModal do
             <p class="text-light font-medium">{@tokens} tokens</p>
           </div>
         </div>
+
+        <.link
+          navigate="/app/vault"
+          class="text-light/50 gap-1 inline-flex items-center hover:text-light group transition-colors duration-300"
+        >
+          <p>{gettext("ver cofre")}</p>
+          <.icon
+            name="fa-chevron-right-solid"
+            class="size-3 group-hover:translate-x-1 transition-transform duration-300"
+          />
+        </.link>
       </div>
     </.modal>
     """

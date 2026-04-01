@@ -17,13 +17,14 @@ defmodule PearlWeb.Components.Page do
   attr :back_to_link_text, :string, default: "Back"
   attr :banner, :string, default: nil
   attr :child_class, :string, default: nil
+  attr :full_height, :boolean, default: false
 
   slot :actions, required: false, doc: "Slot for actions to be rendered in the page header."
   slot :inner_block, required: true, doc: "Slot for the body content of the page."
 
   def page(assigns) do
     ~H"""
-    <div>
+    <div class={[@full_height && "h-full flex flex-col overflow-hidden"]}>
       <.header
         title_class={"#{size_class(@size)} #{@title_class}"}
         class={"#{if @banner, do: "min-h-40 text-white items-end! pt-0 pb-5.5", else: ""} px-6 lg:px-8 py-9"}
@@ -51,7 +52,11 @@ defmodule PearlWeb.Components.Page do
           {render_slot(@actions)}
         </:actions>
       </.header>
-      <div class={[@child_class, "px-6 sm:px-6 lg:px-8 pb-28 lg:pb-8"]}>
+      <div class={[
+        @child_class,
+        @full_height && "flex-1 min-h-0 overflow-hidden",
+        "px-6 sm:px-6 lg:px-8 pb-28 lg:pb-8"
+      ]}>
         {render_slot(@inner_block)}
       </div>
     </div>

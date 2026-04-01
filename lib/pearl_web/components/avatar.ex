@@ -14,7 +14,7 @@ defmodule PearlWeb.Components.Avatar do
   attr :src, :string, default: nil, doc: "The URL of the image to display."
 
   attr :size, :atom,
-    values: [:xs, :sm, :md, :lg, :xl],
+    values: [:xs, :sm, :md, :lg, :xl, :xxl],
     default: :md,
     doc: "The size of the avatars."
 

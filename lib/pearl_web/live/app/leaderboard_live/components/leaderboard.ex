@@ -68,9 +68,11 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
           {@pos}
         </span>
         <p class="font-semibold truncate max-w-28 sm:max-w-full">{@entry.name}</p>
-        <p class="font-semibold">
-          {gettext("%{badges_count} badges", badges_count: @entry.badges)}
-        </p>
+        <div class="flex items-center gap-1.5 font-bold">
+          <.icon name="fa-medal-solid" class="size-4 text-primary" />
+          <p>{@entry.badges}</p>
+          <p class="uppercase text-sm font-normal text-light/50">badges</p>
+        </div>
       </div>
     <% end %>
     """
@@ -89,28 +91,26 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
         <p class="font-bold text-center tabular-nums min-w-[3ch] shrink-0 leading-none">
           {@entry.position}
         </p>
-        <.avatar
-          name={@entry.name}
-          size={:sm}
-          class={"#{if @self do "bg-primary/10 border-2 border-primary/10" else "bg-light/5 border-2 border-light/5" end} rounded-full"}
-          src={get_picture_url(@entry)}
-          link={~p"/app/user/#{@entry.handle}"}
-        />
-        <div>
-          <p class="font-medium truncate max-w-40">
-            {@entry.name}
-          </p>
-          <p class="text-light/50 text-sm">@{@entry.handle}</p>
-        </div>
+        <.link class="flex gap-4 items-center" navigate={"/app/user/#{@entry.handle}"}>
+          <.avatar
+            name={@entry.name}
+            size={:sm}
+            class={"#{if @self do "bg-primary/10 border-2 border-primary/10" else "bg-light/5 border-2 border-light/5" end} rounded-full"}
+            src={get_picture_url(@entry)}
+          />
+          <div>
+            <p class="font-medium truncate max-w-40">
+              {@entry.name}
+            </p>
+            <p class="text-light/50 text-sm">@{@entry.handle}</p>
+          </div>
+        </.link>
       </div>
 
-      <div>
-        <p class="font-medium">
-          {@entry.badges}
-          <span class="hidden lg:inline">
-            {gettext(" badges")}
-          </span>
-        </p>
+      <div class="flex items-center gap-2 font-bold ">
+        <.icon name="fa-medal-solid" class="size-4 text-primary" />
+        <p>{@entry.badges}</p>
+        <p class="uppercase text-sm font-normal text-light/50">badges</p>
       </div>
     </li>
     """

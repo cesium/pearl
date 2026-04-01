@@ -19,7 +19,8 @@ defmodule PearlWeb.App.StoreLive.Show do
     {:noreply,
      socket
      |> assign(:current_page, :store)
-     |> assign(:product, Store.get_product!(id))}
+     |> assign(:product, Store.get_product!(id))
+     |> assign(:purchase, nil)}
   end
 
   @impl true
@@ -45,7 +46,13 @@ defmodule PearlWeb.App.StoreLive.Show do
          Accounts.get_user_attendee(socket.assigns.current_user.id)
        )
      )
-     |> push_patch(to: ~p"/app/store/product/#{socket.assigns.product.id}/purchase")}
+     |> assign(:purchase, product)}
+  end
+
+  def handle_event("close-modal", _params, socket) do
+    {:noreply,
+     socket
+     |> assign(:purchase, nil)}
   end
 
   def can_purchase?(product, attendee) do

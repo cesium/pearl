@@ -162,13 +162,22 @@
             <%= for bet <- @active_bets do %>
               <div class={[
                 "border border-primary/40 bg-primary/10 p-6 rounded-xl",
-                if(length(@active_bets) == 1, do: "flex justify-around items-center", else: "text-center")
+                if(length(@active_bets) == 1,
+                  do: "flex justify-around items-center",
+                  else: "text-center"
+                )
               ]}>
                 <p class="text-2xl font-bold">#{bet.horse_number}</p>
-                <p class={["text-sm md:text-base text-gray-400", if(length(@active_bets) == 1, do: "", else: "mt-2")]}>
+                <p class={[
+                  "text-sm md:text-base text-gray-400",
+                  if(length(@active_bets) == 1, do: "", else: "mt-2")
+                ]}>
                   {format_tokens(bet.bet_amount)}
                 </p>
-                <p class={["text-xl font-bold text-primary", if(length(@active_bets) == 1, do: "", else: "mt-3")]}>
+                <p class={[
+                  "text-xl font-bold text-primary",
+                  if(length(@active_bets) == 1, do: "", else: "mt-3")
+                ]}>
                   {(format_tokens(bet.bet_amount) * @multiplier) |> format_tokens()}
                 </p>
               </div>

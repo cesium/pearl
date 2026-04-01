@@ -81,7 +81,10 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
                       <div class="w-full border-t border-dashed border-gray-600"></div>
                     </div>
 
-                    <div class="absolute inset-0 hidden items-center justify-center z-20 winner-banner" id={"winner-banner-#{index}"}>
+                    <div
+                      class="absolute inset-0 hidden items-center justify-center z-20 winner-banner"
+                      id={"winner-banner-#{index}"}
+                    >
                       <div class="bg-black px-6 py-1 border border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)] flex items-center justify-center">
                         <span class="text-red-500 text-sm font-bold tracking-[0.2em]">
                           HORSE #{index + 1} WINS!

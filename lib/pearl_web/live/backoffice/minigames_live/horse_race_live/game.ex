@@ -401,7 +401,10 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
             <div class="mb-0.5">
               <div class="space-y-0" id="horses-container" phx-update="ignore">
                 <%= for {horse, index} <- Enum.with_index(@horses) do %>
-                  <div class="relative flex border-t border-red-500/40 first:border-t-0" data-lane-index={index}>
+                  <div
+                    class="relative flex border-t border-red-500/40 first:border-t-0"
+                    data-lane-index={index}
+                  >
                     <div class="w-14 h-10 bg-black flex items-center justify-center font-bold text-sm border border-red-500 z-10">
                       <div class="text-white text-base">#{index + 1}</div>
                     </div>
@@ -422,7 +425,10 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                         <div class="w-full border-t border-dashed border-gray-700/80"></div>
                       </div>
 
-                      <div class="absolute inset-0 hidden items-center justify-center z-20 winner-banner" id={"winner-banner-#{index}"}>
+                      <div
+                        class="absolute inset-0 hidden items-center justify-center z-20 winner-banner"
+                        id={"winner-banner-#{index}"}
+                      >
                         <div class="bg-black px-6 py-1 border border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)] flex items-center justify-center">
                           <span class="text-red-500 text-xs font-bold tracking-[0.3em]">
                             HORSE #{index + 1} WINS!

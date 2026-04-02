@@ -84,33 +84,37 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Leaderboard do
   defp leaderboard_entry(assigns) do
     ~H"""
     <li class={[
-      "flex flex-row py-4 pl-3 pr-4 md:pl-7 md:pr-8 justify-between items-center text-white",
+      "flex flex-row py-4 pl-3 pr-4 md:pl-7 md:pr-8 justify-between items-center text-white gap-3",
       @self && "bg-primary/20 rounded-b-xl"
     ]}>
-      <div class="flex flex-row gap-4 items-center">
+      <div class="flex flex-row gap-4 items-center min-w-0 flex-1">
         <p class="font-bold text-center tabular-nums min-w-[3ch] shrink-0 leading-none">
           {@entry.position}
         </p>
-        <.link class="flex gap-4 items-center" navigate={"/app/user/#{@entry.handle}"}>
+
+        <.link class="flex items-center gap-4 min-w-0 flex-1" navigate={"/app/user/#{@entry.handle}"}>
           <.avatar
             name={@entry.name}
             size={:sm}
-            class={"#{if @self do "bg-primary/10 border-2 border-primary/10" else "bg-light/5 border-2 border-light/5" end} rounded-full"}
+            class={"#{if @self do "bg-primary/10 border-2 border-primary/10" else "bg-light/5 border-2 border-light/5" end} rounded-full shrink-0"}
             src={get_picture_url(@entry)}
           />
-          <div>
-            <p class="font-medium truncate max-w-40">
+
+          <div class="min-w-0 flex-1">
+            <p class="font-medium truncate">
               {@entry.name}
             </p>
-            <p class="text-light/50 text-sm">@{@entry.handle}</p>
+            <p class="text-light/50 text-sm truncate">
+              @{@entry.handle}
+            </p>
           </div>
         </.link>
       </div>
 
-      <div class="flex items-center gap-2 font-bold ">
-        <.icon name="fa-medal-solid" class="size-4 text-primary" />
+      <div class="flex items-center gap-2 font-bold shrink-0">
+        <.icon name="fa-medal-solid" class="size-4 text-primary shrink-0" />
         <p>{@entry.badges}</p>
-        <p class="uppercase text-sm font-normal text-light/50">badges</p>
+        <p class="uppercase text-sm font-normal hidden sm:block text-light/50">badges</p>
       </div>
     </li>
     """

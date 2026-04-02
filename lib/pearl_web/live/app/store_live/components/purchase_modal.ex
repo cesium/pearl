@@ -42,7 +42,7 @@ defmodule PearlWeb.App.StoreLive.Components.PurchaseModal do
           <div class="flex items-center justify-center gap-2 w-full rounded-xl border border-primary/40 bg-primary/5 p-4">
             <.icon name="fa-sack-dollar-solid" class="size-4" />
             <p class="text-xl md:text-2xl font-black">{@purchase.price}</p>
-            <p class="text-sm text-light/50 -mb-2">tokens</p>
+            <p class="text-sm text-light/50 -mb-1 md:-mb-2">tokens</p>
           </div>
 
           <div class="inline-flex w-full mt-4 items-center text-light/50 justify-between gap-2">

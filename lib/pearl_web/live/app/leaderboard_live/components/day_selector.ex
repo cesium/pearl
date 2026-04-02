@@ -26,7 +26,7 @@ defmodule PearlWeb.App.LeaderboardLive.Components.DaySelector do
       </button>
 
       <h2 class="min-w-30 text-center uppercase leading-tight">
-        <span class="block text-xs tracking-wide text-light/50">{gettext("Day")}</span>
+        <span class="block text-xs tracking-wide text-light/50">{gettext("Dia")}</span>
         <span class="block text-2xl sm:text-2xl text-primary font-semibold">{@day}</span>
       </h2>
 

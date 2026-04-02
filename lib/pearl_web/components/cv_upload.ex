@@ -38,10 +38,10 @@ defmodule PearlWeb.Components.CVUpload do
             </.image_uploader>
             <div :if={@current_user.cv} class="pt-2">
               <p class="text-sm text-lightSahde dark:text-darkMuted">
-                {gettext("Current CV: ")}<span class="text-lightMuted"><%= @current_user.cv.file_name %></span>
+                {gettext("CV atual: ")}<span class="text-lightMuted"><%= @current_user.cv.file_name %></span>
               </p>
               <p class="text-sm text-lightMuted dark:text-darkMuted">
-                {gettext("You can replace your current CV by uploading again.")}
+                {gettext("Podes substituir o teu CV atual carregando um novo.")}
               </p>
             </div>
           </div>
@@ -65,7 +65,8 @@ defmodule PearlWeb.Components.CVUpload do
      |> assign(:uploaded_files, [])
      |> allow_upload(:cv,
        accept: CV.extension_whitelist(),
-       max_entries: 1
+       max_entries: 1,
+       max_file_size: 10_000_000
      )}
   end
 
@@ -95,7 +96,7 @@ defmodule PearlWeb.Components.CVUpload do
           {:ok, user} ->
             {:noreply,
              socket
-             |> put_flash(:info, "CV uploaded successfully.")
+             |> put_flash(:info, "CV carregado com sucesso.")
              |> assign(current_user: Map.put(socket.assigns.current_user, :cv, user.cv))
              |> push_patch(to: socket.assigns.patch)}
 
@@ -123,15 +124,15 @@ defmodule PearlWeb.Components.CVUpload do
           {:ok, user}
 
         {:error, _changeset} ->
-          {:error, "An error occurred while updating the user."}
+          {:error, "Ocorreu um erro ao atualizar o utilizador."}
       end
     end)
     |> case do
       [] ->
-        {:error, "Select a file to upload."}
+        {:error, "Selecione um ficheiro para carregar."}
 
       [error: _message] ->
-        {:error, "An error occurred while uploading the file."}
+        {:error, "Ocorreu um erro ao carregar o ficheiro."}
 
       [user] ->
         {:ok, user}

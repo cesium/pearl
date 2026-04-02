@@ -79,7 +79,7 @@ defmodule PearlWeb.Checkout.ActivityTicketLive do
   end
 
   def handle_event("cancel", _params, socket) do
-    {:noreply, push_navigate(socket, to: ~p"/tickets")}
+    {:noreply, push_navigate(socket, to: ~p"/schedule")}
   end
 
   defp process_payment_submission(socket, phone, iva_number, changeset) do

@@ -71,10 +71,12 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
      )}
   end
 
+  @impl true
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_info({:horse_race_config_updated, "is_active", is_active}, socket) do
     {:noreply, assign(socket, :is_active, is_active)}
   end
@@ -170,6 +172,24 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
     {:noreply, socket}
   end
 
+  def handle_info(:horse_race_reset, socket) do
+    number_of_horses = socket.assigns.number_of_horses
+
+    socket =
+      socket
+      |> assign(
+        horses: List.duplicate(0, number_of_horses),
+        winner: nil,
+        time_remaining: socket.assigns.total_race_time,
+        time_elapsed: 0,
+        racing: false
+      )
+      |> push_event("reset_race", %{})
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("start_race", params, socket) do
     number_of_horses = socket.assigns.number_of_horses
 
@@ -236,23 +256,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
     {:noreply, socket}
   end
 
-  def handle_info(:horse_race_reset, socket) do
-    number_of_horses = socket.assigns.number_of_horses
-
-    socket =
-      socket
-      |> assign(
-        horses: List.duplicate(0, number_of_horses),
-        winner: nil,
-        time_remaining: socket.assigns.total_race_time,
-        time_elapsed: 0,
-        racing: false
-      )
-      |> push_event("reset_race", %{})
-
-    {:noreply, socket}
-  end
-
   defp finish_race(socket, client_horses, js_winner) do
     horses = client_horses || Enum.map(socket.assigns.horses, &min(&1, 100))
     winner = parse_js_winner(js_winner, horses)
@@ -284,40 +287,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
     end
   end
 
-  defp continue_race(socket, elapsed, time_remaining, client_horses) do
-    new_horses =
-      client_horses || update_horse_positions(socket.assigns.horses, socket.assigns.horse_speeds)
-
-    assign(socket,
-      horses: new_horses,
-      time_remaining: time_remaining,
-      time_elapsed: elapsed,
-      racing: true
-    )
-  end
-
-  defp parse_elapsed(elapsed) when is_integer(elapsed), do: elapsed
-  defp parse_elapsed(elapsed) when is_binary(elapsed), do: String.to_integer(elapsed)
-  defp parse_elapsed(_), do: 0
-
-  defp parse_client_horses(positions) when is_list(positions) do
-    Enum.map(positions, fn
-      p when is_binary(p) ->
-        case Float.parse(p) do
-          {f, _} -> f
-          :error -> 0.0
-        end
-
-      p when is_number(p) ->
-        p * 1.0
-
-      _ ->
-        0.0
-    end)
-  end
-
-  defp parse_client_horses(_), do: nil
-
   defp parse_js_winner(w, _horses) when is_integer(w), do: w
   defp parse_js_winner(w, _horses) when is_binary(w), do: String.to_integer(w)
   defp parse_js_winner(_, horses), do: find_winner(horses)
@@ -328,21 +297,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
       variation = 0.02 + :rand.uniform() * 0.03
       {base_speed, variation}
     end
-  end
-
-  defp update_horse_positions(positions, horse_speeds) do
-    positions
-    |> Enum.with_index()
-    |> Enum.map(fn {position, idx} ->
-      {base_speed, variation} = Enum.at(horse_speeds, idx)
-
-      speed_modifier =
-        base_speed + if Enum.random([0, 1]) == 0, do: variation, else: -variation / 2
-
-      increment = speed_modifier * (2 + Enum.random([0, 1, 2]))
-
-      min(position + increment, 100)
-    end)
   end
 
   defp find_winner(horses) do
@@ -402,6 +356,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
     end
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <.page title={gettext("Horse Race Game")}>

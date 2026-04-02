@@ -660,21 +660,33 @@ defmodule PearlWeb.Landing.Components.Schedule do
                   />
                 <% end %>
               <% else %>
-                <%= if @can_enrol do %>
-                  <.primary_button
-                    title={gettext("Inscrever")}
-                    icon="hero-plus"
-                    phx-click="enrol"
-                    phx-value-activity_id={@activity.id}
-                    phx-target={@myself}
-                    data-confirm={gettext("Tem certeza de que te queres inscrever?")}
-                    class="text-sm font-bold"
-                    disabled={is_nil(@current_user)}
-                  />
+              <%= if @activity.link do %>
+                <a
+                  href={@activity.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center gap-2 px-4 py-2.5 bg-background-muted text-primary hover:bg-background-muted/80 text-sm font-bold"
+                >
+                  <.icon name="hero-arrow-up-right" class="w-4 h-4 shrink-0" />
+                  <span>{gettext("Inscrever")}</span>
+                </a>
+              <% else %>
+                  <%= if @can_enrol do %>
+                    <.primary_button
+                      title={gettext("Inscrever")}
+                      icon="hero-plus"
+                      phx-click="enrol"
+                      phx-value-activity_id={@activity.id}
+                      phx-target={@myself}
+                      data-confirm={gettext("Tem certeza de que te queres inscrever?")}
+                      class="text-sm font-bold"
+                      disabled={is_nil(@current_user)}
+                    />
+                <% end %>
                 <% end %>
               <% end %>
 
-              <%= if @is_full and not @can_enrol do %>
+              <%= if @is_full and not @can_enrol and is_nil(@activity.link) do %>
                 <span class="px-5 py-2.5 bg-gray-100 text-gray-400 font-bold text-sm">
                   {gettext("Esgotado")}
                 </span>

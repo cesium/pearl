@@ -1286,7 +1286,7 @@ defmodule Pearl.Accounts do
       png =
         "#{phx_host}/attendee/#{credential.id}"
         |> QRCodeEx.encode()
-        |> QRCodeEx.png()
+        |> QRCodeEx.png(color: <<140, 1, 32>>, background_color: <<238, 238, 236>>)
 
       {credential.id, [png]}
     end

@@ -496,7 +496,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                           horse_variant_class(index),
                           if(@racing, do: "horse-run", else: "horse-rest")
                         ]}
-                        style="transform: scale(1.25);"
+                        style="transform: scale(0.35);"
                       >
                       </div>
                     </div>

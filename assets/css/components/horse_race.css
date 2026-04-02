@@ -1,0 +1,307 @@
+/* Spritesheet base properties */
+.horse-icon {
+    display: inline-block;
+    background-repeat: no-repeat;
+    /* Ensure no ghosting between frames */
+    transition: none;
+}
+
+/*
+  Rest Sprite: 576 x 180
+  3 frames -> width per frame = 576 / 3 = 192px
+*/
+.horse-rest {
+    width: 192px;
+    height: 180px;
+    background-size: 576px 180px;
+    animation: horse-rest-anim 0.6s steps(3) infinite;
+}
+
+@keyframes horse-rest-anim {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -576px 0;
+    }
+}
+
+/*
+  Run Sprite: 1536 x 180
+  8 frames -> width per frame = 1536 / 8 = 192px
+*/
+.horse-run {
+    width: 192px;
+    height: 180px;
+    background-size: 1536px 180px;
+    animation: horse-run-anim 0.8s steps(8) infinite;
+}
+
+@keyframes horse-run-anim {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -1536px 0;
+    }
+}
+
+/* Pause state for when race is stopped/paused */
+.horse-icon.paused {
+    animation-play-state: paused !important;
+}
+
+/* Horse Variants - Rest */
+.horse-variant-gold.horse-rest {
+    background-image: url("/images/icons/horse7_gold_rest.png");
+}
+.horse-variant-brown.horse-rest {
+    background-image: url("/images/icons/horse3_brown_rest.png");
+}
+.horse-variant-grey.horse-rest {
+    background-image: url("/images/icons/horse6_grey_rest.png");
+}
+.horse-variant-black.horse-rest {
+    background-image: url("/images/icons/horse1_black_rest.png");
+}
+
+/* Horse Variants - Run */
+.horse-variant-gold.horse-run {
+    background-image: url("/images/icons/horse7_gold_run.png");
+}
+.horse-variant-brown.horse-run {
+    background-image: url("/images/icons/horse3_brown_run.png");
+}
+.horse-variant-grey.horse-run {
+    background-image: url("/images/icons/horse6_grey_run.png");
+}
+.horse-variant-black.horse-run {
+    background-image: url("/images/icons/horse1_black_run.png");
+}
+
+.horse-marker {
+    transition: left 0.1s linear;
+    will-change: left;
+}
+
+.horse-marker.near-finish .horse-icon {
+    filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.9)) brightness(1.2);
+}
+
+@keyframes winner-announce {
+    0% {
+        transform: scale(0.5) rotateY(90deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1) rotateY(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotateY(0deg);
+        opacity: 1;
+    }
+}
+
+.winner-announcement {
+    animation:
+        winner-announce 0.8s ease-out,
+        glow-border 2s infinite ease-in-out;
+    transform-origin: center;
+}
+
+@keyframes glow-border {
+    0%,
+    100% {
+        border-color: rgb(234 179 8);
+        box-shadow: 0 0 20px rgba(234, 179, 8, 0.5);
+    }
+    50% {
+        border-color: rgb(250 204 21);
+        box-shadow: 0 0 40px rgba(250, 204, 21, 0.8);
+    }
+}
+
+@keyframes finish-line-pulse {
+    0% {
+        box-shadow:
+            0 0 0 0 rgba(239, 68, 68, 0.9),
+            0 0 20px rgba(239, 68, 68, 0.5);
+        background: linear-gradient(
+            to bottom,
+            rgb(239 68 68),
+            rgb(220 38 38),
+            rgb(239 68 68)
+        );
+    }
+    50% {
+        box-shadow:
+            0 0 0 15px rgba(239, 68, 68, 0),
+            0 0 40px rgba(239, 68, 68, 0.8);
+        background: linear-gradient(
+            to bottom,
+            rgb(252 165 165),
+            rgb(239 68 68),
+            rgb(252 165 165)
+        );
+    }
+    100% {
+        box-shadow:
+            0 0 0 0 rgba(239, 68, 68, 0),
+            0 0 20px rgba(239, 68, 68, 0.5);
+        background: linear-gradient(
+            to bottom,
+            rgb(239 68 68),
+            rgb(220 38 38),
+            rgb(239 68 68)
+        );
+    }
+}
+
+.finish-line-pulse {
+    animation: finish-line-pulse 1s ease-out infinite;
+}
+
+.finish-line {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+    transition: all 0.3s ease;
+}
+
+@keyframes countdown-pulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.countdown-pulse {
+    animation: countdown-pulse 1s ease-in-out;
+}
+
+.horse-percentage {
+    transition: all 0.2s ease;
+    text-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+}
+
+.horse-percentage.updated {
+    animation: percentage-update 0.3s ease-out;
+}
+
+@keyframes percentage-update {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+    }
+    50% {
+        transform: scale(1.15);
+        text-shadow:
+            0 0 16px rgba(34, 197, 94, 1),
+            0 0 24px rgba(34, 197, 94, 0.8);
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+    }
+}
+
+@keyframes track-scroll {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+.horse-marker.racing ~ .track-lines {
+    animation: track-scroll 1s linear infinite;
+}
+
+.finish-flag {
+    animation: flag-wave 0.5s ease-in-out infinite;
+}
+
+@keyframes flag-wave {
+    0%,
+    100% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+}
+
+.lane-number {
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.8);
+}
+
+/* Scale animation for winner horse */
+@keyframes winner-scale {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+}
+
+.horse-icon.scale-125 {
+    animation: winner-scale 1s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1)) brightness(1.5)
+        saturate(1.5);
+}
+
+/* Racing track shimmer effect */
+@keyframes track-shimmer {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+.horse-marker.racing + .track-shimmer {
+    animation: track-shimmer 2s ease-in-out infinite;
+}
+
+button:not(:disabled):hover {
+    transform: scale(1.05);
+}
+
+button:not(:disabled):active {
+    transform: scale(0.98);
+}
+
+@keyframes trophy-pulse {
+    0%,
+    100% {
+        transform: scale(1) rotateZ(0deg);
+    }
+    25% {
+        transform: scale(1.1) rotateZ(-5deg);
+    }
+    50% {
+        transform: scale(1.2) rotateZ(0deg);
+    }
+    75% {
+        transform: scale(1.1) rotateZ(5deg);
+    }
+}
+
+.winner-announcement > div > div:first-child {
+    animation: trophy-pulse 1.5s ease-in-out infinite;
+}

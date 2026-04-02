@@ -24,7 +24,13 @@ defmodule PearlWeb.Backoffice.EventMealLive.FormComponent do
           <.input field={@form[:start_time]} type="time" label="Start Time" />
           <.input field={@form[:end_time]} type="time" label="End Time" />
         </div>
-        <.input field={@form[:meal_type]} type="select" label="Meal Type" options={["Lunch", "Dinner"]} prompt="Select a meal type" />
+        <.input
+          field={@form[:meal_type]}
+          type="select"
+          label="Meal Type"
+          options={["Lunch", "Dinner"]}
+          prompt="Select a meal type"
+        />
         <.input field={@form[:description]} type="text" label="Description" />
 
         <div class="flex justify-end gap-2">

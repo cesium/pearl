@@ -76,7 +76,10 @@ defmodule PearlWeb.Backoffice.EventMealLive.Index do
           <:col :let={{_id, event_meal}} label="Date">{event_meal.date}</:col>
           <:col :let={{_id, event_meal}} label="Time">
             <%= if event_meal.start_time && event_meal.end_time do %>
-              {Calendar.strftime(event_meal.start_time, "%H:%M")} - {Calendar.strftime(event_meal.end_time, "%H:%M")}
+              {Calendar.strftime(event_meal.start_time, "%H:%M")} - {Calendar.strftime(
+                event_meal.end_time,
+                "%H:%M"
+              )}
             <% end %>
           </:col>
           <:col :let={{_id, event_meal}} label="Type">{event_meal.meal_type}</:col>

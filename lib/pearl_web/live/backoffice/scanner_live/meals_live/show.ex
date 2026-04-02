@@ -48,12 +48,16 @@ defmodule PearlWeb.Backoffice.ScannerLive.MealsLive.Show do
                   <li :for={meal <- meals} class="flex flex-row justify-between items-center">
                     <div>
                       <h3 class="font-semibold text-lg">
-                        {meal.meal_type} <span class="text-sm font-normal text-gray-500">({meal.description})</span>
+                        {meal.meal_type}
+                        <span class="text-sm font-normal text-gray-500">({meal.description})</span>
                       </h3>
                       <p class="text-sm text-gray-500 mb-1 font-medium">
                         <%= if meal.start_time && meal.end_time do %>
                           <.icon name="hero-clock" class="w-4 h-4 inline mr-1 -mt-0.5" />
-                          {Calendar.strftime(meal.start_time, "%H:%M")} - {Calendar.strftime(meal.end_time, "%H:%M")}
+                          {Calendar.strftime(meal.start_time, "%H:%M")} - {Calendar.strftime(
+                            meal.end_time,
+                            "%H:%M"
+                          )}
                         <% end %>
                       </p>
                       <%= if consumed = get_consumption(@consumptions, meal.id) do %>
@@ -80,7 +84,13 @@ defmodule PearlWeb.Backoffice.ScannerLive.MealsLive.Show do
                       <span
                         :if={!can_consume?(meal)}
                         class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 text-gray-300 dark:text-gray-600 cursor-not-allowed"
-                        title={gettext("This meal is only available on its date between %{start} and %{end}", start: Calendar.strftime(meal.start_time, "%H:%M"), end: Calendar.strftime(meal.end_time, "%H:%M"))}
+                        title={
+                          gettext(
+                            "This meal is only available on its date between %{start} and %{end}",
+                            start: Calendar.strftime(meal.start_time, "%H:%M"),
+                            end: Calendar.strftime(meal.end_time, "%H:%M")
+                          )
+                        }
                       >
                         <.icon name="hero-check" class="w-6 h-6" />
                       </span>

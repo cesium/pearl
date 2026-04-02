@@ -1,4 +1,8 @@
 defmodule Pearl.Tickets.EventMeal do
+  @moduledoc """
+  Tracks an event meal with its date, time and type.
+  """
+
   use Pearl.Schema
 
   @primary_key {:id, :binary_id, autogenerate: true}

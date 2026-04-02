@@ -97,7 +97,11 @@ defmodule Pearl.TicketsTest do
     end
 
     test "create_event_meal/1 with valid data creates a event_meal" do
-      valid_attrs = %{date: ~D[2026-04-01], description: "some description", meal_type: "some meal_type"}
+      valid_attrs = %{
+        date: ~D[2026-04-01],
+        description: "some description",
+        meal_type: "some meal_type"
+      }
 
       assert {:ok, %EventMeal{} = event_meal} = Tickets.create_event_meal(valid_attrs)
       assert event_meal.date == ~D[2026-04-01]
@@ -111,9 +115,16 @@ defmodule Pearl.TicketsTest do
 
     test "update_event_meal/2 with valid data updates the event_meal" do
       event_meal = event_meal_fixture()
-      update_attrs = %{date: ~D[2026-04-02], description: "some updated description", meal_type: "some updated meal_type"}
 
-      assert {:ok, %EventMeal{} = event_meal} = Tickets.update_event_meal(event_meal, update_attrs)
+      update_attrs = %{
+        date: ~D[2026-04-02],
+        description: "some updated description",
+        meal_type: "some updated meal_type"
+      }
+
+      assert {:ok, %EventMeal{} = event_meal} =
+               Tickets.update_event_meal(event_meal, update_attrs)
+
       assert event_meal.date == ~D[2026-04-02]
       assert event_meal.description == "some updated description"
       assert event_meal.meal_type == "some updated meal_type"

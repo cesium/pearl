@@ -35,7 +35,7 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Prizes do
     ~H"""
     <div class="flex flex-col items-center gap-2 sm:gap-6">
       <div class="flex flex-col items-center gap-2">
-        <.icon name="hero-trophy" class={["size-4 sm:size-5.5", get_place_classes(@prize.place)]} />
+        <.icon name="hero-trophy" class={"size-4 sm:size-5.5 #{get_place_classes(@prize.place)}"} />
         <h3 class="font-bold leading-tight text-sm sm:text-base text-center wrap-break-word">
           {@prize.prize.name}
         </h3>
@@ -74,14 +74,6 @@ defmodule PearlWeb.App.LeaderboardLive.Components.Prizes do
       1 -> "text-amber-400/80"
       2 -> "text-neutral-400/80"
       3 -> "text-orange-400/80"
-    end
-  end
-
-  defp medal_color(place) do
-    case place do
-      1 -> "text-amber-400"
-      2 -> "text-neutral-400"
-      3 -> "text-orange-400"
     end
   end
 end

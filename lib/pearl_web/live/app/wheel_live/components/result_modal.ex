@@ -92,8 +92,6 @@ defmodule PearlWeb.App.WheelLive.Components.ResultModal do
     """
   end
 
-  defp win_result?(drop_type), do: drop_type in [:prize, :badge, :tokens, :entries]
-
   defp result_reward?(drop_type), do: drop_type in [:prize, :badge, :tokens, :entries]
 
   defp result_title(drop_type) when drop_type in [:prize, :badge, :tokens, :entries],
@@ -101,7 +99,7 @@ defmodule PearlWeb.App.WheelLive.Components.ResultModal do
 
   defp result_title(_drop_type), do: gettext("Oops... 👀")
 
-  defp result_description(drop_type, drop) do
+  defp result_description(drop_type, _drop) do
     case drop_type do
       :prize ->
         gettext("Ganhaste o prémio:")

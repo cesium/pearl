@@ -270,7 +270,7 @@ defmodule PearlWeb.CoreComponents do
               class="peer sr-only pearl-radio"
               {@rest}
             />
-            <div class="h-6.5 w-6.5 rounded-full border-2 border-gray-300 bg-[#EFEFED] peer-checked:border-primary peer-checked:border-3 peer-checked:bg-[#EFEFED] flex items-center justify-center">
+            <div class="h-6.5 w-6.5 rounded-full border-2 border-gray-300 bg-light-muted peer-checked:border-primary peer-checked:border-3 peer-checked:bg-light-muted flex items-center justify-center">
             </div>
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity duration-50 pointer-events-none">
             </div>

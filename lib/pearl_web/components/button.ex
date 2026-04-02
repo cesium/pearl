@@ -62,6 +62,7 @@ defmodule PearlWeb.Components.Button do
   attr :icon, :string, default: ""
   attr :class, :string, default: ""
   attr :title_class, :string, default: ""
+  attr :subtitle_class, :string, default: ""
 
   attr :rest, :global,
     include:
@@ -71,7 +72,7 @@ defmodule PearlWeb.Components.Button do
   def action_button(assigns) do
     ~H"""
     <button
-      class={"m-auto block select-none cursor-pointer uppercase transition-all duration-300 ease-in-out text-2xl font-semibold disabled:hover:border-white disabled:hover:text-white disabled:cursor-not-allowed disabled:bg-light/20 disabled:opacity-75 h-20 w-full border-2 border-light/80 text-white hover:shadow-[0_0_20px_1px] shadow-primary/50 hover:border-transparent hover:bg-primary/70 rounded-2xl #{@class}"}
+      class={"m-auto flex flex-col items-center justify-center gap-2 select-none cursor-pointer uppercase transition-all duration-300 ease-in-out text-2xl font-semibold disabled:hover:border-white disabled:hover:text-white disabled:cursor-not-allowed disabled:bg-light/20 disabled:opacity-75 h-20 w-full border-2 border-light/80 text-white hover:shadow-[0_0_20px_1px] shadow-primary/50 hover:border-transparent hover:bg-primary/70 rounded-2xl #{@class}"}
       disabled={@disabled}
       {@rest}
     >
@@ -86,7 +87,7 @@ defmodule PearlWeb.Components.Button do
         <%= if @subtitle_icon do %>
           <.icon name={"fa-" <> @subtitle_icon} class="size-3" />
         <% end %>
-        <p class="text-base font-light/50">{@subtitle}</p>
+        <p class={"text-base font-light/50 #{@subtitle_class}"}>{@subtitle}</p>
       </div>
     </button>
     """

@@ -50,55 +50,54 @@ defmodule PearlWeb.CoreComponents do
       id={@id}
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
-      class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-101 ring-1 ring-black/10"
-      ]}
+      class="fixed top-4 right-2 left-2 sm:left-auto sm:right-4 sm:w-104 md:w-104 z-[101] ring-1 ring-black/10 overflow-hidden shadow-lg"
       {@rest}
     >
-      <div class="flex-1 flex flex-row justify-between bg-[#f9f9f8] py-4">
-        <div class="flex flex-col justify-center items-center mx-4">
-          <div class="flex flex-col size-15 bg-primary items-center justify-center">
-            <.icon name={get_flash_icon(@kind)} class="size-10 text-light" />
+      <div class="flex flex-row justify-between bg-[#f9f9f8] py-3 sm:py-4">
+        <div class="flex flex-col justify-center items-center mx-3 sm:mx-4 shrink-0">
+          <div class="flex flex-col size-12 sm:size-15 bg-primary items-center justify-center">
+            <.icon name={get_flash_icon(@kind)} class="size-7 sm:size-10 text-light" />
           </div>
         </div>
-        <div class="flex-1 my-auto flex flex-col pr-3 items-start justify-start">
+        <div class="flex-1 my-auto flex flex-col pr-3 items-start justify-start min-w-0">
           <% final_title = @title || get_flash_title(@kind) %>
 
           <%= if final_title do %>
-            <h3 class="font-semibold text-dark text-xl">
+            <h3 class="font-semibold text-dark text-base sm:text-xl leading-tight">
               {final_title}
             </h3>
-            <p class="text-dark text-lg leading-snug">
+            <p class="text-dark text-md sm:text-lg leading-snug mt-0.5 break-words">
               {msg}
             </p>
           <% else %>
-            <p class="font-medium text-dark text-xl leading-snug">
+            <p class="font-medium text-dark text-md sm:text-md leading-snug break-words">
               {msg}
             </p>
           <% end %>
         </div>
       </div>
-      <div class="h-12 text-xl flex flex-row items-center my-auto bg-background justify-start px-4 gap-4">
+      <div class="min-h-10 sm:h-12 text-sm sm:text-lg flex flex-row flex-wrap items-center my-auto bg-background justify-start px-3 sm:px-4 gap-3 sm:gap-4 py-2 sm:py-0">
         <div :if={@kind == :help}>
           <.link
             navigate="/faqs"
             class="flex items-center text-primary font-bold hover:underline"
           >
             <span class="mr-1">
-              <.icon name="hero-arrow-right" class="size-7" />
+              <.icon name="hero-arrow-right" class="size-5 sm:size-7" />
             </span>
-            ir para Informação & Ajuda
+            <span class="text-sm sm:text-base">ir para Informação & Ajuda</span>
           </.link>
         </div>
 
         <button
           type="button"
-          class="flex items-center text-primary hover:opacity-75 group"
+          class="flex items-center text-primary hover:opacity-75 group ml-auto"
           aria-label={gettext("close")}
           phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
           phx-value-key={@kind}
         >
-          <span class="mr-1"><.icon name="hero-x-mark" class="size-7" /></span> fechar
+          <span class="mr-1"><.icon name="hero-x-mark" class="size-5 sm:size-7" /></span>
+          <span class="text-sm sm:text-base">fechar</span>
         </button>
       </div>
     </div>

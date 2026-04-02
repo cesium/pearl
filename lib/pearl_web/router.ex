@@ -353,6 +353,11 @@ defmodule PearlWeb.Router do
               live "/new", Index, :categories_new
               live "/:id/edit", Index, :categories_edit
             end
+
+            scope "/calendar_pictures" do
+              live "/", Index, :calendar_pictures
+              live "/:id/edit", Index, :calendar_pictures_edit
+            end
           end
         end
 

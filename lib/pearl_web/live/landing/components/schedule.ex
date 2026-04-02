@@ -646,8 +646,8 @@ defmodule PearlWeb.Landing.Components.Schedule do
                 {gettext("Inscrito")}
               </div>
             <% else %>
-              <%= if @is_paid_activity do %>
-                <%= if @activity_ticket_type && @can_enrol && not @is_full do %>
+              <%= cond do %>
+                <% @is_paid_activity && @activity_ticket_type && @can_enrol && not @is_full -> %>
                   <.primary_button
                     title={gettext("Comprar")}
                     icon="hero-arrow-right"
@@ -658,32 +658,28 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     phx-value-type="activity"
                     class="text-sm font-bold"
                   />
-                <% end %>
-              <% else %>
-              <%= if @activity.link do %>
-                <a
-                  href={@activity.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="flex items-center gap-2 px-4 py-2.5 bg-background-muted text-primary hover:bg-background-muted/80 text-sm font-bold"
-                >
-                  <.icon name="hero-arrow-up-right" class="w-4 h-4 shrink-0" />
-                  <span>{gettext("Inscrever")}</span>
-                </a>
-              <% else %>
-                  <%= if @can_enrol do %>
-                    <.primary_button
-                      title={gettext("Inscrever")}
-                      icon="hero-plus"
-                      phx-click="enrol"
-                      phx-value-activity_id={@activity.id}
-                      phx-target={@myself}
-                      data-confirm={gettext("Tem certeza de que te queres inscrever?")}
-                      class="text-sm font-bold"
-                      disabled={is_nil(@current_user)}
-                    />
-                <% end %>
-                <% end %>
+                <% @activity.link -> %>
+                  <a
+                    href={@activity.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex items-center gap-2 px-4 py-2.5 bg-background-muted text-primary hover:bg-background-muted/80 text-sm font-bold"
+                  >
+                    <.icon name="hero-arrow-up-right" class="w-4 h-4 shrink-0" />
+                    <span>{gettext("Inscrever")}</span>
+                  </a>
+                <% @can_enrol -> %>
+                  <.primary_button
+                    title={gettext("Inscrever")}
+                    icon="hero-plus"
+                    phx-click="enrol"
+                    phx-value-activity_id={@activity.id}
+                    phx-target={@myself}
+                    data-confirm={gettext("Tem certeza de que te queres inscrever?")}
+                    class="text-sm font-bold"
+                    disabled={is_nil(@current_user)}
+                  />
+                <% true -> %>
               <% end %>
 
               <%= if @is_full and not @can_enrol and is_nil(@activity.link) do %>

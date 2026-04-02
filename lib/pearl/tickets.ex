@@ -264,6 +264,17 @@ defmodule Pearl.Tickets do
   end
 
   @doc """
+  Returns true if the ticket is paid, false otherwise.
+
+  ## Examples
+
+      iex> paid?(ticket)
+      true
+  """
+  def paid?(%Ticket{paid: paid}), do: paid
+  def paid?(%Pearl.Activities.ActivityTicket{paid: paid}), do: paid
+
+  @doc """
   Returns the list of perks.
 
   ## Examples

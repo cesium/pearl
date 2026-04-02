@@ -7,7 +7,7 @@ defmodule Pearl.Activities.Activity do
   alias Pearl.Event
 
   @required_fields ~w(title date time_start time_end)a
-  @optional_fields ~w(description category_id location has_enrolments max_enrolments enrolment_count)a
+  @optional_fields ~w(description category_id location has_enrolments max_enrolments enrolment_count link)a
 
   @derive {
     Flop.Schema,
@@ -35,6 +35,7 @@ defmodule Pearl.Activities.Activity do
     field :has_enrolments, :boolean, default: false
     field :max_enrolments, :integer, default: 0
     field :enrolment_count, :integer, default: 0
+    field :link, :string
 
     belongs_to :category, Pearl.Activities.ActivityCategory
 
@@ -58,6 +59,7 @@ defmodule Pearl.Activities.Activity do
       name: :activity_not_overbooked,
       message: "Activity overbooked"
     )
+    |> validate_format(:link, ~r/^https?:\/\//, message: "must start with http:// or https://")
   end
 
   @doc false

@@ -5,6 +5,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   use PearlWeb, :live_component
 
   alias Pearl.Activities
+  alias Pearl.TicketTypes
   alias Plug.Conn.Query
 
   import PearlWeb.Components.{Modal, Button}
@@ -78,6 +79,19 @@ defmodule PearlWeb.Landing.Components.Schedule do
   @impl true
   def handle_event("modal_closed", _params, socket) do
     {:noreply, assign(socket, :selected_activity, nil)}
+  end
+
+  @impl true
+  def handle_event(
+        "select_ticket",
+        %{"ticket_type_id" => ticket_type_id, "type" => "activity"},
+        socket
+      ) do
+    {:noreply, redirect(socket, to: ~p"/checkout/activity/init?ticket_type_id=#{ticket_type_id}")}
+  end
+
+  def handle_event("select_ticket", _params, socket) do
+    {:noreply, socket}
   end
 
   defp perform_enrolment(attendee_id, activity_id, socket) do
@@ -400,7 +414,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
     ~H"""
     <.link
-      patch={view_url(@url, :day, @day, @filters)}
+      navigate={view_url(@url, :day, @day, @filters)}
       class="w-full md:w-80 lg:w-100 xl:w-120 shrink-0 aspect-7/5 relative group bg-dark/60 cursor-pointer rounded-[30px] md:rounded-[40px] overflow-hidden transform transition-transform"
     >
       <div class="absolute inset-0 bg-linear-to-b from-black/40 to-black/60 z-10"></div>
@@ -588,6 +602,13 @@ defmodule PearlWeb.Landing.Components.Schedule do
     has_speakers = assigns.activity.speakers != []
     show_actions = assigns.variant in [:day, :calendar]
 
+    activity_ticket_types = TicketTypes.list_active_activity_ticket_types()
+
+    activity_ticket_type =
+      Enum.find(activity_ticket_types, fn tt -> tt.activity_id == assigns.activity.id end)
+
+    is_paid_activity = not is_nil(activity_ticket_type)
+
     can_enrol =
       show_actions and can_enrol?(assigns.activity, assigns.user_role, assigns.enrolments)
 
@@ -599,6 +620,8 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
     assigns =
       assigns
+      |> assign(:is_paid_activity, is_paid_activity)
+      |> assign(:activity_ticket_type, activity_ticket_type)
       |> assign(:has_speakers, has_speakers)
       |> assign(:show_actions, show_actions)
       |> assign(:can_enrol, can_enrol)
@@ -649,20 +672,43 @@ defmodule PearlWeb.Landing.Components.Schedule do
                 {gettext("Inscrito")}
               </div>
             <% else %>
-              <%= if @can_enrol do %>
-                <.primary_button
-                  title={gettext("Inscrever")}
-                  icon="hero-plus"
-                  phx-click="enrol"
-                  phx-value-activity_id={@activity.id}
-                  phx-target={@myself}
-                  data-confirm={gettext("Tem certeza de que te queres inscrever?")}
-                  class="text-sm font-bold"
-                  disabled={is_nil(@current_user)}
-                />
+              <%= cond do %>
+                <% @is_paid_activity && @activity_ticket_type && @can_enrol && not @is_full -> %>
+                  <.primary_button
+                    title={gettext("Comprar")}
+                    icon="hero-arrow-right"
+                    type="button"
+                    phx-click="select_ticket"
+                    phx-target={@myself}
+                    phx-value-ticket_type_id={@activity_ticket_type.id}
+                    phx-value-type="activity"
+                    class="text-sm font-bold"
+                  />
+                <% @activity.link -> %>
+                  <a
+                    href={@activity.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex items-center gap-2 px-4 py-2.5 bg-background-muted text-primary hover:bg-background-muted/80 text-sm font-bold"
+                  >
+                    <.icon name="hero-arrow-up-right" class="w-4 h-4 shrink-0" />
+                    <span>{gettext("Inscrever")}</span>
+                  </a>
+                <% @can_enrol -> %>
+                  <.primary_button
+                    title={gettext("Inscrever")}
+                    icon="hero-plus"
+                    phx-click="enrol"
+                    phx-value-activity_id={@activity.id}
+                    phx-target={@myself}
+                    data-confirm={gettext("Tem certeza de que te queres inscrever?")}
+                    class="text-sm font-bold"
+                    disabled={is_nil(@current_user)}
+                  />
+                <% true -> %>
               <% end %>
 
-              <%= if @is_full and not @can_enrol do %>
+              <%= if @is_full and not @can_enrol and is_nil(@activity.link) do %>
                 <span class="px-5 py-2.5 bg-gray-100 text-gray-400 font-bold text-sm">
                   {gettext("Esgotado")}
                 </span>

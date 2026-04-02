@@ -112,7 +112,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
          {:ok, _ticket_type} <- TicketTypes.upsert_ticket_type_perks(ticket_type, perk_ids) do
       {:noreply,
        socket
-      |> put_flash(:success, gettext("Tipo de bilhete atualizado com sucesso."))
+       |> put_flash(:success, gettext("Tipo de bilhete atualizado com sucesso."))
        |> push_patch(to: socket.assigns.patch)}
     else
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -132,7 +132,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.FormComponent do
          {:ok, _ticket_type} <- TicketTypes.upsert_ticket_type_perks(ticket_type, perk_ids) do
       {:noreply,
        socket
-      |> put_flash(:success, gettext("Tipo de bilhete criado com sucesso."))
+       |> put_flash(:success, gettext("Tipo de bilhete criado com sucesso."))
        |> push_patch(to: socket.assigns.patch)}
     else
       {:error, %Ecto.Changeset{} = changeset} ->

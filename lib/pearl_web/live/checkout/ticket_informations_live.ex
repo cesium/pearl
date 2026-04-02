@@ -58,7 +58,10 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       |> assign(:active_orbs, [%{disabilities: "active"}, %{allergens: "active"}])
     else
       socket
-  |> put_flash(:error, gettext("Por favor completa todos os campos obrigatórios antes de prosseguir."))
+      |> put_flash(
+        :error,
+        gettext("Por favor completa todos os campos obrigatórios antes de prosseguir.")
+      )
       |> push_patch(to: ~p"/checkout/choose_ticket")
     end
   end
@@ -84,8 +87,11 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       ])
     else
       socket
-  |> put_flash(:error, gettext("Por favor completa todos os campos obrigatórios antes de prosseguir."))
-  |> push_patch(to: ~p"/checkout/precautions")
+      |> put_flash(
+        :error,
+        gettext("Por favor completa todos os campos obrigatórios antes de prosseguir.")
+      )
+      |> push_patch(to: ~p"/checkout/precautions")
     end
   end
 
@@ -110,7 +116,12 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       ])
     else
       socket
-      |> put_flash(:error, gettext("Por favor completa todos os campos obrigatórios antes de seguir para a conclusão."))
+      |> put_flash(
+        :error,
+        gettext(
+          "Por favor completa todos os campos obrigatórios antes de seguir para a conclusão."
+        )
+      )
       |> push_patch(to: ~p"/checkout/choose_ticket")
     end
   end
@@ -147,8 +158,8 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     else
       {:noreply,
        socket
-      |> put_flash(:error, gettext("Por favor completa todos os campos obrigatórios."))
-      |> assign(:form, to_form(changeset, action: :validate))}
+       |> put_flash(:error, gettext("Por favor completa todos os campos obrigatórios."))
+       |> assign(:form, to_form(changeset, action: :validate))}
     end
   end
 
@@ -192,9 +203,9 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
            |> assign(:form, to_form(changeset, action: :validate))}
       end
     else
-       {:noreply,
-        socket
-      |> put_flash(:error, gettext("Email não verificado."))}
+      {:noreply,
+       socket
+       |> put_flash(:error, gettext("Email não verificado."))}
     end
   end
 

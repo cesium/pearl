@@ -65,7 +65,7 @@ defmodule PearlWeb.CoreComponents do
           <% final_title = @title || get_flash_title(@kind) %>
 
           <%= if final_title do %>
-            <h3 class="font-bold text-dark text-xl">
+            <h3 class="font-semibold text-dark text-xl">
               {final_title}
             </h3>
             <p class="text-dark text-lg leading-snug">

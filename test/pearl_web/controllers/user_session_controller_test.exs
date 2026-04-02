@@ -76,7 +76,7 @@ defmodule PearlWeb.UserSessionControllerTest do
           "user" => %{"email" => "invalid@email.com", "password" => "invalid_password"}
         })
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Invalid email or password"
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Email ou palavra-passe inválidos."
       assert redirected_to(conn) == ~p"/users/log_in"
     end
   end

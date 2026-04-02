@@ -44,7 +44,7 @@ defmodule PearlWeb.Backoffice.PurchaseLive.Index do
 
     if item.redeemed_at do
       socket
-  |> put_flash(:error, gettext("Esta compra já foi resgatada."))
+      |> put_flash(:error, gettext("Esta compra já foi resgatada."))
       |> push_navigate(to: ~p"/dashboard/store/purchases")
     else
       socket
@@ -58,7 +58,7 @@ defmodule PearlWeb.Backoffice.PurchaseLive.Index do
 
     if item.redeemed_at || item.type != :product do
       socket
-  |> put_flash(:error, gettext("Esta compra não pode ser reembolsada."))
+      |> put_flash(:error, gettext("Esta compra não pode ser reembolsada."))
       |> push_navigate(to: ~p"/dashboard/store/purchases")
     else
       socket

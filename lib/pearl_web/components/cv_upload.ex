@@ -98,7 +98,9 @@ defmodule PearlWeb.Components.CVUpload do
 
           {:error, reason} ->
             {:noreply,
-             socket |> put_flash(:error, Gettext.gettext(PearlWeb.Gettext, reason)) |> push_patch(to: socket.assigns.patch)}
+             socket
+             |> put_flash(:error, Gettext.gettext(PearlWeb.Gettext, reason))
+             |> push_patch(to: socket.assigns.patch)}
         end
 
       {:error, %Ecto.Changeset{} = changeset} ->

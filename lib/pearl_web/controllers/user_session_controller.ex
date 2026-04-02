@@ -15,12 +15,15 @@ defmodule PearlWeb.UserSessionController do
 
         conn
         |> UserAuth.log_in_user(user, user_params)
-  |> put_flash(:success, gettext("Registo efetuado com sucesso."))
+        |> put_flash(:success, gettext("Registo efetuado com sucesso."))
         |> redirect(to: ~p"/app")
 
       {:error, _, %Ecto.Changeset{} = _changeset, _} ->
         conn
-  |> put_flash(:error, gettext("Não foi possível registar. Este email pode já estar registado."))
+        |> put_flash(
+          :error,
+          gettext("Não foi possível registar. Este email pode já estar registado.")
+        )
         |> redirect(to: ~p"/users/register")
     end
   end
@@ -73,7 +76,7 @@ defmodule PearlWeb.UserSessionController do
 
     case Pearl.Activities.enrol(attendee.id, id) do
       {:ok, _} ->
-  put_flash(conn, :success, gettext("Inscrição efetuada com sucesso."))
+        put_flash(conn, :success, gettext("Inscrição efetuada com sucesso."))
         |> put_session(:user_return_to, return_to)
 
       {:error, _, _, _} ->
@@ -84,5 +87,5 @@ defmodule PearlWeb.UserSessionController do
   defp process_action(conn, _action, _id, _user, _return_to, nil), do: conn
 
   defp process_action(conn, _action, _id, _user, _return_to, info),
-  do: put_flash(conn, :info, Gettext.gettext(PearlWeb.Gettext, info))
+    do: put_flash(conn, :info, Gettext.gettext(PearlWeb.Gettext, info))
 end

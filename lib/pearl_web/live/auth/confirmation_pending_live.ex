@@ -67,9 +67,9 @@ defmodule PearlWeb.ConfirmationPendingLive do
       )
 
       {:noreply,
-  socket
-  |> put_flash(:success, gettext("O email foi enviado para a tua caixa de entrada."))
-  |> assign(:last_sent, DateTime.utc_now())}
+       socket
+       |> put_flash(:success, gettext("O email foi enviado para a tua caixa de entrada."))
+       |> assign(:last_sent, DateTime.utc_now())}
     end
   end
 

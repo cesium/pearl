@@ -244,6 +244,15 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
     horse_bets |> Map.values() |> Enum.sum()
   end
 
+  defp horse_variant_class(horse_number) do
+    case rem(horse_number - 1, 5) do
+      0 -> "horse-variant-gold"
+      1 -> "horse-variant-brown"
+      2 -> "horse-variant-grey"
+      _ -> "horse-variant-gold"
+    end
+  end
+
   def format_tokens(value) when is_integer(value), do: Float.round(value * 1.0, 2)
   def format_tokens(value) when is_float(value), do: Float.round(value, 2)
   def format_tokens(%Decimal{} = value), do: value |> Decimal.to_float() |> Float.round(2)

@@ -299,6 +299,16 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
     end
   end
 
+  defp horse_variant_class(index) do
+    case rem(index, 5) do
+      0 -> "horse-variant-gold"
+      1 -> "horse-variant-brown"
+      2 -> "horse-variant-brown"
+      3 -> "horse-variant-grey"
+      _ -> "horse-variant-gold"
+    end
+  end
+
   defp find_winner(horses) do
     horses
     |> Enum.with_index()
@@ -433,19 +443,20 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
           </div>
         </div>
 
-        <div class="p-1 bg-black border-2 border-red-500 shadow-2xl relative overflow-hidden font-iregular mt-4">
+        <div class="p-1 bg-black border-2 border-red-500 shadow-2xl relative font-iregular mt-4">
           <div class="mb-0.5">
             <div class="space-y-0" id="horses-container" phx-update="ignore">
               <%= for {horse, index} <- Enum.with_index(@horses) do %>
                 <div
                   class="relative flex border-t border-red-500/40 first:border-t-0"
+                  style={"z-index: #{length(@horses) - index};"}
                   data-lane-index={index}
                 >
-                  <div class="w-14 h-10 bg-black flex items-center justify-center font-bold text-sm border border-red-500 z-10">
+                  <div class="w-14 h-12 bg-black flex items-center justify-center font-bold text-sm border border-red-500 z-10">
                     <div class="text-white text-base">#{index + 1}</div>
                   </div>
 
-                  <div class="relative h-10 flex-1 bg-black overflow-hidden border border-gray-600 ml-1">
+                  <div class="relative h-12 flex-1 bg-transparent border border-gray-600 ml-1">
                     <div class="absolute inset-0 flex">
                       <div class="flex-1 border-r border-dashed border-gray-700/80"></div>
                       <div class="flex-1 border-r border-dashed border-gray-700/80"></div>
@@ -473,17 +484,21 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                     </div>
 
                     <div
-                      class="absolute top-0 h-full w-8 flex items-center justify-center transition-all duration-75 horse-marker z-10"
+                      class="absolute top-0 h-full w-12 flex items-center justify-center overflow-visible transition-all duration-75 horse-marker z-10"
                       id={"horse-marker-#{index}"}
                       data-horse-index={index}
                       data-position={horse}
-                      style={"left: calc(#{horse}% - 8px)"}
+                      style={"left: calc(#{horse}% - 24px)"}
                     >
-                      <img
-                        src={~p"/images/icons/horse.png"}
-                        alt="Horse"
-                        class="horse-icon w-7 h-7 object-contain"
-                      />
+                      <div
+                        class={[
+                          "horse-icon origin-center",
+                          horse_variant_class(index),
+                          if(@racing, do: "horse-run", else: "horse-rest")
+                        ]}
+                        style="transform: scale(1.25);"
+                      >
+                      </div>
                     </div>
 
                     <div class="absolute right-0 top-0 h-full w-8 border-l border-red-500 flex flex-col justify-between p-0.5">
@@ -493,7 +508,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                     </div>
                   </div>
 
-                  <div class="w-14 h-10 flex items-center justify-center ml-1 bg-black border border-red-500">
+                  <div class="w-14 h-12 flex items-center justify-center ml-1 bg-black border border-red-500">
                     <span
                       class="text-sm font-iregular font-bold text-white horse-percentage"
                       id={"horse-percent-#{index}"}

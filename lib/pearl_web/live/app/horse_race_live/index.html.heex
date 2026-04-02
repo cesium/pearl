@@ -4,7 +4,7 @@
       id="horse-race-result"
       show={true}
       on_cancel={JS.push("clear_result")}
-      body_class="bg-darkShade border border-white/10 p-10 rounded-3xl shadow-2xl relative overflow-hidden max-w-2xl w-full mx-auto"
+      body_class="bg-darkShade border border-white/10 p-10 rounded-3xl shadow-2xl relative max-w-2xl w-full mx-auto"
       phx-hook="Confetti"
       data-is_win={@race_result.winnings > 0}
       close_button={false}
@@ -14,11 +14,16 @@
 
       <div class="relative z-10 flex flex-col items-center text-center">
         <div class="inline-flex items-center justify-center w-32 h-32 md:w-40 md:h-40 rounded-full bg-primary/10 border border-primary/20 mb-8 shadow-lg shadow-primary/20">
-          <img
-            src={~p"/images/icons/horse.png"}
-            alt="Result"
-            class="w-24 h-24 md:w-32 md:h-32 object-contain brightness-0 invert opacity-90"
-          />
+          <div
+            class={[
+              "horse-icon",
+              "horse-rest",
+              "opacity-90",
+              horse_variant_class(@race_result.winning_horse)
+            ]}
+            style="transform: scale(2); transform-origin: center;"
+          >
+          </div>
         </div>
 
         <h3 class="font-grotesk text-sm font-semibold tracking-widest text-lightMuted uppercase mb-3">
@@ -96,11 +101,17 @@
                 )
               ]}>
                 <span class="text-xl md:text-2xl font-bold mb-4">Horse #{horse_num}</span>
-                <img
-                  src="/images/icons/horse.png"
-                  alt="Horse #{horse_num}"
-                  class="w-16 h-16 md:w-24 md:h-24 mb-4 brightness-0 invert"
-                />
+                <div class="h-20 md:h-24 flex items-center justify-center mb-4">
+                  <div
+                    class={[
+                      "horse-icon",
+                      horse_variant_class(horse_num),
+                      if(@horse_race_running?, do: "horse-run", else: "horse-rest")
+                    ]}
+                    style="transform: scale(2); transform-origin: center;"
+                  >
+                  </div>
+                </div>
                 <form phx-change="update_horse_bet" class="w-full mb-4">
                   <input type="hidden" name="horse" value={horse_num} />
                   <input

@@ -76,7 +76,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
                     <div class="text-white text-xl">#{index + 1}</div>
                   </div>
 
-                  <div class="relative h-12 flex-1 bg-black overflow-hidden border border-gray-600 ml-1">
+                  <div class="relative h-12 flex-1 bg-black border border-gray-600 ml-1">
                     <div class="absolute inset-0 flex items-center justify-between px-2 text-gray-700 opacity-50">
                       <div class="w-full border-t border-dashed border-gray-600"></div>
                     </div>

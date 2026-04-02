@@ -5,6 +5,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
   @topic_horse_race_running "horse_race:running"
 
   alias Pearl.Minigames
+  alias Pearl.Minigames.HorseRace.Ticker
 
   on_mount {PearlWeb.StaffRoles, game: %{"minigames" => ["edit"]}}
 
@@ -203,7 +204,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
       |> push_event("start_race", %{duration: duration})
 
     # Broadcast that the race is running so every staff view starts at once.
-    Pearl.Minigames.HorseRace.Ticker.start_race(race_id, duration, horse_speeds)
+    Ticker.start_race(race_id, duration, horse_speeds)
     Minigames.set_horse_race_running(true)
 
     {:noreply, socket}
@@ -404,24 +405,24 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
   def render(assigns) do
     ~H"""
     <.page title={gettext("Horse Race Game")}>
-    <:actions>
-      <.link navigate={~p"/dashboard/minigames/horse_race"}>
-        <.button class="m-5">
-          <.icon name="hero-arrow-left" class="w-5 mr-2" />
-          {gettext("Back to Config")}
-        </.button>
-      </.link>
-    </:actions>
+      <:actions>
+        <.link navigate={~p"/dashboard/minigames/horse_race"}>
+          <.button class="m-5">
+            <.icon name="hero-arrow-left" class="w-5 mr-2" />
+            {gettext("Back to Config")}
+          </.button>
+        </.link>
+      </:actions>
 
-    <div
-      class="w-full"
-      phx-hook="HorseRace"
-      id="horse-race-game"
-      data-duration={@total_race_time}
-      data-horses={Jason.encode!(@horses)}
-      data-winner={@winner || ""}
-      data-time-remaining={@time_remaining * 1000}
-    >
+      <div
+        class="w-full"
+        phx-hook="HorseRace"
+        id="horse-race-game"
+        data-duration={@total_race_time}
+        data-horses={Jason.encode!(@horses)}
+        data-winner={@winner || ""}
+        data-time-remaining={@time_remaining * 1000}
+      >
         <div class="grid grid-cols-3 gap-4 mb-6">
           <div class="p-4 rounded-lg dark:bg-darkShade/20 bg-lightShade/20">
             <p class="text-sm text-gray-500">{gettext("Win Multiplier")}</p>
@@ -505,8 +506,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                       <div class="w-full border-t border-dashed border-gray-700/80"></div>
                     </div>
 
-
-                    <div class="absolute inset-0 hidden items-center justify-center z-20 winner-banner"
+                    <div
+                      class="absolute inset-0 hidden items-center justify-center z-20 winner-banner"
                       id={"winner-banner-#{index}"}
                     >
                       <div class="h-full w-full flex items-center justify-center bg-black/40 border border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)]">

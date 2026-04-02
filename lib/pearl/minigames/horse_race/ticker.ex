@@ -5,8 +5,6 @@ defmodule Pearl.Minigames.HorseRace.Ticker do
   """
   use GenServer
 
-  alias Pearl.Minigames
-
   # ms
   @tick_interval 100
 

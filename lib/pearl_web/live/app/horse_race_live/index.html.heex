@@ -16,7 +16,7 @@
         <div class="inline-flex items-center justify-center w-32 h-32 md:w-40 md:h-40 rounded-full bg-primary/10 border border-primary/20 mb-8 shadow-lg shadow-primary/20">
           <div
             class={[
-              "horse-icon",
+              "horse-icon flex-shrink-0",
               "horse-rest",
               "opacity-90",
               horse_variant_class(@race_result.winning_horse)
@@ -104,7 +104,7 @@
                 <div class="h-20 md:h-24 flex items-center justify-center mb-4">
                   <div
                     class={[
-                      "horse-icon",
+                      "horse-icon flex-shrink-0",
                       horse_variant_class(horse_num),
                       if(@horse_race_running?, do: "horse-run", else: "horse-rest")
                     ]}

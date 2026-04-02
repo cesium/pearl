@@ -492,7 +492,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                     >
                       <div
                         class={[
-                          "horse-icon origin-center",
+                          "horse-icon origin-center flex-shrink-0 min-w-[192px]",
                           horse_variant_class(index),
                           if(@racing, do: "horse-run", else: "horse-rest")
                         ]}

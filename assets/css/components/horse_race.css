@@ -27,14 +27,15 @@
 }
 
 /*
-  Run Sprite: 1536 x 180
-  8 frames -> width per frame = 1536 / 8 = 192px
+  Run Sprite: 1152 x 180 (original 384 x 64)
+  6 frames -> width per frame = 1152 / 6 = 192px
 */
 .horse-run {
-    width: 192px;
-    height: 180px;
-    background-size: 1536px 180px;
-    animation: horse-run-anim 0.8s steps(8) infinite;
+    width: 288px !important;
+    min-width: 288px !important;
+    height: 288px;
+    background-size: 1728px 288px !important;
+    animation: horse-run-anim 0.8s steps(6) infinite;
 }
 
 @keyframes horse-run-anim {
@@ -42,7 +43,7 @@
         background-position: 0 0;
     }
     to {
-        background-position: -1536px 0;
+        background-position: -1728px 0;
     }
 }
 
@@ -67,16 +68,16 @@
 
 /* Horse Variants - Run */
 .horse-variant-gold.horse-run {
-    background-image: url("/images/icons/horse7_gold_run.png");
+    background-image: url("/images/icons/strip_light_gold.png");
 }
 .horse-variant-brown.horse-run {
-    background-image: url("/images/icons/horse3_brown_run.png");
+    background-image: url("/images/icons/strip_golden_brown.png");
 }
 .horse-variant-grey.horse-run {
-    background-image: url("/images/icons/horse6_grey_run.png");
+    background-image: url("/images/icons/strip_black.png");
 }
 .horse-variant-black.horse-run {
-    background-image: url("/images/icons/horse1_black_run.png");
+    background-image: url("/images/icons/strip_black.png");
 }
 
 .horse-marker {
@@ -245,18 +246,17 @@
 }
 
 /* Scale animation for winner horse */
-@keyframes winner-scale {
-    0%,
-    100% {
-        transform: scale(1);
+@keyframes winner-glow {
+    0%, 100% {
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1)) brightness(1.5) saturate(1.5);
     }
     50% {
-        transform: scale(1.3);
+        filter: drop-shadow(0 0 35px rgba(255, 215, 0, 1)) brightness(2) saturate(2);
     }
 }
 
 .horse-icon.scale-125 {
-    animation: winner-scale 1s ease-in-out infinite;
+    animation: winner-glow 1s ease-in-out infinite;
     filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1)) brightness(1.5)
         saturate(1.5);
 }
@@ -305,3 +305,20 @@ button:not(:disabled):active {
 .winner-announcement > div > div:first-child {
     animation: trophy-pulse 1.5s ease-in-out infinite;
 }
+
+@keyframes banner-text-pulse {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    }
+    50% {
+        transform: scale(1.3);
+        text-shadow: 0 0 20px rgba(239, 68, 68, 1);
+    }
+}
+
+.winner-banner span {
+    display: inline-block;
+    animation: banner-text-pulse 1.5s ease-in-out infinite;
+}
+

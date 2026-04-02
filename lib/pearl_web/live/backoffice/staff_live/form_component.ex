@@ -85,7 +85,7 @@ defmodule PearlWeb.Backoffice.StaffLive.FormComponent do
       {:ok, _staff} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Staff criado com sucesso")
+         |> put_flash(:success, gettext("Staff criado com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, _, %Ecto.Changeset{} = changeset, _} ->
@@ -101,7 +101,7 @@ defmodule PearlWeb.Backoffice.StaffLive.FormComponent do
       {:ok, _staff} ->
         {:noreply,
          socket
-         |> put_flash(:info, gettext("Staff atualizado com sucesso."))
+         |> put_flash(:success, gettext("Staff atualizado com sucesso."))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

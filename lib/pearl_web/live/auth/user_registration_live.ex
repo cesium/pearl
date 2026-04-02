@@ -63,7 +63,7 @@ defmodule PearlWeb.UserRegistrationLive do
 
         {:noreply,
          socket
-         |> put_flash(:error, error_message)
+         |> put_flash(:error, Gettext.gettext(PearlWeb.Gettext, error_message))
          |> assign(check_errors: true)}
 
       {:error, :user, changeset, _} ->

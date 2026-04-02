@@ -54,7 +54,7 @@ defmodule PearlWeb.App.SlotsLive.Index do
            socket
            |> assign(:in_spin?, false)
            |> assign(:attendee_tokens, socket.assigns.attendee_tokens + socket.assigns.bet)
-           |> put_flash(:error, message)}
+           |> put_flash(:error, Gettext.gettext(PearlWeb.Gettext, message))}
       end
     end
   end

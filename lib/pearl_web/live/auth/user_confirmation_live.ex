@@ -49,7 +49,7 @@ defmodule PearlWeb.UserConfirmationLive do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:success, "Utilizador confirmado com sucesso.")
+         |> put_flash(:success, gettext("Utilizador confirmado com sucesso."))
          |> push_event("redirect", %{url: ~p"/app", time: 1200})}
 
       :error ->
@@ -65,7 +65,7 @@ defmodule PearlWeb.UserConfirmationLive do
           %{} ->
             {:noreply,
              socket
-             |> put_flash(:error, "O link de confirmação é inválido ou expirou.")
+             |> put_flash(:error, gettext("O link de confirmação é inválido ou expirou."))
              |> push_event("redirect", %{url: ~p"/app", time: 1200})}
         end
     end

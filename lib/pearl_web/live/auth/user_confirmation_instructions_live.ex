@@ -45,9 +45,9 @@ defmodule PearlWeb.UserConfirmationInstructionsLive do
     info =
       "Se o teu email estiver no nosso sistema e ainda não tiver sido confirmado, receberás um email com instruções em breve."
 
-    {:noreply,
-     socket
-     |> put_flash(:success, info)
-     |> redirect(to: ~p"/")}
+     {:noreply,
+      socket
+    |> put_flash(:info, Gettext.gettext(PearlWeb.Gettext, info))
+      |> redirect(to: ~p"/")}
   end
 end

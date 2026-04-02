@@ -142,7 +142,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.FormComponent do
           {:ok, _company} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Empresa atualizada com sucesso")
+             |> put_flash(:success, gettext("Empresa atualizada com sucesso"))
              |> push_patch(to: socket.assigns.patch)}
         end
 

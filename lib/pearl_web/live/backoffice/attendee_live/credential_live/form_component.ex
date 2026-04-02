@@ -150,7 +150,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.CredentialLive.FormComponent do
              socket
              |> put_flash(
                :error,
-               "This credential is already linked to an attendee! (400)"
+               gettext("This credential is already linked to an attendee! (400)")
              )
              |> push_patch(to: ~p"/dashboard/attendees/#{socket.assigns.attendee.id}")}
           else
@@ -158,7 +158,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.CredentialLive.FormComponent do
 
             {:noreply,
              socket
-             |> put_flash(:info, "Nova credencial associada ao utilizador")
+             |> put_flash(:success, gettext("Nova credencial associada ao utilizador"))
              |> push_patch(to: ~p"/dashboard/attendees/#{socket.assigns.attendee.id}")}
           end
         else

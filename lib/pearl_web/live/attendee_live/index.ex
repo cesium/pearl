@@ -14,7 +14,7 @@ defmodule PearlWeb.AttendeeLive.Index do
       nil ->
         {:noreply,
          socket
-         |> put_flash(:error, gettext("Participante não encontrado"))
+         |> put_flash(:error, gettext("Participante não encontrado."))
          |> redirect(to: ~p"/")}
 
       attendee ->

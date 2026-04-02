@@ -67,7 +67,7 @@ defmodule PearlWeb.Backoffice.ReferralsLive.FormComponent do
       {:ok, _referral} ->
         {:noreply,
          socket
-         |> put_flash(:info, gettext("Referência atualizada com sucesso."))
+         |> put_flash(:success, gettext("Referência atualizada com sucesso."))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -80,7 +80,7 @@ defmodule PearlWeb.Backoffice.ReferralsLive.FormComponent do
       {:ok, _referral} ->
         {:noreply,
          socket
-         |> put_flash(:info, gettext("Referência criada com sucesso."))
+         |> put_flash(:success, gettext("Referência criada com sucesso."))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

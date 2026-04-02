@@ -82,10 +82,10 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.Index do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Equipa eliminada com sucesso")
-         |> stream_delete(:teams, team)}
+      |> put_flash(:success, gettext("Equipa eliminada com sucesso"))
+      |> stream_delete(:teams, team)}
 
-      {:error, _reason} ->
+    {:error, _reason} ->
         {:noreply, socket |> put_flash(:error, gettext("Falha ao eliminar equipa"))}
     end
   end

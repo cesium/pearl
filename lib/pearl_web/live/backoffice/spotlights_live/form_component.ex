@@ -49,7 +49,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.FormComponent do
         {:noreply, push_patch(socket, to: ~p"/dashboard/spotlights/")}
 
       {:error, _} ->
-        {:noreply, put_flash(socket, :error, "A duração não pode ser superior a 60 minutos")}
+  {:noreply, put_flash(socket, :error, gettext("A duração não pode ser superior a 60 minutos"))}
     end
   end
 end

@@ -70,7 +70,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Tiers.FormComponent do
       {:ok, _tier} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Tier da empresa atualizado com sucesso")
+         |> put_flash(:success, gettext("Tier da empresa atualizado com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

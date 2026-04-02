@@ -194,6 +194,7 @@ defmodule PearlWeb do
         endpoint: PearlWeb.Endpoint,
         router: PearlWeb.Router,
         statics: PearlWeb.static_paths()
+      import PearlWeb.Gettext
     end
   end
 

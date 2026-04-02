@@ -180,13 +180,13 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPaytable.FormComponent do
         _ ->
           {:noreply,
            socket
-           |> put_flash(:info, gettext("Tabela de prémios das slots alterada com sucesso."))
+           |> put_flash(:success, gettext("Tabela de prémios das slots alterada com sucesso."))
            |> push_patch(to: socket.assigns.patch)}
       end
     else
       {:noreply,
        socket
-       |> put_flash(:error, gettext("Por favor corrige os erros antes de guardar"))}
+  |> put_flash(:error, gettext("Por favor corrige os erros antes de guardar"))}
     end
   end
 

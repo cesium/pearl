@@ -20,9 +20,10 @@ defmodule PearlWeb.Checkout.PaymentStatusLive do
 
   @impl true
   def handle_info({:payment_order_updated, payment}, socket) do
-    {:noreply,
-     socket
-     |> assign(payment: payment)
-     |> put_flash(:success, "Pagamento confirmado com sucesso.")}
+        {:noreply,
+      socket
+      |> assign(payment: payment)
+      |> put_flash(:success, gettext("Pagamento confirmado com sucesso."))
+      |> redirect(to: ~p"/app")}
   end
 end

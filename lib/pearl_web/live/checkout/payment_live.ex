@@ -13,7 +13,7 @@ defmodule PearlWeb.Checkout.PaymentLive do
       nil ->
         {:ok,
          socket
-         |> put_flash(:error, "Nenhum bilhete encontrado.")
+         |> put_flash(:error, gettext("Nenhum bilhete encontrado."))
          |> push_navigate(to: ~p"/checkout/choose_ticket")}
 
       ticket ->
@@ -99,8 +99,8 @@ defmodule PearlWeb.Checkout.PaymentLive do
           {:noreply,
            socket
            |> put_flash(
-             :error,
-             "Falha ao iniciar o pagamento. Por favor, tenta novamente mais tarde."
+              :error,
+             gettext("Falha ao iniciar o pagamento. Por favor, tenta novamente mais tarde.")
            )
            |> assign_payment_form(changeset)}
       end
@@ -114,18 +114,18 @@ defmodule PearlWeb.Checkout.PaymentLive do
       {:ok, _ticket} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Pagamento cancelado com sucesso.")
+         |> put_flash(:success, gettext("Pagamento cancelado com sucesso."))
          |> push_navigate(to: ~p"/checkout/choose_ticket")}
 
       {:error, %Ecto.Changeset{}} ->
         {:noreply,
          socket
-         |> put_flash(:error, "Algo de errado aconteceu.")}
+         |> put_flash(:error, gettext("Algo de errado aconteceu."))}
 
       {:error, _} ->
         {:noreply,
          socket
-         |> put_flash(:tip, "O bilhete já foi removido.")
+         |> put_flash(:info, gettext("O bilhete já foi removido."))
          |> push_navigate(to: ~p"/checkout/choose_ticket")}
     end
   end

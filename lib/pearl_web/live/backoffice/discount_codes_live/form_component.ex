@@ -141,7 +141,7 @@ defmodule PearlWeb.Backoffice.DiscountCodesLive.FormComponent do
            DiscountCodes.upsert_discount_code_ticket_types(discount_code, ticket_type_ids) do
       {:noreply,
        socket
-       |> put_flash(:info, "Código de desconto atualizado com sucesso")
+  |> put_flash(:success, gettext("Código de desconto atualizado com sucesso"))
        |> push_patch(to: socket.assigns.patch)}
     else
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -158,7 +158,7 @@ defmodule PearlWeb.Backoffice.DiscountCodesLive.FormComponent do
            DiscountCodes.upsert_discount_code_ticket_types(discount_code, ticket_type_ids) do
       {:noreply,
        socket
-       |> put_flash(:info, "Código de desconto criado com sucesso")
+  |> put_flash(:success, gettext("Código de desconto criado com sucesso"))
        |> push_patch(to: socket.assigns.patch)}
     else
       {:error, %Ecto.Changeset{} = changeset} ->

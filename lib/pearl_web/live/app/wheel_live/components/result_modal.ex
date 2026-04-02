@@ -13,9 +13,9 @@ defmodule PearlWeb.App.WheelLive.Components.ResultModal do
   attr :wrapper_class, :string, default: ""
 
   attr :content_class, :string,
-    default: "bg-dark w-full rounded-2xl border border-light/10 ring-white p-8 pt-9"
+    default: "bg-dark w-full max-w-lg mx-auto rounded-2xl border border-light/10 ring-white p-8 pt-9"
 
-  attr :container_class, :string, default: "w-full max-w-lg"
+  attr :container_class, :string, default: "flex min-h-full items-center justify-center"
   attr :show_vault_link, :boolean, default: true
 
   def result_modal(assigns) do

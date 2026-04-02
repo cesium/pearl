@@ -10,13 +10,13 @@ defmodule PearlWeb.App.StoreLive.Components.PurchaseModal do
   attr :id, :string, required: true
   attr :show, :boolean, default: false
   attr :wrapper_class, :string, default: ""
-  attr :container_class, :string, default: "w-full max-w-lg"
+  attr :container_class, :string, default: "flex min-h-full items-center justify-center"
   attr :on_cancel, JS, default: %JS{}
   attr :purchase, :map, required: true
   attr :tokens, :integer, required: true
 
   attr :body_class, :string,
-    default: "bg-dark w-full rounded-2xl border border-light/10 ring-white p-8 pt-9"
+    default: "bg-dark w-full max-w-lg mx-auto rounded-2xl border border-light/10 ring-white p-8 pt-9"
 
   def purchase_modal(assigns) do
     ~H"""

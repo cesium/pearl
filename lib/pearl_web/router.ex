@@ -120,7 +120,7 @@ defmodule PearlWeb.Router do
 
     live_session :activity_checkout,
       on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
-      live "/activity/confirm", Checkout.ActivityTicketLive, :confirm
+      live "/activity/confirm", Checkout.ActivityTicketLive, :activity_confirm
     end
   end
 
@@ -153,6 +153,7 @@ defmodule PearlWeb.Router do
     live_session :payment_status,
       on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
       live "/payment/:id", Checkout.PaymentStatusLive, :payment_status
+      live "/activity/payment/:id", Checkout.PaymentStatusLive, :activity_payment_status
     end
   end
 

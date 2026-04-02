@@ -115,7 +115,7 @@ defmodule PearlWeb.Checkout.ActivityTicketLive do
   defp handle_existing_unpaid_ticket(socket, activity_ticket, phone, iva_number, changeset) do
     case Billing.get_payment_by_activity_ticket(activity_ticket.id) do
       %{} = payment ->
-        {:noreply, push_navigate(socket, to: ~p"/checkout/payment/#{payment.order_id}")}
+        {:noreply, push_navigate(socket, to: ~p"/checkout/activity/payment/#{payment.order_id}")}
 
       nil ->
         start_payment_and_navigate(socket, activity_ticket, phone, iva_number, changeset, false)
@@ -137,7 +137,7 @@ defmodule PearlWeb.Checkout.ActivityTicketLive do
 
     case Billing.start_payment(:mbway, :activity, activity_ticket.id, order_data) do
       {:ok, {:ok, payment}} ->
-        {:noreply, push_navigate(socket, to: ~p"/checkout/payment/#{payment.order_id}")}
+        {:noreply, push_navigate(socket, to: ~p"/checkout/activity/payment/#{payment.order_id}")}
 
       {:error, _reason} ->
         if delete_on_error, do: Activities.delete_activity_ticket(activity_ticket)

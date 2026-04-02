@@ -58,7 +58,7 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                   </div>
                 </div>
               </div>
-            <% :payment_status -> %>
+            <% x when x in [:payment_status, :activity_payment_status] -> %>
               <div class="relative w-full h-full">
                 <div class={[
                   "absolute inset-0 flex flex-col items-start justify-center p-8 transition-all duration-1000 ease-out z-20",

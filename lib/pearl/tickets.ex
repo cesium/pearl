@@ -7,7 +7,7 @@ defmodule Pearl.Tickets do
   import Ecto.Query, warn: false
   alias Pearl.Repo
 
-  alias Pearl.Tickets.{Perk, Ticket}
+  alias Pearl.Tickets.{MealConsumption, Perk, Ticket}
   alias Pearl.TicketTypes
 
   @doc """
@@ -381,5 +381,141 @@ defmodule Pearl.Tickets do
 
   def change_informations(%Ticket{} = ticket, attrs \\ %{}) do
     Ticket.changeset_informations(ticket, attrs)
+  end
+
+  @doc """
+  Checks if a ticket has the meals perk.
+  """
+  def has_meals?(%Ticket{} = ticket) do
+    ticket = Repo.preload(ticket, ticket_type: :perks)
+
+    Enum.any?(ticket.ticket_type.perks, fn perk -> perk.name == "Meals" end)
+  end
+
+  @doc """
+  Gets a single meal consumption for a user and an event meal.
+  """
+  def get_meal_consumption(user_id, event_meal_id) do
+    Repo.get_by(MealConsumption, user_id: user_id, event_meal_id: event_meal_id)
+  end
+
+  @doc """
+  Registers a meal consumption.
+  """
+  def consume_meal(attrs) do
+    %MealConsumption{}
+    |> MealConsumption.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Lists all meal consumptions for a given user.
+  """
+  def list_user_meal_consumptions(user_id) do
+    MealConsumption
+    |> where(user_id: ^user_id)
+    |> Repo.all()
+  end
+
+  alias Pearl.Tickets.EventMeal
+
+  @doc """
+  Returns the list of event_meals.
+
+  ## Examples
+
+      iex> list_event_meals()
+      {[%EventMeal{}, ...], %Flop.Meta{}}
+
+  """
+  def list_event_meals(params \\ %{}) do
+    case Flop.validate_and_run(EventMeal, params, for: EventMeal) do
+      {:ok, {event_meals, meta}} ->
+        {event_meals, meta}
+
+      {:error, meta} ->
+        {[], meta}
+    end
+  end
+
+  @doc """
+  Gets a single event_meal.
+
+  Raises `Ecto.NoResultsError` if the Event meal does not exist.
+
+  ## Examples
+
+      iex> get_event_meal!(123)
+      %EventMeal{}
+
+      iex> get_event_meal!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_event_meal!(id), do: Repo.get!(EventMeal, id)
+
+  @doc """
+  Creates a event_meal.
+
+  ## Examples
+
+      iex> create_event_meal(%{field: value})
+      {:ok, %EventMeal{}}
+
+      iex> create_event_meal(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_event_meal(attrs) do
+    %EventMeal{}
+    |> EventMeal.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a event_meal.
+
+  ## Examples
+
+      iex> update_event_meal(event_meal, %{field: new_value})
+      {:ok, %EventMeal{}}
+
+      iex> update_event_meal(event_meal, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_event_meal(%EventMeal{} = event_meal, attrs) do
+    event_meal
+    |> EventMeal.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a event_meal.
+
+  ## Examples
+
+      iex> delete_event_meal(event_meal)
+      {:ok, %EventMeal{}}
+
+      iex> delete_event_meal(event_meal)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_event_meal(%EventMeal{} = event_meal) do
+    Repo.delete(event_meal)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking event_meal changes.
+
+  ## Examples
+
+      iex> change_event_meal(event_meal)
+      %Ecto.Changeset{data: %EventMeal{}}
+
+  """
+  def change_event_meal(%EventMeal{} = event_meal, attrs \\ %{}) do
+    EventMeal.changeset(event_meal, attrs)
   end
 end

@@ -23,6 +23,12 @@ defmodule PearlWeb.Backoffice.ScannerLive.BadgeLive.Index do
               {gettext("Redeems")}
             </.tab>
           </.link>
+          <.link patch={~p"/dashboard/scanner/meals"} class="w-full">
+            <.tab class="gap-2">
+              <.icon name="hero-cake" />
+              {gettext("Meals")}
+            </.tab>
+          </.link>
         </.tabs>
         <.page>
           <div class="absolute flex justify-center inset-0 z-10 top-20 select-none">

@@ -23,8 +23,22 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Show do
               {gettext("Redeems")}
             </.tab>
           </.link>
+          <.link patch={~p"/dashboard/scanner/meals"} class="w-full">
+            <.tab class="gap-2">
+              <.icon name="hero-cake" />
+              {gettext("Meals")}
+            </.tab>
+          </.link>
         </.tabs>
         <.page title={"#{@user.name}'s inventory"}>
+          <:actions>
+            <.link patch={~p"/dashboard/scanner/redeems"}>
+              <.backoffice_button class="flex gap-2 items-center justify-center w-full sm:w-auto">
+                <.icon name="hero-qr-code" class="w-5 h-5" />
+                {gettext("Scan Again")}
+              </.backoffice_button>
+            </.link>
+          </:actions>
           <ul id="items-list" class="space-y-4 py-8" phx-update="stream">
             <li
               :for={{id, item} <- @streams.items}

@@ -446,6 +446,12 @@ defmodule PearlWeb.Router do
           live "/coin_flip", MinigamesLive.Index, :edit_coin_flip
         end
 
+        scope "/meals", EventMealLive do
+          live "/", Index, :index
+          live "/new", Index, :new
+          live "/:id/edit", Index, :edit
+        end
+
         scope "/scanner", ScannerLive do
           live "/", Index, :index
 
@@ -454,6 +460,11 @@ defmodule PearlWeb.Router do
           end
 
           scope "/redeems", InventoryLive do
+            live "/", Index, :index
+            live "/:id", Show, :show
+          end
+
+          scope "/meals", MealsLive do
             live "/", Index, :index
             live "/:id", Show, :show
           end

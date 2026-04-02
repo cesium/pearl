@@ -1,4 +1,4 @@
-defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Index do
+defmodule PearlWeb.Backoffice.ScannerLive.MealsLive.Index do
   use PearlWeb, :backoffice_view
 
   alias Pearl.Accounts
@@ -17,18 +17,18 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Index do
               {gettext("Badges")}
             </.tab>
           </.link>
-          <.tab active class="gap-2">
-            <.icon name="hero-gift" />
-            {gettext("Redeems")}
-          </.tab>
-          <.link patch={~p"/dashboard/scanner/meals"} class="w-full">
+          <.link patch={~p"/dashboard/scanner/redeems"} class="w-full">
             <.tab class="gap-2">
-              <.icon name="hero-cake" />
-              {gettext("Meals")}
+              <.icon name="hero-gift" />
+              {gettext("Redeems")}
             </.tab>
           </.link>
+          <.tab active class="gap-2">
+            <.icon name="hero-cake" />
+            {gettext("Meals")}
+          </.tab>
         </.tabs>
-        <.page title={gettext("Attendee Redeems")}>
+        <.page title={gettext("Attendee Meals")}>
           <div
             id="qr-scanner"
             phx-hook="QrScanner"
@@ -102,7 +102,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Index do
         {:noreply, assign(socket, :modal_data, :not_linked)}
 
       attendee ->
-        {:noreply, push_navigate(socket, to: ~p"/dashboard/scanner/redeems/#{attendee.id}")}
+        {:noreply, push_navigate(socket, to: ~p"/dashboard/scanner/meals/#{attendee.id}")}
     end
   end
 

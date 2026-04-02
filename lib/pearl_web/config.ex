@@ -147,6 +147,13 @@ defmodule PearlWeb.Config do
         scope: %{"attendees" => ["show"]}
       },
       %{
+        key: :meals,
+        title: "Meals",
+        icon: "hero-cake",
+        url: "/dashboard/meals",
+        scope: %{}
+      },
+      %{
         key: :staffs,
         title: "Personnel",
         icon: "hero-hand-raised",

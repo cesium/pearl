@@ -78,4 +78,62 @@ defmodule Pearl.TicketsTest do
       assert %Ecto.Changeset{} = Tickets.change_perk(perk)
     end
   end
+
+  describe "event_meals" do
+    alias Pearl.Tickets.EventMeal
+
+    import Pearl.TicketsFixtures
+
+    @invalid_attrs %{date: nil, description: nil, meal_type: nil}
+
+    test "list_event_meals/0 returns all event_meals" do
+      event_meal = event_meal_fixture()
+      assert Tickets.list_event_meals() == [event_meal]
+    end
+
+    test "get_event_meal!/1 returns the event_meal with given id" do
+      event_meal = event_meal_fixture()
+      assert Tickets.get_event_meal!(event_meal.id) == event_meal
+    end
+
+    test "create_event_meal/1 with valid data creates a event_meal" do
+      valid_attrs = %{date: ~D[2026-04-01], description: "some description", meal_type: "some meal_type"}
+
+      assert {:ok, %EventMeal{} = event_meal} = Tickets.create_event_meal(valid_attrs)
+      assert event_meal.date == ~D[2026-04-01]
+      assert event_meal.description == "some description"
+      assert event_meal.meal_type == "some meal_type"
+    end
+
+    test "create_event_meal/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Tickets.create_event_meal(@invalid_attrs)
+    end
+
+    test "update_event_meal/2 with valid data updates the event_meal" do
+      event_meal = event_meal_fixture()
+      update_attrs = %{date: ~D[2026-04-02], description: "some updated description", meal_type: "some updated meal_type"}
+
+      assert {:ok, %EventMeal{} = event_meal} = Tickets.update_event_meal(event_meal, update_attrs)
+      assert event_meal.date == ~D[2026-04-02]
+      assert event_meal.description == "some updated description"
+      assert event_meal.meal_type == "some updated meal_type"
+    end
+
+    test "update_event_meal/2 with invalid data returns error changeset" do
+      event_meal = event_meal_fixture()
+      assert {:error, %Ecto.Changeset{}} = Tickets.update_event_meal(event_meal, @invalid_attrs)
+      assert event_meal == Tickets.get_event_meal!(event_meal.id)
+    end
+
+    test "delete_event_meal/1 deletes the event_meal" do
+      event_meal = event_meal_fixture()
+      assert {:ok, %EventMeal{}} = Tickets.delete_event_meal(event_meal)
+      assert_raise Ecto.NoResultsError, fn -> Tickets.get_event_meal!(event_meal.id) end
+    end
+
+    test "change_event_meal/1 returns a event_meal changeset" do
+      event_meal = event_meal_fixture()
+      assert %Ecto.Changeset{} = Tickets.change_event_meal(event_meal)
+    end
+  end
 end

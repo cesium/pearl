@@ -50,44 +50,68 @@ defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
       >
         <div class="flex flex-row gap-4 items-center">
           <%= case @modal_data do %>
-            <% {:ticket, ticket} -> %>
+            <% {:ticket, %{ticket: ticket, user: user, attendee: _attendee}} -> %>
               <div class="flex flex-col gap-4">
                 <div class="flex items-center gap-4">
                   <.icon name="hero-check-circle" class="text-green-500 w-8" />
                   <div>
-                    <p class="font-semibold"><%= ticket.ticket_type.name %></p>
-                    <p class="text-sm text-muted">{gettext("Status: %{status}", status: if(ticket.paid, do: gettext("Paid"), else: gettext("Pending")))}</p>
+                    <p class="font-semibold">{ticket.ticket_type.name}</p>
+                    <p class="text-sm text-muted">
+                      {gettext("Status: %{status}",
+                        status: if(ticket.paid, do: gettext("Paid"), else: gettext("Pending"))
+                      )}
+                    </p>
                   </div>
+                </div>
+
+                <div class="pt-2">
+                  <p class="font-semibold">{gettext("Attendee")}</p>
+                  <p class="text-sm">
+                    <strong>{user.name}</strong>
+                    &middot; <a class="underline" href={"mailto:" <> user.email}>{user.email}</a>
+                  </p>
                 </div>
 
                 <div>
                   <p class="font-semibold">{gettext("Perks")}</p>
                   <ul class="list-disc ml-6">
                     <%= for perk <- ticket.ticket_type.perks || [] do %>
-                      <li><%= perk.name %></li>
+                      <li>{perk.name}</li>
                     <% end %>
                   </ul>
                 </div>
-              </div>
 
+                <div>
+                  <p class="font-semibold">{gettext("Dietary")}</p>
+                  <p class="text-sm">
+                    <%= if ticket.diet && ticket.diet != "no_restrictions" do %>
+                      {gettext("Diet: %{diet}", diet: ticket.diet)}
+                    <% else %>
+                      {gettext("No dietary restrictions")}
+                    <% end %>
+                  </p>
+                  <%= if ticket.allergens && ticket.allergens != "none" do %>
+                    <p class="text-sm">
+                      {gettext("Allergens: %{allergens}", allergens: ticket.allergens)}
+                    </p>
+                  <% end %>
+                </div>
+              </div>
             <% :no_ticket -> %>
               <div class="flex items-center gap-4">
                 <.icon name="hero-x-circle" class="text-red-500 w-8" />
                 <p>{error_message(:no_ticket)}</p>
               </div>
-
             <% :not_found -> %>
               <div class="flex items-center gap-4">
                 <.icon name="hero-x-circle" class="text-red-500 w-8" />
                 <p>{error_message(:not_found)}</p>
               </div>
-
             <% :not_linked -> %>
               <div class="flex items-center gap-4">
                 <.icon name="hero-x-circle" class="text-red-500 w-8" />
                 <p>{error_message(:not_linked)}</p>
               </div>
-
             <% :invalid -> %>
               <div class="flex items-center gap-4">
                 <.icon name="hero-x-circle" class="text-red-500 w-8" />
@@ -105,8 +129,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
     {:ok,
      socket
      |> assign(:current_page, :scanner)
-     |> assign(:modal_data, nil)
-     |> assign(:given_list, [])}
+     |> assign(:modal_data, nil)}
   end
 
   @impl true
@@ -117,7 +140,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
   @impl true
   def handle_event("scan", data, socket) do
     case safely_extract_id_from_url(data) do
-      {:ok, id} -> process_scan(id, socket)
+      {:ok, id} -> check_credential(id, socket)
       {:error, _} -> {:noreply, assign(socket, :modal_data, :invalid)}
     end
   end
@@ -125,14 +148,6 @@ defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
   @impl true
   def handle_event("close-modal", _, socket) do
     {:noreply, socket |> assign(:modal_data, nil)}
-  end
-
-  defp process_scan(id, socket) do
-    if id in socket.assigns.given_list do
-      {:noreply, socket}
-    else
-      check_credential(id, socket)
-    end
   end
 
   defp check_credential(id, socket) do
@@ -159,20 +174,22 @@ defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
             ticket = Repo.preload(ticket, ticket_type: :perks)
 
             {:noreply,
-             socket
-             |> assign(:modal_data, {:ticket, ticket})
-             |> assign(:given_list, [id | socket.assigns.given_list])}
+             assign(
+               socket,
+               :modal_data,
+               {:ticket, %{ticket: ticket, user: attendee.user, attendee: attendee}}
+             )}
         end
     end
   end
 
-  defp error_message(:no_ticket), do: gettext("Attendee does not have a ticket")
+  defp error_message(:no_ticket), do: gettext("Attendee does not have a ticket!")
 
   defp error_message(:not_found),
-    do: gettext("This credential is not registered")
+    do: gettext("This credential is not registered in the event's system! (404)")
 
   defp error_message(:not_linked),
-    do: gettext("This credential is not linked to any attendee")
+    do: gettext("This credential is not linked to any attendee! (400)")
 
-  defp error_message(:invalid), do: gettext("Invalid credential")
+  defp error_message(:invalid), do: gettext("Not a valid credential! (400)")
 end

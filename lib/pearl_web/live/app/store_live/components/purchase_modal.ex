@@ -46,7 +46,7 @@ defmodule PearlWeb.App.StoreLive.Components.PurchaseModal do
           </div>
 
           <div class="inline-flex w-full mt-4 items-center text-light/50 justify-between gap-2">
-            <p>Novo saldo:</p>
+            <p>{gettext("Novo saldo:")}</p>
             <p class="text-light font-medium">{@tokens} tokens</p>
           </div>
         </div>

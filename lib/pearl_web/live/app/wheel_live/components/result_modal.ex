@@ -115,7 +115,7 @@ defmodule PearlWeb.App.WheelLive.Components.ResultModal do
         gettext("Chuva de entries!")
 
       _ ->
-        gettext("Nao ganhaste nada desta vez. Talvez possas tentar novamente?")
+        gettext("Não ganhaste nada desta vez. Talvez possas tentar novamente?")
     end
   end
 

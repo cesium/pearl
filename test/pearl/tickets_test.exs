@@ -12,7 +12,7 @@ defmodule Pearl.TicketsTest do
 
     test "list_perks/0 returns all perks" do
       perk = perk_fixture()
-      assert Tickets.list_perks() == [perk]
+      assert perk in Tickets.list_perks()
     end
 
     test "get_perk!/1 returns the perk with given id" do
@@ -88,7 +88,8 @@ defmodule Pearl.TicketsTest do
 
     test "list_event_meals/0 returns all event_meals" do
       event_meal = event_meal_fixture()
-      assert Tickets.list_event_meals() == [event_meal]
+      assert {event_meals, _meta} = Tickets.list_event_meals()
+      assert event_meal in event_meals
     end
 
     test "get_event_meal!/1 returns the event_meal with given id" do

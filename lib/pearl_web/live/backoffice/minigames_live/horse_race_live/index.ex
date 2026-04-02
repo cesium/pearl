@@ -263,9 +263,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
 
   defp create_horse_speeds(count) do
     for _i <- 1..count do
-      base_speed = 0.8 + :rand.uniform() * 0.4
+      base_speed = 0.95 + :rand.uniform() * 0.1
 
-      variation = 0.1 + :rand.uniform() * 0.2
+      variation = 0.02 + :rand.uniform() * 0.03
 
       {base_speed, variation}
     end

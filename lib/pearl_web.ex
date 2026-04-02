@@ -112,6 +112,15 @@ defmodule PearlWeb do
     end
   end
 
+  def bare_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {PearlWeb.Layouts, :bare}
+
+      unquote(html_helpers())
+    end
+  end
+
   def backoffice_view do
     quote do
       use Phoenix.LiveView,

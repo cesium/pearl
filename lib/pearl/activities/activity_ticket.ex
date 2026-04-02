@@ -1,16 +1,13 @@
 defmodule Pearl.Activities.ActivityTicket do
   @moduledoc """
-  ActivityTicket schema.
-
+  ActivityTicket Schema.
   """
 
   use Pearl.Schema
-  import Ecto.Changeset
 
   alias Pearl.Accounts.User
   alias Pearl.Tickets.TicketType
 
-  @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
   schema "activity_tickets" do

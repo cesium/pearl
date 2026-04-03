@@ -509,6 +509,7 @@ defmodule PearlWeb.Components.Sidebar do
 
     dock_pages
     |> Enum.map(fn key -> Enum.find(pages, &(&1.key == key)) end)
+    |> Enum.reject(&is_nil/1)
   end
 
   defp app_profile_url(nil), do: "/app/"

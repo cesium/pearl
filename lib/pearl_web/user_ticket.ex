@@ -42,9 +42,13 @@ defmodule PearlWeb.UserTicket do
   end
 
   defp validate_ticket_and_payment(ticket, conn) do
-    ticket.id
-    |> Billing.get_payment_by_ticket()
-    |> validate_payment(conn)
+    if ticket.paid do
+      conn
+    else
+      ticket.id
+      |> Billing.get_payment_by_ticket()
+      |> validate_payment(conn)
+    end
   end
 
   defp validate_payment(nil, conn) do
@@ -78,15 +82,19 @@ defmodule PearlWeb.UserTicket do
       ticket = Tickets.get_user_ticket(user.id)
 
       if ticket do
-        case Billing.get_payment_by_ticket(ticket.id) do
-          nil ->
-            conn
-            |> put_flash(:error, "Ainda não começaste o processo de pagamento.")
-            |> redirect(to: ~p"/checkout/payment")
-            |> halt()
+        if ticket.paid do
+          conn
+        else
+          case Billing.get_payment_by_ticket(ticket.id) do
+            nil ->
+              conn
+              |> put_flash(:error, "Ainda não começaste o processo de pagamento.")
+              |> redirect(to: ~p"/checkout/payment")
+              |> halt()
 
-          _payment ->
-            conn
+            _payment ->
+              conn
+          end
         end
       else
         conn
@@ -113,9 +121,15 @@ defmodule PearlWeb.UserTicket do
   defp handle_user_ticket_payment(conn, nil), do: conn
 
   defp handle_user_ticket_payment(conn, ticket) do
-    case Billing.get_payment_by_ticket(ticket.id) do
-      nil -> conn
-      payment -> handle_payment_redirect(conn, payment)
+    if ticket.paid do
+      conn
+      |> redirect(to: ~p"/app")
+      |> halt()
+    else
+      case Billing.get_payment_by_ticket(ticket.id) do
+        nil -> conn
+        payment -> handle_payment_redirect(conn, payment)
+      end
     end
   end
 
@@ -174,7 +188,7 @@ defmodule PearlWeb.UserTicket do
           if ticket.paid do
             conn
             |> put_flash(:error, "Já tens um bilhete.")
-            |> redirect(to: ~p"/checkout/payment")
+            |> redirect(to: ~p"/app")
             |> halt()
           else
             conn

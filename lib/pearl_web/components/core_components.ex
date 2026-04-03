@@ -407,7 +407,7 @@ defmodule PearlWeb.CoreComponents do
               class="peer sr-only pearl-radio"
               {@rest}
             />
-            <div class="h-6.5 w-6.5 rounded-full border-2 border-gray-300 bg-[#EFEFED] peer-checked:border-primary peer-checked:border-3 peer-checked:bg-[#EFEFED] flex items-center justify-center">
+            <div class="h-6.5 w-6.5 rounded-full border-2 border-gray-300 bg-light-muted peer-checked:border-primary peer-checked:border-3 peer-checked:bg-light-muted flex items-center justify-center">
             </div>
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity duration-50 pointer-events-none">
             </div>
@@ -578,6 +578,8 @@ defmodule PearlWeb.CoreComponents do
   Renders a header with title.
   """
   attr :class, :string, default: nil
+  attr :style, :string, default: nil
+  attr :overlay_class, :string, default: nil
   attr :title_class, :string, default: ""
 
   slot :inner_block, required: true
@@ -586,12 +588,17 @@ defmodule PearlWeb.CoreComponents do
 
   def header(assigns) do
     ~H"""
-    <header class={[
-      @actions != [] &&
-        "flex items-left sm:items-center justify-between gap-2 sm:gap-6 flex-row",
-      @class
-    ]}>
-      <div class="flex flex-col justify-center">
+    <header
+      class={[
+        @actions != [] &&
+          "flex items-left sm:items-center justify-between gap-2 sm:gap-6 flex-row",
+        @overlay_class && "relative overflow-hidden",
+        @class
+      ]}
+      style={@style}
+    >
+      <div :if={@overlay_class} class={[@overlay_class, "absolute inset-0 pointer-events-none"]} />
+      <div class="relative z-10 flex flex-col justify-center">
         <h1 class={"font-semibold leading-8 #{@title_class}"}>
           {render_slot(@inner_block)}
         </h1>
@@ -599,7 +606,7 @@ defmodule PearlWeb.CoreComponents do
           {render_slot(@subtitle)}
         </p>
       </div>
-      <div class="flex-none">{render_slot(@actions)}</div>
+      <div class="relative z-10 flex-none">{render_slot(@actions)}</div>
     </header>
     """
   end

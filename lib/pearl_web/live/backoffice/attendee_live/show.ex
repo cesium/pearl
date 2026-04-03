@@ -1,7 +1,7 @@
 defmodule PearlWeb.Backoffice.AttendeeLive.Show do
   use PearlWeb, :backoffice_view
 
-  alias Pearl.Accounts
+  alias Pearl.{Accounts, Tickets}
 
   import PearlWeb.Components.{Button, Modal}
 

@@ -62,6 +62,7 @@ defmodule PearlWeb.Components.Button do
   attr :icon, :string, default: ""
   attr :class, :string, default: ""
   attr :title_class, :string, default: ""
+  attr :subtitle_class, :string, default: ""
 
   attr :rest, :global,
     include:
@@ -71,19 +72,22 @@ defmodule PearlWeb.Components.Button do
   def action_button(assigns) do
     ~H"""
     <button
-      class={"m-auto block select-none disabled:hover:border-white disabled:hover:text-white disabled:cursor-not-allowed disabled:bg-gray-400 disabled:opacity-75 h-20 w-full border-2 border-white text-white transition-colors hover:border-white hover:bg-white hover:text-black #{@class}"}
+      class={"m-auto flex flex-col items-center justify-center gap-2 select-none cursor-pointer uppercase transition-all duration-300 ease-in-out text-2xl font-semibold disabled:hover:border-white disabled:hover:text-white disabled:cursor-not-allowed disabled:bg-light/20 disabled:opacity-75 h-20 w-full border-2 border-light/80 text-white hover:shadow-[0_0_20px_1px] shadow-primary/50 hover:border-transparent hover:bg-primary/70 rounded-2xl #{@class}"}
       disabled={@disabled}
       {@rest}
     >
       <%= if @icon != "" do %>
         <.icon name={@icon} />
       <% end %>
-      <p class={"uppercase text-2xl #{@title_class}"}>{@title}</p>
-      <div class={["flex place-items-center justify-center", @subtitle_icon != "" && "gap-2"]}>
+      <p class={"uppercase text-2xl font-semibold #{@title_class}"}>{@title}</p>
+      <div
+        :if={@subtitle != "" || @subtitle_icon != ""}
+        class={["inline-flex items-center justify-center", @subtitle_icon != "" && "gap-2"]}
+      >
         <%= if @subtitle_icon do %>
-          <.icon name={"fa-" <> @subtitle_icon} class="w-3.5" />
+          <.icon name={"fa-" <> @subtitle_icon} class="size-3" />
         <% end %>
-        <p>{@subtitle}</p>
+        <p class={"text-base font-light/50 #{@subtitle_class}"}>{@subtitle}</p>
       </div>
     </button>
     """
@@ -110,6 +114,7 @@ defmodule PearlWeb.Components.Button do
       class={[
         "phx-submit-loading:opacity-75 rounded-lg bg-dark text-light dark:bg-light dark:text-dark hover:bg-darkShade dark:hover:bg-lightShade/95 py-2 px-3",
         "text-sm font-semibold leading-6 transition-colors",
+        "disabled:opacity-50 disabled:cursor-not-allowed",
         @class
       ]}
       {@rest}

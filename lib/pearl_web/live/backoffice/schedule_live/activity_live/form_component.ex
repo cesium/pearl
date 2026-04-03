@@ -89,6 +89,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
                 />
               </div>
             </div>
+            <.field field={@form[:link]} type="text" label="Link" wrapper_class="w-full" />
           </div>
           <:actions>
             <.backoffice_button phx-disable-with="Saving...">Save Activity</.backoffice_button>

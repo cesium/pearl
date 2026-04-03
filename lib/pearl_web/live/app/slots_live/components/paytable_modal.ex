@@ -15,7 +15,7 @@ defmodule PearlWeb.App.SlotsLive.Components.PaytableModal do
   attr :on_cancel, JS, default: %JS{}
 
   attr :body_class, :string,
-    default: "bg-dark ring-4 ring-white py-8 px-5 max-h-[500px] overflow-y-scroll scrollbar-hide"
+    default: "bg-dark w-full rounded-2xl border border-light/10 ring-white p-8 pt-9"
 
   def paytable_modal(assigns) do
     paylines = Minigames.list_slots_paylines()
@@ -41,20 +41,20 @@ defmodule PearlWeb.App.SlotsLive.Components.PaytableModal do
       wrapper_class={@wrapper_class}
       body_class={@body_class}
     >
-      <h2 class="text-3xl font-bold text-center mb-6">
+      <h2 class="text-3xl font-bold text-center mb-4 md:mb-8">
         {gettext("PAYTABLE")}
       </h2>
 
-      <div class="space-y-6" id="paytable-content" phx-hook="PaytableModal">
+      <div class="flex flex-col" id="paytable-content" phx-hook="PaytableModal">
         <%= for {paytable, paylines_filtered} <- @paylines_by_multiplier do %>
-          <div class="flex justify-between border-b border-white/20 pb-4 last:border-0">
-            <div class="flex flex-col gap-1">
-              <h3 class="text-xl font-semibold uppercase">
+          <div class="flex flex-col md:flex-row justify-between items-center py-4 border-b-2 gap-4 border-light/5 last:border-0">
+            <div class="flex flex-col gap-1 items-center md:items-start">
+              <h3 class="text-lg md:text-xl font-semibold uppercase">
                 {if paytable.multiplier == 1,
                   do: "Refund",
                   else: "#{paytable.multiplier}x Multiplier"}
               </h3>
-              <p class="mb-3 text-sm text-slate-300">
+              <p class="text-sm text-light/50 self-start">
                 {gettext("Probability: %{probability}%",
                   probability: Float.round(paytable.probability * 100, 4)
                 )}

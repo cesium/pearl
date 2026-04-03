@@ -6,7 +6,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
   import PearlWeb.Components.Button
 
   def mount(_params, session, socket) do
-    ticket_types = TicketTypes.list_active_ticket_types()
+    ticket_types = TicketTypes.list_active_event_ticket_types()
 
     ticket_type_id =
       case Map.get(session, "ticket_type_id") do

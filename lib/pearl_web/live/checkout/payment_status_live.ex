@@ -10,7 +10,18 @@ defmodule PearlWeb.Checkout.PaymentStatusLive do
     end
 
     payment = Billing.get_payment_by_order_id!(order_id)
-    ticket_type = TicketTypes.get_ticket_type!(payment.ticket.ticket_type_id)
+
+    ticket_type =
+      cond do
+        not is_nil(payment.ticket) ->
+          TicketTypes.get_ticket_type!(payment.ticket.ticket_type_id)
+
+        not is_nil(payment.activity_ticket) ->
+          TicketTypes.get_ticket_type!(payment.activity_ticket.ticket_type_id)
+
+        true ->
+          nil
+      end
 
     {:ok,
      socket

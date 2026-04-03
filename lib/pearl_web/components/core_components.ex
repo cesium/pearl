@@ -70,7 +70,7 @@ defmodule PearlWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-8 right-1 left-2 sm:left-auto sm:right-6 sm:w-104 z-[101] overflow-hidden",
+        "fixed top-8 right-1 left-2 sm:left-auto sm:right-6 sm:w-104 md:w-128 z-[101] overflow-hidden",
         if(@variant == :app,
           do: "bg-dark rounded-md border border-light/10 shadow-[0_0_20px_2px] shadow-light/10",
           else: "ring-2 ring-dark/5 shadow-lg"

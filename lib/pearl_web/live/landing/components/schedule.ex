@@ -138,16 +138,18 @@ defmodule PearlWeb.Landing.Components.Schedule do
       />
 
       <.modal
+        :if={@selected_activity}
         id="activity-modal"
+        show
         on_cancel={JS.push("modal_closed", target: @myself)}
-        backdrop_class="backdrop-blur-xl bg-light/20"
+        backdrop_class="backdrop-blur-xl bg-light-muted/80"
         container_class="flex min-h-full items-center justify-center px-4 md:px-16"
-        body_class="bg-transparent w-full max-w-2xl mx-auto py-12"
+        body_class="w-full max-w-2xl mx-auto py-12"
         close_button_class="absolute top-20 xl:top-18 right-0"
-        close_button_button_class="-m-3 flex-none p-3 text-dark hover:opacity-70"
+        close_button_button_class="-m-3 flex-none p-3 text-dark/85 hover:opacity-70"
         close_button_icon_class="size-8"
       >
-        <div :if={@selected_activity} class="flex flex-col gap-2 pt-8 w-full">
+        <div class="flex flex-col gap-2 pt-8 w-full">
           <span class="text-2xl md:text-4xl font-bold text-dark pr-10">
             Informações
           </span>
@@ -174,7 +176,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
           </div>
 
           <%!-- Activity Type --%>
-          <div class="text-base md:text-xl text-lightMuted font-normal">
+          <div class="text-base md:text-xl text-dark/80 font-normal">
             {get_category_name(@selected_activity)}
           </div>
 
@@ -225,7 +227,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
             <h3 class="text-base md:text-lg font-bold text-dark mb-2">
               {gettext("Descrição")}
             </h3>
-            <div class="text-lightMuted text-sm md:text-4 w-full leading-relaxed">
+            <div class="text-dark/75 w-full leading-relaxed">
               {@selected_activity.description || gettext("Sem descrição disponível.")}
             </div>
           </div>
@@ -248,7 +250,16 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
   defp render_view(%{view_mode: :calendar} = assigns) do
     ~H"""
-    <.calendar_view url={@url} days={@days} filters={@filters} calendar_pictures={@calendar_pictures} />
+    <.calendar_view
+      url={@url}
+      days={@days}
+      filters={@filters}
+      calendar_pictures={@calendar_pictures}
+      user_role={@user_role}
+      enrolments={@enrolments}
+      myself={@myself}
+      current_user={@current_user}
+    />
     """
   end
 
@@ -330,6 +341,10 @@ defmodule PearlWeb.Landing.Components.Schedule do
   attr :days, :list, required: true
   attr :filters, :list, required: true
   attr :calendar_pictures, :map, default: %{}
+  attr :user_role, :atom, required: true
+  attr :enrolments, :list, default: []
+  attr :myself, :any, required: true
+  attr :current_user, :map, default: nil
 
   defp calendar_view(assigns) do
     ~H"""
@@ -346,7 +361,14 @@ defmodule PearlWeb.Landing.Components.Schedule do
           <div class="hidden md:flex flex-1 py-3 pr-6 bg-light overflow-x-auto scrollbar-hide">
             <div class="flex flex-row gap-1">
               <%= for time_slot <- fetch_and_group_activities(day, @filters) do %>
-                <.time_slot_cell time_slot={time_slot} variant={:calendar} />
+                <.time_slot_cell
+                  time_slot={time_slot}
+                  variant={:calendar}
+                  user_role={@user_role}
+                  enrolments={@enrolments}
+                  myself={@myself}
+                  current_user={@current_user}
+                />
               <% end %>
             </div>
           </div>
@@ -470,7 +492,14 @@ defmodule PearlWeb.Landing.Components.Schedule do
       <div class="flex flex-row gap-6">
         <%= for activity <- @time_slot do %>
           <span class="min-w-67">
-            <.activity_cell activity={activity} variant={:calendar} current_user={@current_user} />
+            <.activity_cell
+              activity={activity}
+              variant={:calendar}
+              user_role={@user_role}
+              enrolments={@enrolments}
+              myself={@myself}
+              current_user={@current_user}
+            />
           </span>
         <% end %>
       </div>
@@ -571,7 +600,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
   defp render_activity_cell(assigns) do
     has_speakers = assigns.activity.speakers != []
-    show_actions = assigns.variant == :day
+    show_actions = assigns.variant in [:day, :calendar]
 
     activity_ticket_types = TicketTypes.list_active_activity_ticket_types()
 
@@ -629,10 +658,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
           <div class="flex flex-wrap items-center gap-4 shrink-0">
             <button
               type="button"
-              phx-click={
-                JS.push("show_details", value: %{activity_id: @activity.id})
-                |> show_modal("activity-modal")
-              }
+              phx-click={JS.push("show_details", value: %{activity_id: @activity.id})}
               phx-target={@myself}
               class="flex items-center gap-2 text-sm text-primary/70 hover:text-primary font-medium transition-colors"
             >

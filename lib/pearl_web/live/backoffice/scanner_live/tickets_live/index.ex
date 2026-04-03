@@ -1,8 +1,7 @@
 defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
   use PearlWeb, :backoffice_view
 
-  alias Pearl.{Accounts, Tickets}
-  alias Pearl.Repo
+  alias Pearl.{Accounts, Activities, Tickets}
 
   import PearlWeb.Components.{Modal}
 
@@ -82,6 +81,15 @@ defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
                 </div>
 
                 <div>
+                  <p class="font-semibold">{gettext("Activity Tickets")}</p>
+                  <ul class="list-disc ml-6">
+                    <%= for ticket_type <- @activity_tickets || [] do %>
+                      <li>{ticket_type.name}</li>
+                    <% end %>
+                  </ul>
+                </div>
+
+                <div>
                   <p class="font-semibold">{gettext("Dietary")}</p>
                   <p class="text-sm">
                     <%= if ticket.diet && ticket.diet != "no_restrictions" do %>
@@ -90,11 +98,15 @@ defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
                       {gettext("No dietary restrictions")}
                     <% end %>
                   </p>
-                  <%= if ticket.allergens && ticket.allergens != "none" do %>
-                    <p class="text-sm">
+                  <p class="font-semibold">{gettext("Allergens")}</p>
+
+                  <p class="text-sm">
+                    <%= if ticket.allergens && ticket.allergens != "none" do %>
                       {gettext("Allergens: %{allergens}", allergens: ticket.allergens)}
-                    </p>
-                  <% end %>
+                    <% else %>
+                      {gettext("No allergens")}
+                    <% end %>
+                  </p>
                 </div>
               </div>
             <% :no_ticket -> %>
@@ -164,21 +176,29 @@ defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
         {:noreply, assign(socket, :modal_data, :not_linked)}
 
       attendee ->
-        user_id = attendee.user && attendee.user.id
+        user = attendee.user
+        user_id = user && user.id
 
-        case Tickets.get_user_ticket(user_id) do
-          nil ->
+        if is_nil(user_id) do
+          {:noreply, assign(socket, :modal_data, :not_linked)}
+        else
+          ticket = Tickets.get_user_ticket(user_id)
+
+          activity_tickets =
+            Activities.get_user_activity_tickets(user_id)
+            |> Enum.map(& &1.ticket_type)
+
+          if ticket == nil and activity_tickets == [] do
             {:noreply, assign(socket, :modal_data, :no_ticket)}
-
-          ticket ->
-            ticket = Repo.preload(ticket, ticket_type: :perks)
-
+          else
             {:noreply,
-             assign(
-               socket,
+             socket
+             |> assign(
                :modal_data,
-               {:ticket, %{ticket: ticket, user: attendee.user, attendee: attendee}}
-             )}
+               {:ticket, %{ticket: ticket, user: user, attendee: attendee}}
+             )
+             |> assign(:activity_tickets, activity_tickets)}
+          end
         end
     end
   end

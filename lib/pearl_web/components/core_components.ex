@@ -37,6 +37,11 @@ defmodule PearlWeb.CoreComponents do
     values: [:info, :error, :success, :tip, :help],
     doc: "used for styling and flash lookup"
 
+  attr :variant, :atom,
+    values: [:default, :app],
+    default: :default,
+    doc: "the flash card variant style"
+
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
@@ -131,10 +136,11 @@ defmodule PearlWeb.CoreComponents do
             <span class="mr-1">
               <.icon
                 name="hero-arrow-right"
-                class={[
-                  "size-5 sm:size-7",
-                  if(@variant == :app, do: "text-lightMuted", else: "text-primary")
-                ]}
+                class={
+                  if @variant == :app,
+                    do: "size-5 sm:size-7 text-lightMuted",
+                    else: "size-5 sm:size-7 text-primary"
+                }
               />
             </span>
             <span class="text-sm sm:text-base">ir para Informação & Ajuda</span>
@@ -157,10 +163,11 @@ defmodule PearlWeb.CoreComponents do
           <span class="mr-1">
             <.icon
               name="hero-x-mark"
-              class={[
-                "size-5 sm:size-7",
-                if(@variant == :app, do: "text-lightMuted", else: "text-primary")
-              ]}
+              class={
+                if @variant == :app,
+                  do: "size-5 sm:size-7 text-lightMuted",
+                  else: "size-5 sm:size-7 text-primary"
+              }
             />
           </span>
           <span class="text-sm sm:text-base">fechar</span>

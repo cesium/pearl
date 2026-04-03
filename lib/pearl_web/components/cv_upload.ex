@@ -120,6 +120,7 @@ defmodule PearlWeb.Components.CVUpload do
       |> case do
         {:ok, user} ->
           {:ok, user}
+
         {:error, _changeset} ->
           {:error, gettext("Ocorreu um erro ao atualizar o utilizador.")}
       end

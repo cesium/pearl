@@ -142,7 +142,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
         id="activity-modal"
         show
         on_cancel={JS.push("modal_closed", target: @myself)}
-        backdrop_class="backdrop-blur-xl bg-light-muted/75"
+        backdrop_class="backdrop-blur-xl bg-light-muted/80"
         container_class="flex min-h-full items-center justify-center px-4 md:px-16"
         body_class="w-full max-w-2xl mx-auto py-12"
         close_button_class="absolute top-20 xl:top-18 right-0"

@@ -51,17 +51,19 @@ defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
           <%= case @modal_data do %>
             <% {:ticket, %{ticket: ticket, user: user, attendee: _attendee}} -> %>
               <div class="flex flex-col gap-4">
-                <div class="flex items-center gap-4">
-                  <.icon name="hero-check-circle" class="text-green-500 w-8" />
-                  <div>
-                    <p class="font-semibold">{ticket.ticket_type.name}</p>
-                    <p class="text-sm text-muted">
-                      {gettext("Status: %{status}",
-                        status: if(ticket.paid, do: gettext("Paid"), else: gettext("Pending"))
-                      )}
-                    </p>
+                <%= if ticket do %>
+                  <div class="flex items-center gap-4">
+                    <.icon name="hero-check-circle" class="text-green-500 w-8" />
+                    <div>
+                      <p class="font-semibold">{ticket.ticket_type.name}</p>
+                      <p class="text-sm text-muted">
+                        {gettext("Status: %{status}",
+                          status: if(ticket.paid, do: gettext("Paid"), else: gettext("Pending"))
+                        )}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                <% end %>
 
                 <div class="pt-2">
                   <p class="font-semibold">{gettext("Attendee")}</p>
@@ -71,43 +73,49 @@ defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
                   </p>
                 </div>
 
-                <div>
-                  <p class="font-semibold">{gettext("Perks")}</p>
-                  <ul class="list-disc ml-6">
-                    <%= for perk <- ticket.ticket_type.perks || [] do %>
-                      <li>{perk.name}</li>
-                    <% end %>
-                  </ul>
-                </div>
+                <%= if ticket && ticket.ticket_type.perks not in [nil, []] do %>
+                  <div>
+                    <p class="font-semibold">{gettext("Perks")}</p>
+                    <ul class="list-disc ml-6">
+                      <%= for perk <- ticket.ticket_type.perks do %>
+                        <li>{perk.name}</li>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
 
-                <div>
-                  <p class="font-semibold">{gettext("Activity Tickets")}</p>
-                  <ul class="list-disc ml-6">
-                    <%= for ticket_type <- @activity_tickets || [] do %>
-                      <li>{ticket_type.name}</li>
-                    <% end %>
-                  </ul>
-                </div>
+                <%= if @activity_tickets not in [nil, []] do %>
+                  <div>
+                    <p class="font-semibold">{gettext("Activity Tickets")}</p>
+                    <ul class="list-disc ml-6">
+                      <%= for ticket_type <- @activity_tickets do %>
+                        <li>{ticket_type.name}</li>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
 
-                <div>
-                  <p class="font-semibold">{gettext("Dietary")}</p>
-                  <p class="text-sm">
-                    <%= if ticket.diet && ticket.diet != "no_restrictions" do %>
-                      {gettext("Diet: %{diet}", diet: ticket.diet)}
-                    <% else %>
-                      {gettext("No dietary restrictions")}
-                    <% end %>
-                  </p>
-                  <p class="font-semibold">{gettext("Allergens")}</p>
+                <%= if ticket do %>
+                  <div>
+                    <p class="font-semibold">{gettext("Dietary")}</p>
+                    <p class="text-sm">
+                      <%= if ticket.diet && ticket.diet != "no_restrictions" do %>
+                        {gettext("Diet: %{diet}", diet: ticket.diet)}
+                      <% else %>
+                        {gettext("No dietary restrictions")}
+                      <% end %>
+                    </p>
+                    <p class="font-semibold">{gettext("Allergens")}</p>
 
-                  <p class="text-sm">
-                    <%= if ticket.allergens && ticket.allergens != "none" do %>
-                      {gettext("Allergens: %{allergens}", allergens: ticket.allergens)}
-                    <% else %>
-                      {gettext("No allergens")}
-                    <% end %>
-                  </p>
-                </div>
+                    <p class="text-sm">
+                      <%= if ticket.allergens && ticket.allergens != "none" do %>
+                        {gettext("Allergens: %{allergens}", allergens: ticket.allergens)}
+                      <% else %>
+                        {gettext("No allergens")}
+                      <% end %>
+                    </p>
+                  </div>
+                <% end %>
               </div>
             <% :no_ticket -> %>
               <div class="flex items-center gap-4">

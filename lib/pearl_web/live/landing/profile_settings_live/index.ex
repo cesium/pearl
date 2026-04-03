@@ -19,6 +19,6 @@ defmodule PearlWeb.Landing.ProfileSettingsLive.Index do
 
   @impl true
   def handle_info({:update_flash, {flash_type, msg}}, socket) do
-    {:noreply, put_flash(socket, flash_type, msg)}
+    {:noreply, put_flash(socket, flash_type, Gettext.gettext(PearlWeb.Gettext, msg))}
   end
 end

@@ -70,13 +70,11 @@ defmodule PearlWeb.UserForgotPasswordLive do
     end
 
     info =
-      gettext(
-        "Se o teu email estiver no nosso sistema, receberás instruções para redefinir a tua palavra-passe em breve."
-      )
+      "Se o teu email estiver no nosso sistema, receberás instruções para redefinir a tua palavra-passe em breve."
 
     {:noreply,
      socket
-     |> put_flash(:info, info)
+     |> put_flash(:info, Gettext.gettext(PearlWeb.Gettext, info))
      |> redirect(to: ~p"/")}
   end
 end

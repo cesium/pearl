@@ -120,17 +120,16 @@ defmodule PearlWeb.Components.CVUpload do
       |> case do
         {:ok, user} ->
           {:ok, user}
-
         {:error, _changeset} ->
-          {:error, "An error occurred while updating the user."}
+          {:error, gettext("Ocorreu um erro ao atualizar o utilizador.")}
       end
     end)
     |> case do
       [] ->
-        {:error, "Select a file to upload."}
+        {:error, gettext("Seleciona um ficheiro para fazer upload.")}
 
       [error: _message] ->
-        {:error, "An error occurred while uploading the file."}
+        {:error, gettext("Ocorreu um erro ao fazer upload do ficheiro.")}
 
       [user] ->
         {:ok, user}

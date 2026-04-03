@@ -44,46 +44,98 @@ defmodule PearlWeb.CoreComponents do
   def flash(assigns) do
     assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.kind}" end)
 
+    assigns =
+      assign_new(assigns, :variant, fn ->
+        cond do
+          Map.has_key?(assigns, :variant) ->
+            assigns.variant
+
+          Map.has_key?(assigns, :rest) && Map.has_key?(assigns.rest, :variant) ->
+            assigns.rest.variant
+
+          true ->
+            :default
+        end
+      end)
+
     ~H"""
     <div
       :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
       id={@id}
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
-      class="fixed top-4 right-2 left-2 sm:left-auto sm:right-4 sm:w-104 md:w-104 z-[101] ring-1 ring-black/10 overflow-hidden shadow-lg"
+      class={[
+        "fixed top-8 right-1 left-2 sm:left-auto sm:right-6 sm:w-104 z-[101] overflow-hidden",
+        if(@variant == :app,
+          do: "bg-dark rounded-md border border-light/10 shadow-[0_0_20px_2px] shadow-light/10",
+          else: "ring-2 ring-dark/5 shadow-lg"
+        )
+      ]}
       {@rest}
     >
-      <div class="flex flex-row justify-between bg-[#f9f9f8] py-3 sm:py-4">
+      <div class={[
+        "flex flex-row justify-between py-3 sm:py-4",
+        if(@variant == :app, do: "border-light/10 bg-light/5", else: "bg-[#f9f9f8]")
+      ]}>
         <div class="flex flex-col justify-center items-center mx-3 sm:mx-4 shrink-0">
-          <div class="flex flex-col size-12 sm:size-15 bg-primary items-center justify-center">
+          <div class={[
+            "flex flex-col size-12 sm:size-15 items-center justify-center",
+            if(@variant == :app, do: "bg-primary/90", else: "bg-primary")
+          ]}>
             <.icon name={get_flash_icon(@kind)} class="size-7 sm:size-10 text-light" />
           </div>
         </div>
+
         <div class="flex-1 my-auto flex flex-col pr-3 items-start justify-start min-w-0">
           <% final_title = @title || get_flash_title(@kind) %>
 
           <%= if final_title do %>
-            <h3 class="font-semibold text-dark text-base sm:text-xl leading-tight">
+            <h3 class={[
+              "font-semibold text-base sm:text-xl leading-tight",
+              if(@variant == :app, do: "text-light", else: "text-dark")
+            ]}>
               {final_title}
             </h3>
-            <p class="text-dark text-md sm:text-lg leading-snug mt-0.5 break-words">
+            <p class={[
+              "text-md sm:text-lg leading-snug mt-0.5 break-words",
+              if(@variant == :app, do: "text-lightMuted", else: "text-dark")
+            ]}>
               {msg}
             </p>
           <% else %>
-            <p class="font-medium text-dark text-md sm:text-md leading-snug break-words">
+            <p class={[
+              "font-medium text-md sm:text-md leading-snug break-words",
+              if(@variant == :app, do: "text-light", else: "text-dark")
+            ]}>
               {msg}
             </p>
           <% end %>
         </div>
       </div>
-      <div class="min-h-10 sm:h-12 text-sm sm:text-lg flex flex-row flex-wrap items-center my-auto bg-background justify-start px-3 sm:px-4 gap-3 sm:gap-4 py-2 sm:py-0">
+
+      <div class={[
+        "min-h-10 sm:h-12 text-sm sm:text-lg flex flex-row flex-wrap items-center my-auto justify-start px-3 sm:px-4 gap-3 sm:gap-4 py-2 sm:py-0",
+        if(@variant == :app, do: "bg-darkShade", else: "bg-background")
+      ]}>
         <div :if={@kind == :help}>
           <.link
             navigate="/faqs"
-            class="flex items-center text-primary font-bold hover:underline"
+            class={[
+              "flex items-center font-bold hover:underline",
+              if(@variant == :app,
+                do: "text-lightMuted font-semibold hover:text-light transition-colors",
+                else: "text-primary"
+              )
+            ]}
           >
             <span class="mr-1">
-              <.icon name="hero-arrow-right" class="size-5 sm:size-7" />
+              <.icon
+                name="hero-arrow-right"
+                class={[
+                  "size-5 sm:size-7",
+                  if(@variant == :app, do: "text-lightMuted", else: "text-primary")
+                ]}
+              />
             </span>
             <span class="text-sm sm:text-base">ir para Informação & Ajuda</span>
           </.link>
@@ -91,12 +143,26 @@ defmodule PearlWeb.CoreComponents do
 
         <button
           type="button"
-          class="flex items-center text-primary hover:opacity-75 group ml-auto"
+          class={[
+            "flex items-center group ml-auto",
+            if(@variant == :app,
+              do: "text-lightMuted hover:text-light transition-colors",
+              else: "text-primary hover:opacity-75"
+            )
+          ]}
           aria-label={gettext("close")}
           phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
           phx-value-key={@kind}
         >
-          <span class="mr-1"><.icon name="hero-x-mark" class="size-5 sm:size-7" /></span>
+          <span class="mr-1">
+            <.icon
+              name="hero-x-mark"
+              class={[
+                "size-5 sm:size-7",
+                if(@variant == :app, do: "text-lightMuted", else: "text-primary")
+              ]}
+            />
+          </span>
           <span class="text-sm sm:text-base">fechar</span>
         </button>
       </div>
@@ -114,14 +180,19 @@ defmodule PearlWeb.CoreComponents do
   attr :flash, :map, required: true, doc: "the map of flash messages"
   attr :id, :string, default: "flash-group", doc: "the optional id of flash container"
 
+  attr :variant, :atom,
+    values: [:default, :app],
+    default: :default,
+    doc: "the flash card variant style"
+
   def flash_group(assigns) do
     ~H"""
     <div id={@id}>
-      <.flash kind={:info} flash={@flash} />
-      <.flash kind={:success} flash={@flash} />
-      <.flash kind={:error} flash={@flash} />
-      <.flash kind={:tip} flash={@flash} />
-      <.flash kind={:help} flash={@flash} />
+      <.flash kind={:info} flash={@flash} variant={@variant} />
+      <.flash kind={:success} flash={@flash} variant={@variant} />
+      <.flash kind={:error} flash={@flash} variant={@variant} />
+      <.flash kind={:tip} flash={@flash} variant={@variant} />
+      <.flash kind={:help} flash={@flash} variant={@variant} />
 
       <.flash
         id="client-error"
@@ -130,6 +201,7 @@ defmodule PearlWeb.CoreComponents do
         phx-disconnected={show(".phx-client-error #client-error")}
         phx-connected={hide("#client-error")}
         hidden
+        variant={@variant}
       >
         <span class="flex items-center gap-2">
           {gettext("Attempting to reconnect")}
@@ -144,6 +216,7 @@ defmodule PearlWeb.CoreComponents do
         phx-disconnected={show(".phx-server-error #server-error")}
         phx-connected={hide("#server-error")}
         hidden
+        variant={@variant}
       >
         <span class="flex items-center gap-2">
           {gettext("Hang in there while we get back on track")}

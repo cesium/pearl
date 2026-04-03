@@ -2081,8 +2081,12 @@ defmodule Pearl.Minigames do
       end)
       |> Repo.transaction()
       |> case do
-        {:ok, %{fetch_bets: bets}} -> {:ok, bets}
-        {:error, _step, reason, _changes} -> {:error, reason}
+        {:ok, %{fetch_bets: bets}} ->
+          Contest.enqueue_badge_trigger_execution_job(attendee, :play_horse_race_event)
+          {:ok, bets}
+
+        {:error, _step, reason, _changes} ->
+          {:error, reason}
       end
     end
   end

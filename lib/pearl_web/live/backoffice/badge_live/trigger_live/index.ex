@@ -101,6 +101,9 @@ defmodule PearlWeb.Backoffice.BadgeLive.TriggerLive.Index do
       :play_wheel_event ->
         gettext("plays the wheel minigame")
 
+      :play_horse_race_event ->
+        gettext("plays the horse race minigame")
+
       :redeem_spotlighted_badge_event ->
         gettext("redeems the badge of a company that is on spotlight")
 

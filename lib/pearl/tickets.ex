@@ -389,7 +389,7 @@ defmodule Pearl.Tickets do
   def has_meals?(%Ticket{} = ticket) do
     ticket = Repo.preload(ticket, ticket_type: :perks)
 
-    Enum.any?(ticket.ticket_type.perks, fn perk -> perk.name == "Meals" end)
+    Enum.any?(ticket.ticket_type.perks, fn perk -> perk.allows_meals end)
   end
 
   @doc """

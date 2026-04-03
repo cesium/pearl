@@ -412,7 +412,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                 disabled={@racing || @winner != nil}
                 id="btn-start-race"
                 phx-value-duration={@total_race_time}
-                class="bg-black hover:bg-zinc-900 text-white font-bold py-2 px-4 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-all text-sm border-2 border-red-800"
+                class="bg-black hover:bg-zinc-900 text-white font-bold py-2 px-4 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-all text-sm "
               >
                 <.icon name="hero-play" class="w-5 mr-1" />
                 {gettext("Start")}
@@ -443,7 +443,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
           </div>
         </div>
 
-        <div class="p-1 bg-black border-2 border-red-500 shadow-2xl relative font-iregular mt-4">
+        <div class="p-1 bg-black  shadow-2xl relative font-iregular mt-4">
           <div class="mb-0.5">
             <div class="space-y-0" id="horses-container" phx-update="ignore">
               <%= for {horse, index} <- Enum.with_index(@horses) do %>

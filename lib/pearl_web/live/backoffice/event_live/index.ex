@@ -96,7 +96,7 @@ defmodule PearlWeb.Backoffice.EventLive.Index do
     case Teams.get_team_member!(member_id) do
       nil ->
         socket
-        |> put_flash(:error, "Team member not found")
+        |> put_flash(:error, gettext("Membro da equipa não encontrado"))
         |> push_patch(to: socket.assigns.patch)
 
       member ->

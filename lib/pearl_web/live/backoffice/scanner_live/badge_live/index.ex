@@ -91,7 +91,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.BadgeLive.Index do
     else
       {:noreply,
        socket
-       |> put_flash(:error, "This badge is not currently available for redemption.")
+       |> put_flash(:error, gettext("Este badge não está disponível para resgate neste momento."))
        |> push_navigate(to: ~p"/dashboard/scanner")}
     end
   end

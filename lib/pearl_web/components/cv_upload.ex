@@ -96,13 +96,15 @@ defmodule PearlWeb.Components.CVUpload do
           {:ok, user} ->
             {:noreply,
              socket
-             |> put_flash(:info, "CV carregado com sucesso.")
+             |> put_flash(:success, gettext("CV carregado com sucesso."))
              |> assign(current_user: Map.put(socket.assigns.current_user, :cv, user.cv))
              |> push_patch(to: socket.assigns.patch)}
 
           {:error, reason} ->
             {:noreply,
-             socket |> put_flash(:error, reason) |> push_patch(to: socket.assigns.patch)}
+             socket
+             |> put_flash(:error, Gettext.gettext(PearlWeb.Gettext, reason))
+             |> push_patch(to: socket.assigns.patch)}
         end
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -124,15 +126,15 @@ defmodule PearlWeb.Components.CVUpload do
           {:ok, user}
 
         {:error, _changeset} ->
-          {:error, "Ocorreu um erro ao atualizar o utilizador."}
+          {:error, gettext("Ocorreu um erro ao atualizar o utilizador.")}
       end
     end)
     |> case do
       [] ->
-        {:error, "Selecione um ficheiro para carregar."}
+        {:error, gettext("Seleciona um ficheiro para fazer upload.")}
 
       [error: _message] ->
-        {:error, "Ocorreu um erro ao carregar o ficheiro."}
+        {:error, gettext("Ocorreu um erro ao fazer upload do ficheiro.")}
 
       [user] ->
         {:ok, user}

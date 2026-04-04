@@ -213,7 +213,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
 
       {:noreply,
        socket
-       |> put_flash(:info, "Wheel configuration changed successfully")
+       |> put_flash(:success, gettext("Configuração da Wheel alterada com sucesso"))
        |> push_patch(to: socket.assigns.patch)}
     else
       {:noreply, socket}

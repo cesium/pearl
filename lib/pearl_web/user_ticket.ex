@@ -3,6 +3,7 @@ defmodule PearlWeb.UserTicket do
   Plugs for handling user ticket restrictions.
   """
   use PearlWeb, :verified_routes
+  use Gettext, backend: PearlWeb.Gettext
 
   import Plug.Conn
   import Phoenix.Controller
@@ -62,7 +63,7 @@ defmodule PearlWeb.UserTicket do
       conn
     else
       conn
-      |> put_flash(:error, "Ainda não efetuaste o pagamento.")
+      |> put_flash(:error, gettext("Ainda não efetuaste o pagamento."))
       |> redirect(to: ~p"/checkout/payment/#{payment.order_id}")
       |> halt()
     end
@@ -70,7 +71,7 @@ defmodule PearlWeb.UserTicket do
 
   defp redirect_no_ticket(conn) do
     conn
-    |> put_flash(:error, "Ainda não tens um bilhete")
+    |> put_flash(:error, gettext("Ainda não tens um bilhete"))
     |> redirect(to: ~p"/tickets")
     |> halt()
   end
@@ -146,7 +147,7 @@ defmodule PearlWeb.UserTicket do
 
     if user && user.type == :staff do
       conn
-      |> put_flash(:error, "Como staff, não tens acesso aos bilhetes")
+      |> put_flash(:error, gettext("Como staff, não tens acesso aos bilhetes"))
       |> redirect(to: ~p"/app")
       |> halt()
     else
@@ -205,7 +206,7 @@ defmodule PearlWeb.UserTicket do
           if ticket.paid do
             socket =
               socket
-              |> Phoenix.LiveView.put_flash(:error, "Já tens um bilhete.")
+              |> Phoenix.LiveView.put_flash(:error, gettext("Já tens um bilhete."))
               |> Phoenix.LiveView.redirect(to: ~p"/app")
 
             {:halt, socket}

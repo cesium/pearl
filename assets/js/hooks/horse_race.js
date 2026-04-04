@@ -1,10 +1,13 @@
 export const HorseRace = {
   mounted() {
     this.isPaused = false;
+    this.frozenCountdown = null;
+    this.justFinished = false;
 
     this.handleEvent("start_race", () => {
       this.clearWinner();
       this.isPaused = false;
+      this.frozenCountdown = null;
       this.pauseHorseAnimations(false);
       this.showCountdown();
     });
@@ -12,18 +15,37 @@ export const HorseRace = {
     this.handleEvent("stop_race", () => {
       this.isPaused = true;
       this.pauseHorseAnimations(true);
+      // Freeze/stop any active pre-race countdown (3..2..1..GO)
+      const countdownEl = document.getElementById("race-countdown");
+      if (countdownEl) {
+        this.frozenCountdown = countdownEl.textContent;
+      }
+      if (this.countdownInterval) {
+        clearInterval(this.countdownInterval);
+        this.countdownInterval = null;
+      }
       // Freeze the timer visually
+      // Prefer the id selector (used in templates), fall back to class for compatibility
       const timerElement =
-        this.el.querySelector(".race-timer") ||
-        document.querySelector(".race-timer");
+        this.el.querySelector("#race-timer, .race-timer") ||
+        document.querySelector("#race-timer, .race-timer");
       if (timerElement) {
         this.frozenTime = timerElement.textContent;
+      }
+      // If the stop was triggered by a finish, don't reset visuals — keep winner shown.
+      if (!this.justFinished) {
+        // Reset horses visuals to their initial sprites/positions when manually stopped
+        this.initializeHorses();
+        this.applyHorseVariants();
+        this.setHorsesState("rest");
+        this.clearWinner();
       }
     });
 
     this.handleEvent("reset_race", () => {
       this.isPaused = false;
       this.frozenTime = null;
+      this.frozenCountdown = null;
       this.clearWinner();
       this.initializeHorses();
       this.pauseHorseAnimations(false);
@@ -40,6 +62,23 @@ export const HorseRace = {
       this.isPaused = true; // Stop running when there's a winner
       this.setHorsesState("rest");
       this.applyWinner(winner);
+      // Ensure visuals show horses at the finish line
+      try {
+        let count = 0;
+        if (this.el.dataset.horses) {
+          const parsed = JSON.parse(this.el.dataset.horses);
+          count = parsed.length;
+        } else {
+          count = this.el.querySelectorAll(".horse-marker").length;
+        }
+        if (count > 0) {
+          const finishPositions = Array(count).fill(100);
+          this.updateHorseVisuals(finishPositions);
+        }
+      } catch (e) {
+        console.error("Failed to set finish visuals", e);
+      }
+      this.justFinished = true;
     });
 
     this.initializeHorses();
@@ -50,11 +89,16 @@ export const HorseRace = {
     if (this.isPaused) {
       if (this.frozenTime) {
         const timerElement =
-          this.el.querySelector(".race-timer") ||
-          document.querySelector(".race-timer");
+          this.el.querySelector("#race-timer, .race-timer") ||
+          document.querySelector("#race-timer, .race-timer");
         if (timerElement) {
           timerElement.textContent = this.frozenTime;
         }
+      }
+      // Preserve frozen pre-race countdown if present
+      if (this.frozenCountdown) {
+        const countdownEl = document.getElementById("race-countdown");
+        if (countdownEl) countdownEl.textContent = this.frozenCountdown;
       }
       return; // Skip visual updates if paused
     }
@@ -85,8 +129,8 @@ export const HorseRace = {
     if (timeRemainingStr) {
       const timeRemainingMs = parseInt(timeRemainingStr, 10);
       const timerElement =
-        this.el.querySelector(".race-timer") ||
-        document.querySelector(".race-timer");
+        this.el.querySelector("#race-timer, .race-timer") ||
+        document.querySelector("#race-timer, .race-timer");
 
       if (timerElement && !isNaN(timeRemainingMs)) {
         // Convert to seconds, ensure it doesn't go below 0

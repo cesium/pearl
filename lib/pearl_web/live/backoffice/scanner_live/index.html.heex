@@ -1,33 +1,5 @@
 <div class="-translate-y-4 sm:translate-y-0">
-  <.tabs class="sm:hidden mb-4">
-    <.tab active class="gap-2">
-      <.icon name="hero-check-badge" />
-      {gettext("Badges")}
-    </.tab>
-    <.ensure_permissions
-      user={@current_user}
-      permissions={%{"attendees" => ["show"]}}
-    >
-      <.link patch={~p"/dashboard/scanner/tickets"} class="w-full">
-        <.tab class="gap-2">
-          <.icon name="hero-ticket" />
-          {gettext("Tickets")}
-        </.tab>
-      </.link>
-    </.ensure_permissions>
-    <.link patch={~p"/dashboard/scanner/redeems"} class="w-full">
-      <.tab class="gap-2">
-        <.icon name="hero-gift" />
-        {gettext("Redeems")}
-      </.tab>
-    </.link>
-    <.link patch={~p"/dashboard/scanner/meals"} class="w-full">
-      <.tab class="gap-2">
-        <.icon name="hero-cake" />
-        {gettext("Meals")}
-      </.tab>
-    </.link>
-  </.tabs>
+  <.scanner_tabs active={:badges} current_user={@current_user} />
   <.page title={gettext("Give Badge")}>
     <:actions>
       <div class="flex flex-row gap-4 justify-center items-center">

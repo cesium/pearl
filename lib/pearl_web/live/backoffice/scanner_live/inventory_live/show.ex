@@ -3,33 +3,14 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Show do
 
   alias Pearl.{Accounts, Inventory}
 
-  import PearlWeb.Components.{Tabs, Modal}
+  import PearlWeb.Components.{ScannerTabs, Modal}
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
       <div class="-translate-y-4 sm:translate-y-0">
-        <.tabs class="sm:hidden mb-4">
-          <.link patch={~p"/dashboard/scanner"} class="w-full">
-            <.tab class="gap-2">
-              <.icon name="hero-check-badge" />
-              {gettext("Badges")}
-            </.tab>
-          </.link>
-          <.link patch={~p"/dashboard/scanner/redeems"} class="w-full">
-            <.tab active class="gap-2">
-              <.icon name="hero-gift" />
-              {gettext("Redeems")}
-            </.tab>
-          </.link>
-          <.link patch={~p"/dashboard/scanner/meals"} class="w-full">
-            <.tab class="gap-2">
-              <.icon name="hero-cake" />
-              {gettext("Meals")}
-            </.tab>
-          </.link>
-        </.tabs>
+        <.scanner_tabs active={:redeems} current_user={@current_user} />
         <.page title={"#{@user.name}'s inventory"}>
           <:actions>
             <.link patch={~p"/dashboard/scanner/redeems"}>

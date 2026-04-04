@@ -3,11 +3,8 @@ defmodule Pearl.Tickets.Perk do
   Perks for Ticket Types.
   """
 
-  use Ecto.Schema
-  import Ecto.Changeset
+  use Pearl.Schema
 
-  @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
   @required_fields ~w(name description icon color active priority)a
 
   @derive {Flop.Schema, sortable: [:priority], filterable: []}

@@ -3,33 +3,14 @@ defmodule PearlWeb.Backoffice.ScannerLive.MealsLive.Show do
 
   alias Pearl.{Accounts, Tickets}
 
-  import PearlWeb.Components.{Tabs, Modal}
+  import PearlWeb.Components.{ScannerTabs, Modal}
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
       <div class="-translate-y-4 sm:translate-y-0">
-        <.tabs class="sm:hidden mb-4">
-          <.link patch={~p"/dashboard/scanner"} class="w-full">
-            <.tab class="gap-2">
-              <.icon name="hero-check-badge" />
-              {gettext("Badges")}
-            </.tab>
-          </.link>
-          <.link patch={~p"/dashboard/scanner/redeems"} class="w-full">
-            <.tab class="gap-2">
-              <.icon name="hero-gift" />
-              {gettext("Redeems")}
-            </.tab>
-          </.link>
-          <.link patch={~p"/dashboard/scanner/meals"} class="w-full">
-            <.tab active class="gap-2">
-              <.icon name="hero-cake" />
-              {gettext("Meals")}
-            </.tab>
-          </.link>
-        </.tabs>
+        <.scanner_tabs active={:meals} current_user={@current_user} />
         <.page title={"#{@user.name}'s Meals"}>
           <:actions>
             <.link patch={~p"/dashboard/scanner/meals"}>
@@ -63,7 +44,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.MealsLive.Show do
                       <%= if consumed = get_consumption(@consumptions, meal.id) do %>
                         <p class="flex flex-row items-center text-green-500">
                           <.icon name="hero-check" class="w-5 h-5 mr-1" />
-                          {gettext("Consumed at %{time}",
+                          {gettext("Consumed %{time}",
                             time: relative_datetime(consumed.inserted_at)
                           )}
                         </p>

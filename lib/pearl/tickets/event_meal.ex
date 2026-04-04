@@ -5,9 +5,6 @@ defmodule Pearl.Tickets.EventMeal do
 
   use Pearl.Schema
 
-  @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
-
   @derive {Flop.Schema, sortable: [:date, :meal_type], filterable: [:date, :meal_type]}
 
   schema "event_meals" do

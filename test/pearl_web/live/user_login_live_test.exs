@@ -45,7 +45,7 @@ defmodule PearlWeb.UserLoginLiveTest do
 
       conn = submit_form(form, conn)
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Invalid email or password"
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Email ou palavra-passe inválidos."
 
       assert redirected_to(conn) == "/users/log_in"
     end

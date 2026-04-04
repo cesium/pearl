@@ -4,6 +4,17 @@
       <.icon name="hero-check-badge" />
       {gettext("Badges")}
     </.tab>
+    <.ensure_permissions
+      user={@current_user}
+      permissions={%{"attendees" => ["show"]}}
+    >
+      <.link patch={~p"/dashboard/scanner/tickets"} class="w-full">
+        <.tab class="gap-2">
+          <.icon name="hero-ticket" />
+          {gettext("Tickets")}
+        </.tab>
+      </.link>
+    </.ensure_permissions>
     <.link patch={~p"/dashboard/scanner/redeems"} class="w-full">
       <.tab class="gap-2">
         <.icon name="hero-gift" />
@@ -20,6 +31,18 @@
   <.page title={gettext("Give Badge")}>
     <:actions>
       <div class="flex flex-row gap-4 justify-center items-center">
+        <.ensure_permissions
+          user={@current_user}
+          permissions={%{"attendees" => ["show"]}}
+        >
+          <.link patch={~p"/dashboard/scanner/tickets"} class="hidden sm:block w-full">
+            <.backoffice_button class="flex gap-2">
+              <.icon name="hero-ticket" />
+              {gettext("Tickets")}
+            </.backoffice_button>
+          </.link>
+        </.ensure_permissions>
+
         <.link patch={~p"/dashboard/scanner/redeems"} class="hidden sm:block w-full">
           <.backoffice_button class="flex gap-2">
             <.icon name="hero-gift" />

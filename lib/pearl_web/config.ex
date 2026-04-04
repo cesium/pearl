@@ -79,7 +79,7 @@ defmodule PearlWeb.Config do
         %{
           key: :games,
           title: "Minigames",
-          image: "/images/icons/play.svg",
+          image: "/images/icons/games.svg",
           url: "/app/games",
           enabled: attendee_eligible?
         },

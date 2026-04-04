@@ -7,6 +7,7 @@ defmodule Pearl.Activities do
 
   alias Pearl.Accounts.{Attendee, User}
   alias Pearl.Activities.{Activity, ActivityCategory, CalendarPicture, Enrolment, Speaker}
+  alias Pearl.TicketTypes
 
   @doc """
   Returns the list of activities.
@@ -593,6 +594,105 @@ defmodule Pearl.Activities do
     Enrolment.changeset(enrolment, attrs)
   end
 
+  alias Pearl.Activities.ActivityTicket
+
+  @doc """
+  Returns the list of activity_tickets.
+
+  ## Examples
+
+      iex> list_activity_tickets()
+      [%ActivityTicket{}, ...]
+
+  """
+  def list_activity_tickets do
+    Repo.all(ActivityTicket)
+  end
+
+  @doc """
+  Gets a single activity_ticket.
+
+  Raises `Ecto.NoResultsError` if the Activity ticket does not exist.
+
+  ## Examples
+
+      iex> get_activity_ticket!(123)
+      %ActivityTicket{}
+
+      iex> get_activity_ticket!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_activity_ticket!(id) do
+    ActivityTicket
+    |> preload([:user, :ticket_type])
+    |> Repo.get!(id)
+  end
+
+  @doc """
+  Gets an unpaid activity_ticket for a user and ticket_type.
+  Optionally filter by paid status (default: false).
+  """
+  def get_activity_ticket_by_user_and_type(user_id, ticket_type_id, opts \\ [paid: false]) do
+    paid = Keyword.get(opts, :paid, false)
+
+    ActivityTicket
+    |> where(
+      [at],
+      at.user_id == ^user_id and at.ticket_type_id == ^ticket_type_id and at.paid == ^paid
+    )
+    |> preload([:user, :ticket_type])
+    |> Repo.one()
+  end
+
+  @doc """
+  Gets the list of activity tickets of an user.
+  """
+  def get_user_activity_tickets(nil), do: []
+
+  def get_user_activity_tickets(user_id) do
+    ActivityTicket
+    |> where([at], at.user_id == ^user_id and at.paid == true)
+    |> preload(:ticket_type)
+    |> Repo.all()
+  end
+
+  def mark_activity_ticket_as_paid(%ActivityTicket{} = activity_ticket) do
+    update_activity_ticket(activity_ticket, %{paid: true})
+  end
+
+  @doc """
+  Creates a activity_ticket.
+
+  ## Examples
+
+      iex> create_activity_ticket(%{field: value})
+      {:ok, %ActivityTicket{}}
+
+      iex> create_activity_ticket(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_activity_ticket(attrs \\ %{}) do
+    active_ticket_types = TicketTypes.list_active_ticket_types()
+    current_ticket_type = attrs["ticket_type_id"] || attrs[:ticket_type_id]
+
+    case Enum.find(active_ticket_types, fn tt -> tt.id == current_ticket_type end) do
+      nil ->
+        changeset =
+          %ActivityTicket{}
+          |> ActivityTicket.changeset(attrs)
+          |> Ecto.Changeset.add_error(:ticket_type_id, "is not active")
+
+        {:error, changeset}
+
+      _ ->
+        %ActivityTicket{}
+        |> ActivityTicket.changeset(attrs)
+        |> Repo.insert()
+    end
+  end
+
   @doc """
   Returns the list of calendar_pictures.
 
@@ -651,8 +751,24 @@ defmodule Pearl.Activities do
   end
 
   @doc """
-  Updates a calendar_picture.
+  Updates a activity_ticket.
 
+  ## Examples
+
+      iex> update_activity_ticket(activity_ticket, %{field: new_value})
+      {:ok, %ActivityTicket{}}
+
+      iex> update_activity_ticket(activity_ticket, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_activity_ticket(%ActivityTicket{} = activity_ticket, attrs) do
+    activity_ticket
+    |> ActivityTicket.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   ## Examples
 
       iex> update_calendar_picture(calendar_picture, %{field: new_value})
@@ -672,6 +788,35 @@ defmodule Pearl.Activities do
     calendar_picture
     |> CalendarPicture.image_changeset(attrs)
     |> Repo.update()
+  end
+
+  @doc """
+  Deletes a activity_ticket.
+
+  ## Examples
+
+      iex> delete_activity_ticket(activity_ticket)
+      {:ok, %ActivityTicket{}}
+
+      iex> delete_activity_ticket(activity_ticket)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_activity_ticket(%ActivityTicket{} = activity_ticket) do
+    Repo.delete(activity_ticket)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking activity_ticket changes.
+
+  ## Examples
+
+      iex> change_activity_ticket(activity_ticket)
+      %Ecto.Changeset{data: %ActivityTicket{}}
+
+  """
+  def change_activity_ticket(%ActivityTicket{} = activity_ticket, attrs \\ %{}) do
+    ActivityTicket.changeset(activity_ticket, attrs)
   end
 
   @doc """

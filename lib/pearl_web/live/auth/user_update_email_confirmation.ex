@@ -12,10 +12,14 @@ defmodule PearlWeb.UserUpdateEmailConfirmation do
     socket =
       case Accounts.update_user_email(user, token) do
         :ok ->
-          put_flash(socket, :info, "Email changed successfully.")
+          put_flash(socket, :success, gettext("Email alterado com sucesso."))
 
         :error ->
-          put_flash(socket, :error, "Email change link is invalid or it has expired.")
+          put_flash(
+            socket,
+            :error,
+            gettext("O link de alteração de email é inválido ou expirou.")
+          )
       end
 
     redirect_path = get_redirect_path(user)

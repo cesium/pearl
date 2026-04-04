@@ -101,13 +101,13 @@ defmodule PearlWeb.Backoffice.EventLive.FormComponent do
            Event.change_feature_flags(flags) do
       {:noreply,
        socket
-       |> put_flash(:info, "Event settings updated successfully")
+       |> put_flash(:success, gettext("Definições do evento atualizadas com sucesso"))
        |> push_navigate(to: socket.assigns.navigate)}
     else
       {:error, _reason} ->
         {:noreply,
          socket
-         |> put_flash(:error, "Failed to save event settings")}
+         |> put_flash(:error, gettext("Falha ao guardar as definições do evento"))}
     end
   end
 

@@ -153,13 +153,13 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Show do
         {:noreply,
          socket
          |> assign(:selected_item, nil)
-         |> put_flash(:info, "Item has been successfully delivered.")
+         |> put_flash(:success, gettext("Item entregue com sucesso."))
          |> stream_insert(:items, item)}
 
       {:error, _reason} ->
         {:noreply,
          socket
-         |> put_flash(:error, "An error occurred while delivering the item.")
+         |> put_flash(:error, gettext("Ocorreu um erro ao entregar o item."))
          |> assign(:selected_item, nil)}
     end
   end

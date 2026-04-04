@@ -10,7 +10,7 @@ defmodule PearlWeb.App.WheelLive.Components.Wheel do
     ~H"""
     <div class="m-auto mt-8 h-72 w-72 xs:h-80 xs:w-80 sm:h-96 sm:w-96">
       <div id="wheel-container" phx-hook="Wheel" class="relative h-full w-full">
-        <div class="ring-white ring-8 h-full w-full rounded-full">
+        <div class="ring-light/10 ring-8 h-full w-full rounded-full">
           <div
             id="wheel"
             class="h-full w-full rounded-full drop-shadow-[0_0px_10px_rgba(0,0,0,0.7)]"
@@ -18,7 +18,7 @@ defmodule PearlWeb.App.WheelLive.Components.Wheel do
           >
             <%= for i <- 0..@slices do %>
               <div
-                class="absolute top-[50%] left-[50%] h-px w-[50%] rotate-10 bg-white"
+                class="absolute top-[50%] left-[50%] h-0.5 w-[50%] rotate-10 bg-dark/60"
                 style={"transform: rotate(" <> to_string(i * (360/@slices)) <> "deg); transform-origin: 0% 50%;"}
               >
               </div>

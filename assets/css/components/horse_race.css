@@ -62,9 +62,6 @@
 .horse-variant-grey.horse-rest {
     background-image: url("/images/icons/horse6_grey_rest.png");
 }
-.horse-variant-black.horse-rest {
-    background-image: url("/images/icons/horse1_black_rest.png");
-}
 
 /* Horse Variants - Run */
 .horse-variant-gold.horse-run {
@@ -74,9 +71,6 @@
     background-image: url("/images/icons/strip_golden_brown.png");
 }
 .horse-variant-grey.horse-run {
-    background-image: url("/images/icons/strip_black.png");
-}
-.horse-variant-black.horse-run {
     background-image: url("/images/icons/strip_black.png");
 }
 
@@ -247,11 +241,14 @@
 
 /* Scale animation for winner horse */
 @keyframes winner-glow {
-    0%, 100% {
-        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1)) brightness(1.5) saturate(1.5);
+    0%,
+    100% {
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1)) brightness(1.5)
+            saturate(1.5);
     }
     50% {
-        filter: drop-shadow(0 0 35px rgba(255, 215, 0, 1)) brightness(2) saturate(2);
+        filter: drop-shadow(0 0 35px rgba(255, 215, 0, 1)) brightness(2)
+            saturate(2);
     }
 }
 
@@ -307,7 +304,8 @@ button:not(:disabled):active {
 }
 
 @keyframes banner-text-pulse {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(1);
         text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
     }
@@ -321,4 +319,3 @@ button:not(:disabled):active {
     display: inline-block;
     animation: banner-text-pulse 1.5s ease-in-out infinite;
 }
-

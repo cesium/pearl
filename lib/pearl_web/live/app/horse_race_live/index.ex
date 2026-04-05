@@ -245,11 +245,10 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
   end
 
   defp horse_variant_class(horse_number) do
-    case rem(horse_number - 1, 4) do
+    case rem(horse_number - 1, 3) do
       0 -> "horse-variant-gold"
       1 -> "horse-variant-brown"
       2 -> "horse-variant-grey"
-      3 -> "horse-variant-black"
     end
   end
 

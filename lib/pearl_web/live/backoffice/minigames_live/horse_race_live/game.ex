@@ -300,12 +300,10 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
   end
 
   defp horse_variant_class(index) do
-    case rem(index, 5) do
+    case rem(index, 3) do
       0 -> "horse-variant-gold"
       1 -> "horse-variant-brown"
-      2 -> "horse-variant-brown"
-      3 -> "horse-variant-grey"
-      _ -> "horse-variant-gold"
+      2 -> "horse-variant-grey"
     end
   end
 

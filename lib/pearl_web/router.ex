@@ -5,9 +5,11 @@ defmodule PearlWeb.Router do
   import PearlWeb.UserTicket
   import PearlWeb.UserRoles
   import PearlWeb.EventRoles
+  import PearlWeb.Themes
 
   pipeline :browser do
     plug :accepts, ["html"]
+    plug :put_theme_color
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, html: {PearlWeb.Layouts, :root}

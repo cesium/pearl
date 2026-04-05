@@ -26,7 +26,7 @@
           </div>
         </div>
 
-        <h3 class="font-grotesk text-sm font-semibold tracking-widest text-lightMuted uppercase mb-3">
+        <h3 class="font-grotesk text-sm font-semibold tracking-widest text-white uppercase mb-3">
           <%= if @race_result.winnings > 0 do %>
             {gettext("Parabéns, Acertaste!")}
           <% else %>
@@ -34,10 +34,10 @@
           <% end %>
         </h3>
 
-        <p class="font-grotesk text-4xl md:text-5xl font-bold text-light mb-6 drop-shadow-md leading-tight">
+        <p class="font-grotesk text-4xl md:text-5xl font-bold text-white mb-6 drop-shadow-md leading-tight">
           <%= if @race_result.winnings > 0 do %>
             {gettext("Ganhaste")}
-            <span class="text-accent block mt-2">
+            <span class="block mt-2">
               {format_tokens(@race_result.winnings)} tokens!
             </span>
           <% else %>
@@ -45,7 +45,7 @@
             <span class="text-red-500/90 block mt-2">
               {format_tokens(@race_result.losses)} tokens!
             </span>
-            <span class="text-lightMuted block mt-2 text-2xl">{gettext("desta vez...")}</span>
+            <span class="text-gray-300 block mt-2 text-2xl">{gettext("desta vez...")}</span>
           <% end %>
         </p>
 
@@ -185,14 +185,32 @@
                 ]}>
                   {format_tokens(bet.bet_amount)}
                 </p>
+                <% bet_amount_float = format_tokens(bet.bet_amount) %>
                 <p class={[
                   "text-xl font-bold text-primary",
                   if(length(@active_bets) == 1, do: "", else: "mt-3")
                 ]}>
-                  {(format_tokens(bet.bet_amount) * @multiplier) |> format_tokens()}
+                  {format_tokens(bet_amount_float * @multiplier)}
                 </p>
               </div>
             <% end %>
+          </div>
+          <% total_active_bets =
+            @active_bets
+            |> Enum.map(& &1.bet_amount)
+            |> Enum.reduce(Decimal.new(0), &Decimal.add/2) %>
+          <% total_active_bets_float = format_tokens(total_active_bets) %>
+          <div class="flex border-2 divide-x-2 w-full md:w-auto md:flex-col md:divide-x-0 md:divide-y-2 p-4 mt-6">
+            <div class="px-4 py-2 flex-1">
+              <p class="text-sm text-gray-400">{gettext("Total apostado")}</p>
+              <p class="text-2xl font-bold text-white">{total_active_bets_float}</p>
+            </div>
+            <div class="px-4 py-2 flex-1">
+              <p class="text-sm text-gray-400">{gettext("Retorno potencial")}</p>
+              <p class="text-2xl font-bold text-primary">
+                {format_tokens(total_active_bets_float * @multiplier)}x
+              </p>
+            </div>
           </div>
           <p class="text-center text-sm text-gray-400 mt-6">
             {gettext("À espera do fim da corrida...")}

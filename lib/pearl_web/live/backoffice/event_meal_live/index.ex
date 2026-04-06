@@ -12,6 +12,7 @@ defmodule PearlWeb.Backoffice.EventMealLive.Index do
   def mount(_params, _session, socket) do
     {:ok,
      socket
+     |> assign(:current_page, :meals)
      |> assign(:params, %{})
      |> assign(:meta, %Flop.Meta{})}
   end
@@ -90,17 +91,23 @@ defmodule PearlWeb.Backoffice.EventMealLive.Index do
           <:col :let={{_id, event_meal}} label="Type">{event_meal.meal_type}</:col>
           <:col :let={{_id, event_meal}} label="Description">{event_meal.description}</:col>
           <:action :let={{id, event_meal}}>
-            <div class="flex flex-row gap-2">
-              <.link patch={~p"/dashboard/meals/#{event_meal}/edit"}>
-                <.icon name="hero-pencil" class="w-5 h-5" />
-              </.link>
-              <.link
-                phx-click={JS.push("delete", value: %{id: event_meal.id}) |> hide("##{id}")}
-                data-confirm="Are you sure?"
-              >
-                <.icon name="hero-trash" class="w-5 h-5" />
-              </.link>
-            </div>
+            <.ensure_permissions
+              :if={@current_user}
+              user={@current_user}
+              permissions={%{"meals" => ["edit"]}}
+            >
+              <div class="flex flex-row gap-2">
+                <.link patch={~p"/dashboard/meals/#{event_meal}/edit"}>
+                  <.icon name="hero-pencil" class="w-5 h-5" />
+                </.link>
+                <.link
+                  phx-click={JS.push("delete", value: %{id: event_meal.id}) |> hide("##{id}")}
+                  data-confirm="Are you sure?"
+                >
+                  <.icon name="hero-trash" class="w-5 h-5" />
+                </.link>
+              </div>
+            </.ensure_permissions>
           </:action>
         </.table>
       </div>

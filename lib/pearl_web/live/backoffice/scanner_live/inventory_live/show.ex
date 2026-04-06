@@ -27,7 +27,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Show do
               class={"flex flex-row justify-between #{if item.redeemed_at do "opacity-50" end}"}
             >
               <div class="flex flex-row w-full">
-                <figure class="w-32 h-32 bg-dark/5 dark:bg-light/5 rounded-xl flex-shrink-0">
+                <figure class="w-32 h-32 bg-dark/5 dark:bg-light/5 rounded-xl shrink-0">
                   <%= if get_item_image(item.type, get_item_data(item)) do %>
                     <img class="w-full p-4" src={get_item_image(item.type, get_item_data(item))} />
                   <% end %>

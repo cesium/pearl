@@ -65,7 +65,10 @@ defmodule PearlWeb.Backoffice.EventMealLive.Index do
     <.page title={@page_title}>
       <:actions>
         <div class="flex flex-row gap-4 justify-center items-center">
-          <.ensure_permissions scope="meals" action="edit">
+          <.ensure_permissions
+            user={@current_user}
+            permissions={%{"meals" => ["edit"]}}
+          >
             <.link patch={~p"/dashboard/meals/new"}>
               <.backoffice_button>New Event Meal</.backoffice_button>
             </.link>

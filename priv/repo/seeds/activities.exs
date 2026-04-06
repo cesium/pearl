@@ -147,7 +147,7 @@ defp seed_rally_de_tascas_activity do
       type: :gameshow,
       date: friday,
       category_id: gameshow_category.id,
-      has_enrolments: false,
+      has_enrolments: true,
       max_enrolments: 30,
       description: "O mítico Rally de Tascas!"
     }
@@ -182,8 +182,8 @@ end
         activity
         |> Map.put(:date, next_first_tuesday_of_february())
         |> Map.put(:category_id, Map.get(categories, type).id)
-        |> Map.put(:has_enrolments, true)
-        |> Map.put(:max_enrolments, 30)
+        |> Map.put(:has_enrolments, is_workshop)
+        |> Map.put(:max_enrolments,  if(is_workshop, do: 30, else: 0))
         |> Map.put(:title, Map.get(activity, :title) || Faker.Company.bs() |> String.capitalize())
         |> Map.put(:description, Faker.Lorem.paragraph())
         |> Map.put(:location, Map.get(activity, :location) || "CP2 - B1"))

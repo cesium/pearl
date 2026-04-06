@@ -89,10 +89,11 @@ defmodule PearlWeb.App.HorseRaceLive.Components.ResultModal do
   defp format_tokens(value), do: value
 
   defp horse_variant_class(horse_number) do
-    case rem(horse_number - 1, 3) do
+    case rem(horse_number - 1, 4) do
       0 -> "horse-variant-gold"
       1 -> "horse-variant-brown"
       2 -> "horse-variant-grey"
+      3 -> "horse-variant-black"
     end
   end
 end

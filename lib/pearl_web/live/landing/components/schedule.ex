@@ -158,6 +158,15 @@ defmodule PearlWeb.Landing.Components.Schedule do
         close_button_button_class="-m-3 flex-none p-3 text-dark/85 hover:opacity-70"
         close_button_icon_class="size-8"
       >
+        <% activity_ticket_type = activity_ticket_type(@selected_activity)
+        is_paid_activity = not is_nil(activity_ticket_type)
+        can_enrol = can_enrol?(@selected_activity, @user_role, @enrolments)
+        is_enrolled = already_enrolled?(@selected_activity, @enrolments)
+
+        is_full =
+          @selected_activity.has_enrolments and
+            @selected_activity.enrolment_count >= @selected_activity.max_enrolments %>
+
         <div class="flex flex-col gap-2 pt-8 w-full">
           <span class="text-2xl md:text-4xl font-bold text-dark pr-10">
             Informações
@@ -239,6 +248,58 @@ defmodule PearlWeb.Landing.Components.Schedule do
             <div class="text-dark/75 w-full leading-relaxed">
               {@selected_activity.description || gettext("Sem descrição disponível.")}
             </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-light-muted/60">
+            <%= if is_enrolled do %>
+              <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-green-100 text-green-700 font-bold text-sm">
+                <.icon name="hero-check-circle" class="size-5" />
+                {gettext("Inscrito")}
+              </div>
+            <% else %>
+              <%= cond do %>
+                <% is_paid_activity && activity_ticket_type && can_enrol && not is_full -> %>
+                  <.primary_button
+                    title={gettext("comprar")}
+                    icon="hero-arrow-right"
+                    type="button"
+                    phx-click="select_ticket"
+                    phx-target={@myself}
+                    phx-value-ticket_type_id={activity_ticket_type.id}
+                    phx-value-type="activity"
+                    class="text-sm font-bold"
+                    disabled={is_nil(@current_user)}
+                  />
+                <% @selected_activity.link -> %>
+                  <a
+                    href={@selected_activity.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 px-4 py-2.5 bg-background-muted text-primary hover:bg-background-muted/80 text-sm font-bold"
+                  >
+                    <.icon name="hero-arrow-up-right" class="w-4 h-4 shrink-0" />
+                    <span>{gettext("inscrever")}</span>
+                  </a>
+                <% can_enrol -> %>
+                  <.primary_button
+                    title={gettext("inscrever")}
+                    icon="hero-plus"
+                    phx-click="enrol"
+                    phx-value-activity_id={@selected_activity.id}
+                    phx-target={@myself}
+                    data-confirm={gettext("Tem certeza de que te queres inscrever?")}
+                    class="text-sm font-bold"
+                    disabled={is_nil(@current_user)}
+                  />
+                <% true -> %>
+              <% end %>
+
+              <%= if is_full and not can_enrol and is_nil(@selected_activity.link) do %>
+                <span class="inline-flex px-5 py-2.5 bg-gray-100 text-gray-400 font-bold text-sm">
+                  {gettext("esgotado")}
+                </span>
+              <% end %>
+            <% end %>
           </div>
         </div>
       </.modal>
@@ -609,12 +670,10 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
   defp render_activity_cell(assigns) do
     has_speakers = assigns.activity.speakers != []
+
     show_actions = assigns.variant in [:day, :calendar]
 
-    activity_ticket_types = TicketTypes.list_active_activity_ticket_types()
-
-    activity_ticket_type =
-      Enum.find(activity_ticket_types, fn tt -> tt.activity_id == assigns.activity.id end)
+    activity_ticket_type = activity_ticket_type(assigns.activity)
 
     is_paid_activity = not is_nil(activity_ticket_type)
 
@@ -678,13 +737,13 @@ defmodule PearlWeb.Landing.Components.Schedule do
             <%= if @is_enrolled do %>
               <div class="flex items-center gap-2 px-5 py-2.5 bg-green-100 text-green-700 font-bold text-sm">
                 <.icon name="hero-check-circle" class="size-5" />
-                {gettext("Inscrito")}
+                {gettext("inscrito")}
               </div>
             <% else %>
               <%= cond do %>
                 <% @is_paid_activity && @activity_ticket_type && @can_enrol && not @is_full -> %>
                   <.primary_button
-                    title={gettext("Comprar")}
+                    title={gettext("comprar")}
                     icon="hero-arrow-right"
                     type="button"
                     phx-click="select_ticket"
@@ -692,6 +751,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     phx-value-ticket_type_id={@activity_ticket_type.id}
                     phx-value-type="activity"
                     class="text-sm font-bold"
+                    disabled={is_nil(@current_user)}
                   />
                 <% @activity.link -> %>
                   <a
@@ -701,11 +761,11 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     class="flex items-center gap-2 px-4 py-2.5 bg-background-muted text-primary hover:bg-background-muted/80 text-sm font-bold"
                   >
                     <.icon name="hero-arrow-up-right" class="w-4 h-4 shrink-0" />
-                    <span>{gettext("Inscrever")}</span>
+                    <span>{gettext("inscrever")}</span>
                   </a>
                 <% @can_enrol -> %>
                   <.primary_button
-                    title={gettext("Inscrever")}
+                    title={gettext("inscrever")}
                     icon="hero-plus"
                     phx-click="enrol"
                     phx-value-activity_id={@activity.id}
@@ -719,7 +779,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
               <%= if @is_full and not @can_enrol and is_nil(@activity.link) do %>
                 <span class="px-5 py-2.5 bg-gray-100 text-gray-400 font-bold text-sm">
-                  {gettext("Esgotado")}
+                  {gettext("esgotado")}
                 </span>
               <% end %>
             <% end %>
@@ -728,6 +788,11 @@ defmodule PearlWeb.Landing.Components.Schedule do
       </div>
     </div>
     """
+  end
+
+  defp activity_ticket_type(activity) do
+    TicketTypes.list_active_activity_ticket_types()
+    |> Enum.find(fn tt -> tt.activity_id == activity.id end)
   end
 
   attr :activity, :map, required: true
@@ -776,27 +841,35 @@ defmodule PearlWeb.Landing.Components.Schedule do
   defp fetch_and_group_activities(day, filters) do
     Activities.list_daily_activities(day)
     |> Enum.filter(fn at -> filters == [] or at.category_id in filters end)
-    |> group_activities_by_start_time()
+    |> group_activities_in_blocks()
   end
 
-  defp group_activities_by_start_time(activities) do
-    Enum.reduce(activities, [], fn activity, acc ->
-      case acc do
-        [] ->
-          [[activity]]
+  def group_activities_in_blocks(activities) do
+    {standalone, regular} =
+      Enum.split_with(activities, fn a -> get_category_name(a) == "Break" end)
 
-        [[head | _tail] | _rest] = groups ->
-          case activity.time_start == head.time_start do
-            true -> prepend_to_first_group(activity, groups)
-            false -> [[activity] | groups]
+    standalone_blocks = Enum.map(standalone, fn a -> [a] end)
+
+    grouped =
+      regular
+      |> Enum.group_by(fn a -> {a.time_start, a.time_end} end)
+      |> Enum.sort_by(fn {{start, end_}, _} -> {start, end_} end)
+      |> Enum.map(fn {_key, group_acts} ->
+        Enum.sort_by(group_acts, fn act ->
+          case get_category_name(act) do
+            "Talk" -> 0
+            "Workshop" -> 1
+            _ -> 2
           end
-      end
-    end)
-    |> Enum.reverse()
-  end
+        end)
+      end)
 
-  defp prepend_to_first_group(activity, [[head | tail] | rest]) do
-    [[activity, head | tail] | rest]
+    (standalone_blocks ++ grouped)
+    |> Enum.sort_by(fn block ->
+      first = List.first(block)
+      is_break = get_category_name(first) == "Break"
+      {first.time_start, first.time_end, if(is_break, do: 0, else: 1)}
+    end)
   end
 
   defp can_enrol?(activity, user_role, enrolments) do

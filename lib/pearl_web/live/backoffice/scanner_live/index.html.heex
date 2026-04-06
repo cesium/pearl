@@ -21,12 +21,17 @@
             {gettext("Redeems")}
           </.backoffice_button>
         </.link>
-        <.link patch={~p"/dashboard/scanner/meals"} class="hidden sm:block w-full">
-          <.backoffice_button class="flex gap-2">
-            <.icon name="hero-cake" />
-            {gettext("Meals")}
-          </.backoffice_button>
-        </.link>
+        <.ensure_permissions
+          user={@current_user}
+          permissions={%{"attendees" => ["show"]}}
+        >
+          <.link patch={~p"/dashboard/scanner/meals"} class="hidden sm:block w-full">
+            <.backoffice_button class="flex gap-2">
+              <.icon name="hero-cake" />
+              {gettext("Meals")}
+            </.backoffice_button>
+          </.link>
+        </.ensure_permissions>
         <.table_search
           id="badge-table-name-search"
           params={@params}

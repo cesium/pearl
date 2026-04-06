@@ -39,11 +39,17 @@ defmodule PearlWeb.Components.ScannerTabs do
         </.tab>
       </.link>
 
-      <.link patch={~p"/dashboard/scanner/meals"} class="w-full">
-        <.tab class="gap-2" active={@active == :meals}>
-          <.icon name="fa-utensils-solid" />
-        </.tab>
-      </.link>
+      <.ensure_permissions
+        :if={@current_user}
+        user={@current_user}
+        permissions={%{"attendees" => ["show"]}}
+      >
+        <.link patch={~p"/dashboard/scanner/meals"} class="w-full">
+          <.tab class="gap-2" active={@active == :meals}>
+            <.icon name="fa-utensils-solid" />
+          </.tab>
+        </.link>
+      </.ensure_permissions>
     </.tabs>
     """
   end

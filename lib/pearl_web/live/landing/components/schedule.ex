@@ -694,7 +694,6 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     phx-value-type="activity"
                     class="text-sm font-bold"
                     disabled={is_nil(@current_user)}
-
                   />
                 <% @activity.link -> %>
                   <a

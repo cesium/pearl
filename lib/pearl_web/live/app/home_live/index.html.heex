@@ -7,6 +7,16 @@
   subtitle_class="text-light/60"
   child_class="px-0!"
 >
+  <:actions>
+    <.link
+      navigate={~p"/"}
+      class="lg:hidden inline-flex items-center gap-2 rounded-xl border border-light/10 bg-light/5 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-light/80 hover:border-primary/60 hover:text-primary transition-colors duration-300 backdrop-blur-lg"
+    >
+      <.icon name="fa-arrow-right-from-bracket-solid" class="size-4" />
+      {gettext("Sair da app")}
+    </.link>
+  </:actions>
+
   <div class="w-full  bg-app-dark-soft divide-x border-b border-light/5 divide-light/5 grid grid-cols-3 justify-items-center items-center">
     <div class="flex w-full items-center justify-center gap-4 py-3.5">
       <.icon name="fa-sack-dollar-solid" class="size-8 mt-1" />

@@ -1,7 +1,10 @@
 <.page title="Lockers" stack_header_on_mobile>
   <:actions>
     <div class="flex flex-row w-full gap-4">
-      <.ensure_permissions user={@current_user} permissions={%{"attendee_lockers" => ["edit"]}}>
+      <.ensure_permissions
+        user={@current_user}
+        permissions={%{"attendee_lockers" => ["config_lockers"]}}
+      >
         <.link patch={~p"/dashboard/attendee_lockers/config"}>
           <.backoffice_button>
             <.icon name="hero-cog-6-tooth" class="w-5 h-5" />

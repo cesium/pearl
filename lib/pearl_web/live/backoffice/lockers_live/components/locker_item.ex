@@ -6,9 +6,10 @@ defmodule PearlWeb.Backoffice.LockersLive.Components.LockerItem do
   use PearlWeb, :component
 
   alias Pearl.Uploaders.LockerItems
-  import PearlWeb.Components.Button
+  import PearlWeb.Components.{Button, EnsurePermissions}
 
   attr :item, :map, required: true
+  attr :current_user, :map, required: true
 
   def locker_item(assigns) do
     ~H"""
@@ -56,15 +57,17 @@ defmodule PearlWeb.Backoffice.LockersLive.Components.LockerItem do
             {format_timestamp(@item)}
           </p>
 
-          <.backoffice_button
-            :if={@item.stored}
-            phx-click="withdraw-locker-item"
-            phx-value-item={@item.id}
-            data-confirm={gettext("Are you sure you want to withdraw this item?")}
-            class="py-1! px-3! text-xs"
-          >
-            {gettext("Withdraw")}
-          </.backoffice_button>
+          <.ensure_permissions user={@current_user} permissions={%{"attendee_lockers" => ["edit"]}}>
+            <.backoffice_button
+              :if={@item.stored}
+              phx-click="withdraw-locker-item"
+              phx-value-item={@item.id}
+              data-confirm={gettext("Are you sure you want to withdraw this item?")}
+              class="py-1! px-3! text-xs"
+            >
+              {gettext("Withdraw")}
+            </.backoffice_button>
+          </.ensure_permissions>
         </div>
       </div>
     </div>

@@ -14,14 +14,12 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
     OpenLockerModal
   }
 
-  alias Pearl.Accounts
-
   on_mount {PearlWeb.StaffRoles,
             index: %{"attendee_lockers" => ["show"]},
             show: %{"attendee_lockers" => ["show"]},
             history: %{"attendee_lockers" => ["show"]},
-            open_locker: %{"attendee_lockers" => ["show"]},
-            new_item: %{"attendee_lockers" => ["show"]}}
+            open_locker: %{"attendee_lockers" => ["edit"]},
+            new_item: %{"attendee_lockers" => ["edit"]}}
 
   @impl true
   def mount(_params, _session, socket) do

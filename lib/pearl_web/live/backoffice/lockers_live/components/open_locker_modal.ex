@@ -5,10 +5,8 @@ defmodule PearlWeb.Backoffice.LockersLive.Components.OpenLockerModal do
 
   use PearlWeb, :component
 
-  import PearlWeb.Components.Button
-  import PearlWeb.Components.EnsurePermissions
-  import PearlWeb.Components.Modal
-  import PearlWeb.Components.Page
+  import PearlWeb.Components.{Button, EnsurePermissions, Modal, Page}
+  import PearlWeb.Backoffice.LockersLive.Components.LockerItem
 
   attr :live_action, :atom, required: true
   attr :locker, :map, required: true
@@ -57,9 +55,10 @@ defmodule PearlWeb.Backoffice.LockersLive.Components.OpenLockerModal do
           </.ensure_permissions>
         </:actions>
         <div class="mx-auto grid w-full max-w-5xl grid-cols-1 gap-4 md:grid-cols-3">
-          <PearlWeb.Backoffice.LockersLive.Components.LockerItem.locker_item
+          <.locker_item
             :for={item <- @locker_items}
             item={item}
+            current_user={@current_user}
           />
         </div>
 

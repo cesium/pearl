@@ -31,7 +31,7 @@ defmodule Pearl.Accounts.Roles.Permissions do
       "statistics" => ["show"],
       "mailer" => ["send"],
       "scanner" => ["show"],
-      "attendee_lockers" => ["show", "edit"]
+      "attendee_lockers" => ["show", "edit", "config_lockers"]
     }
   end
 

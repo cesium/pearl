@@ -4,7 +4,7 @@ defmodule Pearl.Lockers.Locker do
   """
 
   use Pearl.Schema
-  
+
   schema "lockers" do
     field :number, :integer
 

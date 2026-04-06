@@ -5,8 +5,7 @@ defmodule PearlWeb.Backoffice.LockersLive.Components.ScanModal do
 
   use PearlWeb, :component
 
-  import PearlWeb.Components.Button
-  import PearlWeb.Components.Modal
+  import PearlWeb.Components.{Button, Modal}
 
   attr :modal, :atom, required: true
 

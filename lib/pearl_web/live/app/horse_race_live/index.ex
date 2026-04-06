@@ -3,7 +3,6 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
 
   alias Pearl.Minigames
 
-  import PearlWeb.Components.Modal
   import PearlWeb.App.HorseRaceLive.Components.ResultModal
 
   @impl true

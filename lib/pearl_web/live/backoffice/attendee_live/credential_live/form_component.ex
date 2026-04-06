@@ -171,7 +171,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.CredentialLive.FormComponent do
       {:error, _} ->
         {:noreply,
          socket
-         |> put_flash(:error, "Not a vlaid credential! (400)")
+         |> put_flash(:error, "Not a valid credential! (400)")
          |> push_patch(to: ~p"/dashboard/attendees/#{socket.assigns.attendee.id}")}
     end
   end

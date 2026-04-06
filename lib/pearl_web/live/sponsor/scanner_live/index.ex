@@ -65,7 +65,7 @@ defmodule PearlWeb.Sponsor.ScannerLive.Index do
     if is_nil(badge_id) do
       {:ok,
        socket
-       |> put_flash(:error, "Company does not have badge")
+       |> put_flash(:error, gettext("A empresa não tem badge"))
        |> push_navigate(to: ~p"/sponsor")}
     else
       badge = Contest.get_badge!(badge_id)

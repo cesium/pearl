@@ -15,7 +15,7 @@ defmodule PearlWeb.App.WheelLive.Index do
     if socket.assigns.current_user.attendee.ineligible do
       {:ok,
        socket
-       |> put_flash(:error, "Can't play the wheel minigame with this account.")
+       |> put_flash(:error, gettext("Não podes jogar o minijogo da roleta com esta conta."))
        |> push_navigate(to: ~p"/app")}
     else
       if connected?(socket) do
@@ -77,7 +77,7 @@ defmodule PearlWeb.App.WheelLive.Index do
          |> assign(:in_spin?, false)
          # Restore attendee tokens if the spin fails
          |> assign(:attendee_tokens, socket.assigns.attendee_tokens + socket.assigns.wheel_price)
-         |> put_flash(:error, message)}
+         |> put_flash(:error, Gettext.gettext(PearlWeb.Gettext, message))}
     end
   end
 

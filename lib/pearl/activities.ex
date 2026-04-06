@@ -645,6 +645,18 @@ defmodule Pearl.Activities do
     |> Repo.one()
   end
 
+  @doc """
+  Gets the list of activity tickets of an user.
+  """
+  def get_user_activity_tickets(nil), do: []
+
+  def get_user_activity_tickets(user_id) do
+    ActivityTicket
+    |> where([at], at.user_id == ^user_id and at.paid == true)
+    |> preload(:ticket_type)
+    |> Repo.all()
+  end
+
   def mark_activity_ticket_as_paid(%ActivityTicket{} = activity_ticket) do
     update_activity_ticket(activity_ticket, %{paid: true})
   end

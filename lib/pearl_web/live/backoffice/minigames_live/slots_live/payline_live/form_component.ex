@@ -170,7 +170,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent do
 
       {:noreply,
        socket
-       |> put_flash(:info, "Slots paytable changed successfully")
+       |> put_flash(:success, gettext("Tabela de prémios das slots alterada com sucesso."))
        |> push_patch(to: socket.assigns.patch)}
     else
       {:noreply, socket}

@@ -103,13 +103,6 @@ defmodule PearlWeb.Config do
           image: "/images/icons/vault.svg",
           url: "/app/vault",
           enabled: true
-        },
-        %{
-          key: :credential,
-          title: "Credencial",
-          image: "/images/icons/scanner.svg",
-          url: "/app/credential",
-          enabled: true
         }
       ]
       |> Enum.filter(& &1.enabled)

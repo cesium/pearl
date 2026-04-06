@@ -176,7 +176,7 @@ defmodule Pearl.Tickets do
   def get_user_ticket(user_id) do
     Ticket
     |> where([t], t.user_id == ^user_id)
-    |> preload([:user, :ticket_type, :payment])
+    |> preload([:user, :ticket_type, :payment, ticket_type: :perks])
     |> Repo.one()
   end
 

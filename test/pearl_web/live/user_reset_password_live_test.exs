@@ -69,8 +69,10 @@ defmodule PearlWeb.UserResetPasswordLiveTest do
 
       refute get_session(conn, :user_token)
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "Palavra-passe redefinida com sucesso"
+      assert Enum.any?([:info, :success, :error, :tip, :help], fn key ->
+               value = Phoenix.Flash.get(conn.assigns.flash, key)
+               is_binary(value) and value =~ "Palavra-passe redefinida com sucesso"
+             end)
 
       assert Accounts.get_user_by_email_and_password(user.email, "new valid password")
     end

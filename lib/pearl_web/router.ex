@@ -193,8 +193,6 @@ defmodule PearlWeb.Router do
 
         live "/leaderboard", LeaderboardLive.Index, :index
 
-        live "/credential", CredentialLive.Index, :index
-
         live "/games", GamesLive.Index, :index
 
         live "/games/wheel", WheelLive.Index, :index
@@ -475,6 +473,7 @@ defmodule PearlWeb.Router do
           end
 
           live "/enrolments/:id", EnrolmentLive.Index, :index
+          live "/tickets", TicketsLive.Index, :index
         end
 
         scope "/attendee_lockers", LockersLive do

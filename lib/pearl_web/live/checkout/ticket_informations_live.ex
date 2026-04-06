@@ -60,7 +60,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       socket
       |> put_flash(
         :error,
-        "Por favor completa todos os campos obrigatórios antes de prosseguir."
+        gettext("Por favor completa todos os campos obrigatórios antes de prosseguir.")
       )
       |> push_patch(to: ~p"/checkout/choose_ticket")
     end
@@ -89,7 +89,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       socket
       |> put_flash(
         :error,
-        "Por favor completa todos os campos obrigatórios antes de prosseguir."
+        gettext("Por favor completa todos os campos obrigatórios antes de prosseguir.")
       )
       |> push_patch(to: ~p"/checkout/precautions")
     end
@@ -118,7 +118,9 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
       socket
       |> put_flash(
         :error,
-        "Por favor completa todos os campos obrigatórios antes de seguir para a conclusão."
+        gettext(
+          "Por favor completa todos os campos obrigatórios antes de seguir para a conclusão."
+        )
       )
       |> push_patch(to: ~p"/checkout/choose_ticket")
     end
@@ -156,7 +158,7 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
     else
       {:noreply,
        socket
-       |> put_flash(:error, "Por favor completa todos os campos obrigatórios")
+       |> put_flash(:error, gettext("Por favor completa todos os campos obrigatórios."))
        |> assign(:form, to_form(changeset, action: :validate))}
     end
   end
@@ -197,13 +199,13 @@ defmodule PearlWeb.Checkout.TicketInformationsLive do
         {:error, changeset} ->
           {:noreply,
            socket
-           |> put_flash(:error, "Failed to proccess your ticket")
+           |> put_flash(:error, gettext("Falha ao processar o teu bilhete."))
            |> assign(:form, to_form(changeset, action: :validate))}
       end
     else
       {:noreply,
        socket
-       |> put_flash(:error, "Email not verified")}
+       |> put_flash(:error, gettext("Email não verificado."))}
     end
   end
 

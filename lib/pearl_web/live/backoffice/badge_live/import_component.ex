@@ -175,7 +175,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ImportComponent do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:success, "Finished importing badges.")
+         |> put_flash(:success, gettext("Importação de badges concluída."))
          |> push_navigate(to: ~p"/dashboard/badges")}
 
       {:error, reason} ->

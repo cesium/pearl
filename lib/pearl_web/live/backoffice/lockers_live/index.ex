@@ -19,7 +19,8 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
             show: %{"attendee_lockers" => ["show"]},
             history: %{"attendee_lockers" => ["show"]},
             open_locker: %{"attendee_lockers" => ["edit"]},
-            new_item: %{"attendee_lockers" => ["edit"]}}
+            new_item: %{"attendee_lockers" => ["edit"]},
+            config: %{"attendee_lockers" => ["config_lockers"]}}
 
   @impl true
   def mount(_params, _session, socket) do

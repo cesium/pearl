@@ -35,7 +35,7 @@ defmodule Pearl.ActivitiesFixtures do
     {:ok, activity_category} =
       attrs
       |> Enum.into(%{
-        name: "some name"
+        name: "Talk"
       })
       |> Pearl.Activities.create_activity_category()
 

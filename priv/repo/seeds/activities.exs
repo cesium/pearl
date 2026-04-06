@@ -37,9 +37,9 @@ defmodule Pearl.Repo.Seeds.Activities do
     case Activities.list_activities() do
       [] ->
         seed_activities()
-      _  ->
-        Mix.shell().error("Found activities, aborting seeding activities.")
-    end
+        _  ->
+          Mix.shell().error("Found activities, aborting seeding activities.")
+        end
   end
 
   def seed_event_schedule_config do
@@ -126,7 +126,54 @@ defmodule Pearl.Repo.Seeds.Activities do
 
     seed_first_day_activities(categories, speakers)
     seed_last_days_activities(categories, speakers)
+    seed_rally_de_tascas_activity()
   end
+
+defp seed_rally_de_tascas_activity do
+  category_list = Activities.list_activity_categories()
+  gameshow_category = Enum.find(category_list, fn category -> category.name == "Gameshow" end)
+
+  if is_nil(gameshow_category) do
+    Mix.shell().error("Skipping Rally de Tascas: missing Gameshow category.")
+  else
+    event_start_date = next_first_tuesday_of_february()
+    friday = Date.add(event_start_date, 2)
+
+    activity = %{
+      title: "Rally de Tascas",
+      time_start: ~T[20:00:00],
+      time_end: ~T[23:59:59],
+      location: "Se' de Braga",
+      type: :gameshow,
+      date: friday,
+      category_id: gameshow_category.id,
+      has_enrolments: false,
+      max_enrolments: 30,
+      description: "O mítico Rally de Tascas!"
+    }
+
+    existing_activity =
+      Repo.get_by(Activity,
+        title: activity.title,
+        date: activity.date,
+        time_start: activity.time_start,
+        time_end: activity.time_end
+      )
+
+    if is_nil(existing_activity) do
+      changeset = Activity.changeset(%Activity{}, activity)
+
+      case Repo.insert(changeset) do
+        {:ok, _act} -> :ok
+        {:error, changeset} ->
+          Mix.shell().error("Failed to insert Rally de Tascas activity")
+          Mix.shell().error(Kernel.inspect(changeset.errors))
+      end
+    else
+      Mix.shell().error("Rally de Tascas already seeded, skipping duplicate.")
+    end
+  end
+end
 
   defp seed_first_day_activities(categories, speakers) do
     for activity <- first_day_seed_data() do
@@ -135,8 +182,8 @@ defmodule Pearl.Repo.Seeds.Activities do
         activity
         |> Map.put(:date, next_first_tuesday_of_february())
         |> Map.put(:category_id, Map.get(categories, type).id)
-        |> Map.put(:has_enrolments, false)
-        |> Map.put(:max_enrolments, 0)
+        |> Map.put(:has_enrolments, true)
+        |> Map.put(:max_enrolments, 30)
         |> Map.put(:title, Map.get(activity, :title) || Faker.Company.bs() |> String.capitalize())
         |> Map.put(:description, Faker.Lorem.paragraph())
         |> Map.put(:location, Map.get(activity, :location) || "CP2 - B1"))
@@ -209,14 +256,23 @@ defmodule Pearl.Repo.Seeds.Activities do
       %{title: "Coffee Break", time_start: ~T[11:30:00], time_end: ~T[12:00:00], type: :break},
       %{time_start: ~T[12:00:00], time_end: ~T[13:00:00], type: :talk},
       %{title: "Lunch Break", time_start: ~T[13:00:00], time_end: ~T[14:00:00], type: :break},
-      %{time_start: ~T[14:00:00], time_end: ~T[15:00:00], type: :talk},
-      %{time_start: ~T[15:00:00], time_end: ~T[16:00:00], type: :talk},
+      %{title: "Talk 14-15", time_start: ~T[14:00:00], time_end: ~T[15:00:00], type: :talk, location: "CP2 - Test"},
+      %{title: "Workshop 15-16", time_start: ~T[15:00:00], time_end: ~T[16:00:00], type: :workshop, location: "CP2 - Test"},
+      %{title: "Gameshow 14-16", time_start: ~T[14:00:00], time_end: ~T[16:00:00], type: :gameshow, location: "CP2 - Test"},
       %{title: "Coffee Break", time_start: ~T[16:00:00], time_end: ~T[16:30:00], type: :break},
       %{time_start: ~T[16:30:00], time_end: ~T[16:45:00], type: :pitch},
       %{time_start: ~T[16:45:00], time_end: ~T[17:00:00], type: :pitch},
-      %{time_start: ~T[17:00:00], time_end: ~T[18:00:00], type: :gameshow}
+      %{time_start: ~T[17:00:00], time_end: ~T[18:00:00], type: :gameshow},
+      %{title: "Break Edge Same Slot", time_start: ~T[18:00:00], time_end: ~T[18:15:00], type: :break},
+      %{title: "Talk Edge Same Slot", time_start: ~T[18:00:00], time_end: ~T[18:15:00], type: :talk, location: "CP2 - B1"},
+      %{title: "Talk Edge Group A", time_start: ~T[18:15:00], time_end: ~T[19:00:00], type: :talk, location: "CP2 - B1"},
+      %{title: "Workshop Edge Group A", time_start: ~T[18:15:00], time_end: ~T[19:00:00], type: :workshop, location: "CP2 - 0.14"},
+      %{title: "Gameshow Edge Group A", time_start: ~T[18:15:00], time_end: ~T[19:00:00], type: :gameshow, location: "CP2 - 0.15"},
+      %{title: "Break Edge A", time_start: ~T[19:00:00], time_end: ~T[19:15:00], type: :break},
+      %{title: "Break Edge B", time_start: ~T[19:00:00], time_end: ~T[19:15:00], type: :break},
+      %{title: "Pitch Edge Different End", time_start: ~T[19:00:00], time_end: ~T[19:20:00], type: :pitch, location: "CP2 - B1"}
     ]
-  end
+   end
 
   defp last_days_seed_data do
     rooms = ["CP2 - 0.14", "CP2 - 0.15", "CP2 - 0.17"]

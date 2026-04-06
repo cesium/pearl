@@ -119,12 +119,12 @@ defmodule Pearl.ActivitiesTest do
     end
 
     test "create_activity_category/1 with valid data creates a activity_category" do
-      valid_attrs = %{name: "some name"}
+      valid_attrs = %{name: "Talk"}
 
       assert {:ok, %ActivityCategory{} = activity_category} =
                Activities.create_activity_category(valid_attrs)
 
-      assert activity_category.name == "some name"
+      assert activity_category.name == "Talk"
     end
 
     test "create_activity_category/1 with invalid data returns error changeset" do
@@ -133,12 +133,12 @@ defmodule Pearl.ActivitiesTest do
 
     test "update_activity_category/2 with valid data updates the activity_category" do
       activity_category = activity_category_fixture()
-      update_attrs = %{name: "some updated name"}
+      update_attrs = %{name: "Workshop"}
 
       assert {:ok, %ActivityCategory{} = activity_category} =
                Activities.update_activity_category(activity_category, update_attrs)
 
-      assert activity_category.name == "some updated name"
+      assert activity_category.name == "Workshop"
     end
 
     test "update_activity_category/2 with invalid data returns error changeset" do

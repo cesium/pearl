@@ -609,6 +609,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
   defp render_activity_cell(assigns) do
     has_speakers = assigns.activity.speakers != []
+
     show_actions = assigns.variant in [:day, :calendar]
 
     activity_ticket_types = TicketTypes.list_active_activity_ticket_types()
@@ -684,7 +685,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
               <%= cond do %>
                 <% @is_paid_activity && @activity_ticket_type && @can_enrol && not @is_full -> %>
                   <.primary_button
-                    title={gettext("Comprar")}
+                    title={gettext("comprar")}
                     icon="hero-arrow-right"
                     type="button"
                     phx-click="select_ticket"
@@ -701,11 +702,11 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     class="flex items-center gap-2 px-4 py-2.5 bg-background-muted text-primary hover:bg-background-muted/80 text-sm font-bold"
                   >
                     <.icon name="hero-arrow-up-right" class="w-4 h-4 shrink-0" />
-                    <span>{gettext("Inscrever")}</span>
+                    <span>{gettext("inscrever")}</span>
                   </a>
                 <% @can_enrol -> %>
                   <.primary_button
-                    title={gettext("Inscrever")}
+                    title={gettext("inscrever")}
                     icon="hero-plus"
                     phx-click="enrol"
                     phx-value-activity_id={@activity.id}
@@ -776,27 +777,35 @@ defmodule PearlWeb.Landing.Components.Schedule do
   defp fetch_and_group_activities(day, filters) do
     Activities.list_daily_activities(day)
     |> Enum.filter(fn at -> filters == [] or at.category_id in filters end)
-    |> group_activities_by_start_time()
+    |> group_activities_in_blocks()
   end
 
-  defp group_activities_by_start_time(activities) do
-    Enum.reduce(activities, [], fn activity, acc ->
-      case acc do
-        [] ->
-          [[activity]]
+  def group_activities_in_blocks(activities) do
+    {standalone, regular} =
+      Enum.split_with(activities, fn a -> get_category_name(a) == "Break" end)
 
-        [[head | _tail] | _rest] = groups ->
-          case activity.time_start == head.time_start do
-            true -> prepend_to_first_group(activity, groups)
-            false -> [[activity] | groups]
+    standalone_blocks = Enum.map(standalone, fn a -> [a] end)
+
+    grouped =
+      regular
+      |> Enum.group_by(fn a -> {a.time_start, a.time_end} end)
+      |> Enum.sort_by(fn {{start, end_}, _} -> {start, end_} end)
+      |> Enum.map(fn {_key, group_acts} ->
+        Enum.sort_by(group_acts, fn act ->
+          case get_category_name(act) do
+            "Talk" -> 0
+            "Workshop" -> 1
+            _ -> 2
           end
-      end
-    end)
-    |> Enum.reverse()
-  end
+        end)
+      end)
 
-  defp prepend_to_first_group(activity, [[head | tail] | rest]) do
-    [[activity, head | tail] | rest]
+    (standalone_blocks ++ grouped)
+    |> Enum.sort_by(fn block ->
+      first = List.first(block)
+      is_break = get_category_name(first) == "Break"
+      {first.time_start, first.time_end, if(is_break, do: 0, else: 1)}
+    end)
   end
 
   defp can_enrol?(activity, user_role, enrolments) do

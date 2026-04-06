@@ -693,6 +693,8 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     phx-value-ticket_type_id={@activity_ticket_type.id}
                     phx-value-type="activity"
                     class="text-sm font-bold"
+                    disabled={is_nil(@current_user)}
+
                   />
                 <% @activity.link -> %>
                   <a

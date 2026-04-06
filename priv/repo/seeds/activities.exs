@@ -141,8 +141,6 @@ defmodule Pearl.Repo.Seeds.Activities do
       break: Enum.find(category_list, fn category -> category.name == "Break" end)
     }
 
-    validate_required_categories!(categories, category_list)
-
     seed_first_day_activities(categories, speakers)
     seed_last_days_activities(categories, speakers)
     seed_rally_de_tascas_activity()
@@ -153,7 +151,7 @@ defp seed_rally_de_tascas_activity do
   gameshow_category = Enum.find(category_list, fn category -> category.name == "Activity" end)
 
   if is_nil(gameshow_category) do
-    Mix.shell().error("Skipping Rally de Tascas: missing Gameshow category.")
+    Mix.shell().error("Skipping Rally de Tascas: missing Activity category.")
   else
     event_start_date = next_first_tuesday_of_february()
     friday = Date.add(event_start_date, 2)
@@ -257,24 +255,6 @@ end
 
       nil ->
         Mix.raise("Missing category for activity type #{inspect(type)}.")
-    end
-  end
-
-  defp validate_required_categories!(categories, category_list) do
-    required_types = [:talk, :pitch, :gameshow, :workshop, :break]
-
-    missing_types =
-      Enum.filter(required_types, fn type ->
-        is_nil(Map.get(categories, type))
-      end)
-
-    if missing_types != [] do
-      existing_names = Enum.map_join(category_list, ", ", & &1.name)
-
-      Mix.raise(
-        "Missing required activity categories: #{Enum.map_join(missing_types, ", ", &inspect/1)}. " <>
-          "Existing categories: [#{existing_names}]."
-      )
     end
   end
 

@@ -83,11 +83,11 @@ defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.FormComponent do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Enrolled successfully")
+         |> put_flash(:success, gettext("Inscrição efetuada com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, _, _, _} ->
-        {:noreply, socket |> put_flash(:error, "Unable to enrol")}
+        {:noreply, socket |> put_flash(:error, gettext("Não foi possível inscrever-se"))}
     end
   end
 

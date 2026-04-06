@@ -86,6 +86,7 @@ defmodule PearlWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     get "/init", TicketsController, :init
+    get "/activity/init", TicketsController, :init_activity
   end
 
   scope "/checkout", PearlWeb do
@@ -106,6 +107,20 @@ defmodule PearlWeb.Router do
       live "/precautions", Checkout.TicketInformationsLive, :precautions
       live "/informations", Checkout.TicketInformationsLive, :informations
       live "/conclusion", Checkout.TicketInformationsLive, :conclusion
+    end
+  end
+
+  scope "/checkout", PearlWeb do
+    pipe_through [
+      :browser,
+      :require_authenticated_user,
+      :require_confirmed_user,
+      :redirect_if_user_is_staff
+    ]
+
+    live_session :activity_checkout,
+      on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
+      live "/activity/confirm", Checkout.ActivityTicketLive, :activity_confirm
     end
   end
 
@@ -138,6 +153,7 @@ defmodule PearlWeb.Router do
     live_session :payment_status,
       on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
       live "/payment/:id", Checkout.PaymentStatusLive, :payment_status
+      live "/activity/payment/:id", Checkout.PaymentStatusLive, :activity_payment_status
     end
   end
 
@@ -176,8 +192,6 @@ defmodule PearlWeb.Router do
         live "/user/:handle", UserLive.Show, :show
 
         live "/leaderboard", LeaderboardLive.Index, :index
-
-        live "/credential", CredentialLive.Index, :index
 
         live "/games", GamesLive.Index, :index
 
@@ -355,6 +369,11 @@ defmodule PearlWeb.Router do
               live "/new", Index, :categories_new
               live "/:id/edit", Index, :categories_edit
             end
+
+            scope "/calendar_pictures" do
+              live "/", Index, :calendar_pictures
+              live "/:id/edit", Index, :calendar_pictures_edit
+            end
           end
         end
 
@@ -461,6 +480,7 @@ defmodule PearlWeb.Router do
           end
 
           live "/enrolments/:id", EnrolmentLive.Index, :index
+          live "/tickets", TicketsLive.Index, :index
         end
 
         live "/profile_settings", ProfileSettingsLive, :edit

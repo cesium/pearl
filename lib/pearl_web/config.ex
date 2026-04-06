@@ -87,7 +87,7 @@ defmodule PearlWeb.Config do
         %{
           key: :games,
           title: "Minigames",
-          image: "/images/icons/play.svg",
+          image: "/images/icons/games.svg",
           url: "/app/games",
           enabled: attendee_eligible?
         },
@@ -110,13 +110,6 @@ defmodule PearlWeb.Config do
           title: "Cofre",
           image: "/images/icons/vault.svg",
           url: "/app/vault",
-          enabled: true
-        },
-        %{
-          key: :credential,
-          title: "Credencial",
-          image: "/images/icons/scanner.svg",
-          url: "/app/credential",
           enabled: true
         }
       ]

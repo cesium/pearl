@@ -44,6 +44,68 @@ defmodule Pearl.TicketTypes do
   end
 
   @doc """
+  Returns the list of active event ticket types.
+
+  ## Examples
+
+    iex> list_active_event_ticket_types()
+    [%TicketType{}, ...]
+
+  """
+
+  def list_active_event_ticket_types do
+    TicketType
+    |> where([t], t.type == :event and t.active == true)
+    |> order_by(:priority)
+    |> Repo.all()
+    |> Repo.preload(perks: from(p in Perk, order_by: [asc: p.priority]))
+  end
+
+  @doc """
+  Returns the list of active ticket_types.
+
+  ## Examples
+
+    iex> list_event_ticket_types()
+    [%TicketType{}, ...]
+
+  """
+
+  def list_event_ticket_types do
+    TicketType
+    |> where([t], t.type == :event)
+    |> order_by(:priority)
+    |> Repo.all()
+    |> Repo.preload(perks: from(p in Perk, order_by: [asc: p.priority]))
+  end
+
+  def list_active_activity_ticket_types do
+    TicketType
+    |> where([t], t.type == :activity and t.active == true)
+    |> order_by(:priority)
+    |> Repo.all()
+    |> Repo.preload(perks: from(p in Perk, order_by: [asc: p.priority]))
+  end
+
+  @doc """
+  Returns the list of active ticket_types.
+
+  ## Examples
+
+    iex> list_activity_ticket_types()
+    [%TicketType{}, ...]
+
+  """
+
+  def list_activity_ticket_types do
+    TicketType
+    |> where([t], t.type == :activity)
+    |> order_by(:priority)
+    |> Repo.all()
+    |> Repo.preload(perks: from(p in Perk, order_by: [asc: p.priority]))
+  end
+
+  @doc """
   Gets a single ticket type.
 
   Raises `Ecto.NoResultsError` if the TicketType does not exist.

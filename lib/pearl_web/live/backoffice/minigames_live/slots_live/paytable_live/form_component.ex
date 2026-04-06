@@ -174,19 +174,19 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPaytable.FormComponent do
 
           {:noreply,
            socket
-           |> put_flash(:error, "Error saving slots paytable")
+           |> put_flash(:error, gettext("Erro ao guardar a tabela de prémios das slots"))
            |> assign(entries: updated_entries)}
 
         _ ->
           {:noreply,
            socket
-           |> put_flash(:info, "Slots paytable changed successfully")
+           |> put_flash(:success, gettext("Tabela de prémios das slots alterada com sucesso."))
            |> push_patch(to: socket.assigns.patch)}
       end
     else
       {:noreply,
        socket
-       |> put_flash(:error, "Please fix the errors before saving")}
+       |> put_flash(:error, gettext("Por favor corrige os erros antes de guardar"))}
     end
   end
 

@@ -32,7 +32,7 @@ defmodule PearlWeb.Sponsor.HomeLive.Index do
          |> stream(:users, users, reset: true)}
 
       {:error, _reason} ->
-        {:noreply, socket |> put_flash(:error, gettext("An error occurred"))}
+        {:noreply, socket |> put_flash(:error, gettext("Ocorreu um erro"))}
     end
   end
 
@@ -54,7 +54,7 @@ defmodule PearlWeb.Sponsor.HomeLive.Index do
          |> stream(:users, users, reset: true)}
 
       {:error, _reason} ->
-        {:noreply, socket |> assign(:all, all) |> put_flash(:error, gettext("An error occurred"))}
+        {:noreply, socket |> assign(:all, all) |> put_flash(:error, gettext("Ocorreu um erro"))}
     end
   end
 

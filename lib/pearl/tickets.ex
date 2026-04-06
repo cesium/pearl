@@ -176,7 +176,7 @@ defmodule Pearl.Tickets do
   def get_user_ticket(user_id) do
     Ticket
     |> where([t], t.user_id == ^user_id)
-    |> preload([:user, :ticket_type, :payment])
+    |> preload([:user, :ticket_type, :payment, ticket_type: :perks])
     |> Repo.one()
   end
 
@@ -262,6 +262,17 @@ defmodule Pearl.Tickets do
   def mark_ticket_as_paid(%Ticket{} = ticket) do
     update_ticket(ticket, %{paid: true})
   end
+
+  @doc """
+  Returns true if the ticket is paid, false otherwise.
+
+  ## Examples
+
+      iex> paid?(ticket)
+      true
+  """
+  def paid?(%Ticket{paid: paid}), do: paid
+  def paid?(%Pearl.Activities.ActivityTicket{paid: paid}), do: paid
 
   @doc """
   Returns the list of perks.

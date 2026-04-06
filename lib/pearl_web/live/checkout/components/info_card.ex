@@ -58,21 +58,7 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                   </div>
                 </div>
               </div>
-            <% :conclusion -> %>
-              <.ticket
-                class="flex justify-center md:block md:-ml-96 h-[98px] md:h-[250px]!"
-                svg_class="h-full!"
-                attendee={@current_user.name}
-                ticket_type={@ticket.name}
-              />
-            <% :payment -> %>
-              <.ticket
-                class="flex justify-center md:block md:-ml-96 h-[98px] md:h-[250px]!"
-                svg_class="h-full!"
-                attendee={@current_user.name}
-                ticket_type={@ticket_type.name}
-              />
-            <% :payment_status -> %>
+            <% x when x in [:payment_status, :activity_payment_status] -> %>
               <div class="relative w-full h-full">
                 <div class={[
                   "absolute inset-0 flex flex-col items-start justify-center p-8 transition-all duration-1000 ease-out z-20",
@@ -83,10 +69,20 @@ defmodule PearlWeb.Checkout.Components.InfoCard do
                 ]}>
                   <div class="space-y-3 max-w-md">
                     <h2 class="text-2xl md:text-3xl font-bold text-dark">
-                      Bem-vindo ao ENEI!
+                      <%= if @ticket_type && Map.get(@ticket_type, :type) == :activity do %>
+                        Inscrição na atividade concluída!
+                      <% else %>
+                        Bem-vindo ao ENEI!
+                      <% end %>
                     </h2>
                     <p class="text-lg text-dark/90">
-                      É um gosto ter-te connosco, {get_display_name(@current_user.name)}.
+                      <%= if @ticket_type && Map.get(@ticket_type, :type) == :activity do %>
+                        A tua inscrição na atividade foi concluída com sucesso, {get_display_name(
+                          @current_user.name
+                        )}.
+                      <% else %>
+                        É um gosto ter-te connosco, {get_display_name(@current_user.name)}.
+                      <% end %>
                     </p>
                     <.primary_button
                       title="página inicial"

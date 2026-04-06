@@ -21,7 +21,7 @@ defmodule PearlWeb.App.CredentialLive.Edit do
       {:ok, id} ->
         if Accounts.credential_exists?(id) do
           if Accounts.credential_linked?(id) do
-            {:noreply, socket |> assign(:modal_data, :already_linked)}
+            {:noreply, socket |> push_navigate(to: ~p"/app")}
           else
             Accounts.link_credential(id, socket.assigns.current_user.attendee.id)
             {:noreply, socket |> push_navigate(to: ~p"/app")}

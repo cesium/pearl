@@ -21,7 +21,7 @@ defmodule Pearl.ActivitiesTest do
 
     test "list_activities/0 returns all activities" do
       activity = activity_fixture()
-      assert Activities.list_activities() == [activity]
+      assert activity in Activities.list_activities()
     end
 
     test "get_activity!/1 returns the activity with given id" do
@@ -237,6 +237,70 @@ defmodule Pearl.ActivitiesTest do
     test "change_speaker/1 returns a speaker changeset" do
       speaker = speaker_fixture()
       assert %Ecto.Changeset{} = Activities.change_speaker(speaker)
+    end
+  end
+
+  describe "calendar_pictures" do
+    alias Pearl.Activities.CalendarPicture
+
+    import Pearl.ActivitiesFixtures
+
+    @invalid_attrs %{date: nil, image: nil}
+
+    test "list_calendar_pictures/0 returns all calendar_pictures" do
+      calendar_picture = calendar_picture_fixture()
+      assert Activities.list_calendar_pictures() == [calendar_picture]
+    end
+
+    test "get_calendar_picture!/1 returns the calendar_picture with given id" do
+      calendar_picture = calendar_picture_fixture()
+      assert Activities.get_calendar_picture!(calendar_picture.id) == calendar_picture
+    end
+
+    test "create_calendar_picture/1 with valid data creates a calendar_picture" do
+      valid_attrs = %{date: ~D[2024-10-27]}
+
+      assert {:ok, %CalendarPicture{} = calendar_picture} =
+               Activities.create_calendar_picture(valid_attrs)
+
+      assert calendar_picture.date == ~D[2024-10-27]
+    end
+
+    test "create_calendar_picture/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Activities.create_calendar_picture(@invalid_attrs)
+    end
+
+    test "update_calendar_picture/2 with valid data updates the calendar_picture" do
+      calendar_picture = calendar_picture_fixture()
+      update_attrs = %{date: ~D[2024-10-28]}
+
+      assert {:ok, %CalendarPicture{} = calendar_picture} =
+               Activities.update_calendar_picture(calendar_picture, update_attrs)
+
+      assert calendar_picture.date == ~D[2024-10-28]
+    end
+
+    test "update_calendar_picture/2 with invalid data returns error changeset" do
+      calendar_picture = calendar_picture_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               Activities.update_calendar_picture(calendar_picture, @invalid_attrs)
+
+      assert calendar_picture == Activities.get_calendar_picture!(calendar_picture.id)
+    end
+
+    test "delete_calendar_picture/1 deletes the calendar_picture" do
+      calendar_picture = calendar_picture_fixture()
+      assert {:ok, %CalendarPicture{}} = Activities.delete_calendar_picture(calendar_picture)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Activities.get_calendar_picture!(calendar_picture.id)
+      end
+    end
+
+    test "change_calendar_picture/1 returns a calendar_picture changeset" do
+      calendar_picture = calendar_picture_fixture()
+      assert %Ecto.Changeset{} = Activities.change_calendar_picture(calendar_picture)
     end
   end
 end

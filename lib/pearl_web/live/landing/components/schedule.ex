@@ -721,7 +721,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
               <%= if @is_full and not @can_enrol and is_nil(@activity.link) do %>
                 <span class="px-5 py-2.5 bg-gray-100 text-gray-400 font-bold text-sm">
-                  {gettext("Esgotado")}
+                  {gettext("esgotado")}
                 </span>
               <% end %>
             <% end %>

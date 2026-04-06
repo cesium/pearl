@@ -479,3 +479,7 @@ select:-webkit-autofill:focus {
 .flip-clock-card {
   box-shadow: none !important;
 }
+
+.markdown-body {
+background-color: transparent !important;
+}

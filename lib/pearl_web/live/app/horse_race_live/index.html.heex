@@ -1,84 +1,11 @@
 <.page title={gettext("Horse Race")} size={:xl} title_class="uppercase">
   <%= if @race_result do %>
-    <.modal
+    <.result_modal
       id="horse-race-result"
       show={true}
       on_cancel={JS.push("clear_result")}
-      body_class="bg-[#242424] border border-white/5 p-10 rounded-3xl shadow-2xl relative max-w-lg w-full mx-auto"
-      phx-hook="Confetti"
-      data-is_win={@race_result.winnings > 0}
-      close_button={false}
-    >
-      <div class="relative z-10 flex flex-col items-center">
-        <!-- Horse Badge -->
-        <div class="relative flex justify-center mb-8">
-          <div class="absolute inset-0 bg-red-500/10 blur-2xl rounded-full w-32 h-32 mx-auto">
-          </div>
-          <div class="relative w-32 h-32 rounded-full border border-red-500/10 bg-black/40 flex items-center justify-center overflow-hidden">
-            <div
-              class={[
-                "horse-icon shrink-0",
-                "horse-rest",
-                "opacity-100",
-                horse_variant_class(@race_result.winning_horse)
-              ]}
-              style="transform: scale(0.65); transform-origin: center;"
-            >
-            </div>
-          </div>
-        </div>
-        
-<!-- Status -->
-        <h3 class="font-iregular text-[10px] md:text-xs font-bold tracking-[0.2em] text-white text-center uppercase mb-4">
-          <%= if @race_result.winnings > 0 do %>
-            {gettext("Parabéns, Acertaste!")}
-          <% else %>
-            {gettext("Fim da Corrida")}
-          <% end %>
-        </h3>
-        
-<!-- Result Text -->
-        <div class="text-center mb-8">
-          <h2 class="font-grotesk text-4xl md:text-5xl font-bold text-white mb-2">
-            <%= if @race_result.winnings > 0 do %>
-              {gettext("Ganhaste")}
-            <% else %>
-              {gettext("Perdeste")}
-            <% end %>
-          </h2>
-          <p class="font-grotesk text-4xl md:text-5xl font-bold text-white">
-            <%= if @race_result.winnings > 0 do %>
-              {format_tokens(@race_result.winnings)} tokens!
-            <% else %>
-              {format_tokens(@race_result.losses)} tokens!
-            <% end %>
-          </p>
-        </div>
-        
-<!-- Description -->
-        <p class="text-sm text-gray-400 text-center mb-10 max-w-sm mx-auto leading-relaxed">
-          <%= if @race_result.winnings > 0 do %>
-            {gettext("O cavalo #%{horse} foi o grande vencedor e trouxe-te sorte!",
-              horse: @race_result.winning_horse
-            )}
-          <% else %>
-            {gettext("O cavalo #%{horse} cruzou a meta primeiro. Melhor sorte na próxima aposta!",
-              horse: @race_result.winning_horse
-            )}
-          <% end %>
-        </p>
-        
-<!-- Button -->
-        <div class="flex justify-center w-full">
-          <button
-            phx-click="clear_result"
-            class="px-8 py-3.5 bg-white hover:bg-gray-200 text-black font-bold rounded-full transition-transform hover:scale-105 uppercase tracking-widest text-sm"
-          >
-            {gettext("Continuar")}
-          </button>
-        </div>
-      </div>
-    </.modal>
+      race_result={@race_result}
+    />
   <% end %>
 
   <:actions>

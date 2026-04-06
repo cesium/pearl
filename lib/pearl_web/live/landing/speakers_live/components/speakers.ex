@@ -73,31 +73,18 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
   defp schedule_table(assigns) do
     ~H"""
     <div class="space-y-2 min-w-0 w-full">
-      <%= for %{speaker: speaker, activity: activity}  <- @speakers do %>
-        <%= if !activity do %>
-          <.speaker speaker={speaker} />
-        <% else %>
-          <.speaker speaker={speaker} activity={activity} />
-        <% end %>
+      <%= for %{speaker: speaker, activities: activities} <- @speakers do %>
+        <.speaker speaker={speaker} activities={activities} />
       <% end %>
     </div>
     """
   end
 
-  attr :activity, :map, default: nil
+  attr :activities, :list, default: []
   attr :speaker, :map, default: nil
 
   defp speaker(assigns) do
-    assigns =
-      assign(
-        assigns,
-        :card_id,
-        if assigns.activity do
-          "#{assigns.speaker.id}-#{assigns.activity.id}"
-        else
-          assigns.speaker.id
-        end
-      )
+    assigns = assign(assigns, :card_id, assigns.speaker.id)
 
     ~H"""
     <div
@@ -135,11 +122,15 @@ defmodule PearlWeb.Landing.SpeakersLive.Components.Speakers do
               {@speaker.title} <span class="text-dark/50">@</span> {@speaker.company}
             </p>
 
-            <div :if={@activity} class="flex items-start md:items-center text-primary gap-1 min-w-0">
-              <.icon name="hero-calendar" class="w-5 h-5 mt-0.5 md:mt-0" />
-              <p class="whitespace-normal sm:truncate w-full">
-                {format_date(@activity.date, @activity.time_start, @activity.time_end)} - {@activity.title}
-              </p>
+            <div :if={@activities != []} class="space-y-1 min-w-0">
+              <%= for activity <- @activities do %>
+                <div class="flex items-start md:items-center text-primary gap-1 min-w-0">
+                  <.icon name="hero-calendar" class="w-5 h-5 mt-0.5 md:mt-0 shrink-0" />
+                  <p class="whitespace-normal sm:truncate w-full">
+                    {format_date(activity.date, activity.time_start, activity.time_end)} - {activity.title}
+                  </p>
+                </div>
+              <% end %>
             </div>
           </div>
         </div>

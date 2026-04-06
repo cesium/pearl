@@ -8,7 +8,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.ensure_permissions
             user={@current_user}

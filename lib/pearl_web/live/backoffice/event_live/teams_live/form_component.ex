@@ -8,7 +8,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.link
             :if={@action != :teams_new}

@@ -60,6 +60,7 @@ defmodule PearlWeb.Backoffice.LockersLive.Components.LockerItem do
             :if={@item.stored}
             phx-click="withdraw-locker-item"
             phx-value-item={@item.id}
+            data-confirm={gettext("Are you sure you want to withdraw this item?")}
             class="py-1! px-3! text-xs"
           >
             {gettext("Withdraw")}

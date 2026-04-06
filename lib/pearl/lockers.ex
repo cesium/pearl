@@ -411,6 +411,43 @@ defmodule Pearl.Lockers do
   end
 
   @doc """
+  Returns locker sessions history for a given attendee
+
+  """
+  def list_attendee_locker_history(attendee_id) do
+    AttendeeLocker
+    |> join(:inner, [al], l in Locker, on: l.id == al.locker_id)
+    |> where([al, _l], al.attendee_id == ^attendee_id)
+    |> order_by([al, _l], desc: al.inserted_at)
+    |> select([al, l], %{
+      id: al.id,
+      locker_number: l.number,
+      active: al.active,
+      inserted_at: al.inserted_at,
+      updated_at: al.updated_at
+    })
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns a map of attendee_id and its active locker.
+
+  ## Examples
+
+      iex> list_active_lockers_for_attendees(["1", "2"])
+      %{"1" => 12}
+
+  """
+  def list_active_lockers_for_attendees(attendee_ids) when is_list(attendee_ids) do
+    AttendeeLocker
+    |> join(:inner, [al], l in Locker, on: l.id == al.locker_id)
+    |> where([al, _l], al.attendee_id in ^attendee_ids and al.active == true)
+    |> select([al, l], {al.attendee_id, l.number})
+    |> Repo.all()
+    |> Map.new()
+  end
+
+  @doc """
   Gets a single attendee_locker.
 
   Raises `Ecto.NoResultsError` if the Attendee locker does not exist.

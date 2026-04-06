@@ -20,6 +20,7 @@ defmodule PearlWeb.Components.Table do
     attr :label, :string, required: false
     attr :sortable, :boolean
     attr :field, :atom
+    attr :class, :string
   end
 
   slot :action do
@@ -45,6 +46,7 @@ defmodule PearlWeb.Components.Table do
                 params={@params}
                 field={col[:field]}
                 meta={@meta}
+                class={col[:class]}
               />
               <.header_column :if={@action != []} class="text-right" />
             </tr>
@@ -71,7 +73,10 @@ defmodule PearlWeb.Components.Table do
               <td
                 :for={col <- @col}
                 scope="row"
-                class="px-6 py-4 font-normal text-dark whitespace-nowrap dark:text-light"
+                class={[
+                  "px-6 py-4 font-normal text-dark whitespace-nowrap",
+                  col[:class]
+                ]}
               >
                 {render_slot(col, item)}
               </td>

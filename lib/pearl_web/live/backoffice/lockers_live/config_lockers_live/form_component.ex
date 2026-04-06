@@ -14,7 +14,11 @@ defmodule PearlWeb.Backoffice.LockersLive.ConfigureLockers.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Configure the maximum number of Lockers")}>
+      <.page
+        title={@title}
+        subtitle={gettext("Configure the maximum number of Lockers")}
+        stack_header_on_mobile
+      >
         <.simple_form
           for={@form}
           id="lockers-config-form"

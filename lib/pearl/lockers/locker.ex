@@ -4,8 +4,7 @@ defmodule Pearl.Lockers.Locker do
   """
 
   use Pearl.Schema
-  import Ecto.Changeset
-
+  
   schema "lockers" do
     field :number, :integer
 

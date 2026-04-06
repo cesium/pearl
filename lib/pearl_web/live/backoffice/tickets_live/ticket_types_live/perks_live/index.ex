@@ -8,7 +8,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"tickets" => ["perks_edit"]}}>
             <.link navigate={~p"/dashboard/tickets/ticket_types/perks/new"}>

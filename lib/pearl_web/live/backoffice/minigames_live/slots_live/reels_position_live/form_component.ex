@@ -10,6 +10,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ReelsPosition.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={gettext("Reels Position Configuration")}
         subtitle={gettext("Configures slots reels.")}
       >

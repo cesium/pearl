@@ -9,6 +9,7 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
   import PearlWeb.Backoffice.LockersLive.Components.{
     ScanModal,
     AttendeeModal,
+    HistoryModal,
     AssignLockerModal,
     OpenLockerModal
   }
@@ -31,6 +32,9 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
      |> assign(:user, nil)
      |> assign(:locker, nil)
      |> assign(:locker_items, [])
+     |> assign(:locker_sessions, [])
+     |> assign(:active_lockers_by_attendee, %{})
+     |> assign(:session_active, false)
      |> assign(:configured_lockers, false)
      |> assign(:free_lockers, [])}
   end
@@ -39,11 +43,24 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
   def handle_params(params, _, socket) do
     case Accounts.list_attendees(params) do
       {:ok, {attendees, meta}} ->
+        attendee_ids =
+          attendees
+          |> Enum.map(& &1.attendee.id)
+          |> Enum.reject(&is_nil/1)
+
+        active_lockers_by_attendee =
+          if attendee_ids == [] do
+            %{}
+          else
+            Lockers.list_active_lockers_for_attendees(attendee_ids)
+          end
+
         {:noreply,
          socket
          |> assign(:meta, meta)
          |> assign(:params, params)
          |> assign(:modal, nil)
+         |> assign(:active_lockers_by_attendee, active_lockers_by_attendee)
          |> assign(:current_page, :lockers)
          |> stream(:attendees, attendees, reset: true)
          |> apply_action(socket.assigns.live_action, params)}
@@ -59,6 +76,8 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
     |> assign(:user, nil)
     |> assign(:locker, nil)
     |> assign(:locker_items, [])
+    |> assign(:locker_sessions, [])
+    |> assign(:session_active, false)
   end
 
   defp apply_action(socket, :config, _params) do
@@ -75,7 +94,22 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
     |> assign(:user, user)
     |> assign(:locker, nil)
     |> assign(:locker_items, [])
+    |> assign(:locker_sessions, [])
+    |> assign(:session_active, false)
     |> assign(:active_locker, Lockers.get_active_locker(attendee_id))
+  end
+
+  defp apply_action(socket, :history, %{"attendee_id" => attendee_id}) do
+    attendee = Accounts.get_attendee!(attendee_id)
+    user = Accounts.get_user!(attendee.user_id)
+
+    socket
+    |> assign(:attendee, attendee)
+    |> assign(:user, user)
+    |> assign(:locker, nil)
+    |> assign(:locker_items, [])
+    |> assign(:locker_sessions, Lockers.list_attendee_locker_history(attendee_id))
+    |> assign(:session_active, false)
   end
 
   defp apply_action(socket, :open_locker, %{
@@ -92,6 +126,8 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
     |> assign(:user, user)
     |> assign(:locker, locker)
     |> assign(:locker_items, Lockers.list_locker_items_by_session(session_id))
+    |> assign(:locker_sessions, [])
+    |> assign(:session_active, session.active)
     |> assign(:session_id, session_id)
   end
 
@@ -109,6 +145,8 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
     |> assign(:user, user)
     |> assign(:locker, locker)
     |> assign(:locker_items, Lockers.list_locker_items_by_session(session_id))
+    |> assign(:locker_sessions, [])
+    |> assign(:session_active, session.active)
     |> assign(:session_id, session_id)
     |> assign(:page_title, "New Locker Item")
   end
@@ -213,7 +251,37 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
   end
 
   def handle_event("close-locker-modal", _params, socket) do
-    {:noreply, assign(socket, live_action: :show)}
+    case socket.assigns[:attendee] do
+      %{id: attendee_id} ->
+        {:noreply, push_patch(socket, to: ~p"/dashboard/attendee_lockers/#{attendee_id}")}
+
+      _ ->
+        {:noreply, push_patch(socket, to: ~p"/dashboard/attendee_lockers")}
+    end
+  end
+
+  def handle_event("release-locker", _params, socket) do
+    session = Lockers.get_attendee_locker!(socket.assigns.session_id)
+
+    if session.active do
+      case Lockers.update_attendee_locker(session, %{active: false}) do
+        {:ok, _session} ->
+          {:noreply,
+           socket
+           |> put_flash(:info, "Locker released successfully.")
+           |> push_patch(to: ~p"/dashboard/attendee_lockers/#{socket.assigns.attendee.id}")}
+
+        {:error, _changeset} ->
+          {:noreply,
+           socket
+           |> put_flash(:error, "Could not release locker session")}
+      end
+    else
+      {:noreply,
+       socket
+       |> put_flash(:info, "This locker session is already closed.")
+       |> push_patch(to: ~p"/dashboard/attendee_lockers/#{socket.assigns.attendee.id}")}
+    end
   end
 
   def handle_event("withdraw-locker-item", %{"item" => item_id}, socket) do

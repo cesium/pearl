@@ -480,9 +480,9 @@ defmodule PearlWeb.Router do
           live "/", Index, :index
           live "/config", Index, :config
           live "/:attendee_id", Index, :show
+          live "/:attendee_id/history", Index, :history
           live "/:attendee_id/:session_id", Index, :open_locker
           live "/:attendee_id/:session_id/new_item", Index, :new_item
-          live "/:attendee_id/history", Index, :history
         end
 
         live "/profile_settings", ProfileSettingsLive, :edit

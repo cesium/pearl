@@ -22,7 +22,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Index do
             {gettext("Redeems")}
           </.tab>
         </.tabs>
-        <.page title={gettext("Attendee Redeems")}>
+        <.page title={gettext("Attendee Redeems")} stack_header_on_mobile>
           <div
             id="qr-scanner"
             phx-hook="QrScanner"

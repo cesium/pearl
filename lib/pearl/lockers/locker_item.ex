@@ -4,7 +4,6 @@ defmodule Pearl.Lockers.LockerItem do
   """
 
   use Pearl.Schema
-  import Ecto.Changeset
 
   @required_fields ~w(name attendee_locker_id)a
   @optional_fields ~w(description picture stored withdrawn_at)a

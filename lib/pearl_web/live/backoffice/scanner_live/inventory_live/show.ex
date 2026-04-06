@@ -24,7 +24,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Show do
             </.tab>
           </.link>
         </.tabs>
-        <.page title={"#{@user.name}'s inventory"}>
+        <.page title={"#{@user.name}'s inventory"} stack_header_on_mobile>
           <ul id="items-list" class="space-y-4 py-8" phx-update="stream">
             <li
               :for={{id, item} <- @streams.items}

@@ -1,4 +1,4 @@
-<.page title="Lockers">
+<.page title="Lockers" stack_header_on_mobile>
   <:actions>
     <div class="flex flex-row w-full gap-4">
       <.ensure_permissions user={@current_user} permissions={%{"attendee_lockers" => ["edit"]}}>
@@ -46,6 +46,16 @@
         </div>
       </:col>
 
+      <:col :let={{_id, user}} label={gettext("Current Locker")} class="hidden lg:table-cell">
+        <%= if locker_number = @active_lockers_by_attendee[user.attendee.id] do %>
+          <span class="inline-flex items-center font-semibold text-dark/70">
+            {gettext("Locker %{number}", number: locker_number)}
+          </span>
+        <% else %>
+          <span class="text-dark/40">-</span>
+        <% end %>
+      </:col>
+
       <:action :let={{_id, user}}>
         <.link patch={~p"/dashboard/attendee_lockers/#{user.attendee.id}"}>
           <.icon name="hero-chevron-right" class="w-5 h-5" />
@@ -65,6 +75,13 @@
   active_locker={assigns[:active_locker]}
 />
 
+<.history_modal
+  live_action={@live_action}
+  attendee={@attendee}
+  user={@user}
+  sessions={@locker_sessions}
+/>
+
 <.assign_locker_modal
   modal={@modal}
   configured_lockers={@configured_lockers}
@@ -78,6 +95,7 @@
   current_user={@current_user}
   attendee={@attendee}
   session_id={assigns[:session_id]}
+  session_active={@session_active}
   locker_items={@locker_items}
 />
 

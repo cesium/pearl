@@ -23,7 +23,7 @@
         </.link>
         <.ensure_permissions
           user={@current_user}
-          permissions={%{"attendees" => ["show"]}}
+          permissions={%{"meals" => ["edit"]}}
         >
           <.link patch={~p"/dashboard/scanner/meals"} class="hidden sm:block w-full">
             <.backoffice_button class="flex gap-2">

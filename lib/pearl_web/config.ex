@@ -151,7 +151,7 @@ defmodule PearlWeb.Config do
         title: "Meals",
         icon: "hero-cake",
         url: "/dashboard/meals",
-        scope: %{}
+        scope: %{"meals" => ["show"]}
       },
       %{
         key: :staffs,

@@ -6,6 +6,8 @@
     transition: none;
 }
 
+/* (Reverted experimental race-scoped transforms) */
+
 /*
   Rest Sprite: 576 x 180
   3 frames -> width per frame = 576 / 3 = 192px
@@ -36,6 +38,7 @@
     height: 288px;
     background-size: 1728px 288px !important;
     animation: horse-run-anim 0.8s steps(6) infinite;
+    image-rendering: pixelated;
 }
 
 @keyframes horse-run-anim {
@@ -62,16 +65,22 @@
 .horse-variant-grey.horse-rest {
     background-image: url("/images/icons/horse6_grey_rest.png");
 }
+.horse-variant-black.horse-rest {
+    background-image: url("/images/icons/horse1_black_rest.png");
+}
 
 /* Horse Variants - Run */
 .horse-variant-gold.horse-run {
-    background-image: url("/images/icons/strip_light_gold.png");
+    background-image: url("/images/icons/strip_gold.png");
 }
 .horse-variant-brown.horse-run {
     background-image: url("/images/icons/strip_golden_brown.png");
 }
 .horse-variant-grey.horse-run {
     background-image: url("/images/icons/strip_black.png");
+}
+.horse-variant-black.horse-run {
+    background-image: url("/images/icons/strip_light_gold.png");
 }
 
 .horse-marker {

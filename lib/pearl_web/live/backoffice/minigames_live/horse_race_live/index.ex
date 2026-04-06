@@ -10,8 +10,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
       class="w-full"
       phx-hook="HorseRace"
       id="horse-race-game"
-      phx-target={@myself}
-      data-cid={@myself.cid}
+      phx-target={assigns[:myself]}
+      data-cid={if assigns[:myself], do: assigns[:myself].cid}
       data-duration={@total_race_time}
     >
       <div class="mb-8">
@@ -42,7 +42,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
             <div class="flex gap-2">
               <.button
                 phx-click="start_race"
-                phx-target={@myself}
+                phx-target={assigns[:myself]}
                 disabled={@racing}
                 id="btn-start-race"
                 phx-value-duration={@total_race_time}
@@ -55,7 +55,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
               <%= if @racing do %>
                 <.button
                   phx-click="stop_race"
-                  phx-target={@myself}
+                  phx-target={assigns[:myself]}
                   id="btn-stop-race"
                   class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-2 px-4 rounded-lg shadow-lg transform hover:scale-105 transition-all text-sm"
                 >
@@ -69,14 +69,14 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Index do
 
         <div class="p-2 bg-black rounded-sm  shadow-2xl relative overflow-hidden font-mono">
           <div class="mb-2">
-            <div class="space-y-1" id="horses-container" phx-update="ignore">
+            <div class="space-y-1 overflow-x-hidden" id="horses-container" phx-update="ignore">
               <%= for {horse, index} <- Enum.with_index(@horses) do %>
                 <div class="relative flex">
                   <div class="w-16 h-12 bg-black flex items-center justify-center font-bold text-sm border border-gray-600 z-10">
                     <div class="text-white text-xl">#{index + 1}</div>
                   </div>
 
-                  <div class="relative h-12 flex-1 bg-black border border-gray-600 ml-1">
+                  <div class="relative h-12 flex-1 bg-black border border-gray-600 ml-1 overflow-hidden">
                     <div class="absolute inset-0 flex items-center justify-between px-2 text-gray-700 opacity-50">
                       <div class="w-full border-t border-dashed border-gray-600"></div>
                     </div>

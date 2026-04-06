@@ -245,15 +245,17 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
   end
 
   defp horse_variant_class(horse_number) do
-    case rem(horse_number - 1, 3) do
+    case rem(horse_number - 1, 4) do
       0 -> "horse-variant-gold"
       1 -> "horse-variant-brown"
       2 -> "horse-variant-grey"
+      3 -> "horse-variant-black"
     end
   end
 
-  def format_tokens(value) when is_integer(value), do: Float.round(value * 1.0, 2)
-  def format_tokens(value) when is_float(value), do: Float.round(value, 2)
-  def format_tokens(%Decimal{} = value), do: value |> Decimal.to_float() |> Float.round(2)
+  # Front-end should display integers only (no decimal floating points)
+  def format_tokens(value) when is_integer(value), do: value
+  def format_tokens(value) when is_float(value), do: trunc(value)
+  def format_tokens(%Decimal{} = value), do: value |> Decimal.to_float() |> trunc()
   def format_tokens(value), do: value
 end

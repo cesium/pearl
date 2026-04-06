@@ -300,10 +300,11 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
   end
 
   defp horse_variant_class(index) do
-    case rem(index, 3) do
+    case rem(index, 4) do
       0 -> "horse-variant-gold"
       1 -> "horse-variant-brown"
       2 -> "horse-variant-grey"
+      3 -> "horse-variant-black"
     end
   end
 
@@ -391,12 +392,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
             <p class="text-sm text-gray-500">{gettext("Win Multiplier")}</p>
             <p class="text-2xl font-bold">{Float.round(@multiplier, 2)}x</p>
           </div>
-          <div class="p-4 rounded-lg dark:bg-darkShade/20 bg-lightShade/20">
-            <p class="text-sm text-gray-500">{gettext("Race Duration")}</p>
-            <p class="text-2xl font-bold">{@duration_minutes} min</p>
-          </div>
-          <div class="p-4 rounded-lg dark:bg-darkShade/20 bg-lightShade/20 flex justify-between items-center">
-            <div>
+
+          <div class="p-4 rounded-lg dark:bg-darkShade/20 bg-lightShade/20 flex items-center justify-center">
+            <div class="text-center">
               <p class="text-sm text-gray-500">{gettext("Time Remaining")}</p>
               <p class="text-2xl font-bold">
                 <span class="text-green-600 dark:text-green-400" id="race-timer">
@@ -404,6 +402,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                 </span>
               </p>
             </div>
+          </div>
+
+          <div class="p-4 rounded-lg dark:bg-darkShade/20 bg-lightShade/20 flex flex-col sm:flex-row items-end justify-end">
             <div class="flex gap-2">
               <.button
                 phx-click="start_race"
@@ -443,7 +444,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
 
         <div class="p-1 bg-black  shadow-2xl relative font-iregular mt-4">
           <div class="mb-0.5">
-            <div class="space-y-0" id="horses-container" phx-update="ignore">
+            <div class="space-y-0 overflow-x-hidden" id="horses-container" phx-update="ignore">
               <%= for {horse, index} <- Enum.with_index(@horses) do %>
                 <div
                   class="relative flex border-t border-red-500/40 first:border-t-0"
@@ -454,7 +455,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
                     <div class="text-white text-base">#{index + 1}</div>
                   </div>
 
-                  <div class="relative h-12 flex-1 bg-transparent border border-gray-600 ml-1">
+                  <div class="relative h-12 flex-1 bg-transparent border border-gray-600 ml-1 overflow-hidden">
                     <div class="absolute inset-0 flex">
                       <div class="flex-1 border-r border-dashed border-gray-700/80"></div>
                       <div class="flex-1 border-r border-dashed border-gray-700/80"></div>

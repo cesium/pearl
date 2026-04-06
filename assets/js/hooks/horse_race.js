@@ -149,6 +149,7 @@ export const HorseRace = {
             "horse-variant-gold",
             "horse-variant-brown",
             "horse-variant-grey",
+            "horse-variant-black",
         ];
 
         markers.forEach((marker, index) => {

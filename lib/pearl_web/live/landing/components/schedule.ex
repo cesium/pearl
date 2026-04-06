@@ -158,16 +158,14 @@ defmodule PearlWeb.Landing.Components.Schedule do
         close_button_button_class="-m-3 flex-none p-3 text-dark/85 hover:opacity-70"
         close_button_icon_class="size-8"
       >
-        <%
-          activity_ticket_type = activity_ticket_type(@selected_activity)
-          is_paid_activity = not is_nil(activity_ticket_type)
-          can_enrol = can_enrol?(@selected_activity, @user_role, @enrolments)
-          is_enrolled = already_enrolled?(@selected_activity, @enrolments)
+        <% activity_ticket_type = activity_ticket_type(@selected_activity)
+        is_paid_activity = not is_nil(activity_ticket_type)
+        can_enrol = can_enrol?(@selected_activity, @user_role, @enrolments)
+        is_enrolled = already_enrolled?(@selected_activity, @enrolments)
 
-          is_full =
-            @selected_activity.has_enrolments and
-              @selected_activity.enrolment_count >= @selected_activity.max_enrolments
-        %>
+        is_full =
+          @selected_activity.has_enrolments and
+            @selected_activity.enrolment_count >= @selected_activity.max_enrolments %>
 
         <div class="flex flex-col gap-2 pt-8 w-full">
           <span class="text-2xl md:text-4xl font-bold text-dark pr-10">

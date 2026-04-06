@@ -63,11 +63,28 @@ defmodule Pearl.Repo.Seeds.Activities do
         name: "Workshop"
       },
       %{
+        name: "Activity"
+      },
+      %{
         name: "Break"
       }
     ]
 
-    for category <- categories do
+    existing_names =
+      Activities.list_activity_categories()
+      |> Enum.map(& &1.name)
+      |> MapSet.new()
+
+    categories_to_seed =
+      Enum.reject(categories, fn category ->
+        MapSet.member?(existing_names, category.name)
+      end)
+
+    if categories_to_seed == [] do
+      Mix.shell().info("Activity categories already seeded.")
+    end
+
+    for category <- categories_to_seed do
       changeset = ActivityCategory.changeset(%ActivityCategory{}, category)
 
       case Repo.insert(changeset) do
@@ -124,6 +141,8 @@ defmodule Pearl.Repo.Seeds.Activities do
       break: Enum.find(category_list, fn category -> category.name == "Break" end)
     }
 
+    validate_required_categories!(categories, category_list)
+
     seed_first_day_activities(categories, speakers)
     seed_last_days_activities(categories, speakers)
     seed_rally_de_tascas_activity()
@@ -131,7 +150,7 @@ defmodule Pearl.Repo.Seeds.Activities do
 
 defp seed_rally_de_tascas_activity do
   category_list = Activities.list_activity_categories()
-  gameshow_category = Enum.find(category_list, fn category -> category.name == "Gameshow" end)
+  gameshow_category = Enum.find(category_list, fn category -> category.name == "Activity" end)
 
   if is_nil(gameshow_category) do
     Mix.shell().error("Skipping Rally de Tascas: missing Gameshow category.")
@@ -144,7 +163,7 @@ defp seed_rally_de_tascas_activity do
       time_start: ~T[20:00:00],
       time_end: ~T[23:59:59],
       location: "Se' de Braga",
-      type: :gameshow,
+      type: :activity,
       date: friday,
       category_id: gameshow_category.id,
       has_enrolments: true,
@@ -178,10 +197,12 @@ end
   defp seed_first_day_activities(categories, speakers) do
     for activity <- first_day_seed_data() do
       type = activity.type
+      is_workshop = type == :workshop
+
       changeset = Activities.change_activity(%Activity{},
         activity
         |> Map.put(:date, next_first_tuesday_of_february())
-        |> Map.put(:category_id, Map.get(categories, type).id)
+        |> Map.put(:category_id, category_id_for_type!(categories, type))
         |> Map.put(:has_enrolments, is_workshop)
         |> Map.put(:max_enrolments,  if(is_workshop, do: 30, else: 0))
         |> Map.put(:title, Map.get(activity, :title) || Faker.Company.bs() |> String.capitalize())
@@ -202,7 +223,7 @@ end
         changeset = Activities.change_activity(%Activity{},
           activity
           |> Map.put(:date, Date.shift(next_first_tuesday_of_february(), day: i))
-          |> Map.put(:category_id, Map.get(categories, type).id)
+          |> Map.put(:category_id, category_id_for_type!(categories, type))
           |> Map.put(:has_enrolments, is_workshop)
           |> Map.put(:max_enrolments, if(is_workshop, do: 30, else: 0))
           |> Map.put(:title, Map.get(activity, :title) || Faker.Company.bs() |> String.capitalize())
@@ -224,6 +245,36 @@ end
       {:error, changeset} ->
         Mix.shell().error("Failed to insert activity: #{changeset.title}")
         Mix.shell().error(Kernel.inspect(changeset.errors))
+    end
+  end
+
+  defp category_id_for_type!(_categories, :none), do: nil
+
+  defp category_id_for_type!(categories, type) do
+    case Map.get(categories, type) do
+      %{id: category_id} ->
+        category_id
+
+      nil ->
+        Mix.raise("Missing category for activity type #{inspect(type)}.")
+    end
+  end
+
+  defp validate_required_categories!(categories, category_list) do
+    required_types = [:talk, :pitch, :gameshow, :workshop, :break]
+
+    missing_types =
+      Enum.filter(required_types, fn type ->
+        is_nil(Map.get(categories, type))
+      end)
+
+    if missing_types != [] do
+      existing_names = Enum.map_join(category_list, ", ", & &1.name)
+
+      Mix.raise(
+        "Missing required activity categories: #{Enum.map_join(missing_types, ", ", &inspect/1)}. " <>
+          "Existing categories: [#{existing_names}]."
+      )
     end
   end
 

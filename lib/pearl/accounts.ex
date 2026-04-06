@@ -36,6 +36,7 @@ defmodule Pearl.Accounts do
     |> where(type: :attendee)
     |> join(:left, [o], p in assoc(o, :attendee), as: :attendee)
     |> preload(:attendee)
+    |> order_by([o, attendee: a], desc: a.inserted_at)
     |> Flop.validate_and_run(params, for: User)
   end
 
@@ -45,6 +46,7 @@ defmodule Pearl.Accounts do
     |> where(type: :attendee)
     |> join(:left, [o], p in assoc(o, :attendee), as: :attendee)
     |> preload(:attendee)
+    |> order_by([o, attendee: a], desc: a.inserted_at)
     |> Flop.validate_and_run(params, for: User)
   end
 
@@ -1284,7 +1286,7 @@ defmodule Pearl.Accounts do
       png =
         "#{phx_host}/attendee/#{credential.id}"
         |> QRCodeEx.encode()
-        |> QRCodeEx.png()
+        |> QRCodeEx.png(color: <<140, 1, 32>>, background_color: <<238, 238, 236>>)
 
       {credential.id, [png]}
     end

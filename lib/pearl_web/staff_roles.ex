@@ -1,5 +1,6 @@
 defmodule PearlWeb.StaffRoles do
   @moduledoc false
+  use Gettext, backend: PearlWeb.Gettext
 
   def on_mount(scope, _params, _session, socket) do
     user = socket.assigns.current_user
@@ -25,7 +26,10 @@ defmodule PearlWeb.StaffRoles do
         else
           {:halt,
            socket
-           |> Phoenix.LiveView.put_flash(:error, "You are not authorized to access this page.")
+           |> Phoenix.LiveView.put_flash(
+             :error,
+             gettext("Não estás autorizado a aceder a esta página.")
+           )
            |> Phoenix.LiveView.redirect(to: "/dashboard/scanner")}
         end
     end

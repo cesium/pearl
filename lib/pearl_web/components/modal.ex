@@ -13,11 +13,19 @@ defmodule PearlWeb.Components.Modal do
 
   attr :wrapper_class, :string, default: ""
 
+  attr :container_class, :string, default: "flex min-h-full items-center justify-center"
+
   attr :body_class, :string,
     default: "bg-light dark:bg-dark p-8 sm:p-14 shadow-zinc-700/10 shadow-lg rounded-2xl"
 
   attr :on_cancel, JS, default: %JS{}
+
   attr :close_button, :boolean, default: true
+  attr :close_button_class, :string, default: "absolute top-6 right-5"
+  attr :close_button_icon_class, :string, default: "size-5"
+
+  attr :close_button_button_class, :string,
+    default: "-m-3 flex-none p-3 opacity-20 text-dark dark:text-light hover:opacity-40"
 
   slot :inner_block, required: true
 
@@ -45,7 +53,7 @@ defmodule PearlWeb.Components.Modal do
         aria-modal="true"
         tabindex="0"
       >
-        <div class="flex min-h-full items-center justify-center">
+        <div class={@container_class}>
           <div class="w-full max-w-4xl">
             <.focus_wrap
               id={"#{@id}-container"}
@@ -54,14 +62,14 @@ defmodule PearlWeb.Components.Modal do
               phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
               class={"relative hidden transition #{@body_class}"}
             >
-              <div :if={@close_button} class="absolute top-6 right-5">
+              <div :if={@close_button} class={@close_button_class}>
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class="-m-3 flex-none p-3 opacity-20 text-dark dark:text-light hover:opacity-40"
+                  class={@close_button_button_class}
                   aria-label={gettext("close")}
                 >
-                  <.icon name="hero-x-mark-solid" class="h-5 w-5" />
+                  <.icon name="hero-x-mark-solid" class={@close_button_icon_class} />
                 </button>
               </div>
 

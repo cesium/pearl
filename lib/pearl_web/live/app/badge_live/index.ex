@@ -2,7 +2,8 @@ defmodule PearlWeb.App.BadgeLive.Index do
   use PearlWeb, :app_view
 
   alias Pearl.Contest
-  import PearlWeb.Components.{Button, Badge}
+  import PearlWeb.App.BadgeLive.Components.BadgeFilter
+  import PearlWeb.Components.Badge
 
   @impl true
   def mount(_params, _session, socket) do
@@ -21,33 +22,33 @@ defmodule PearlWeb.App.BadgeLive.Index do
   end
 
   @impl true
-  def handle_event("swap-selection", _, socket) do
-    case socket.assigns.selection do
-      :all ->
-        {:noreply,
-         socket
-         |> assign(:selection, :redeemed)
-         |> stream(
-           :badges,
-           Contest.list_attendee_all_badges_redeem_status(
-             socket.assigns.current_user.attendee.id,
-             true
-           ),
-           reset: true
-         )}
+  def handle_event("set-selection", %{"selection" => "all"}, socket) do
+    {:noreply,
+     socket
+     |> assign(:selection, :all)
+     |> stream(
+       :badges,
+       Contest.list_attendee_all_badges_redeem_status(socket.assigns.current_user.attendee.id),
+       reset: true
+     )}
+  end
 
-      :redeemed ->
-        {:noreply,
-         socket
-         |> assign(:selection, :all)
-         |> stream(
-           :badges,
-           Contest.list_attendee_all_badges_redeem_status(
-             socket.assigns.current_user.attendee.id
-           ),
-           reset: true
-         )}
-    end
+  def handle_event("set-selection", %{"selection" => "redeemed"}, socket) do
+    {:noreply,
+     socket
+     |> assign(:selection, :redeemed)
+     |> stream(
+       :badges,
+       Contest.list_attendee_all_badges_redeem_status(
+         socket.assigns.current_user.attendee.id,
+         true
+       ),
+       reset: true
+     )}
+  end
+
+  def handle_event("set-selection", _, socket) do
+    {:noreply, socket}
   end
 
   @impl true
@@ -56,12 +57,5 @@ defmodule PearlWeb.App.BadgeLive.Index do
      socket
      |> stream_delete(:badges, redeem.badge)
      |> stream_insert(:badges, Map.put(redeem.badge, :redeemed_at, redeem.inserted_at), at: 0)}
-  end
-
-  defp next_selection_text(selection) do
-    case selection do
-      :all -> gettext("Mine")
-      :redeemed -> gettext("All")
-    end
   end
 end

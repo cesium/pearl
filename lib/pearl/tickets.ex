@@ -8,6 +8,7 @@ defmodule Pearl.Tickets do
   alias Pearl.Repo
 
   alias Pearl.Tickets.{Perk, Ticket}
+  alias Pearl.TicketTypes
 
   @doc """
   Returns the list of tickets.
@@ -175,7 +176,7 @@ defmodule Pearl.Tickets do
   def get_user_ticket(user_id) do
     Ticket
     |> where([t], t.user_id == ^user_id)
-    |> preload([:user, :ticket_type, :payment])
+    |> preload([:user, :ticket_type, :payment, ticket_type: :perks])
     |> Repo.one()
   end
 
@@ -192,9 +193,23 @@ defmodule Pearl.Tickets do
 
   """
   def create_ticket(attrs \\ %{}) do
-    %Ticket{}
-    |> Ticket.changeset(attrs)
-    |> Repo.insert()
+    active_ticket_types = TicketTypes.list_active_ticket_types()
+    current_ticket_type = attrs["ticket_type_id"] || attrs[:ticket_type_id]
+
+    case Enum.find(active_ticket_types, fn tt -> tt.id == current_ticket_type end) do
+      nil ->
+        changeset =
+          %Ticket{}
+          |> Ticket.changeset(attrs)
+          |> Ecto.Changeset.add_error(:ticket_type_id, "is not active")
+
+        {:error, changeset}
+
+      _ ->
+        %Ticket{}
+        |> Ticket.changeset(attrs)
+        |> Repo.insert()
+    end
   end
 
   @doc """
@@ -247,6 +262,17 @@ defmodule Pearl.Tickets do
   def mark_ticket_as_paid(%Ticket{} = ticket) do
     update_ticket(ticket, %{paid: true})
   end
+
+  @doc """
+  Returns true if the ticket is paid, false otherwise.
+
+  ## Examples
+
+      iex> paid?(ticket)
+      true
+  """
+  def paid?(%Ticket{paid: paid}), do: paid
+  def paid?(%Pearl.Activities.ActivityTicket{paid: paid}), do: paid
 
   @doc """
   Returns the list of perks.

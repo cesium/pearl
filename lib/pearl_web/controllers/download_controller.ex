@@ -28,7 +28,7 @@ defmodule PearlWeb.DownloadController do
       end)
     else
       conn
-      |> put_flash(:error, "You do not have permission to view this resource")
+      |> put_flash(:error, gettext("Não tens permissão para ver este recurso."))
       |> put_status(403)
       |> redirect(to: ~p"/")
       |> halt()
@@ -45,7 +45,7 @@ defmodule PearlWeb.DownloadController do
       |> send_resp(200, data)
     else
       conn
-      |> put_flash(:error, "You do not have permission to view this resource")
+      |> put_flash(:error, gettext("Não tens permissão para ver este recurso."))
       |> put_status(403)
       |> redirect(to: ~p"/")
       |> halt()
@@ -71,7 +71,7 @@ defmodule PearlWeb.DownloadController do
       end)
     else
       conn
-      |> put_flash(:error, "You do not have permission to view this resource")
+      |> put_flash(:error, gettext("Não tens permissão para ver este recurso."))
       |> put_status(403)
       |> redirect(to: ~p"/")
       |> halt()
@@ -88,7 +88,7 @@ defmodule PearlWeb.DownloadController do
       |> send_resp(200, data)
     else
       conn
-      |> put_flash(:error, "You do not have permission to view this resource")
+      |> put_flash(:error, gettext("Não tens permissão para ver este recurso."))
       |> put_status(403)
       |> redirect(to: ~p"/")
       |> halt()
@@ -121,13 +121,13 @@ defmodule PearlWeb.DownloadController do
 
     if is_nil(company.badge_id) do
       conn
-      |> put_flash(:error, "You do not have permission to view this resource")
+      |> put_flash(:error, gettext("Não tens permissão para ver este recurso."))
       |> redirect(to: ~p"/sponsor")
     else
       case Companies.get_cvs(company) do
         [] ->
           conn
-          |> put_flash(:error, "No CVs found")
+          |> put_flash(:error, gettext("Nenhum CV encontrado."))
           |> redirect(to: ~p"/sponsor")
 
         files ->

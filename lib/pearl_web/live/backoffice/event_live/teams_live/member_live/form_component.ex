@@ -83,7 +83,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.MemberLive.FormComponent 
       {:ok, _member} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Member updated successfully")
+         |> put_flash(:success, gettext("Membro atualizado com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -99,7 +99,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.MemberLive.FormComponent 
             {:noreply,
              socket
              |> assign(:member, member)
-             |> put_flash(:info, "Member created successfully")
+             |> put_flash(:success, gettext("Membro criado com sucesso"))
              |> push_patch(to: socket.assigns.patch)}
         end
 

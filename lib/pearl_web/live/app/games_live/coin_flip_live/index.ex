@@ -10,7 +10,7 @@ defmodule PearlWeb.App.GamesLive.CoinFlipLive.Index do
     if socket.assigns.current_user.attendee.ineligible do
       {:ok,
        socket
-       |> put_flash(:error, "Can't play the coin flip minigame with this account.")
+       |> put_flash(:error, gettext("Não podes jogar o minijogo cara ou coroa com esta conta."))
        |> push_navigate(to: ~p"/app")}
     else
       if connected?(socket) do
@@ -51,7 +51,7 @@ defmodule PearlWeb.App.GamesLive.CoinFlipLive.Index do
          |> assign(:attendee_tokens, socket.assigns.attendee_tokens - socket.assigns.bet)}
 
       {:error, message} ->
-        {:noreply, socket |> put_flash(:error, message)}
+        {:noreply, socket |> put_flash(:error, Gettext.gettext(PearlWeb.Gettext, message))}
     end
   end
 
@@ -79,7 +79,7 @@ defmodule PearlWeb.App.GamesLive.CoinFlipLive.Index do
       {:error, message} ->
         {:noreply,
          socket
-         |> put_flash(:error, message)}
+         |> put_flash(:error, Gettext.gettext(PearlWeb.Gettext, message))}
     end
   end
 

@@ -16,6 +16,16 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
   import PearlWeb.Components.Tooltip
 
   @impl true
+  def mount(socket) do
+    {:ok,
+     socket
+     |> allow_upload(:picture,
+       accept: UserPicture.extension_whitelist(),
+       max_entries: 1
+     )}
+  end
+
+  @impl true
   def render(assigns) do
     case assigns.context do
       :landing -> render_landing(assigns)
@@ -106,7 +116,7 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
           <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
             <div class="flex justify-between">
               <h4 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <span>Código de Referência</span>
+                <span>Código de Embaixador</span>
               </h4>
               <.tooltip
                 position="left"
@@ -411,10 +421,6 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
       |> assign(notification_text: nil)
       |> assign(context: context)
       |> assign(base_path: base_path)
-      |> allow_upload(:picture,
-        accept: UserPicture.extension_whitelist(),
-        max_entries: 1
-      )
 
     socket =
       if user.type == :attendee do

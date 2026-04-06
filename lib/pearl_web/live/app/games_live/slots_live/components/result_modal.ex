@@ -12,9 +12,13 @@ defmodule PearlWeb.App.SlotsLive.Components.ResultModal do
   attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}
 
-  # We pass these classes down to the base modal's attributes
   attr :wrapper_class, :string, default: ""
-  attr :content_class, :string, default: "bg-primary ring-4 ring-white py-14 px-5"
+
+  attr :content_class, :string,
+    default:
+      "bg-dark w-full max-w-lg mx-auto rounded-2xl border border-light/10 ring-white p-8 pt-9"
+
+  attr :container_class, :string, default: "flex min-h-full items-center justify-center"
 
   def result_modal(assigns) do
     ~H"""
@@ -24,36 +28,51 @@ defmodule PearlWeb.App.SlotsLive.Components.ResultModal do
       on_cancel={@on_cancel}
       wrapper_class={@wrapper_class}
       body_class={@content_class}
+      container_class={@container_class}
       phx-hook="Confetti"
-      data-is_win={@multiplier > 1}
+      data-is_win={win_result?(@multiplier)}
     >
-      <div
-        id={"#{@id}-content-inner"}
-        class="font-terminal uppercase text-3xl md:text-4xl text-center"
-      >
-        {get_spin_result_title(@multiplier)}
-      </div>
-      <div class="text-center mt-4">
-        {get_spin_result_text(@multiplier, @winnings)}
+      <div class="flex flex-col items-center gap-6">
+        <span class="text-center space-y-2">
+          <h2 class="uppercase text-3xl font-bold">{result_title(@multiplier)}</h2>
+          <p class="text-lg text-light/50">{result_description(@multiplier, @winnings)}</p>
+        </span>
+
+        <div class="flex flex-col items-center gap-3 mt-2 w-full bg-dark-muted/10 p-4 rounded-xl border border-light/5">
+          <p class="uppercase text-xs tracking-wide text-light/50">{gettext("Resultado")}</p>
+          <p class="font-bold text-2xl text-center text-light">
+            {gettext("%{winnings} tokens", winnings: @winnings)}
+          </p>
+
+          <p class="text-sm text-light/50 text-center">
+            {multiplier_text(@multiplier)}
+          </p>
+        </div>
       </div>
     </.modal>
     """
   end
 
-  defp get_spin_result_title(multiplier) do
+  defp win_result?(multiplier), do: multiplier > 1
+
+  defp result_title(multiplier) do
     cond do
-      multiplier == 1 -> gettext("Bet refunded! 💰")
-      multiplier > 1 -> gettext("You won tokens! 🎉")
+      multiplier == 1 -> gettext("Aposta devolvida")
+      multiplier > 1 -> gettext("Parabéns!")
     end
   end
 
-  defp get_spin_result_text(multiplier, winnings) do
+  defp result_description(multiplier, winnings) do
     cond do
       multiplier == 1 ->
-        gettext("Phew, your bet was refunded! Will you try your luck with another spin?")
+        gettext("Recuperaste %{winnings} tokens. Queres tentar outra vez?", winnings: winnings)
 
       multiplier > 1 ->
-        gettext("Congratulations! You won %{winnings} tokens!", winnings: winnings)
+        gettext("Tiveste uma combinação vencedora.")
     end
+  end
+
+  defp multiplier_text(multiplier) do
+    gettext("Multiplicador: x%{multiplier}", multiplier: multiplier)
   end
 end

@@ -10,6 +10,16 @@
 </div>
 <div class="px-8 md:px-12.5 lg:px-16 bg-white">
   <.activities />
+</div>
+<.speakers
+  speakers={@speakers}
+  selected_speaker={@selected_speaker}
+  selected_activity={@selected_activity}
+/>
+<div class="px-8 md:px-12.5 lg:px-16 bg-white">
   <.sponsors :if={@has_sponsors?} tiers={@tiers} />
+</div>
+<.promo_cards />
+<div class="px-8 md:px-12.5 lg:px-16 bg-white">
   <.link_wrapup is_register_open?={@is_register_open?} />
 </div>

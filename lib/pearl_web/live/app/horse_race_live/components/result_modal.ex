@@ -14,7 +14,8 @@ defmodule PearlWeb.App.HorseRaceLive.Components.ResultModal do
   attr :wrapper_class, :string, default: ""
 
   attr :content_class, :string,
-    default: "bg-dark w-full max-w-lg mx-auto border border-light/10 ring-white p-8 pt-9"
+    default:
+      "bg-dark w-full max-w-lg mx-auto rounded-2xl border border-light/10 ring-white p-8 pt-9"
 
   attr :container_class, :string, default: "flex min-h-full items-center justify-center"
 
@@ -31,22 +32,6 @@ defmodule PearlWeb.App.HorseRaceLive.Components.ResultModal do
       data-is_win={@race_result.winnings > 0}
     >
       <div class="flex flex-col items-center gap-6">
-        <!-- Horse Icon -->
-        <div class="flex justify-center w-full mt-4 mb-4">
-          <div class="relative w-24 h-24 rounded-full border border-light/10 bg-dark-muted/20 flex items-center justify-center">
-            <div
-              class={[
-                "horse-icon shrink-0",
-                "horse-rest",
-                "opacity-100",
-                horse_variant_class(@race_result.winning_horse)
-              ]}
-              style="transform: scale(0.5); transform-origin: center;"
-            >
-            </div>
-          </div>
-        </div>
-
         <span class="text-center space-y-2">
           <h2 class="uppercase text-3xl font-bold">
             <%= if @race_result.winnings > 0 do %>
@@ -77,6 +62,17 @@ defmodule PearlWeb.App.HorseRaceLive.Components.ResultModal do
               {gettext("-%{losses} tokens", losses: format_tokens(@race_result.losses))}
             <% end %>
           </p>
+
+          <div
+            class={[
+              "horse-icon shrink-0",
+              "horse-rest",
+              "opacity-100",
+              horse_variant_class(@race_result.winning_horse)
+            ]}
+            style="transform: scale(0.5); transform-origin: center;"
+          >
+          </div>
         </div>
       </div>
     </.modal>

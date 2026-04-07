@@ -77,10 +77,16 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
       {%{attendee: attendee}, :attendee} ->
         case has_paid_ticket?(user) do
-          true -> perform_enrolment(attendee.id, id, socket)
+          true ->
+            perform_enrolment(attendee.id, id, socket)
+
           false ->
             {:noreply,
-             put_flash(socket, :error, gettext("Precisas de um bilhete pago para te inscreveres nas atividades"))}
+             put_flash(
+               socket,
+               :error,
+               gettext("Precisas de um bilhete pago para te inscreveres nas atividades")
+             )}
         end
     end
   end
@@ -100,12 +106,16 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
     case has_paid_ticket?(user) do
       true ->
-        {:noreply, redirect(socket, to: ~p"/checkout/activity/init?ticket_type_id=#{ticket_type_id}")}
+        {:noreply,
+         redirect(socket, to: ~p"/checkout/activity/init?ticket_type_id=#{ticket_type_id}")}
 
       false ->
         {:noreply,
          socket
-         |> put_flash(:error, gettext("Precisas de um bilhete pago para comprar bilhetes de atividades"))}
+         |> put_flash(
+           :error,
+           gettext("Precisas de um bilhete pago para comprar bilhetes de atividades")
+         )}
     end
   end
 
@@ -281,7 +291,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     phx-value-ticket_type_id={activity_ticket_type.id}
                     phx-value-type="activity"
                     class="text-sm font-bold"
-                    disabled={is_nil(@current_user) or not has_paid_ticket?(@current_user)  or is_full}
+                    disabled={is_nil(@current_user) or not has_paid_ticket?(@current_user) or is_full}
                   />
                 <% @selected_activity.link -> %>
                   <a
@@ -764,7 +774,9 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     phx-value-ticket_type_id={@activity_ticket_type.id}
                     phx-value-type="activity"
                     class="text-sm font-bold"
-                    disabled={is_nil(@current_user) or not has_paid_ticket?(@current_user) or @is_full}
+                    disabled={
+                      is_nil(@current_user) or not has_paid_ticket?(@current_user) or @is_full
+                    }
                   />
                 <% @activity.link -> %>
                   <a
@@ -785,7 +797,9 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     phx-target={@myself}
                     data-confirm={gettext("Tem certeza de que te queres inscrever?")}
                     class="text-sm font-bold"
-                    disabled={is_nil(@current_user) or not has_paid_ticket?(@current_user) or @is_full}
+                    disabled={
+                      is_nil(@current_user) or not has_paid_ticket?(@current_user) or @is_full
+                    }
                   />
                 <% true -> %>
               <% end %>

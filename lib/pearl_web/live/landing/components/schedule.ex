@@ -942,7 +942,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   defp get_enrolments(_), do: []
 
   defp get_day_summary(date, counts) do
-    day_name = date |> Timex.lformat!("%A", "pt", :strftime) |> String.downcase()
+    day_name = date |> Timex.lformat!("%A", "pt", :strftime)
 
     parts =
       [
@@ -969,7 +969,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
             [last | rest] -> "#{rest |> Enum.reverse() |> Enum.join(", ")}, #{last}"
           end
 
-        "Na #{day_name}, tens #{summary} e mais atividades."
+        "#{day_name}, tens #{summary} e mais atividades."
     end
   end
 

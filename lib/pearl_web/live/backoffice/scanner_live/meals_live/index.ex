@@ -1,4 +1,4 @@
-defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Index do
+defmodule PearlWeb.Backoffice.ScannerLive.MealsLive.Index do
   use PearlWeb, :backoffice_view
 
   alias Pearl.Accounts
@@ -10,8 +10,8 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Index do
     ~H"""
     <div>
       <div class="-translate-y-4 sm:translate-y-0">
-        <.scanner_tabs active={:redeems} current_user={@current_user} />
-        <.page title={gettext("Attendee Redeems")} stack_header_on_mobile>
+        <.scanner_tabs active={:meals} current_user={@current_user} />
+        <.page title={gettext("Attendee Meals")}>
           <div
             id="qr-scanner"
             phx-hook="QrScanner"
@@ -85,7 +85,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Index do
         {:noreply, assign(socket, :modal_data, :not_linked)}
 
       attendee ->
-        {:noreply, push_navigate(socket, to: ~p"/dashboard/scanner/redeems/#{attendee.id}")}
+        {:noreply, push_navigate(socket, to: ~p"/dashboard/scanner/meals/#{attendee.id}")}
     end
   end
 

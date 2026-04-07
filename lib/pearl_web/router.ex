@@ -5,9 +5,11 @@ defmodule PearlWeb.Router do
   import PearlWeb.UserTicket
   import PearlWeb.UserRoles
   import PearlWeb.EventRoles
+  import PearlWeb.Themes
 
   pipeline :browser do
     plug :accepts, ["html"]
+    plug :put_theme_color
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, html: {PearlWeb.Layouts, :root}
@@ -460,6 +462,12 @@ defmodule PearlWeb.Router do
           live "/coin_flip", MinigamesLive.Index, :edit_coin_flip
         end
 
+        scope "/meals", EventMealLive do
+          live "/", Index, :index
+          live "/new", Index, :new
+          live "/:id/edit", Index, :edit
+        end
+
         scope "/scanner", ScannerLive do
           live "/", Index, :index
 
@@ -468,6 +476,11 @@ defmodule PearlWeb.Router do
           end
 
           scope "/redeems", InventoryLive do
+            live "/", Index, :index
+            live "/:id", Show, :show
+          end
+
+          scope "/meals", MealsLive do
             live "/", Index, :index
             live "/:id", Show, :show
           end

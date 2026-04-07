@@ -3,27 +3,14 @@ defmodule PearlWeb.Backoffice.ScannerLive.BadgeLive.Index do
 
   alias Pearl.{Accounts, Contest}
 
-  import PearlWeb.Components.{Tabs, Modal}
+  import PearlWeb.Components.{ScannerTabs, Modal}
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
       <div class="-translate-y-4 sm:translate-y-0">
-        <.tabs class="sm:hidden mb-4">
-          <.link patch={~p"/dashboard/scanner"} class="w-full">
-            <.tab active class="gap-2">
-              <.icon name="hero-check-badge" />
-              {gettext("Badges")}
-            </.tab>
-          </.link>
-          <.link patch={~p"/dashboard/scanner/redeems"} class="w-full">
-            <.tab class="gap-2">
-              <.icon name="hero-gift" />
-              {gettext("Redeems")}
-            </.tab>
-          </.link>
-        </.tabs>
+        <.scanner_tabs active={:badges} current_user={@current_user} />
         <.page stack_header_on_mobile>
           <div class="absolute flex justify-center inset-0 z-10 top-20 select-none">
             <span class="bg-dark text-light dark:bg-light dark:text-dark py-4 px-6 rounded-full font-semibold text-xl h-min">

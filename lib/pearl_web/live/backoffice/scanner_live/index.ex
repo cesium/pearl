@@ -3,7 +3,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.Index do
 
   alias Pearl.Contest
 
-  import PearlWeb.Components.{Badge, Table, TableSearch, Tabs}
+  import PearlWeb.Components.{Badge, Table, TableSearch, ScannerTabs}
 
   @impl true
   def mount(_params, _session, socket) do

@@ -87,7 +87,7 @@ defmodule PearlWeb.Components.Page do
       "min-h-40 text-white items-end! pt-0 pb-5.5 " <>
         header_padding_class(stack_header_on_mobile)
 
-  defp header_padding_class(true), do: "py-9"
+  defp header_padding_class(true), do: "py-2"
 
   defp header_padding_class(false), do: "px-6 lg:px-8 py-9"
 

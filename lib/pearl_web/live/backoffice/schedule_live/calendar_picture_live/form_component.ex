@@ -11,7 +11,11 @@ defmodule PearlWeb.Backoffice.ScheduleLive.CalendarPictures.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Upload an image for this day's calendar.")}>
+      <.page
+        title={@title}
+        subtitle={gettext("Upload an image for this day's calendar.")}
+        stack_header_on_mobile
+      >
         <.simple_form
           for={@form}
           id="calendar-pictures-form"

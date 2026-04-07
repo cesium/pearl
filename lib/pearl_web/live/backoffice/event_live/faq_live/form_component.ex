@@ -9,6 +9,7 @@ defmodule PearlWeb.Backoffice.EventLive.FaqLive.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={@title}
         subtitle={gettext("FAQs are publicly available on the event's landing page.")}
       >

@@ -103,13 +103,6 @@ defmodule PearlWeb.Config do
           image: "/images/icons/vault.svg",
           url: "/app/vault",
           enabled: true
-        },
-        %{
-          key: :credential,
-          title: "Credencial",
-          image: "/images/icons/scanner.svg",
-          url: "/app/credential",
-          enabled: true
         }
       ]
       |> Enum.filter(& &1.enabled)
@@ -236,6 +229,13 @@ defmodule PearlWeb.Config do
         icon: "hero-calendar-days",
         url: "/dashboard/schedule/activities",
         scope: %{"schedule" => ["edit"]}
+      },
+      %{
+        key: :lockers,
+        title: "Lockers",
+        icon: "hero-inbox-stack",
+        url: "/dashboard/attendee_lockers",
+        scope: %{"attendee_lockers" => ["show"]}
       },
       %{
         key: :scanner,

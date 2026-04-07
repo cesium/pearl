@@ -11,7 +11,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Index do
     <div>
       <div class="-translate-y-4 sm:translate-y-0">
         <.scanner_tabs active={:redeems} current_user={@current_user} />
-        <.page title={gettext("Attendee Redeems")}>
+        <.page title={gettext("Attendee Redeems")} stack_header_on_mobile>
           <div
             id="qr-scanner"
             phx-hook="QrScanner"

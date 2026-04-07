@@ -11,7 +11,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Confirm do
   def render(assigns) do
     ~H"""
     <div>
-      <.page>
+      <.page stack_header_on_mobile>
         <div class="flex flex-col">
           <p class="text-center text-2xl mb-4">Are you sure?</p>
           <p class="text-center pb-6">

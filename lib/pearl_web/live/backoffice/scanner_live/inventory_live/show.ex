@@ -11,7 +11,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Show do
     <div>
       <div class="-translate-y-4 sm:translate-y-0">
         <.scanner_tabs active={:redeems} current_user={@current_user} />
-        <.page title={"#{@user.name}'s inventory"}>
+        <.page title={"#{@user.name}'s inventory"} stack_header_on_mobile>
           <:actions>
             <.link patch={~p"/dashboard/scanner/redeems"}>
               <.backoffice_button class="flex gap-2 items-center justify-center w-full sm:w-auto">

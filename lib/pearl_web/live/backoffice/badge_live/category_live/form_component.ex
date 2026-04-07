@@ -8,7 +8,11 @@ defmodule PearlWeb.Backoffice.BadgeLive.CategoryLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Every badge gets assigned a category.")}>
+      <.page
+        title={@title}
+        subtitle={gettext("Every badge gets assigned a category.")}
+        stack_header_on_mobile
+      >
         <.simple_form
           for={@form}
           id="category-form"

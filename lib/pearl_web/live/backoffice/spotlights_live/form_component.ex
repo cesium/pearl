@@ -13,7 +13,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.FormComponent do
     ~H"""
     <div>
       <.flash_group flash={@flash} />
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.link navigate={~p"/dashboard/spotlights/config/tiers"}>
             <.backoffice_button>

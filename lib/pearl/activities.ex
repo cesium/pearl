@@ -308,17 +308,24 @@ defmodule Pearl.Activities do
 
   ## Examples
 
-      iex> list_speakers()
-      [%{speaker: s, activity: a}, ...]
+      iex> list_speakers_activities()
+      [%{speaker: s, activities: [a, ...]}, ...]
 
   """
   def list_speakers_activities do
     Speaker
-    |> join(:left, [s], a in assoc(s, :activities), as: :activities)
     |> order_by([s], asc: s.name)
-    |> preload([activities: a], activities: a)
-    |> select([s, a], %{speaker: s, activity: a})
+    |> preload(:activities)
     |> Repo.all()
+    |> Enum.map(fn speaker ->
+      activities =
+        speaker.activities
+        |> Enum.sort_by(fn activity ->
+          {activity.date, activity.time_start, activity.time_end}
+        end)
+
+      %{speaker: speaker, activities: activities}
+    end)
   end
 
   def list_speakers(opts) when is_list(opts) do

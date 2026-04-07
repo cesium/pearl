@@ -36,7 +36,7 @@ defmodule PearlWeb.Components.Modal do
       phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
-      class="relative z-50 hidden"
+      class="relative z-50 hidden max-h-[80dvh]"
       {@rest}
     >
       <div
@@ -46,7 +46,7 @@ defmodule PearlWeb.Components.Modal do
       />
 
       <div
-        class={"fixed inset-0 overflow-y-auto #{@wrapper_class}"}
+        class={"fixed inset-0 overflow-y-auto top-20 scrollbar-hide #{@wrapper_class}"}
         aria-labelledby={"#{@id}-title"}
         aria-describedby={"#{@id}-description"}
         role="dialog"

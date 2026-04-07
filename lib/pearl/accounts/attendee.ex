@@ -18,6 +18,8 @@ defmodule Pearl.Accounts.Attendee do
 
     has_many :enrolments, Pearl.Activities.Enrolment
 
+    many_to_many :lockers, Pearl.Lockers.Locker, join_through: "attendee_lockers"
+
     timestamps(type: :utc_datetime)
   end
 

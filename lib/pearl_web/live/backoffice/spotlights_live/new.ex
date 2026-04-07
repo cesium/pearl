@@ -10,7 +10,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.New do
   def render(assigns) do
     ~H"""
     <div id="spotlight-new">
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <div>
           <.simple_form for={@form} id="company-form" phx-target={@myself} phx-submit="save">
             <.field

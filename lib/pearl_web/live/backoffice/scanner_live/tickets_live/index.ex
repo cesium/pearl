@@ -3,19 +3,15 @@ defmodule PearlWeb.Backoffice.ScannerLive.TicketsLive.Index do
 
   alias Pearl.{Accounts, Activities, Tickets}
 
-  import PearlWeb.Components.{Modal}
+  import PearlWeb.Components.{ScannerTabs, Modal}
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
       <div class="-translate-y-4 sm:translate-y-0">
-        <.page>
-          <div class="absolute flex justify-center inset-0 z-10 top-20 select-none">
-            <span class="bg-dark text-light dark:bg-light dark:text-dark py-4 px-6 rounded-full font-semibold text-xl h-min">
-              {gettext("Checking ticket type")}
-            </span>
-          </div>
+        <.scanner_tabs active={:tickets} current_user={@current_user} />
+        <.page title={gettext("Attendee Ticket")}>
           <div
             id="qr-scanner"
             phx-hook="QrScanner"

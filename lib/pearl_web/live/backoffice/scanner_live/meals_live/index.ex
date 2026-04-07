@@ -1,0 +1,99 @@
+defmodule PearlWeb.Backoffice.ScannerLive.MealsLive.Index do
+  use PearlWeb, :backoffice_view
+
+  alias Pearl.Accounts
+
+  import PearlWeb.Components.{ScannerTabs, Modal}
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <div class="-translate-y-4 sm:translate-y-0">
+        <.scanner_tabs active={:meals} current_user={@current_user} />
+        <.page title={gettext("Attendee Meals")}>
+          <div
+            id="qr-scanner"
+            phx-hook="QrScanner"
+            data-ask_perm="permission-button"
+            data-open_on_mount
+            data-on_start="document.getElementById('scan-info').style.display = 'none'"
+            data-on_success="scan"
+            class="relative"
+          >
+          </div>
+          <div id="scan-info" class="flex flex-col items-center gap-8 text-center py-40">
+            <p id="loadingMessage">
+              {gettext("Unable to access camera.")}
+              {gettext(
+                "Make sure you allow the use of your camera on this browser and that it isn't being used elsewhere."
+              )}
+            </p>
+            <.backoffice_button id="permission-button" type="button">
+              {gettext("Request Permission")}
+            </.backoffice_button>
+          </div>
+        </.page>
+      </div>
+      <.modal
+        :if={@modal_data != nil}
+        id="modal-scan-error"
+        show
+        on_cancel={JS.push("close-modal")}
+        wrapper_class="px-4"
+      >
+        <div class="flex flex-row gap-4 items-center">
+          <.icon name="hero-x-circle" class="text-red-500 w-8" />
+          <p>
+            <%= if @modal_data do %>
+              {error_message(@modal_data)}
+            <% end %>
+          </p>
+        </div>
+      </.modal>
+    </div>
+    """
+  end
+
+  @impl true
+  def mount(_params, _session, socket) do
+    {:ok,
+     socket
+     |> assign(:current_page, :scanner)
+     |> assign(:modal_data, nil)}
+  end
+
+  @impl true
+  def handle_event("scan", data, socket) do
+    case safely_extract_id_from_url(data) do
+      {:ok, id} -> check_credential(id, socket)
+      {:error, _} -> {:noreply, assign(socket, :modal_data, :invalid)}
+    end
+  end
+
+  defp check_credential(id, socket) do
+    if Accounts.credential_exists?(id) do
+      handle_attendee_lookup(id, socket)
+    else
+      {:noreply, assign(socket, :modal_data, :not_found)}
+    end
+  end
+
+  defp handle_attendee_lookup(id, socket) do
+    case Accounts.get_attendee_from_credential(id) do
+      nil ->
+        {:noreply, assign(socket, :modal_data, :not_linked)}
+
+      attendee ->
+        {:noreply, push_navigate(socket, to: ~p"/dashboard/scanner/meals/#{attendee.id}")}
+    end
+  end
+
+  defp error_message(:not_found),
+    do: gettext("This credential is not registered in the event's system! (404)")
+
+  defp error_message(:not_linked),
+    do: gettext("This credential is not linked to any attendee! (400)")
+
+  defp error_message(:invalid), do: gettext("Not a valid credential! (400)")
+end

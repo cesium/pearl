@@ -22,4 +22,20 @@ defmodule Pearl.TicketsFixtures do
 
     perk
   end
+
+  @doc """
+  Generate a event_meal.
+  """
+  def event_meal_fixture(attrs \\ %{}) do
+    {:ok, event_meal} =
+      attrs
+      |> Enum.into(%{
+        date: ~D[2026-04-01],
+        description: "some description",
+        meal_type: "some meal_type"
+      })
+      |> Pearl.Tickets.create_event_meal()
+
+    event_meal
+  end
 end

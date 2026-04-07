@@ -5,9 +5,11 @@ defmodule PearlWeb.Router do
   import PearlWeb.UserTicket
   import PearlWeb.UserRoles
   import PearlWeb.EventRoles
+  import PearlWeb.Themes
 
   pipeline :browser do
     plug :accepts, ["html"]
+    plug :put_theme_color
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, html: {PearlWeb.Layouts, :root}
@@ -469,6 +471,12 @@ defmodule PearlWeb.Router do
           end
         end
 
+        scope "/meals", EventMealLive do
+          live "/", Index, :index
+          live "/new", Index, :new
+          live "/:id/edit", Index, :edit
+        end
+
         scope "/scanner", ScannerLive do
           live "/", Index, :index
 
@@ -481,8 +489,22 @@ defmodule PearlWeb.Router do
             live "/:id", Show, :show
           end
 
+          scope "/meals", MealsLive do
+            live "/", Index, :index
+            live "/:id", Show, :show
+          end
+
           live "/enrolments/:id", EnrolmentLive.Index, :index
           live "/tickets", TicketsLive.Index, :index
+        end
+
+        scope "/attendee_lockers", LockersLive do
+          live "/", Index, :index
+          live "/config", Index, :config
+          live "/:attendee_id", Index, :show
+          live "/:attendee_id/history", Index, :history
+          live "/:attendee_id/:session_id", Index, :open_locker
+          live "/:attendee_id/:session_id/new_item", Index, :new_item
         end
 
         live "/profile_settings", ProfileSettingsLive, :edit

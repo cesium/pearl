@@ -8,7 +8,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   alias Pearl.TicketTypes
   alias Plug.Conn.Query
 
-  import PearlWeb.Components.{Modal, Button}
+  import PearlWeb.Components.{Markdown, Modal, Button}
 
   @impl true
   def mount(socket) do
@@ -245,9 +245,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
             <h3 class="text-base md:text-lg font-bold text-dark mb-2">
               {gettext("Descrição")}
             </h3>
-            <div class="text-dark/75 w-full leading-relaxed">
-              {@selected_activity.description || gettext("Sem descrição disponível.")}
-            </div>
+            <.markdown content={@selected_activity.description} class="text-dark/75" />
           </div>
 
           <div class="mt-6 pt-4 border-t border-light-muted/60">
@@ -942,7 +940,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   defp get_enrolments(_), do: []
 
   defp get_day_summary(date, counts) do
-    day_name = date |> Timex.lformat!("%A", "pt", :strftime) |> String.downcase()
+    day_name = date |> Timex.lformat!("%A", "pt", :strftime)
 
     parts =
       [
@@ -969,7 +967,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
             [last | rest] -> "#{rest |> Enum.reverse() |> Enum.join(", ")}, #{last}"
           end
 
-        "Na #{day_name}, tens #{summary} e mais atividades."
+        "#{day_name}, tens #{summary} e mais atividades."
     end
   end
 

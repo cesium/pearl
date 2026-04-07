@@ -10,7 +10,11 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Speakers participate in the event's activities.")}>
+      <.page
+        title={@title}
+        subtitle={gettext("Speakers participate in the event's activities.")}
+        stack_header_on_mobile
+      >
         <.simple_form
           for={@form}
           id="speaker-form"

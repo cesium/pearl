@@ -140,6 +140,13 @@ defmodule PearlWeb.Config do
         scope: %{"attendees" => ["show"]}
       },
       %{
+        key: :meals,
+        title: "Meals",
+        icon: "hero-cake",
+        url: "/dashboard/meals",
+        scope: %{"meals" => ["show"]}
+      },
+      %{
         key: :staffs,
         title: "Personnel",
         icon: "hero-hand-raised",
@@ -222,6 +229,13 @@ defmodule PearlWeb.Config do
         icon: "hero-calendar-days",
         url: "/dashboard/schedule/activities",
         scope: %{"schedule" => ["edit"]}
+      },
+      %{
+        key: :lockers,
+        title: "Lockers",
+        icon: "hero-inbox-stack",
+        url: "/dashboard/attendee_lockers",
+        scope: %{"attendee_lockers" => ["show"]}
       },
       %{
         key: :scanner,

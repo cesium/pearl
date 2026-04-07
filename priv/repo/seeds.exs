@@ -24,6 +24,7 @@ defmodule Pearl.Repo.Seeds do
       "teams.exs",
       "tickets.exs",
       "discount_codes.exs",
+      "meals.exs",
       "scratchcards.exs"
     ]
     |> Enum.each(fn file ->

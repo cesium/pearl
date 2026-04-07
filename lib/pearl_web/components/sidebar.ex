@@ -132,7 +132,7 @@ defmodule PearlWeb.Components.Sidebar do
       |> assign(:profile_url, app_profile_url(assigns.current_user))
 
     ~H"""
-    <div class="fixed inset-x-0 bottom-0 z-40 px-4 pb-4 md:hidden">
+    <div :if={@dock_pages != []} class="fixed inset-x-0 bottom-0 z-40 px-4 pb-4 md:hidden">
       <nav class="mx-auto flex w-full max-w-sm items-center justify-between rounded-full bg-white/5 backdrop-blur-lg border border-white/20 shadow-lg px-4 py-3">
         <%= for page <- @dock_pages do %>
           <.link
@@ -154,7 +154,7 @@ defmodule PearlWeb.Components.Sidebar do
           </.link>
         <% end %>
 
-        <%= if @current_user do %>
+        <%= if @current_user && @current_user.attendee && Pearl.Accounts.attendee_has_credential?(@current_user.attendee.id) do %>
           <.link
             navigate={@profile_url}
             class="flex h-12 w-12 items-center justify-center"
@@ -212,17 +212,32 @@ defmodule PearlWeb.Components.Sidebar do
   attr :title_color, :string, default: ""
   attr :subtitle_color, :string, default: ""
   attr :icon_color, :string, default: ""
+  attr :show_profile, :boolean, default: false
+  attr :profile_url, :string, default: nil
 
   def app_sidebar_account_dropdown(assigns) do
     user = assigns.user
 
-    assigns = assigns |> Map.put(:base_path, get_base_path_by_user_type(user))
+    assigns =
+      assigns
+      |> Map.put(:base_path, get_base_path_by_user_type(user))
+      |> Map.put(
+        :show_profile,
+        user.attendee && Pearl.Accounts.attendee_has_credential?(user.attendee.id)
+      )
+      |> Map.put(:profile_url, "/app/user/#{user.handle}")
 
     ~H"""
-    <.app_user_dropdown id={@id} border={@border} icon_color={@icon_color} user={@user}>
+    <.app_user_dropdown
+      id={@id}
+      border={@border}
+      icon_color={@icon_color}
+      user={@user}
+      show_profile={@show_profile}
+      profile_url={@profile_url}
+    >
       <:title color={@title_color}>{@user.name}</:title>
       <:subtitle color={@subtitle_color}>@{@user.handle}</:subtitle>
-      <:link navigate={"/app/user/#{@user.handle}"}>Profile</:link>
       <:link href="/users/log_out" method={:delete}>Sign out</:link>
     </.app_user_dropdown>
     """
@@ -247,6 +262,8 @@ defmodule PearlWeb.Components.Sidebar do
   end
 
   attr :user, :map, required: true
+  attr :show_profile, :boolean, default: false
+  attr :profile_url, :string, default: nil
 
   defp app_user_dropdown(assigns) do
     ~H"""
@@ -289,16 +306,29 @@ defmodule PearlWeb.Components.Sidebar do
         aria-labelledby={@id}
       >
         <div role="none" class="divide-y divide-primary/10">
-          <%= for link <- @link do %>
-            <.link
-              tabindex="-1"
-              role="menuitem"
-              class="block px-4 py-3 font-medium transition-colors bg-light/5 text-white hover:bg-primary/20 "
-              {link}
-            >
-              {render_slot(link)}
-            </.link>
-          <% end %>
+          <div class="py-1">
+            <%= if Map.get(assigns, :show_profile) do %>
+              <.link
+                tabindex="-1"
+                role="menuitem"
+                class="block px-4 py-3 font-medium transition-colors bg-light/5 text-white hover:bg-primary/20 "
+                navigate={@profile_url}
+              >
+                Profile
+              </.link>
+            <% end %>
+
+            <%= for link <- @link do %>
+              <.link
+                tabindex="-1"
+                role="menuitem"
+                class="block px-4 py-3 font-medium transition-colors bg-light/5 text-white hover:bg-primary/20 "
+                {link}
+              >
+                {render_slot(link)}
+              </.link>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>

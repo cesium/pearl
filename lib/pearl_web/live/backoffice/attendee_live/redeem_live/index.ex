@@ -13,7 +13,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.RedeemLive.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Refund badge redeems.")}>
+      <.page title={@title} subtitle={gettext("Refund badge redeems.")} stack_header_on_mobile>
         <:actions>
           <div class="flex flex-row w-full gap-4">
             <.table_search

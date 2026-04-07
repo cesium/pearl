@@ -9,6 +9,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.CredentialLive.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title="Credential"
         subtitle={gettext("Credential link settings for %{name}.", name: assigns.attendee.user.name)}
       >

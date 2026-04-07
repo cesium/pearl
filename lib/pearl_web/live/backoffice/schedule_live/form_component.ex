@@ -10,7 +10,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Configures the event's dates.")}>
+      <.page title={@title} subtitle={gettext("Configures the event's dates.")} stack_header_on_mobile>
         <div class="my-8">
           <.form
             id="event-config-form"

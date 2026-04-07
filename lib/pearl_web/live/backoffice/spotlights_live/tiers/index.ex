@@ -10,7 +10,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Tiers.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <ul id="tiers" class="h-96 mt-8 pb-8 flex flex-col space-y-2 overflow-y-auto">
           <li
             :for={{id, tier} <- @streams.tiers}

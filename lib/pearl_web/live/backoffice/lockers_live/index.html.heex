@@ -1,0 +1,132 @@
+<.page title="Lockers" stack_header_on_mobile>
+  <:actions>
+    <div class="flex flex-row w-full gap-4">
+      <.ensure_permissions
+        user={@current_user}
+        permissions={%{"attendee_lockers" => ["config_lockers"]}}
+      >
+        <.link patch={~p"/dashboard/attendee_lockers/config"}>
+          <.backoffice_button>
+            <.icon name="hero-cog-6-tooth" class="w-5 h-5" />
+          </.backoffice_button>
+        </.link>
+      </.ensure_permissions>
+
+      <.backoffice_button phx-click="scan-modal">
+        <span class="flex flex-row items-center gap-2">
+          <.icon name="hero-qr-code" class="w-5 h-5" />
+          <span class="hidden sm:block">{gettext("Scan Search")}</span>
+        </span>
+      </.backoffice_button>
+
+      <.table_search
+        id="attendees-lockers-table-name-search"
+        params={@params}
+        field={:name}
+        path={~p"/dashboard/attendee_lockers"}
+        placeholder={gettext("Search for attendees")}
+      />
+    </div>
+  </:actions>
+
+  <div class="py-4">
+    <.table id="attendees-lockers-table" items={@streams.attendees} meta={@meta} params={@params}>
+      <:col :let={{_id, user}} sortable field={:name} label="Name">
+        <div class="flex gap-4 flex-center items-center">
+          <.ensure_permissions user={@current_user} permissions={%{"attendees" => ["edit"]}}>
+            <.link patch={~p"/dashboard/attendees/#{user.attendee.id}"}>
+              <.avatar
+                name={user.name}
+                src={Uploaders.UserPicture.url({user.picture, user}, :original, signed: true)}
+              />
+            </.link>
+          </.ensure_permissions>
+
+          <div class="self-center">
+            <p class="text-base font-semibold">{user.name}</p>
+            <p class="font-normal">@{user.handle}</p>
+          </div>
+        </div>
+      </:col>
+
+      <:col :let={{_id, user}} label={gettext("Current Locker")} class="hidden lg:table-cell">
+        <%= if locker_number = @active_lockers_by_attendee[user.attendee.id] do %>
+          <span class="inline-flex items-center font-semibold text-dark/70">
+            {gettext("Locker %{number}", number: locker_number)}
+          </span>
+        <% else %>
+          <span class="text-dark/40">-</span>
+        <% end %>
+      </:col>
+
+      <:action :let={{_id, user}}>
+        <.link patch={~p"/dashboard/attendee_lockers/#{user.attendee.id}"}>
+          <.icon name="hero-chevron-right" class="w-5 h-5" />
+        </.link>
+      </:action>
+    </.table>
+  </div>
+</.page>
+
+<.scan_modal modal={@modal} />
+
+<.attendee_modal
+  live_action={@live_action}
+  modal={@modal}
+  user={@user}
+  attendee={@attendee}
+  active_locker={assigns[:active_locker]}
+/>
+
+<.history_modal
+  live_action={@live_action}
+  attendee={@attendee}
+  user={@user}
+  sessions={@locker_sessions}
+/>
+
+<.assign_locker_modal
+  modal={@modal}
+  configured_lockers={@configured_lockers}
+  free_lockers={@free_lockers}
+/>
+
+<.open_locker_modal
+  live_action={@live_action}
+  locker={@locker}
+  user={@user}
+  current_user={@current_user}
+  attendee={@attendee}
+  session_id={assigns[:session_id]}
+  session_active={@session_active}
+  locker_items={@locker_items}
+/>
+
+<.modal
+  :if={@live_action in [:config]}
+  id="lockers-configuration-modal"
+  show
+  on_cancel={JS.navigate(~p"/dashboard/attendee_lockers")}
+>
+  <.live_component
+    module={PearlWeb.Backoffice.LockersLive.ConfigureLockers.FormComponent}
+    id={:config}
+    title={@page_title}
+    patch={~p"/dashboard/attendee_lockers/"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:new_item]}
+  id="lockers-new-item-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/attendee_lockers/#{@attendee.id}/#{@session_id}")}
+>
+  <.live_component
+    module={PearlWeb.Backoffice.LockersLive.NewItemLive.FormComponent}
+    id={:new_item}
+    title={@page_title}
+    session_id={@session_id}
+    patch={~p"/dashboard/attendee_lockers/#{@attendee.id}/#{@session_id}"}
+  />
+</.modal>

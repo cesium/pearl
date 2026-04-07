@@ -581,6 +581,7 @@ defmodule PearlWeb.CoreComponents do
   attr :style, :string, default: nil
   attr :overlay_class, :string, default: nil
   attr :title_class, :string, default: ""
+  attr :actions_layout, :atom, values: [:inline, :stack_mobile], default: :inline
 
   slot :inner_block, required: true
   slot :subtitle
@@ -590,8 +591,7 @@ defmodule PearlWeb.CoreComponents do
     ~H"""
     <header
       class={[
-        @actions != [] &&
-          "flex items-left sm:items-center justify-between gap-2 sm:gap-6 flex-row",
+        @actions != [] && header_layout_class(@actions_layout),
         @overlay_class && "relative overflow-hidden",
         @class
       ]}
@@ -606,10 +606,22 @@ defmodule PearlWeb.CoreComponents do
           {render_slot(@subtitle)}
         </p>
       </div>
-      <div class="relative z-10 flex-none">{render_slot(@actions)}</div>
+      <div class={[
+        "relative z-10",
+        @actions_layout == :stack_mobile && "w-full sm:w-auto",
+        @actions_layout == :inline && "flex-none"
+      ]}>
+        {render_slot(@actions)}
+      </div>
     </header>
     """
   end
+
+  defp header_layout_class(:stack_mobile),
+    do: "flex flex-col items-start sm:items-center justify-between gap-4 sm:gap-6 sm:flex-row"
+
+  defp header_layout_class(:inline),
+    do: "flex items-left sm:items-center justify-between gap-2 sm:gap-6 flex-row"
 
   @doc """
   Renders a data list.

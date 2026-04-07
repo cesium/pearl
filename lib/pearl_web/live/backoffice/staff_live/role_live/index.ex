@@ -7,7 +7,7 @@ defmodule PearlWeb.Backoffice.StaffLive.RoleLive.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.link navigate={~p"/dashboard/staffs/roles/new"}>
             <.backoffice_button>{gettext("New Role")}</.backoffice_button>

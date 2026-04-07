@@ -11,6 +11,7 @@ defmodule PearlWeb.Backoffice.EventLive.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={@title}
         subtitle={gettext("Generic event settings. Careful with what you change.")}
       >

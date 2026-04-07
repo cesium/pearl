@@ -10,7 +10,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ImportComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <.guide :if={!@status} />
         <form phx-change="files-selected" phx-target={@myself} class="py-4">
           <p :if={@status} class="text-center">{status_message(@status)}</p>

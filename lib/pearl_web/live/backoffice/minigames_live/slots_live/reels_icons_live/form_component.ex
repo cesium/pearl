@@ -12,6 +12,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ReelIcons.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={gettext("Reel Icons Configuration")}
         subtitle={gettext("Configures slots reel icons.")}
       >

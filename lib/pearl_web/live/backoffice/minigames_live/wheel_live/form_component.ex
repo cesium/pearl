@@ -11,6 +11,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Wheel.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={gettext("Lucky Wheel Configuration")}
         subtitle={gettext("Configures lucky wheel minigame's internal settings.")}
       >

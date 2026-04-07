@@ -76,7 +76,12 @@ defmodule PearlWeb.Landing.Components.Schedule do
          put_flash(socket, :tip, gettext("Apenas participantes se podem inscrever em atividades"))}
 
       {%{attendee: attendee}, :attendee} ->
-        perform_enrolment(attendee.id, id, socket)
+        case has_paid_ticket?(user) do
+          true -> perform_enrolment(attendee.id, id, socket)
+          false ->
+            {:noreply,
+             put_flash(socket, :error, gettext("Precisas de um bilhete pago para te inscreveres nas atividades"))}
+        end
     end
   end
 
@@ -91,7 +96,17 @@ defmodule PearlWeb.Landing.Components.Schedule do
         %{"ticket_type_id" => ticket_type_id, "type" => "activity"},
         socket
       ) do
-    {:noreply, redirect(socket, to: ~p"/checkout/activity/init?ticket_type_id=#{ticket_type_id}")}
+    user = socket.assigns.current_user
+
+    case has_paid_ticket?(user) do
+      true ->
+        {:noreply, redirect(socket, to: ~p"/checkout/activity/init?ticket_type_id=#{ticket_type_id}")}
+
+      false ->
+        {:noreply,
+         socket
+         |> put_flash(:error, gettext("Precisas de um bilhete pago para comprar bilhetes de atividades"))}
+    end
   end
 
   def handle_event("select_ticket", _params, socket) do
@@ -172,7 +187,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
             Informações
           </span>
 
-          <div class="flex flex-row flex-wrap gap-2">
+          <div class="flex flex-row gap-2 w-full overflow-x-auto  overflow-y-none scrollbar-hide">
             <%= for speaker <- @selected_activity.speakers do %>
               <div
                 :if={speaker.picture}
@@ -181,7 +196,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
                 <img
                   src={Uploaders.Speaker.url({speaker.picture, speaker}, :original, signed: true)}
                   alt={speaker.name}
-                  class="size-20 md:size-30 mt-4 md:mt-6 mb-2 md:mb-4 object-cover animate-[fade_in_0.5s_ease-out]"
+                  class="min-w-20 md:min-w-30 size-20 md:size-30 mt-4 md:mt-6 mb-2 md:mb-4 object-cover animate-[fade_in_0.5s_ease-out]"
                 />
 
                 <span class="absolute w-[95%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
@@ -266,7 +281,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     phx-value-ticket_type_id={activity_ticket_type.id}
                     phx-value-type="activity"
                     class="text-sm font-bold"
-                    disabled={is_nil(@current_user)}
+                    disabled={is_nil(@current_user) or not has_paid_ticket?(@current_user)  or is_full}
                   />
                 <% @selected_activity.link -> %>
                   <a
@@ -287,7 +302,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     phx-target={@myself}
                     data-confirm={gettext("Tem certeza de que te queres inscrever?")}
                     class="text-sm font-bold"
-                    disabled={is_nil(@current_user)}
+                    disabled={is_nil(@current_user) or not has_paid_ticket?(@current_user) or is_full}
                   />
                 <% true -> %>
               <% end %>
@@ -749,7 +764,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     phx-value-ticket_type_id={@activity_ticket_type.id}
                     phx-value-type="activity"
                     class="text-sm font-bold"
-                    disabled={is_nil(@current_user)}
+                    disabled={is_nil(@current_user) or not has_paid_ticket?(@current_user) or @is_full}
                   />
                 <% @activity.link -> %>
                   <a
@@ -770,7 +785,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
                     phx-target={@myself}
                     data-confirm={gettext("Tem certeza de que te queres inscrever?")}
                     class="text-sm font-bold"
-                    disabled={is_nil(@current_user)}
+                    disabled={is_nil(@current_user) or not has_paid_ticket?(@current_user) or @is_full}
                   />
                 <% true -> %>
               <% end %>
@@ -974,5 +989,14 @@ defmodule PearlWeb.Landing.Components.Schedule do
   defp view_url(base_url, view_mode, current_date, filters) do
     query = %{"view" => view_mode, "date" => current_date, "filters" => filters}
     "#{base_url}?#{Query.encode(query)}"
+  end
+
+  defp has_paid_ticket?(user) do
+    case user do
+      nil -> false
+      %{ticket: nil} -> false
+      %{ticket: %{paid: paid}} -> paid == true
+      _ -> false
+    end
   end
 end

@@ -11,7 +11,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Confirm do
   def render(assigns) do
     ~H"""
     <div>
-      <.page>
+      <.page stack_header_on_mobile>
         <div class="flex flex-col">
           <p class="text-center text-2xl mb-4">Are you sure?</p>
           <p class="text-center pb-6">
@@ -54,17 +54,17 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Confirm do
         {:ok, _spotlight} ->
           {:noreply,
            socket
-           |> put_flash(:info, "Spotlight started successfully.")
+           |> put_flash(:success, gettext("Spotlight iniciado com sucesso."))
            |> push_navigate(to: ~p"/dashboard/spotlights")}
 
         {:error, msg} ->
           {:noreply,
            socket
-           |> put_flash(:error, msg)
+           |> put_flash(:error, Gettext.gettext(PearlWeb.Gettext, msg))
            |> push_patch(to: ~p"/dashboard/spotlights")}
       end
     else
-      {:noreply, socket |> put_flash(:error, "Missing company or duration information.")}
+      {:noreply, socket |> put_flash(:error, gettext("Falta informação da empresa ou duração."))}
     end
   end
 

@@ -27,6 +27,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.FormComponen
         <.field field={@form[:description]} type="textarea" label="Description" />
         <.field field={@form[:icon]} type="text" label="Icon" />
         <.field field={@form[:color]} type="text" label="Color" />
+        <.field field={@form[:allows_meals]} type="checkbox" label="Allows Meals" />
         <:actions>
           <.backoffice_button phx-disable-with="Saving...">Save Perk</.backoffice_button>
         </:actions>
@@ -60,7 +61,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.FormComponen
       {:ok, _perk} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Perk updated successfully")
+         |> put_flash(:success, gettext("Benefício atualizado com sucesso."))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -77,7 +78,7 @@ defmodule PearlWeb.Backoffice.TicketsLive.TicketTypesLive.PerksLive.FormComponen
       {:ok, _perk} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Perk created successfully")
+         |> put_flash(:success, gettext("Benefício criado com sucesso."))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

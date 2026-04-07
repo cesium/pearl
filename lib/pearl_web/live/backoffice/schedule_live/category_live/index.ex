@@ -9,7 +9,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.CategoryLive.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"schedule" => ["edit"]}}>
             <.link navigate={~p"/dashboard/schedule/activities/categories/new"}>

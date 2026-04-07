@@ -37,9 +37,9 @@ defmodule Pearl.Repo.Seeds.Activities do
     case Activities.list_activities() do
       [] ->
         seed_activities()
-      _  ->
-        Mix.shell().error("Found activities, aborting seeding activities.")
-    end
+        _  ->
+          Mix.shell().error("Found activities, aborting seeding activities.")
+        end
   end
 
   def seed_event_schedule_config do
@@ -63,11 +63,28 @@ defmodule Pearl.Repo.Seeds.Activities do
         name: "Workshop"
       },
       %{
+        name: "Activity"
+      },
+      %{
         name: "Break"
       }
     ]
 
-    for category <- categories do
+    existing_names =
+      Activities.list_activity_categories()
+      |> Enum.map(& &1.name)
+      |> MapSet.new()
+
+    categories_to_seed =
+      Enum.reject(categories, fn category ->
+        MapSet.member?(existing_names, category.name)
+      end)
+
+    if categories_to_seed == [] do
+      Mix.shell().info("Activity categories already seeded.")
+    end
+
+    for category <- categories_to_seed do
       changeset = ActivityCategory.changeset(%ActivityCategory{}, category)
 
       case Repo.insert(changeset) do
@@ -126,15 +143,66 @@ defmodule Pearl.Repo.Seeds.Activities do
 
     seed_first_day_activities(categories, speakers)
     seed_last_days_activities(categories, speakers)
+    seed_rally_de_tascas_activity()
   end
+
+defp seed_rally_de_tascas_activity do
+  category_list = Activities.list_activity_categories()
+  gameshow_category = Enum.find(category_list, fn category -> category.name == "Activity" end)
+
+  if is_nil(gameshow_category) do
+    Mix.shell().error("Skipping Rally de Tascas: missing Activity category.")
+  else
+    event_start_date = next_first_tuesday_of_february()
+    friday = Date.add(event_start_date, 2)
+
+    activity = %{
+      title: "Rally de Tascas",
+      time_start: ~T[20:00:00],
+      time_end: ~T[23:59:59],
+      location: "Se' de Braga",
+      type: :activity,
+      date: friday,
+      category_id: gameshow_category.id,
+      has_enrolments: true,
+      max_enrolments: 30,
+      description: "O mítico Rally de Tascas!"
+    }
+
+    existing_activity =
+      Repo.get_by(Activity,
+        title: activity.title,
+        date: activity.date,
+        time_start: activity.time_start,
+        time_end: activity.time_end
+      )
+
+    if is_nil(existing_activity) do
+      changeset = Activity.changeset(%Activity{}, activity)
+
+      case Repo.insert(changeset) do
+        {:ok, _act} -> :ok
+        {:error, changeset} ->
+          Mix.shell().error("Failed to insert Rally de Tascas activity")
+          Mix.shell().error(Kernel.inspect(changeset.errors))
+      end
+    else
+      Mix.shell().error("Rally de Tascas already seeded, skipping duplicate.")
+    end
+  end
+end
 
   defp seed_first_day_activities(categories, speakers) do
     for activity <- first_day_seed_data() do
       type = activity.type
+      is_workshop = type == :workshop
+
       changeset = Activities.change_activity(%Activity{},
         activity
         |> Map.put(:date, next_first_tuesday_of_february())
-        |> Map.put(:category_id, Map.get(categories, type).id)
+        |> Map.put(:category_id, category_id_for_type!(categories, type))
+        |> Map.put(:has_enrolments, is_workshop)
+        |> Map.put(:max_enrolments,  if(is_workshop, do: 30, else: 0))
         |> Map.put(:title, Map.get(activity, :title) || Faker.Company.bs() |> String.capitalize())
         |> Map.put(:description, Faker.Lorem.paragraph())
         |> Map.put(:location, Map.get(activity, :location) || "CP2 - B1"))
@@ -147,10 +215,15 @@ defmodule Pearl.Repo.Seeds.Activities do
     for i <- 1..3 do
       for activity <- last_days_seed_data() do
         type = activity.type
+
+        is_workshop = type == :workshop
+
         changeset = Activities.change_activity(%Activity{},
           activity
           |> Map.put(:date, Date.shift(next_first_tuesday_of_february(), day: i))
-          |> Map.put(:category_id, Map.get(categories, type).id)
+          |> Map.put(:category_id, category_id_for_type!(categories, type))
+          |> Map.put(:has_enrolments, is_workshop)
+          |> Map.put(:max_enrolments, if(is_workshop, do: 30, else: 0))
           |> Map.put(:title, Map.get(activity, :title) || Faker.Company.bs() |> String.capitalize())
           |> Map.put(:description, Faker.Lorem.paragraph())
           |> Map.put(:location, Map.get(activity, :location) || "CP2 - B1"))
@@ -170,6 +243,18 @@ defmodule Pearl.Repo.Seeds.Activities do
       {:error, changeset} ->
         Mix.shell().error("Failed to insert activity: #{changeset.title}")
         Mix.shell().error(Kernel.inspect(changeset.errors))
+    end
+  end
+
+  defp category_id_for_type!(_categories, :none), do: nil
+
+  defp category_id_for_type!(categories, type) do
+    case Map.get(categories, type) do
+      %{id: category_id} ->
+        category_id
+
+      nil ->
+        Mix.raise("Missing category for activity type #{inspect(type)}.")
     end
   end
 
@@ -202,30 +287,84 @@ defmodule Pearl.Repo.Seeds.Activities do
       %{title: "Coffee Break", time_start: ~T[11:30:00], time_end: ~T[12:00:00], type: :break},
       %{time_start: ~T[12:00:00], time_end: ~T[13:00:00], type: :talk},
       %{title: "Lunch Break", time_start: ~T[13:00:00], time_end: ~T[14:00:00], type: :break},
-      %{time_start: ~T[14:00:00], time_end: ~T[15:00:00], type: :talk},
-      %{time_start: ~T[15:00:00], time_end: ~T[16:00:00], type: :talk},
+      %{title: "Talk 14-15", time_start: ~T[14:00:00], time_end: ~T[15:00:00], type: :talk, location: "CP2 - Test"},
+      %{title: "Workshop 15-16", time_start: ~T[15:00:00], time_end: ~T[16:00:00], type: :workshop, location: "CP2 - Test"},
+      %{title: "Gameshow 14-16", time_start: ~T[14:00:00], time_end: ~T[16:00:00], type: :gameshow, location: "CP2 - Test"},
       %{title: "Coffee Break", time_start: ~T[16:00:00], time_end: ~T[16:30:00], type: :break},
       %{time_start: ~T[16:30:00], time_end: ~T[16:45:00], type: :pitch},
       %{time_start: ~T[16:45:00], time_end: ~T[17:00:00], type: :pitch},
-      %{time_start: ~T[17:00:00], time_end: ~T[18:00:00], type: :gameshow}
+      %{time_start: ~T[17:00:00], time_end: ~T[18:00:00], type: :gameshow},
+      %{title: "Break Edge Same Slot", time_start: ~T[18:00:00], time_end: ~T[18:15:00], type: :break},
+      %{title: "Talk Edge Same Slot", time_start: ~T[18:00:00], time_end: ~T[18:15:00], type: :talk, location: "CP2 - B1"},
+      %{title: "Talk Edge Group A", time_start: ~T[18:15:00], time_end: ~T[19:00:00], type: :talk, location: "CP2 - B1"},
+      %{title: "Workshop Edge Group A", time_start: ~T[18:15:00], time_end: ~T[19:00:00], type: :workshop, location: "CP2 - 0.14"},
+      %{title: "Gameshow Edge Group A", time_start: ~T[18:15:00], time_end: ~T[19:00:00], type: :gameshow, location: "CP2 - 0.15"},
+      %{title: "Break Edge A", time_start: ~T[19:00:00], time_end: ~T[19:15:00], type: :break},
+      %{title: "Break Edge B", time_start: ~T[19:00:00], time_end: ~T[19:15:00], type: :break},
+      %{title: "Pitch Edge Different End", time_start: ~T[19:00:00], time_end: ~T[19:20:00], type: :pitch, location: "CP2 - B1"}
     ]
-  end
+   end
 
   defp last_days_seed_data do
+    rooms = ["CP2 - 0.14", "CP2 - 0.15", "CP2 - 0.17"]
+
+    build_workshop_entries = fn slot ->
+      rooms
+      |> Enum.shuffle()
+      |> Enum.take(:rand.uniform(length(rooms)))
+      |> Enum.map(fn room ->
+        slot
+        |> Map.put(:location, room)
+        |> Map.put(:type, :workshop)
+      end)
+    end
+
+    build_slot_events = fn slot, as_workshop? ->
+      if as_workshop? do
+        build_workshop_entries.(slot)
+      else
+        [slot |> Map.put(:location, "CP2 - B1") |> Map.put(:type, :talk)]
+      end
+    end
+
+    morning_workshops =
+      Enum.map(rooms, fn room ->
+        %{time_start: ~T[09:00:00], time_end: ~T[11:00:00], location: room, type: :workshop}
+      end)
+
+    early_afternoon_slots = [
+      %{time_start: ~T[14:00:00], time_end: ~T[15:00:00]},
+      %{time_start: ~T[15:00:00], time_end: ~T[16:00:00]}
+    ]
+
+    early_choice_set =
+      early_afternoon_slots
+      |> Enum.shuffle()
+      |> Enum.take(:rand.uniform(length(early_afternoon_slots)))
+      |> Enum.map(&{&1.time_start, &1.time_end})
+      |> MapSet.new()
+
+    early_afternoon =
+      Enum.flat_map(early_afternoon_slots, fn slot ->
+        build_slot_events.(slot, MapSet.member?(early_choice_set, {slot.time_start, slot.time_end}))
+      end)
+
+    late_afternoon =
+      build_slot_events.(%{time_start: ~T[17:00:00], time_end: ~T[18:00:00]}, :rand.uniform(2) == 1)
+
+    morning_workshops ++
     [
-      %{time_start: ~T[09:00:00], time_end: ~T[11:00:00], location: "CP2 - 0.14", type: :workshop},
-      %{time_start: ~T[09:00:00], time_end: ~T[11:00:00], location: "CP2 - 0.15", type: :workshop},
-      %{time_start: ~T[09:00:00], time_end: ~T[11:00:00], location: "CP2 - 0.17", type: :workshop},
       %{title: "Coffee Break", time_start: ~T[11:00:00], time_end: ~T[11:30:00], type: :break},
       %{time_start: ~T[11:30:00], time_end: ~T[12:30:00], location: "CP2 - B1", type: :talk},
-      %{title: "Lunch Break", time_start: ~T[12:30:00], time_end: ~T[14:00:00], type: :break},
-      %{time_start: ~T[14:00:00], time_end: ~T[15:00:00], type: :talk},
-      %{time_start: ~T[15:00:00], time_end: ~T[16:00:00], type: :talk},
+      %{title: "Lunch Break", time_start: ~T[12:30:00], time_end: ~T[14:00:00], type: :break}
+    ] ++
+    early_afternoon ++
+    [
       %{title: "Coffee Break", time_start: ~T[16:00:00], time_end: ~T[16:30:00], type: :break},
       %{time_start: ~T[16:30:00], time_end: ~T[16:45:00], type: :pitch},
-      %{time_start: ~T[16:45:00], time_end: ~T[17:00:00], type: :pitch},
-      %{time_start: ~T[17:00:00], time_end: ~T[18:00:00], type: :talk}
-    ]
+      %{time_start: ~T[16:45:00], time_end: ~T[17:00:00], type: :pitch}
+    ] ++
+    late_afternoon
   end
 end
 

@@ -16,6 +16,16 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
   import PearlWeb.Components.Tooltip
 
   @impl true
+  def mount(socket) do
+    {:ok,
+     socket
+     |> allow_upload(:picture,
+       accept: UserPicture.extension_whitelist(),
+       max_entries: 1
+     )}
+  end
+
+  @impl true
   def render(assigns) do
     case assigns.context do
       :landing -> render_landing(assigns)
@@ -411,10 +421,6 @@ defmodule PearlWeb.UserAuth.Components.UserProfileSettings do
       |> assign(notification_text: nil)
       |> assign(context: context)
       |> assign(base_path: base_path)
-      |> allow_upload(:picture,
-        accept: UserPicture.extension_whitelist(),
-        max_entries: 1
-      )
 
     socket =
       if user.type == :attendee do

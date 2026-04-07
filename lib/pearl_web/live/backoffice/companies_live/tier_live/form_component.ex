@@ -9,6 +9,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={@title}
         subtitle={gettext("Every company sponsoring the event gets assigned a tier.")}
       >
@@ -75,7 +76,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent do
       {:ok, _tier} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Company tier updated successfully")
+         |> put_flash(:success, gettext("Tier da empresa atualizado com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -91,7 +92,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent do
       {:ok, _tier} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Company tier created successfully")
+         |> put_flash(:success, gettext("Tier da empresa criado com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

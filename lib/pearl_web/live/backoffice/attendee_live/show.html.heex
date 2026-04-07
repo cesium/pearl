@@ -1,30 +1,30 @@
-<.page title="Attendee">
+<.page title="Attendee" stack_header_on_mobile>
   <:actions>
-    <div class="flex flex-row gap-x-4">
+    <div class="flex flex-wrap gap-4">
       <.ensure_permissions user={@current_user} permissions={%{"attendees" => ["edit"]}}>
         <.link patch={~p"/dashboard/attendees/#{@attendee.id}/edit/tokens"}>
           <.backoffice_button>
-            <.icon name="hero-currency-euro" class="w-5 h-5" />
+            <.icon name="hero-currency-euro" class="size-5" />
           </.backoffice_button>
         </.link>
         <.link patch={~p"/dashboard/attendees/#{@attendee.id}/edit/eligibility"}>
           <.backoffice_button>
-            <.icon name="hero-shield-exclamation" class="w-5 h-5" />
+            <.icon name="hero-shield-exclamation" class="size-5" />
           </.backoffice_button>
         </.link>
         <.link patch={~p"/dashboard/attendees/#{@attendee.id}/redeem"}>
           <.backoffice_button>
-            <.icon name="hero-check-badge" class="w-5 h-5" />
+            <.icon name="hero-check-badge" class="size-5" />
           </.backoffice_button>
         </.link>
         <.link patch={~p"/dashboard/attendees/#{@attendee.id}/ticket"}>
-          <.backoffice_button>
-            <.icon name="hero-ticket" class="w-5 h-5" />
+          <.backoffice_button disabled={is_nil(Tickets.get_user_ticket(@attendee.user.id))}>
+            <.icon name="hero-ticket" class="size-5" />
           </.backoffice_button>
         </.link>
         <.link patch={~p"/dashboard/attendees/#{@attendee.id}/credential"}>
           <.backoffice_button>
-            <.icon name="hero-qr-code" class="w-5 h-5" />
+            <.icon name="hero-qr-code" class="size-5" />
           </.backoffice_button>
         </.link>
       </.ensure_permissions>
@@ -44,22 +44,22 @@
       <h1 class="text-xl font-semibold">{@attendee.user.name}</h1>
       <p class="text-sm">@{@attendee.user.handle}</p>
       <div class="flex flex-row gap-2 py-1 text-sm items-center">
-        <.icon name="hero-envelope" class="w-5 h-5" />
+        <.icon name="hero-envelope" class="size-5" />
         <p>{@attendee.user.email}</p>
       </div>
       <div class="flex flex-row gap-2 py-1 text-sm items-center">
-        <.icon name="hero-information-circle" class="w-5 h-5" />
+        <.icon name="hero-information-circle" class="size-5" />
         <p>{"Joined #{@attendee.inserted_at |> relative_datetime()}"}</p>
       </div>
       <div class="flex flex-row gap-2 py-1 text-sm items-center">
-        <.icon name="hero-circle-stack" class="w-5 h-5" />
+        <.icon name="hero-circle-stack" class="size-5" />
         <div class="flex flex-row">
           <p>{"#{@attendee.tokens} tokens"}</p>
           <span :if={@attendee.ineligible} class="text-red-700">*</span>
         </div>
       </div>
       <div class="flex flex-row gap-2 py-1 text-sm items-center">
-        <.icon name="fa-tag-solid" class="w-5 h-5" />
+        <.icon name="fa-tag-solid" class="size-5" />
         <div class="flex flex-row">
           <p>{"#{@attendee.entries} entries"}</p>
           <span :if={@attendee.ineligible} class="text-red-700">*</span>

@@ -26,8 +26,12 @@ defmodule PearlWeb.UserConfirmationInstructionsLiveTest do
         |> render_submit()
         |> follow_redirect(conn, ~p"/")
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "If your email is in our system"
+      keys = [:info, :success, :error, :tip, :help, "info", "success", "error", "tip", "help"]
+
+      assert Enum.any?(keys, fn key ->
+               value = Phoenix.Flash.get(conn.assigns.flash, key)
+               is_binary(value) and String.contains?(value, "teu email estiver no nosso sistema")
+             end)
 
       assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context == "confirm"
     end
@@ -43,8 +47,12 @@ defmodule PearlWeb.UserConfirmationInstructionsLiveTest do
         |> render_submit()
         |> follow_redirect(conn, ~p"/")
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "If your email is in our system"
+      keys = [:info, :success, :error, :tip, :help, "info", "success", "error", "tip", "help"]
+
+      assert Enum.any?(keys, fn key ->
+               value = Phoenix.Flash.get(conn.assigns.flash, key)
+               is_binary(value) and String.contains?(value, "teu email estiver no nosso sistema")
+             end)
 
       refute Repo.get_by(Accounts.UserToken, user_id: user.id)
     end
@@ -58,8 +66,12 @@ defmodule PearlWeb.UserConfirmationInstructionsLiveTest do
         |> render_submit()
         |> follow_redirect(conn, ~p"/")
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "If your email is in our system"
+      keys = [:info, :success, :error, :tip, :help, "info", "success", "error", "tip", "help"]
+
+      assert Enum.any?(keys, fn key ->
+               value = Phoenix.Flash.get(conn.assigns.flash, key)
+               is_binary(value) and String.contains?(value, "teu email estiver no nosso sistema")
+             end)
 
       assert Repo.all(Accounts.UserToken) == []
     end

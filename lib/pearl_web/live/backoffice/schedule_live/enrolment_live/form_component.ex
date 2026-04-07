@@ -11,7 +11,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={@activity.title}>
+      <.page title={@title} subtitle={@activity.title} stack_header_on_mobile>
         <div class="pt-4 flex flex-col gap-2 h-[30.5rem]">
           <.simple_form
             id="enrolments-form"
@@ -83,11 +83,11 @@ defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.FormComponent do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Enrolled successfully")
+         |> put_flash(:success, gettext("Inscrição efetuada com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, _, _, _} ->
-        {:noreply, socket |> put_flash(:error, "Unable to enrol")}
+        {:noreply, socket |> put_flash(:error, gettext("Não foi possível inscrever-se"))}
     end
   end
 

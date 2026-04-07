@@ -33,7 +33,7 @@ defmodule PearlWeb.App.SlotsLive.Index do
     if socket.assigns.bet <= 0 do
       {:noreply,
        socket
-       |> put_flash(:error, gettext("Please set a bet amount greater than 0."))}
+       |> put_flash(:error, gettext("Por favor, defina um valor de aposta superior a 0."))}
     else
       case Minigames.spin_slots(socket.assigns.current_user.attendee, socket.assigns.bet) do
         {:ok, target, multiplier, attendee_tokens, winnings} ->
@@ -54,7 +54,7 @@ defmodule PearlWeb.App.SlotsLive.Index do
            socket
            |> assign(:in_spin?, false)
            |> assign(:attendee_tokens, socket.assigns.attendee_tokens + socket.assigns.bet)
-           |> put_flash(:error, message)}
+           |> put_flash(:error, Gettext.gettext(PearlWeb.Gettext, message))}
       end
     end
   end

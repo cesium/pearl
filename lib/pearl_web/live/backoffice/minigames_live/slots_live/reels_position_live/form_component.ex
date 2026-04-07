@@ -10,6 +10,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ReelsPosition.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={gettext("Reels Position Configuration")}
         subtitle={gettext("Configures slots reels.")}
       >
@@ -156,13 +157,13 @@ defmodule PearlWeb.Backoffice.MinigamesLive.ReelsPosition.FormComponent do
       {:ok, _results} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Reel configuration saved successfully")
+         |> put_flash(:success, gettext("Configuração do Reel guardada com sucesso"))
          |> push_patch(to: ~p"/dashboard/minigames/slots")}
 
       {:error, reason} ->
         {:noreply,
          socket
-         |> put_flash(:error, reason)}
+         |> put_flash(:error, Gettext.gettext(PearlWeb.Gettext, reason))}
     end
   end
 

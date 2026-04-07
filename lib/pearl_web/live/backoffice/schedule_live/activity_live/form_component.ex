@@ -9,7 +9,11 @@ defmodule PearlWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Activities that happen troughout the event.")}>
+      <.page
+        title={@title}
+        subtitle={gettext("Activities that happen troughout the event.")}
+        stack_header_on_mobile
+      >
         <.simple_form
           for={@form}
           id="activity-form"
@@ -89,6 +93,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
                 />
               </div>
             </div>
+            <.field field={@form[:link]} type="text" label="Link" wrapper_class="w-full" />
           </div>
           <:actions>
             <.backoffice_button phx-disable-with="Saving...">Save Activity</.backoffice_button>
@@ -165,7 +170,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
           {:ok, _activity} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Activity updated successfully")
+             |> put_flash(:success, gettext("Atividade atualizada com sucesso"))
              |> push_patch(to: socket.assigns.patch)}
 
           {:error, %Ecto.Changeset{} = changeset} ->
@@ -187,7 +192,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
           {:ok, _activity} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Activity created successfully")
+             |> put_flash(:success, gettext("Atividade criada com sucesso"))
              |> push_patch(to: socket.assigns.patch)}
 
           {:error, %Ecto.Changeset{} = changeset} ->

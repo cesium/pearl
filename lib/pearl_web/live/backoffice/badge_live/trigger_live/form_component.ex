@@ -9,6 +9,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.TriggerLive.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={@title}
         subtitle={
           gettext(
@@ -84,7 +85,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.TriggerLive.FormComponent do
       {:ok, _trigger} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Badge trigger updated successfully")
+         |> put_flash(:success, gettext("Trigger do badge atualizada com sucesso."))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -97,7 +98,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.TriggerLive.FormComponent do
       {:ok, _trigger} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Badge trigger created successfully")
+         |> put_flash(:success, gettext("Trigger do badge criada com sucesso."))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

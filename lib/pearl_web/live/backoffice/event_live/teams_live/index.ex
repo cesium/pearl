@@ -9,7 +9,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.link navigate={~p"/dashboard/event/teams/new"}>
             <.backoffice_button>New Team</.backoffice_button>
@@ -82,11 +82,11 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.Index do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Team deleted successfully")
+         |> put_flash(:success, gettext("Equipa eliminada com sucesso"))
          |> stream_delete(:teams, team)}
 
       {:error, _reason} ->
-        {:noreply, socket |> put_flash(:error, "Failed to delete team")}
+        {:noreply, socket |> put_flash(:error, gettext("Falha ao eliminar equipa"))}
     end
   end
 end

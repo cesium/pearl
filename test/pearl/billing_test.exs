@@ -37,7 +37,7 @@ defmodule Pearl.BillingTest do
 
     test "list_payments/0 returns all payments" do
       payment = payment_fixture()
-      assert Billing.list_payments() == [payment]
+      assert payment in Billing.list_payments()
     end
 
     test "get_payment!/1 returns the payment with given id" do

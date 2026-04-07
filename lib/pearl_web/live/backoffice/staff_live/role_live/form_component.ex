@@ -11,6 +11,7 @@ defmodule PearlWeb.Backoffice.StaffLive.RoleLive.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={@title}
         subtitle={
           gettext(
@@ -123,13 +124,13 @@ defmodule PearlWeb.Backoffice.StaffLive.RoleLive.FormComponent do
       {:ok, _role} ->
         {:noreply,
          socket
-         |> put_flash(:info, gettext("Role updated successfully"))
+         |> put_flash(:success, gettext("Role atualizada com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply,
          socket
-         |> put_flash(:error, gettext("Error updating role."))
+         |> put_flash(:error, gettext("Erro ao atualizar a role."))
          |> assign(:form, to_form(changeset))}
     end
   end
@@ -139,13 +140,13 @@ defmodule PearlWeb.Backoffice.StaffLive.RoleLive.FormComponent do
       {:ok, _role} ->
         {:noreply,
          socket
-         |> put_flash(:info, gettext("Role created successfully"))
+         |> put_flash(:success, gettext("Role criada com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply,
          socket
-         |> put_flash(:error, gettext("Error creating role."))
+         |> put_flash(:error, gettext("Erro ao criar a role."))
          |> assign(:form, to_form(changeset))}
     end
   end

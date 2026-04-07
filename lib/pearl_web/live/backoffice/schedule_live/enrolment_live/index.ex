@@ -10,7 +10,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"enrolments" => ["show"]}}>
             <.link navigate={~p"/dashboard/scanner/enrolments/#{@activity_id}"}>
@@ -119,7 +119,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.Index do
 
       {:noreply,
        socket
-       |> put_flash(:info, "Enrolments changed successfully")
+       |> put_flash(:success, gettext("Inscrições alteradas com sucesso"))
        |> push_patch(to: socket.assigns.patch)}
     else
       {:noreply, socket}

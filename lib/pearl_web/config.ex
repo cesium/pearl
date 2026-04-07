@@ -79,7 +79,7 @@ defmodule PearlWeb.Config do
         %{
           key: :games,
           title: "Minigames",
-          image: "/images/icons/play.svg",
+          image: "/images/icons/games.svg",
           url: "/app/games",
           enabled: attendee_eligible?
         },
@@ -102,13 +102,6 @@ defmodule PearlWeb.Config do
           title: "Cofre",
           image: "/images/icons/vault.svg",
           url: "/app/vault",
-          enabled: true
-        },
-        %{
-          key: :credential,
-          title: "Credencial",
-          image: "/images/icons/scanner.svg",
-          url: "/app/credential",
           enabled: true
         }
       ]
@@ -145,6 +138,13 @@ defmodule PearlWeb.Config do
         icon: "hero-user-group",
         url: "/dashboard/attendees",
         scope: %{"attendees" => ["show"]}
+      },
+      %{
+        key: :meals,
+        title: "Meals",
+        icon: "hero-cake",
+        url: "/dashboard/meals",
+        scope: %{"meals" => ["show"]}
       },
       %{
         key: :staffs,
@@ -229,6 +229,13 @@ defmodule PearlWeb.Config do
         icon: "hero-calendar-days",
         url: "/dashboard/schedule/activities",
         scope: %{"schedule" => ["edit"]}
+      },
+      %{
+        key: :lockers,
+        title: "Lockers",
+        icon: "hero-inbox-stack",
+        url: "/dashboard/attendee_lockers",
+        scope: %{"attendee_lockers" => ["show"]}
       },
       %{
         key: :scanner,

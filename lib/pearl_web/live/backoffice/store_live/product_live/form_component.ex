@@ -11,6 +11,7 @@ defmodule PearlWeb.Backoffice.ProductLive.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={@title}
         subtitle={
           gettext(
@@ -89,7 +90,7 @@ defmodule PearlWeb.Backoffice.ProductLive.FormComponent do
           {:ok, _product} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Product updated successfully")
+             |> put_flash(:success, gettext("Produto atualizado com sucesso"))
              |> push_patch(to: socket.assigns.patch)}
         end
 
@@ -105,7 +106,7 @@ defmodule PearlWeb.Backoffice.ProductLive.FormComponent do
           {:ok, _product} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Product created successfully")
+             |> put_flash(:success, gettext("Produto criado com sucesso"))
              |> push_patch(to: socket.assigns.patch)}
         end
 

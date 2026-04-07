@@ -8,7 +8,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.link
             :if={@action != :teams_new}
@@ -106,11 +106,11 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Member deleted successfully")
+         |> put_flash(:success, gettext("Membro eliminado com sucesso"))
          |> stream_delete(:members, member)}
 
       {:error, _reason} ->
-        {:noreply, socket |> put_flash(:error, "Failed to delete member")}
+        {:noreply, socket |> put_flash(:error, gettext("Falha ao eliminar o membro"))}
     end
   end
 
@@ -119,7 +119,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
       {:ok, _team} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Team updated successfully")
+         |> put_flash(:success, gettext("Equipa atualizada com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -137,7 +137,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.FormComponent do
       {:ok, _team} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Team created successfully")
+         |> put_flash(:success, gettext("Equipa criada com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

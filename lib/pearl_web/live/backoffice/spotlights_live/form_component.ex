@@ -13,7 +13,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.FormComponent do
     ~H"""
     <div>
       <.flash_group flash={@flash} />
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.link navigate={~p"/dashboard/spotlights/config/tiers"}>
             <.backoffice_button>
@@ -49,7 +49,8 @@ defmodule PearlWeb.Backoffice.SpotlightLive.FormComponent do
         {:noreply, push_patch(socket, to: ~p"/dashboard/spotlights/")}
 
       {:error, _} ->
-        {:noreply, put_flash(socket, :error, "Duration can't be more than 60 minutes")}
+        {:noreply,
+         put_flash(socket, :error, gettext("A duração não pode ser superior a 60 minutos"))}
     end
   end
 end

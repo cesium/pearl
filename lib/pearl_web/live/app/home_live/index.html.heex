@@ -1,50 +1,56 @@
 <.page
   title={gettext("OLá, %{current_user_name} 👋", current_user_name: @current_user.name)}
+  subtitle="Bem-vindo de volta"
   size={:xl}
+  banner="/images/landing.webp"
   title_class="uppercase"
+  subtitle_class="text-light/60"
+  child_class="px-0!"
 >
-  <div class="flex flex-col md:flex-row flex-wrap md:gap-x-8 w-full">
-    <div class="flex flex-row justify-between items-center border-t-2 mt-10 border-white sm:border-none">
-      <div class="flex sm:flex-col mt-7 gap-x-10 sm:gap-y-6 mx-auto">
-        <div class="flex flex-col items-center py-2 gap-4 my-auto sm:min-w-72">
-          <.avatar
-            size={:xl}
-            name={@current_user.name}
-            src={
-              Uploaders.UserPicture.url({@current_user.picture, @current_user}, :original,
-                signed: true
-              )
-            }
-          />
-          <div class="flex flex-col gap-y-2">
-            <p class="text-sm font-normal">@{@current_user.handle}</p>
-          </div>
-        </div>
-        <div class="flex flex-col shrink-0 flex-wrap my-auto">
-          <div class="grid gap-4 sm:justify-center sm:gap-3">
-            <p class="flex justify-center items-center gap-2">
-              <.icon name="hero-currency-euro-solid" />
-              {gettext("%{attendee_tokens} tokens", attendee_tokens: @attendee_tokens)}
-            </p>
-            <p class="flex justify-center items-center gap-2">
-              <.icon name="fa-medal-solid" />
-              {gettext("%{badge_count} Badges", badge_count: @attendee_badge_count)}
-            </p>
-            <p class="flex justify-center items-center gap-2">
-              <.icon name="fa-ticket-solid" />
-              {gettext("%{attendee_entries} entries", attendee_entries: @attendee_entries)}
-            </p>
-          </div>
-        </div>
+  <:actions>
+    <.link
+      navigate={~p"/"}
+      class="lg:hidden inline-flex items-center gap-2 rounded-xl border border-light/10 bg-light/5 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-light/80 hover:border-primary/60 hover:text-primary transition-colors duration-300 backdrop-blur-lg"
+    >
+      <.icon name="fa-arrow-right-from-bracket-solid" class="size-4" />
+      {gettext("Sair da app")}
+    </.link>
+  </:actions>
+
+  <div class="w-full  bg-app-dark-soft divide-x border-b border-light/5 divide-light/5 grid grid-cols-3 justify-items-center items-center">
+    <div class="flex w-full items-center justify-center gap-4 py-3.5">
+      <.icon name="fa-sack-dollar-solid" class="size-8 mt-1" />
+      <div class="flex flex-col items-start justify-center gap-0.5">
+        <p class="font-bold text-xl">{@attendee_tokens}</p>
+        <p class="uppercase text-xs text-light/50">tokens</p>
       </div>
     </div>
 
-    <div class="flex flex-col gap-y-8">
-      <div class="flex flex-row justify-between items-center mt-10 pb-2 h-12 border-b-2 border-white">
-        <h1 class="font-semibold uppercase px-2">Checkpoint</h1>
+    <div class="flex w-full items-center justify-center gap-4 py-3.5">
+      <.icon name="fa-medal-solid" class="size-8 mt-1" />
+      <div class="flex flex-col items-start justify-center gap-0.5">
+        <p class="font-bold text-xl">{@attendee_badge_count}</p>
+        <p class="uppercase text-xs text-light/50">badges</p>
+      </div>
+    </div>
+
+    <div class="flex w-full items-center justify-center gap-4 py-3.5">
+      <.icon name="fa-ticket-solid" class="size-8 mt-1 -rotate-80" />
+      <div class="flex flex-col items-start justify-center gap-0.5">
+        <p class="font-bold text-xl">{@attendee_entries}</p>
+        <p class="uppercase text-xs text-light/50">entries</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 divide-x divide-light/10">
+    <div class="flex min-w-0 flex-col gap-y-8 p-6">
+      <div class="flex flex-row items-center pb-2 h-12 border-b-2 border-light/10">
+        <.icon name="fa-location-dot-solid" class="size-4 text-primary" />
+        <h1 class="font-semibold uppercase px-2 text-light/40">Checkpoint</h1>
       </div>
 
-      <ol class="flex flex-col gap-y-9 sm:gap-y-10 min-w-72">
+      <ol class="flex min-w-0 flex-col gap-y-9 sm:gap-y-10 pl-2">
         <li
           :for={{badge, index} <- Enum.with_index(@checkpoint_badges)}
           class={[
@@ -66,7 +72,7 @@
               </span>
             <% end %>
             <%= if index < @user_level do %>
-              <.icon name="hero-check" class="size-4 sm:size-5 stroke-2" />
+              <.icon name="fa-check-solid" class="size-4 sm:size-5 stroke-2 text-light" />
             <% else %>
               {index + 1}
             <% end %>
@@ -75,7 +81,7 @@
           <div class="flex flex-col sm:gap-y-0.5">
             <h4 class={[
               "sm:text-lg uppercase",
-              index <= @user_level && "text-accent",
+              index <= @user_level && "text-primary",
               index > @user_level && "text-white"
             ]}>
               {gettext("Level %{level}", level: index + 1)}
@@ -89,29 +95,35 @@
         </li>
       </ol>
     </div>
-    <div class="flex flex-col items-center gap-y-8">
-      <div class="flex flex-row justify-between items-center mt-10 pb-2 h-12 w-full border-b-2 border-white">
-        <h1 class="font-semibold uppercase px-2">Últimas badges obtidas</h1>
+
+    <div class="flex min-w-0 flex-col items-center gap-y-8 p-6">
+      <div class="flex flex-row items-center pb-2 h-12 w-full border-b-2 border-light/10">
+        <.icon name="fa-medal-solid" class="size-4 text-primary" />
+        <h1 class="font-semibold uppercase px-2 text-light/40">Últimas badges</h1>
+
+        <div class="flex items-center pl-2 group flex-1 justify-end">
+          <.link
+            :if={@attendee_badge_count > 3}
+            navigate={~p"/app/badges"}
+            class="flex items-center justify-center group-hover:text-primary/70 transition-all duration-300 text-primary font-semibold uppercase gap-2"
+          >
+            <p class="text-sm">{gettext("Ver todas")}</p>
+            <.icon
+              name="fa-arrow-right-solid"
+              class="size-4 group-hover:translate-x-1 transition-transform duration-300 lg:hidden xl:block"
+            />
+          </.link>
+        </div>
       </div>
-      <div class="grid grid-cols-2 gap-4 min-w-72">
+      <div class="grid w-full min-w-0 grid-cols-2 gap-4">
         <div id="badges" phx-update="stream" class="contents">
           <.badge
             :for={{id, badge} <- @streams.attendee_badge_redeems}
             id={id}
             badge={badge}
-            width="max-w-48"
+            width="max-w-36 sm:max-w-48"
             show_tokens
           />
-        </div>
-
-        <div class="flex items-center justify-center">
-          <.link
-            :if={@attendee_badge_count > 3}
-            navigate={~p"/app/badges"}
-            class="text-primary font-semibold uppercase"
-          >
-            {gettext("+ View all")}
-          </.link>
         </div>
       </div>
       <p
@@ -121,9 +133,11 @@
         {gettext("No badges redeemed yet!")}
       </p>
     </div>
-    <div class="gap-y-8">
-      <div class="flex flex-row justify-between items-center mt-10 pb-2 h-12 border-b-2 border-white min-w-72">
-        <h1 class="font-semibold uppercase px-2">CV Upload</h1>
+
+    <div class="flex min-w-0 flex-col gap-y-8 p-6">
+      <div class="flex h-12 min-w-0 flex-row items-center border-b-2 border-light/10 pb-2">
+        <.icon name="fa-file-solid" class="size-4 text-primary" />
+        <h1 class="font-semibold uppercase px-2 text-light/40">CV Upload</h1>
       </div>
       <.live_component
         module={PearlWeb.Components.CVUpload}

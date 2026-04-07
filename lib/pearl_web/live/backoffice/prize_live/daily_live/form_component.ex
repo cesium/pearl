@@ -12,7 +12,11 @@ defmodule PearlWeb.PrizeLive.Daily.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={gettext("Daily Prizes")} subtitle={gettext("Configures the daily prizes.")}>
+      <.page
+        title={gettext("Daily Prizes")}
+        subtitle={gettext("Configures the daily prizes.")}
+        stack_header_on_mobile
+      >
         <div class="pt-8">
           <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold">{gettext("Daily Prizes")}</h2>
@@ -154,7 +158,7 @@ defmodule PearlWeb.PrizeLive.Daily.FormComponent do
 
       {:noreply,
        socket
-       |> put_flash(:info, "Daily prizes changed successfully")
+       |> put_flash(:success, gettext("Prémios diários alterados com sucesso"))
        |> push_patch(to: socket.assigns.patch)}
     else
       {:noreply, socket}

@@ -12,7 +12,11 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPaytable.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={gettext("Slots Paytable")} subtitle={gettext("Configures the slots paytable.")}>
+      <.page
+        title={gettext("Slots Paytable")}
+        subtitle={gettext("Configures the slots paytable.")}
+        stack_header_on_mobile
+      >
         <div class="pt-8">
           <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold">{gettext("Entries")}</h2>
@@ -174,19 +178,19 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPaytable.FormComponent do
 
           {:noreply,
            socket
-           |> put_flash(:error, "Error saving slots paytable")
+           |> put_flash(:error, gettext("Erro ao guardar a tabela de prémios das slots"))
            |> assign(entries: updated_entries)}
 
         _ ->
           {:noreply,
            socket
-           |> put_flash(:info, "Slots paytable changed successfully")
+           |> put_flash(:success, gettext("Tabela de prémios das slots alterada com sucesso."))
            |> push_patch(to: socket.assigns.patch)}
       end
     else
       {:noreply,
        socket
-       |> put_flash(:error, "Please fix the errors before saving")}
+       |> put_flash(:error, gettext("Por favor corrige os erros antes de guardar"))}
     end
   end
 

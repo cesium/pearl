@@ -10,6 +10,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.FormComponent do
     <div>
       <.flash_group flash={@flash} />
       <.page
+        stack_header_on_mobile
         title={@title}
         subtitle={
           gettext(
@@ -139,7 +140,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.FormComponent do
       {:ok, _condition} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Badge condition updated successfully")
+         |> put_flash(:success, gettext("Condição do badge atualizada com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -152,7 +153,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.FormComponent do
       {:ok, _condition} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Badge condition added successfully")
+         |> put_flash(:success, gettext("Condição do badge adicionada com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -14,6 +14,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={gettext("Lucky Wheel Drops Table")}
         subtitle={gettext("Configures the drop loot table for the lucky wheel minigame.")}
       >
@@ -213,7 +214,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
 
       {:noreply,
        socket
-       |> put_flash(:info, "Wheel configuration changed successfully")
+       |> put_flash(:success, gettext("Configuração da Wheel alterada com sucesso"))
        |> push_patch(to: socket.assigns.patch)}
     else
       {:noreply, socket}

@@ -54,7 +54,7 @@ defmodule PearlWeb.Landing.FAQLive.Components.Contacts do
               <p class="font-medium">{contact.name}</p>
               <p class="pt-2">{contact.description}</p>
             </div>
-            <div class="rounded-full lg:bg-[#EFEFED] bg-white flex flex-row items-center px-2 py-2 w-min">
+            <div class="rounded-full lg:bg-light-muted bg-white flex flex-row items-center px-2 py-2 w-min">
               <div
                 class="rounded-full w-12 h-12 flex items-center justify-center"
                 style={"background-color: #{contact.accent};"}

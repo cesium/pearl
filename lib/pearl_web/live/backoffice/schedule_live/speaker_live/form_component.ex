@@ -10,7 +10,11 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Speakers participate in the event's activities.")}>
+      <.page
+        title={@title}
+        subtitle={gettext("Speakers participate in the event's activities.")}
+        stack_header_on_mobile
+      >
         <.simple_form
           for={@form}
           id="speaker-form"
@@ -136,7 +140,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
           {:ok, _speaker} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Speaker updated successfully")
+             |> put_flash(:success, gettext("Orador atualizado com sucesso."))
              |> push_patch(to: socket.assigns.patch)}
         end
 
@@ -152,7 +156,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.SpeakerLive.FormComponent do
           {:ok, _speaker} ->
             {:noreply,
              socket
-             |> put_flash(:info, "Speaker created successfully")
+             |> put_flash(:success, gettext("Orador criado com sucesso."))
              |> push_patch(to: socket.assigns.patch)}
         end
 

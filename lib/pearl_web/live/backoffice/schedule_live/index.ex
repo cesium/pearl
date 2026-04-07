@@ -126,6 +126,20 @@ defmodule PearlWeb.Backoffice.ScheduleLive.Index do
     end
   end
 
+  defp apply_action(socket, :calendar_pictures, _params) do
+    socket
+    |> assign(:page_title, "Listing Activities' Days")
+  end
+
+  defp apply_action(socket, :calendar_pictures_edit, %{"id" => date_string}) do
+    date = Date.from_iso8601!(date_string)
+    calendar_picture = Activities.get_calendar_picture_for_date(date)
+
+    socket
+    |> assign(:page_title, "Edit Calendar Picture")
+    |> assign(:calendar_picture, calendar_picture)
+  end
+
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     activity = Activities.get_activity!(id)

@@ -35,7 +35,7 @@ defmodule Pearl.ActivitiesFixtures do
     {:ok, activity_category} =
       attrs
       |> Enum.into(%{
-        name: "some name"
+        name: "Talk"
       })
       |> Pearl.Activities.create_activity_category()
 
@@ -58,5 +58,19 @@ defmodule Pearl.ActivitiesFixtures do
       |> Pearl.Activities.create_speaker()
 
     speaker
+  end
+
+  @doc """
+  Generate a calendar_picture.
+  """
+  def calendar_picture_fixture(attrs \\ %{}) do
+    {:ok, calendar_picture} =
+      attrs
+      |> Enum.into(%{
+        date: ~D[2024-10-27]
+      })
+      |> Pearl.Activities.create_calendar_picture()
+
+    calendar_picture
   end
 end

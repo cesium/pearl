@@ -11,7 +11,11 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={gettext("Slots Paytable")} subtitle={gettext("Configures the slots paytable.")}>
+      <.page
+        title={gettext("Slots Paytable")}
+        subtitle={gettext("Configures the slots paytable.")}
+        stack_header_on_mobile
+      >
         <div class="pt-8">
           <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold">{gettext("Entries")}</h2>
@@ -170,7 +174,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent do
 
       {:noreply,
        socket
-       |> put_flash(:info, "Slots paytable changed successfully")
+       |> put_flash(:success, gettext("Tabela de prémios das slots alterada com sucesso."))
        |> push_patch(to: socket.assigns.patch)}
     else
       {:noreply, socket}

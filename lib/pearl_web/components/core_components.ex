@@ -32,13 +32,36 @@ defmodule PearlWeb.CoreComponents do
   attr :id, :string, doc: "the optional id of flash container"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil
-  attr :kind, :atom, values: [:info, :error], doc: "used for styling and flash lookup"
+
+  attr :kind, :atom,
+    values: [:info, :error, :success, :tip, :help],
+    doc: "used for styling and flash lookup"
+
+  attr :variant, :atom,
+    values: [:default, :app],
+    default: :default,
+    doc: "the flash card variant style"
+
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
 
   def flash(assigns) do
     assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.kind}" end)
+
+    assigns =
+      assign_new(assigns, :variant, fn ->
+        cond do
+          Map.has_key?(assigns, :variant) ->
+            assigns.variant
+
+          Map.has_key?(assigns, :rest) && Map.has_key?(assigns.rest, :variant) ->
+            assigns.rest.variant
+
+          true ->
+            :default
+        end
+      end)
 
     ~H"""
     <div
@@ -47,21 +70,109 @@ defmodule PearlWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-101 rounded-lg p-3 ring-1",
-        @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
-        @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
+        "fixed top-8 right-1 left-2 sm:left-auto sm:right-6 sm:w-104 md:w-128 z-[101] overflow-hidden",
+        if(@variant == :app,
+          do: "bg-dark rounded-md border border-light/10 shadow-[0_0_20px_2px] shadow-light/10",
+          else: "ring-2 ring-dark/5 shadow-lg"
+        )
       ]}
       {@rest}
     >
-      <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
-        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" />
-        {@title}
-      </p>
-      <p class="mt-2 text-sm leading-5">{msg}</p>
-      <button type="button" class="group absolute top-1 right-1 p-2" aria-label={gettext("close")}>
-        <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
-      </button>
+      <div class={[
+        "flex flex-row justify-between py-3 sm:py-4",
+        if(@variant == :app, do: "border-light/10 bg-light/5", else: "bg-[#f9f9f8]")
+      ]}>
+        <div class="flex flex-col justify-center items-center mx-3 sm:mx-4 shrink-0">
+          <div class={[
+            "flex flex-col size-12 sm:size-15 items-center justify-center",
+            if(@variant == :app, do: "bg-primary/90", else: "bg-primary")
+          ]}>
+            <.icon name={get_flash_icon(@kind)} class="size-7 sm:size-10 text-light" />
+          </div>
+        </div>
+
+        <div class="flex-1 my-auto flex flex-col pr-3 items-start justify-start min-w-0">
+          <% final_title = @title || get_flash_title(@kind) %>
+
+          <%= if final_title do %>
+            <h3 class={[
+              "font-semibold text-base sm:text-xl leading-tight",
+              if(@variant == :app, do: "text-light", else: "text-dark")
+            ]}>
+              {final_title}
+            </h3>
+            <p class={[
+              "text-md sm:text-lg leading-snug mt-0.5 break-words",
+              if(@variant == :app, do: "text-lightMuted", else: "text-dark")
+            ]}>
+              {msg}
+            </p>
+          <% else %>
+            <p class={[
+              "font-medium text-md sm:text-md leading-snug break-words",
+              if(@variant == :app, do: "text-light", else: "text-dark")
+            ]}>
+              {msg}
+            </p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class={[
+        "min-h-10 sm:h-12 text-sm sm:text-lg flex flex-row flex-wrap items-center my-auto justify-start px-3 sm:px-4 gap-3 sm:gap-4 py-2 sm:py-0",
+        if(@variant == :app, do: "bg-darkShade", else: "bg-background")
+      ]}>
+        <div :if={@kind == :help}>
+          <.link
+            navigate="/faqs"
+            class={[
+              "flex items-center font-bold hover:underline",
+              if(@variant == :app,
+                do: "text-lightMuted font-semibold hover:text-light transition-colors",
+                else: "text-primary"
+              )
+            ]}
+          >
+            <span class="mr-1">
+              <.icon
+                name="hero-arrow-right"
+                class={
+                  if @variant == :app,
+                    do: "size-5 sm:size-7 text-lightMuted",
+                    else: "size-5 sm:size-7 text-primary"
+                }
+              />
+            </span>
+            <span class="text-sm sm:text-base">ir para Informação & Ajuda</span>
+          </.link>
+        </div>
+
+        <button
+          type="button"
+          class={[
+            "flex items-center group ml-auto",
+            if(@variant == :app,
+              do: "text-lightMuted hover:text-light transition-colors",
+              else: "text-primary hover:opacity-75"
+            )
+          ]}
+          aria-label={gettext("close")}
+          phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
+          phx-value-key={@kind}
+        >
+          <span class="mr-1">
+            <.icon
+              name="hero-x-mark"
+              class={
+                if @variant == :app,
+                  do: "size-5 sm:size-7 text-lightMuted",
+                  else: "size-5 sm:size-7 text-primary"
+              }
+            />
+          </span>
+          <span class="text-sm sm:text-base">fechar</span>
+        </button>
+      </div>
     </div>
     """
   end
@@ -76,11 +187,20 @@ defmodule PearlWeb.CoreComponents do
   attr :flash, :map, required: true, doc: "the map of flash messages"
   attr :id, :string, default: "flash-group", doc: "the optional id of flash container"
 
+  attr :variant, :atom,
+    values: [:default, :app],
+    default: :default,
+    doc: "the flash card variant style"
+
   def flash_group(assigns) do
     ~H"""
     <div id={@id}>
-      <.flash kind={:info} title={gettext("Success!")} flash={@flash} />
-      <.flash kind={:error} title={gettext("Error!")} flash={@flash} />
+      <.flash kind={:info} flash={@flash} variant={@variant} />
+      <.flash kind={:success} flash={@flash} variant={@variant} />
+      <.flash kind={:error} flash={@flash} variant={@variant} />
+      <.flash kind={:tip} flash={@flash} variant={@variant} />
+      <.flash kind={:help} flash={@flash} variant={@variant} />
+
       <.flash
         id="client-error"
         kind={:error}
@@ -88,9 +208,12 @@ defmodule PearlWeb.CoreComponents do
         phx-disconnected={show(".phx-client-error #client-error")}
         phx-connected={hide("#client-error")}
         hidden
+        variant={@variant}
       >
-        {gettext("Attempting to reconnect")}
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <span class="flex items-center gap-2">
+          {gettext("Attempting to reconnect")}
+          <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        </span>
       </.flash>
 
       <.flash
@@ -100,13 +223,27 @@ defmodule PearlWeb.CoreComponents do
         phx-disconnected={show(".phx-server-error #server-error")}
         phx-connected={hide("#server-error")}
         hidden
+        variant={@variant}
       >
-        {gettext("Hang in there while we get back on track")}
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <span class="flex items-center gap-2">
+          {gettext("Hang in there while we get back on track")}
+          <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        </span>
       </.flash>
     </div>
     """
   end
+
+  defp get_flash_icon(:tip), do: "hero-light-bulb"
+  defp get_flash_icon(:help), do: "hero-question-mark-circle"
+  defp get_flash_icon(:success), do: "hero-check-circle"
+  defp get_flash_icon(:error), do: "hero-exclamation-triangle"
+  defp get_flash_icon(:info), do: "hero-information-circle"
+  defp get_flash_icon(_), do: "hero-information-circle"
+
+  defp get_flash_title(:tip), do: "Dica"
+  defp get_flash_title(:help), do: "Precisa de ajuda?"
+  defp get_flash_title(_), do: nil
 
   @doc """
   Renders a simple form.
@@ -270,7 +407,7 @@ defmodule PearlWeb.CoreComponents do
               class="peer sr-only pearl-radio"
               {@rest}
             />
-            <div class="h-6.5 w-6.5 rounded-full border-2 border-gray-300 bg-[#EFEFED] peer-checked:border-primary peer-checked:border-3 peer-checked:bg-[#EFEFED] flex items-center justify-center">
+            <div class="h-6.5 w-6.5 rounded-full border-2 border-gray-300 bg-light-muted peer-checked:border-primary peer-checked:border-3 peer-checked:bg-light-muted flex items-center justify-center">
             </div>
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity duration-50 pointer-events-none">
             </div>
@@ -441,7 +578,10 @@ defmodule PearlWeb.CoreComponents do
   Renders a header with title.
   """
   attr :class, :string, default: nil
+  attr :style, :string, default: nil
+  attr :overlay_class, :string, default: nil
   attr :title_class, :string, default: ""
+  attr :actions_layout, :atom, values: [:inline, :stack_mobile], default: :inline
 
   slot :inner_block, required: true
   slot :subtitle
@@ -449,12 +589,16 @@ defmodule PearlWeb.CoreComponents do
 
   def header(assigns) do
     ~H"""
-    <header class={[
-      @actions != [] &&
-        "flex items-left sm:items-center justify-between gap-2 sm:gap-6 flex-row",
-      @class
-    ]}>
-      <div class="flex flex-col justify-center">
+    <header
+      class={[
+        @actions != [] && header_layout_class(@actions_layout),
+        @overlay_class && "relative overflow-hidden",
+        @class
+      ]}
+      style={@style}
+    >
+      <div :if={@overlay_class} class={[@overlay_class, "absolute inset-0 pointer-events-none"]} />
+      <div class="relative z-10 flex flex-col justify-center">
         <h1 class={"font-semibold leading-8 #{@title_class}"}>
           {render_slot(@inner_block)}
         </h1>
@@ -462,10 +606,22 @@ defmodule PearlWeb.CoreComponents do
           {render_slot(@subtitle)}
         </p>
       </div>
-      <div class="flex-none">{render_slot(@actions)}</div>
+      <div class={[
+        "relative z-10",
+        @actions_layout == :stack_mobile && "w-full sm:w-auto",
+        @actions_layout == :inline && "flex-none"
+      ]}>
+        {render_slot(@actions)}
+      </div>
     </header>
     """
   end
+
+  defp header_layout_class(:stack_mobile),
+    do: "flex flex-col items-start sm:items-center justify-between gap-4 sm:gap-6 sm:flex-row"
+
+  defp header_layout_class(:inline),
+    do: "flex items-left sm:items-center justify-between gap-2 sm:gap-6 flex-row"
 
   @doc """
   Renders a data list.

@@ -8,7 +8,11 @@ defmodule PearlWeb.Backoffice.ScheduleLive.CategoryLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Categories group scheduled activities.")}>
+      <.page
+        title={@title}
+        subtitle={gettext("Categories group scheduled activities.")}
+        stack_header_on_mobile
+      >
         <.simple_form
           for={@form}
           id="category-form"
@@ -58,7 +62,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.CategoryLive.FormComponent do
       {:ok, _category} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Activity category updated successfully")
+         |> put_flash(:success, gettext("Categoria de atividade atualizada com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -71,7 +75,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.CategoryLive.FormComponent do
       {:ok, _category} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Activity category created successfully")
+         |> put_flash(:success, gettext("Categoria de atividade criada com sucesso"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -5,9 +5,11 @@ defmodule PearlWeb.Router do
   import PearlWeb.UserTicket
   import PearlWeb.UserRoles
   import PearlWeb.EventRoles
+  import PearlWeb.Themes
 
   pipeline :browser do
     plug :accepts, ["html"]
+    plug :put_theme_color
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, html: {PearlWeb.Layouts, :root}
@@ -86,6 +88,7 @@ defmodule PearlWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     get "/init", TicketsController, :init
+    get "/activity/init", TicketsController, :init_activity
   end
 
   scope "/checkout", PearlWeb do
@@ -106,6 +109,20 @@ defmodule PearlWeb.Router do
       live "/precautions", Checkout.TicketInformationsLive, :precautions
       live "/informations", Checkout.TicketInformationsLive, :informations
       live "/conclusion", Checkout.TicketInformationsLive, :conclusion
+    end
+  end
+
+  scope "/checkout", PearlWeb do
+    pipe_through [
+      :browser,
+      :require_authenticated_user,
+      :require_confirmed_user,
+      :redirect_if_user_is_staff
+    ]
+
+    live_session :activity_checkout,
+      on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
+      live "/activity/confirm", Checkout.ActivityTicketLive, :activity_confirm
     end
   end
 
@@ -138,6 +155,7 @@ defmodule PearlWeb.Router do
     live_session :payment_status,
       on_mount: [{PearlWeb.UserAuth, :mount_current_user}] do
       live "/payment/:id", Checkout.PaymentStatusLive, :payment_status
+      live "/activity/payment/:id", Checkout.PaymentStatusLive, :activity_payment_status
     end
   end
 
@@ -176,8 +194,6 @@ defmodule PearlWeb.Router do
         live "/user/:handle", UserLive.Show, :show
 
         live "/leaderboard", LeaderboardLive.Index, :index
-
-        live "/credential", CredentialLive.Index, :index
 
         live "/games", GamesLive.Index, :index
 
@@ -353,6 +369,11 @@ defmodule PearlWeb.Router do
               live "/new", Index, :categories_new
               live "/:id/edit", Index, :categories_edit
             end
+
+            scope "/calendar_pictures" do
+              live "/", Index, :calendar_pictures
+              live "/:id/edit", Index, :calendar_pictures_edit
+            end
           end
         end
 
@@ -441,6 +462,12 @@ defmodule PearlWeb.Router do
           live "/coin_flip", MinigamesLive.Index, :edit_coin_flip
         end
 
+        scope "/meals", EventMealLive do
+          live "/", Index, :index
+          live "/new", Index, :new
+          live "/:id/edit", Index, :edit
+        end
+
         scope "/scanner", ScannerLive do
           live "/", Index, :index
 
@@ -453,7 +480,22 @@ defmodule PearlWeb.Router do
             live "/:id", Show, :show
           end
 
+          scope "/meals", MealsLive do
+            live "/", Index, :index
+            live "/:id", Show, :show
+          end
+
           live "/enrolments/:id", EnrolmentLive.Index, :index
+          live "/tickets", TicketsLive.Index, :index
+        end
+
+        scope "/attendee_lockers", LockersLive do
+          live "/", Index, :index
+          live "/config", Index, :config
+          live "/:attendee_id", Index, :show
+          live "/:attendee_id/history", Index, :history
+          live "/:attendee_id/:session_id", Index, :open_locker
+          live "/:attendee_id/:session_id/new_item", Index, :new_item
         end
 
         live "/profile_settings", ProfileSettingsLive, :edit

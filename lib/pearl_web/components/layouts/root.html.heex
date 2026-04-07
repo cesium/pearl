@@ -6,6 +6,13 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
     />
+    <meta name="theme-color" content={@theme_color} />
+
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#a1a1a1" media="(prefers-color-scheme: dark)" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="csrf-token" content={get_csrf_token()} />
     <.live_title>
       {assigns[:page_title] || "ENEI '26"}

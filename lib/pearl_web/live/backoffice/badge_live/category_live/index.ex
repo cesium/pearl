@@ -8,7 +8,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.CategoryLive.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"badges" => ["edit"]}}>
             <.link navigate={~p"/dashboard/badges/categories/new"}>

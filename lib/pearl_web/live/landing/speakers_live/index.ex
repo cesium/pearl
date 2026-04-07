@@ -63,8 +63,8 @@ defmodule PearlWeb.Landing.SpeakersLive.Index do
 
   defp filter_by_date(speakers, date) do
     speakers
-    |> Enum.filter(fn %{activity: activity} ->
-      activity && to_string(activity.date) == date
+    |> Enum.filter(fn %{activities: activities} ->
+      Enum.any?(activities, fn activity -> to_string(activity.date) == date end)
     end)
   end
 end

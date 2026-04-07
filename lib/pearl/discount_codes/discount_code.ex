@@ -3,8 +3,7 @@ defmodule Pearl.DiscountCodes.DiscountCode do
    Module for the Discount Code
   """
 
-  use Ecto.Schema
-  import Ecto.Changeset
+  use Pearl.Schema
 
   alias Pearl.Tickets.TicketType
 
@@ -17,9 +16,6 @@ defmodule Pearl.DiscountCodes.DiscountCode do
 
   @required_fields ~w(code amount active usage_limit)a
   @optional_fields ~w()a
-
-  @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
 
   schema "discount_codes" do
     field :code, :string

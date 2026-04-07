@@ -3,7 +3,6 @@ export const ScratchCard = {
     this.scratchArea = document.getElementById("scratch-area");
     if (!this.scratchArea) return;
 
-    this.scratchArea.style.touchAction = "none";
     this.context = this.scratchArea.getContext("2d");
     this.scratchAreaWidth = this.scratchArea.width;
     this.scratchAreaHeight = this.scratchArea.height;
@@ -12,9 +11,24 @@ export const ScratchCard = {
     this.gameEnded = false;
     this.canScratch = false;
     this.card_id = null;
+    this.coverImage = new Image();
+    this.coverImageLoaded = false;
+
+    this.coverImage.onload = () => {
+      this.coverImageLoaded = true;
+      this.drawCover();
+    };
+
+    this.coverImage.onerror = () => {
+      this.coverImageLoaded = false;
+      this.drawCover();
+    };
+
+    this.coverImage.src = "/images/scratch_area.png";
 
     this.initializeCard();
     this.setupEventListeners();
+    this.updateTouchAction();
 
     this.handleEvent("scratch-card", ({card_id}) => {
       this.card_id = card_id;
@@ -29,6 +43,7 @@ export const ScratchCard = {
   startGame() {
     this.gameEnded = false;
     this.canScratch = true;
+    this.updateTouchAction();
     this.resetCard();
   },
 
@@ -36,6 +51,7 @@ export const ScratchCard = {
     if (this.gameEnded) return;
     this.gameEnded = true;
     this.canScratch = false;
+    this.updateTouchAction();
     
     this.scratchArea.style.opacity = "0";
     
@@ -43,15 +59,29 @@ export const ScratchCard = {
   },
 
   initializeCard() {
-    this.context.fillStyle = "#561018";
-    this.context.fillRect(0, 0, this.scratchAreaWidth, this.scratchAreaHeight);
+    this.drawCover();
   },
 
   resetCard() {
     this.context.globalCompositeOperation = "source-over";
+    this.drawCover();
+    this.scratchArea.style.opacity = "1";
+  },
+
+  updateTouchAction() {
+    this.scratchArea.style.touchAction = this.canScratch ? "none" : "auto";
+  },
+
+  drawCover() {
+    this.context.clearRect(0, 0, this.scratchAreaWidth, this.scratchAreaHeight);
+
+    if (this.coverImageLoaded) {
+      this.context.drawImage(this.coverImage, 0, 0, this.scratchAreaWidth, this.scratchAreaHeight);
+      return;
+    }
+
     this.context.fillStyle = "#561018";
     this.context.fillRect(0, 0, this.scratchAreaWidth, this.scratchAreaHeight);
-    this.scratchArea.style.opacity = "1";
   },
 
   scratchPoint(x, y) {

@@ -121,7 +121,21 @@ defmodule PearlWeb.App.GamesLive.ScratchCardLive.Index do
 
   @impl true
   def handle_info({"drops", drops}, socket) do
-    {:noreply, socket |> assign(:scratch_card_drops, drops)}
+    {:noreply, socket |> assign(:drops, drops)}
+  end
+
+  @impl true
+  def handle_info({"win", value}, socket) do
+    winning_user = value.attendee.user_id
+    current_user = socket.assigns.current_user
+
+    if winning_user != current_user.id do
+      {:noreply,
+       socket
+       |> assign(:latest_wins, merge_wins(socket.assigns.latest_wins, value))}
+    else
+      {:noreply, socket}
+    end
   end
 
   @impl true
@@ -131,5 +145,10 @@ defmodule PearlWeb.App.GamesLive.ScratchCardLive.Index do
 
   defp can_scratch?(scratch_card_active?, tokens, price, is_scratching?) do
     !is_scratching? && scratch_card_active? && tokens >= price
+  end
+
+  defp merge_wins(latest_wins, new_win) do
+    ([new_win] ++ latest_wins)
+    |> Enum.take(@max_wins)
   end
 end

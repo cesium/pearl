@@ -15,8 +15,7 @@ defmodule PearlWeb.App.ScratchCardLive.Components.PaytableModal do
   attr :on_cancel, JS, default: %JS{}
 
   attr :body_class, :string,
-    default:
-      "bg-primary ring-4 ring-white py-8 px-5 max-h-[500px] overflow-y-scroll scrollbar-hide"
+    default: "bg-dark w-full rounded-2xl border border-light/10 ring-white p-8 pt-9"
 
   def paytable_modal(assigns) do
     drops = Minigames.list_scratch_card_drops()
@@ -31,18 +30,18 @@ defmodule PearlWeb.App.ScratchCardLive.Components.PaytableModal do
       wrapper_class={@wrapper_class}
       body_class={@body_class}
     >
-      <h2 class="text-3xl font-terminal font-bold text-center mb-6">
+      <h2 class="text-3xl font-bold text-center mb-4 md:mb-8">
         {gettext("PAYTABLE")}
       </h2>
 
       <div class="space-y-6" id="paytable-content" phx-hook="PaytableModal">
         <%= for drop <- @drops do %>
-          <div class="flex items-center justify-between border-b border-white/20 pb-4 last:border-0">
+          <div class="flex items-center justify-between border-b border-light/5 pb-4 last:border-0">
             <div class="flex flex-col gap-1">
-              <h3 class="text-xl font-terminal font-semibold uppercase">
+              <h3 class="text-xl font-semibold uppercase">
                 {get_prize_name(drop)}
               </h3>
-              <p class="text-sm text-slate-300">
+              <p class="text-sm text-light/50">
                 {gettext("Probability: %{probability}%",
                   probability: Float.round(drop.probability * 100, 4)
                 )}

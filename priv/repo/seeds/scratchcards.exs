@@ -81,9 +81,11 @@ defmodule Pearl.Repo.Seeds.ScratchCards do
       %{probability: 0.005, max_per_attendee: 1, tokens: 1000},
     ]
 
-    for attrs <- drops do
-      # Assign a random symbol to each drop
-      drop_attrs = Map.put(attrs, :scratch_card_symbol_id, Enum.random(symbols).id)
+    symbols
+    |> Enum.shuffle()
+    |> Enum.zip(drops)
+    |> Enum.each(fn {symbol, attrs} ->
+      drop_attrs = Map.put(attrs, :scratch_card_symbol_id, symbol.id)
 
       case Minigames.create_scratch_card_drop(drop_attrs) do
         {:ok, _drop} ->
@@ -92,7 +94,7 @@ defmodule Pearl.Repo.Seeds.ScratchCards do
         {:error, changeset} ->
           Mix.shell().error("Failed to seed scratch card drop: #{inspect(changeset.errors)}")
       end
-    end
+    end)
   end
 end
 

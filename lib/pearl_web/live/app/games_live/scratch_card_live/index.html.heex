@@ -1,29 +1,40 @@
 <.page
   title="Scratch Card"
   size={:xl}
-  title_class="font-terminal uppercase"
+  child_class="xl:h-full xl:min-h-0 xl:overflow-hidden"
+  title_class="uppercase"
+  back_to_link="/app/games"
+  back_to_link_text="Voltar Minigames"
+  back_to_link_class="text-light/50 hover:text-white mt-2 transition-colors duration-300"
 >
   <:actions>
-    <span class="text-semibold text-xl border-2 px-4 py-2 rounded-full font-terminal">
-      💰 {@attendee_tokens}
+    <span class="text-semibold text-xl flex place-items-center gap-2">
+      <.icon name="fa-sack-dollar-solid" />
+      {@attendee_tokens}
     </span>
   </:actions>
 
-  <section class="flex justify-between mt-12">
+  <section class="grid grid-cols-1 xl:grid-cols-2 gap-12 md:py-10 xl:h-full xl:min-h-0 xl:overflow-hidden xl:box-border">
     <div
       id="scratch-game"
       phx-hook="ScratchCard"
-      class="flex flex-col items-center gap-12 w-1/2 px-6"
+      class="flex flex-col items-center gap-8 w-full px-0 sm:px-6"
     >
-      <div class="flex items-center justify-center rounded-2xl bg-accent p-1 h-80 w-80 touch-none">
+      <div class="relative flex items-center justify-center rounded-3xl border border-light/10 bg-light/5 p-2 h-84 w-84">
+        <%= if is_nil(assigns[:current_scratch_card]) do %>
+          <div class="absolute inset-2 z-10 flex flex-col items-center justify-center rounded-2xl border border-light/10 bg-dark/80 px-6 text-center backdrop-blur-sm">
+            <.icon name="fa-lock-solid" class="size-8" />
+          </div>
+        <% end %>
+
         <div
-          class="bg-[#692222] h-full w-full rounded-2xl gap-8 grid grid-cols-3 p-6"
-          style="background-image: repeating-linear-gradient(-45deg, #c15757, #c15757 4px, transparent 4px, transparent 8px)"
+          class="bg-dark h-full w-full rounded-2xl border border-light/10 gap-8 grid grid-cols-3 p-6"
+          style="background-image: repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06) 4px, transparent 4px, transparent 10px)"
         >
           <%= if (assigns[:current_scratch_card] && assigns[:current_symbols]) do %>
             <div
               :for={symbol <- @current_symbols}
-              class="flex items-center justify-center font-bold"
+              class="flex items-center justify-center"
             >
               <img
                 class="size-auto"
@@ -39,16 +50,18 @@
 
         <canvas
           id="scratch-area"
-          width="312"
-          height="312"
+          phx-update="ignore"
+          width="318"
+          height="318"
           class="absolute rounded-2xl transition-opacity duration-300"
         />
       </div>
 
-      <div class="w-full">
+      <div class="flex flex-col gap-6 w-full items-center">
         <.action_button
           title={gettext("Give it a Scratch")}
-          subtitle={"💰 #{@scratch_card_price}"}
+          subtitle={"#{@scratch_card_price}"}
+          subtitle_icon="sack-dollar-solid"
           disabled={
             !can_scratch?(
               @scratch_card_active?,
@@ -57,29 +70,36 @@
               @is_scratching?
             )
           }
-          class="w-64"
+          class="w-full md:w-80"
           phx-click="buy-card"
         />
+
+        <.link
+          patch={~p"/app/games/scratch_card/paytable"}
+          class="flex items-center justify-center"
+        >
+          <.icon name="fa-coins-solid" class="text-primary mr-2" />
+          <span class="text-primary font-terminal font-bold uppercase">
+            {gettext("View paytable")}
+          </span>
+        </.link>
       </div>
     </div>
 
-    <div class="w-1/2">
-      <h2 class="text-2xl font-terminal uppercase font-bold mb-8">
-        {gettext("Latest Wins")}
-      </h2>
-      <.latest_wins entries={@latest_wins} />
+    <div class="w-full flex flex-col items-center gap-4 xl:h-full xl:min-h-0">
+      <div class="flex flex-col w-full xl:flex-1 xl:min-h-0">
+        <div class="inline-flex items-center gap-2 pb-2 w-full">
+          <.icon name="fa-award-solid" class="size-5 text-primary" />
+          <h2 class="text-lg self-start text-light/50 uppercase font-bold">
+            {gettext("Latest Wins")}
+          </h2>
+        </div>
+        <div class="w-full xl:min-h-0 xl:overflow-y-auto">
+          <.latest_wins entries={@latest_wins} />
+        </div>
+      </div>
     </div>
   </section>
-
-  <.link
-    patch={~p"/app/games/scratch_card/paytable"}
-    class="flex items-center max-w-80 mx-auto mt-8 md:mt-20 justify-center"
-  >
-    <.icon name="hero-arrow-top-right-on-square" class="text-accent mr-2" />
-    <span class="text-accent font-terminal font-bold uppercase">
-      {gettext("View paytable")}
-    </span>
-  </.link>
 </.page>
 
 <.result_modal
@@ -94,7 +114,7 @@
 
 <.paytable_modal
   :if={@live_action in [:show_paytable]}
-  wrapper_class="px-6"
+  wrapper_class="px-6 pt-8 pb-28 md:pb-0 md:pt-0"
   show
   id="paytable-modal"
   on_cancel={JS.patch(~p"/app/games/scratch_card")}

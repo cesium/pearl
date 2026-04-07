@@ -26,7 +26,7 @@ defmodule PearlWeb.App.GamesLive.Index do
       },
       %{
         name: "Scratch Card",
-        icon: "ticket.svg",
+        icon: "scratch_card.svg",
         path: "scratch_card",
         desc: "Scratch, scratch, scratch e revela a tua fortuna escondida"
       }

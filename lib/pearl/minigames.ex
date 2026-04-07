@@ -1969,7 +1969,7 @@ defmodule Pearl.Minigames do
   end
 
   defp broadcast_scratch_card_purchase_changes(params) do
-    case broadcast_scratch_card_win(Map.get(params, :spin)) do
+    case broadcast_scratch_card_win(Map.get(params, :scratch_card)) do
       :ok ->
         case broadcast_scratch_card_config_update("drops", list_scratch_card_drops()) do
           :ok -> {:ok, :ok}

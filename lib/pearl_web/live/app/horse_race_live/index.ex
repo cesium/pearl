@@ -31,12 +31,12 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
        Minigames.get_attendee_tokens(socket.assigns.current_user.attendee.id)
      )
      |> assign(:current_race_id, Minigames.get_current_horse_race_id())
-     |> assign(:horse_bets, %{})
      |> assign(:race_result, nil)
      |> assign(
        :active_bets,
        Minigames.get_attendee_pending_bets(socket.assigns.current_user.attendee.id)
-     )}
+     )
+     |> assign_bet_totals(%{})}
   end
 
   @impl true
@@ -50,7 +50,10 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
   end
 
   def handle_info({:horse_race_config_updated, "multiplier", multiplier}, socket) do
-    {:noreply, assign(socket, :multiplier, multiplier)}
+    {:noreply,
+     socket
+     |> assign(:multiplier, multiplier)
+     |> assign_bet_totals(socket.assigns.horse_bets)}
   end
 
   def handle_info({:horse_race_config_updated, "duration", duration}, socket) do
@@ -73,8 +76,8 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
     {:noreply,
      socket
      |> assign(:current_race_id, race_id)
-     |> assign(:horse_bets, %{})
-     |> assign(:active_bets, [])}
+     |> assign(:active_bets, [])
+     |> assign_bet_totals(%{})}
   end
 
   def handle_info({:race_finished, winning_horse}, socket) do
@@ -121,7 +124,8 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
       {:noreply,
        socket
        |> assign(:attendee_tokens, updated_tokens)
-       |> assign(:active_bets, [])}
+       |> assign(:active_bets, [])
+       |> assign_bet_totals(socket.assigns.horse_bets)}
     else
       {:noreply, socket}
     end
@@ -158,7 +162,7 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
           Map.delete(socket.assigns.horse_bets, horse_number)
         end
 
-      {:noreply, assign(socket, :horse_bets, horse_bets)}
+      {:noreply, assign_bet_totals(socket, horse_bets)}
     end
   end
 
@@ -172,7 +176,8 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
     else
       horse_number = String.to_integer(horse_str)
       horse_bets = Map.delete(socket.assigns.horse_bets, horse_number)
-      {:noreply, assign(socket, :horse_bets, horse_bets)}
+
+      {:noreply, assign_bet_totals(socket, horse_bets)}
     end
   end
 
@@ -180,7 +185,7 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
     if socket.assigns.horse_race_running? do
       {:noreply, socket}
     else
-      {:noreply, assign(socket, :horse_bets, %{})}
+      {:noreply, assign_bet_totals(socket, %{})}
     end
   end
 
@@ -218,12 +223,14 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
       {:ok, bets} ->
         total_bet = calculate_total_bets(horse_bets)
 
+        attendee_tokens = Minigames.get_attendee_tokens(attendee_id)
+
         {:noreply,
          socket
-         |> assign(:attendee_tokens, Minigames.get_attendee_tokens(attendee_id))
-         |> assign(:horse_bets, %{})
+         |> assign(:attendee_tokens, attendee_tokens)
          |> assign(:race_result, nil)
          |> assign(:active_bets, bets)
+         |> assign_bet_totals(%{})
          |> put_flash(
            :info,
            "Apostas confirmadas! Total: #{format_tokens(total_bet)} tokens. Aguarda o fim da corrida!"
@@ -242,6 +249,77 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
 
   defp calculate_total_bets(horse_bets) do
     horse_bets |> Map.values() |> Enum.sum()
+  end
+
+  defp assign_bet_totals(socket, horse_bets) do
+    total_bets = calculate_total_bets(horse_bets)
+    available_tokens = socket.assigns.attendee_tokens - total_bets
+
+    active_bets = socket.assigns.active_bets || []
+
+    total_active_bets =
+      active_bets
+      |> Enum.map(& &1.bet_amount)
+      |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
+
+    multiplier_decimal = parse_multiplier(socket.assigns.multiplier)
+
+    max_return = calculate_max_return(active_bets, multiplier_decimal)
+
+    net_gain =
+      if Enum.empty?(active_bets) do
+        Decimal.new(0)
+      else
+        Decimal.sub(max_return, total_active_bets)
+      end
+
+    enriched_active_bets = enrich_active_bets(active_bets, multiplier_decimal, total_active_bets)
+
+    assign(socket,
+      horse_bets: horse_bets,
+      total_bets: total_bets,
+      available_tokens: available_tokens,
+      active_bets: enriched_active_bets,
+      total_active_bets: total_active_bets,
+      max_return: max_return,
+      net_gain: net_gain,
+      multiplier_decimal: multiplier_decimal
+    )
+  end
+
+  defp calculate_max_return(active_bets, multiplier_decimal) do
+    active_bets
+    |> Enum.map(& &1.bet_amount)
+    |> Enum.map(fn bet -> Decimal.mult(bet, multiplier_decimal) end)
+    |> Enum.reduce(nil, fn
+      value, nil -> value
+      value, acc -> if Decimal.compare(value, acc) == :gt, do: value, else: acc
+    end) || Decimal.new(0)
+  end
+
+  defp parse_multiplier(multiplier) do
+    cond do
+      is_integer(multiplier) -> Decimal.new(multiplier)
+      is_float(multiplier) -> Decimal.from_float(multiplier)
+      match?(%Decimal{}, multiplier) -> multiplier
+      true -> Decimal.new(trunc(multiplier || 0))
+    end
+  end
+
+  defp enrich_active_bets(active_bets, multiplier_decimal, total_active_bets) do
+    Enum.map(active_bets, fn bet ->
+      bet_max_return = Decimal.mult(bet.bet_amount, multiplier_decimal)
+      bet_net_gain = Decimal.sub(bet_max_return, total_active_bets)
+      bet_net_cmp = Decimal.compare(bet_net_gain, Decimal.new(0))
+
+      bet
+      |> Map.from_struct()
+      |> Map.merge(%{
+        bet_max_return: bet_max_return,
+        bet_net_gain: bet_net_gain,
+        bet_net_cmp: bet_net_cmp
+      })
+    end)
   end
 
   defp horse_variant_class(horse_number) do

@@ -8,6 +8,7 @@ export const HorseRace = {
             this.clearWinner();
             this.isPaused = false;
             this.frozenCountdown = null;
+            this.frozenPositions = null;
             this.pauseHorseAnimations(false);
             this.showCountdown();
         });
@@ -46,6 +47,7 @@ export const HorseRace = {
             this.isPaused = false;
             this.frozenTime = null;
             this.frozenCountdown = null;
+            this.frozenPositions = null;
             this.clearWinner();
             this.initializeHorses();
             this.pauseHorseAnimations(false);
@@ -62,19 +64,42 @@ export const HorseRace = {
             this.isPaused = true; // Stop running when there's a winner
             this.setHorsesState("rest");
             this.applyWinner(winner);
-            // Ensure visuals show horses at the finish line
+            // Ensure visuals show the winner at the finish line, leaving others at their current positions
             try {
-                let count = 0;
-                if (this.el.dataset.horses) {
-                    const parsed = JSON.parse(this.el.dataset.horses);
-                    count = parsed.length;
-                } else {
-                    count = this.el.querySelectorAll(".horse-marker").length;
-                }
-                if (count > 0) {
-                    const finishPositions = Array(count).fill(100);
-                    this.updateHorseVisuals(finishPositions);
-                }
+                const markers = this.el.querySelectorAll(".horse-marker");
+                const positions = new Array(markers.length).fill(0);
+                const winnerIndex = parseInt(winner, 10) - 1;
+
+                markers.forEach((marker, index) => {
+                    if (index !== winnerIndex) {
+                        // Freeze mid-transition by getting computed style
+                        const computedLeft =
+                            window.getComputedStyle(marker).left;
+                        const parentWidth =
+                            marker.parentElement.getBoundingClientRect().width;
+                        if (parentWidth > 0 && computedLeft.endsWith("px")) {
+                            const pxValue = parseFloat(computedLeft);
+                            const percentage = (pxValue / parentWidth) * 100;
+                            // We divide by 0.95 because updateHorseVisuals multiplies by 0.95
+                            positions[index] = percentage / 0.95;
+                        } else {
+                            positions[index] =
+                                parseFloat(marker.style.left) / 0.95 || 0;
+                        }
+                    } else {
+                        positions[index] = 100;
+                    }
+                });
+
+                this.frozenPositions = positions;
+
+                // Temporarily disable transitions to snap to the frozen position
+                markers.forEach((m) => (m.style.transition = "none"));
+                this.updateHorseVisuals(positions);
+
+                // Force reflow and restore transition
+                void this.el.offsetHeight;
+                markers.forEach((m) => (m.style.transition = ""));
             } catch (e) {
                 console.error("Failed to set finish visuals", e);
             }
@@ -99,6 +124,9 @@ export const HorseRace = {
             if (this.frozenCountdown) {
                 const countdownEl = document.getElementById("race-countdown");
                 if (countdownEl) countdownEl.textContent = this.frozenCountdown;
+            }
+            if (this.frozenPositions) {
+                this.updateHorseVisuals(this.frozenPositions);
             }
             return; // Skip visual updates if paused
         }
@@ -247,28 +275,12 @@ export const HorseRace = {
 
                 const banner = lane.querySelector(".winner-banner");
                 if (banner) banner.classList.remove("hidden");
-
-                const marker = lane.querySelector(".horse-marker");
-                if (marker) {
-                    const horseIcon = marker.querySelector(".horse-icon");
-                    if (horseIcon) {
-                        horseIcon.classList.add("scale-125");
-                    }
-                }
             } else {
                 // Clean up other lanes just in case
                 lane.classList.remove("bg-red-900/20", "z-10");
 
                 const banner = lane.querySelector(".winner-banner");
                 if (banner) banner.classList.add("hidden");
-
-                const marker = lane.querySelector(".horse-marker");
-                if (marker) {
-                    const horseIcon = marker.querySelector(".horse-icon");
-                    if (horseIcon) {
-                        horseIcon.classList.remove("scale-125");
-                    }
-                }
             }
         });
     },
@@ -280,14 +292,6 @@ export const HorseRace = {
 
             const banner = lane.querySelector(".winner-banner");
             if (banner) banner.classList.add("hidden");
-
-            const marker = lane.querySelector(".horse-marker");
-            if (marker) {
-                const horseIcon = marker.querySelector(".horse-icon");
-                if (horseIcon) {
-                    horseIcon.classList.remove("scale-125");
-                }
-            }
         });
     },
 

@@ -260,8 +260,6 @@ defmodule PearlWeb.Backoffice.MinigamesLive.HorseRace.Game do
     horses = client_horses || Enum.map(socket.assigns.horses, &min(&1, 100))
     winner = parse_js_winner(js_winner, horses)
 
-    horses = Enum.map(horses, fn _ -> 100 end)
-
     socket =
       if winner && socket.assigns.current_race_id do
         process_race_payouts(socket, winner)

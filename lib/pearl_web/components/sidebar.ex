@@ -83,7 +83,7 @@ defmodule PearlWeb.Components.Sidebar do
         <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div class="flex flex-col justify-between flex-1 h-0 pb-4 overflow-y-auto scrollbar-hide">
           <!-- Navigation -->
-          <nav class="pr-4 mt-6">
+          <nav class="px-4 mt-6">
             <%= if @current_user do %>
               <.sidebar_nav_links
                 user={@current_user}

@@ -46,7 +46,7 @@ defmodule PearlWeb.Components.Modal do
       />
 
       <div
-        class={"fixed inset-0 overflow-y-auto top-20 scrollbar-hide #{@wrapper_class}"}
+        class={"fixed inset-0 overflow-y-auto #{@wrapper_class}"}
         aria-labelledby={"#{@id}-title"}
         aria-describedby={"#{@id}-description"}
         role="dialog"

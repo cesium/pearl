@@ -182,6 +182,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
         close_button_class="absolute top-20 xl:top-18 right-0"
         close_button_button_class="-m-3 flex-none p-3 text-dark/85 hover:opacity-70"
         close_button_icon_class="size-8"
+        wrapper_class="top-20 scrollbar-hide"
       >
         <% activity_ticket_type = activity_ticket_type(@selected_activity)
         is_paid_activity = not is_nil(activity_ticket_type)

@@ -1,4 +1,4 @@
-defmodule PearlWeb.App.WheelLive.Components.Awards do
+defmodule PearlWeb.App.GamesLive.WheelLive.Components.Awards do
   @moduledoc """
   Lucky wheel awards component.
   """

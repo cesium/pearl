@@ -1,4 +1,4 @@
-defmodule PearlWeb.App.SlotsLive.Components.ResultModal do
+defmodule PearlWeb.App.GamesLive.SlotsLive.Components.ResultModal do
   @moduledoc """
   Slots result modal component.
   """

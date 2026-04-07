@@ -10,6 +10,7 @@ defmodule Pearl.Minigames do
   alias Pearl.{Accounts, Constants, Contest}
   alias Pearl.Accounts.Attendee
   alias Pearl.Inventory.Item
+  alias Pearl.Minigames.ScratchCardSymbol
 
   alias Pearl.Minigames.{
     CoinFlipRoom,
@@ -2181,8 +2182,6 @@ defmodule Pearl.Minigames do
   def change_scratch_card_drop(%ScratchCardDrop{} = scratch_card_drop, attrs \\ %{}) do
     ScratchCardDrop.changeset(scratch_card_drop, attrs)
   end
-
-  alias Pearl.Minigames.ScratchCardSymbol
 
   @doc """
   Returns the list of scratch_card_symbols.

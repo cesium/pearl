@@ -1,4 +1,4 @@
-defmodule PearlWeb.App.SlotsLive.Components.Machine do
+defmodule PearlWeb.App.GamesLive.SlotsLive.Components.Machine do
   @moduledoc """
   Slots machine component.
   """

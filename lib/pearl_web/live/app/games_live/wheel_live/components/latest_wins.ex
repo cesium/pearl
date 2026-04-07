@@ -1,4 +1,4 @@
-defmodule PearlWeb.App.WheelLive.Components.LatestWins do
+defmodule PearlWeb.App.GamesLive.WheelLive.Components.LatestWins do
   @moduledoc """
   Lucky wheel latest wins component.
   """

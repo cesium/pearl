@@ -4,9 +4,9 @@ defmodule PearlWeb.App.GamesLive.ScratchCardLive.Index do
   alias Pearl.{Contest, Minigames}
   alias Pearl.Uploaders
 
-  import PearlWeb.App.WheelLive.Components.ResultModal
-  import PearlWeb.App.WheelLive.Components.LatestWins
-  import PearlWeb.App.ScratchCardLive.Components.PaytableModal
+  import PearlWeb.App.GamesLive.WheelLive.Components.ResultModal
+  import PearlWeb.App.GamesLive.WheelLive.Components.LatestWins
+  import PearlWeb.App.GamesLive.ScratchCardLive.Components.PaytableModal
 
   @max_wins 6
 

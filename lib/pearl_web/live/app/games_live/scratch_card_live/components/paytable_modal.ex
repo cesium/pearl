@@ -1,4 +1,4 @@
-defmodule PearlWeb.App.ScratchCardLive.Components.PaytableModal do
+defmodule PearlWeb.App.GamesLive.ScratchCardLive.Components.PaytableModal do
   @moduledoc """
   ScratchCard paytable modal component that shows winning patterns
   """

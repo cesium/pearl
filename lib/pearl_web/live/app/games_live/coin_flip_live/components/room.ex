@@ -1,4 +1,4 @@
-defmodule PearlWeb.App.CoinFlipLive.Components.Room do
+defmodule PearlWeb.App.GamesLive.CoinFlipLive.Components.Room do
   @moduledoc """
   Coin Flip room component.
   """

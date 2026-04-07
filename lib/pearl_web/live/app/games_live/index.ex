@@ -7,12 +7,6 @@ defmodule PearlWeb.App.GamesLive.Index do
   def mount(_params, _session, socket) do
     games = [
       %{
-        name: "Horse Race",
-        icon: "horse_race.svg",
-        path: "horse_race",
-        desc: "Aposta nos cavalos e testa a tua sorte nas corridas emocionantes"
-      },
-      %{
         name: "Lucky Wheel",
         icon: "wheel.svg",
         path: "wheel",
@@ -25,17 +19,22 @@ defmodule PearlWeb.App.GamesLive.Index do
         desc: "Experimenta a tua sorte com as clássicas slot machines"
       },
       %{
+        name: "Scratch Card",
+        icon: "wheel.svg",
+        path: "scratch_card",
+        desc: "Scratch, scratch, scratch e revela a tua fortuna escondida"
+      },
+      %{
         name: "Coin Flip",
         icon: "coin-flip.svg",
         path: "coin_flip",
         desc: "Cara ou coroa? Desafia outros jogadores num lançamento de moeda"
       },
       %{
-        name: "Scratch Card",
-        # Fix: change icon
-        icon: "wheel.svg",
-        path: "scratch_card",
-        desc: "Scratch, scratch, scratch e revela a tua fortuna escondida"
+        name: "Horse Race",
+        icon: "horse_race.svg",
+        path: "horse_race",
+        desc: "Aposta nos cavalos e testa a tua sorte nas corridas emocionantes"
       }
     ]
 

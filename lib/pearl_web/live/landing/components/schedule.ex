@@ -1007,10 +1007,21 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
   defp has_paid_ticket?(user) do
     case user do
-      nil -> false
-      %{ticket: nil} -> false
-      %{ticket: %{paid: paid}} -> paid == true
-      _ -> false
+      nil ->
+        false
+
+      %{ticket: %Ecto.Association.NotLoaded{}} ->
+        ticket = Pearl.Tickets.get_user_ticket(user.id)
+        ticket != nil and ticket.paid
+
+      %{ticket: nil} ->
+        false
+
+      %{ticket: %{paid: true}} ->
+        true
+
+      _ ->
+        false
     end
   end
 end

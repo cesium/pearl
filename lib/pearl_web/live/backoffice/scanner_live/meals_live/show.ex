@@ -21,6 +21,38 @@ defmodule PearlWeb.Backoffice.ScannerLive.MealsLive.Show do
             </.link>
           </:actions>
 
+          <%= if @ticket do %>
+            <div class="p-4 border rounded-xl mb-4 bg-gray-50 dark:bg-dark-muted/20 mt-6">
+              <h3 class="font-bold text-lg mb-2">{gettext("Dietary Information")}</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <p class="font-semibold">{gettext("Dietary Restrictions")}</p>
+                  <p class="text-sm">
+                    <%= if @ticket.diet && @ticket.diet != "no_restrictions" do %>
+                      <span class="text-amber-600 font-medium">
+                        {gettext("Diet: %{diet}", diet: @ticket.diet)}
+                      </span>
+                    <% else %>
+                      <span class="text-gray-500">{gettext("No dietary restrictions")}</span>
+                    <% end %>
+                  </p>
+                </div>
+                <div>
+                  <p class="font-semibold">{gettext("Allergens")}</p>
+                  <p class="text-sm">
+                    <%= if @ticket.allergens && @ticket.allergens != "none" do %>
+                      <span class="text-red-500 font-medium">
+                        {gettext("Allergens: %{allergens}", allergens: @ticket.allergens)}
+                      </span>
+                    <% else %>
+                      <span class="text-gray-500">{gettext("No allergens")}</span>
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
           <%= if @has_meals do %>
             <div class="space-y-8 py-8">
               <div :for={{date, meals} <- @grouped_meals} class="border p-4 rounded-xl">
@@ -49,7 +81,21 @@ defmodule PearlWeb.Backoffice.ScannerLive.MealsLive.Show do
                           )}
                         </p>
                       <% else %>
-                        <p class="text-gray-500">{gettext("Available")}</p>
+                        <%= if can_consume?(meal) do %>
+                          <p class="text-gray-500">{gettext("Available")}</p>
+                        <% else %>
+                          <p class="text-amber-600 font-medium">
+                            {gettext("Not available right now")}
+                          </p>
+                          <%= if meal.start_time && meal.end_time do %>
+                            <p class="text-sm text-gray-500">
+                              {gettext("Available between %{start} and %{end}",
+                                start: Calendar.strftime(meal.start_time, "%H:%M"),
+                                end: Calendar.strftime(meal.end_time, "%H:%M")
+                              )}
+                            </p>
+                          <% end %>
+                        <% end %>
                       <% end %>
                     </div>
 

@@ -224,6 +224,13 @@ defmodule PearlWeb.Config do
         scope: %{"schedule" => ["edit"]}
       },
       %{
+        key: :lockers,
+        title: "Lockers",
+        icon: "hero-inbox-stack",
+        url: "/dashboard/attendee_lockers",
+        scope: %{"attendee_lockers" => ["show"]}
+      },
+      %{
         key: :scanner,
         title: "Scanner",
         icon: "hero-qr-code",

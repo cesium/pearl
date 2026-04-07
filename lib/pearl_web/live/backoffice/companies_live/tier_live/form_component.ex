@@ -9,6 +9,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={@title}
         subtitle={gettext("Every company sponsoring the event gets assigned a tier.")}
       >

@@ -476,6 +476,15 @@ defmodule PearlWeb.Router do
           live "/tickets", TicketsLive.Index, :index
         end
 
+        scope "/attendee_lockers", LockersLive do
+          live "/", Index, :index
+          live "/config", Index, :config
+          live "/:attendee_id", Index, :show
+          live "/:attendee_id/history", Index, :history
+          live "/:attendee_id/:session_id", Index, :open_locker
+          live "/:attendee_id/:session_id/new_item", Index, :new_item
+        end
+
         live "/profile_settings", ProfileSettingsLive, :edit
       end
     end

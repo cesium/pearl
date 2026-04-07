@@ -11,6 +11,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.CoinFlip.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={gettext("Coin Flip Configuration")}
         subtitle={gettext("Configures coin flip minigame's internal settings.")}
       >

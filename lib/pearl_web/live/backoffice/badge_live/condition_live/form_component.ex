@@ -10,6 +10,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.FormComponent do
     <div>
       <.flash_group flash={@flash} />
       <.page
+        stack_header_on_mobile
         title={@title}
         subtitle={
           gettext(

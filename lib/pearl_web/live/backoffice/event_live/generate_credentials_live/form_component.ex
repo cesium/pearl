@@ -7,7 +7,7 @@ defmodule PearlWeb.Backoffice.EventLive.GenerateCredentialsLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Generate Credentials")}>
+      <.page title={@title} subtitle={gettext("Generate Credentials")} stack_header_on_mobile>
         <.simple_form for={@form} id="faq-form" phx-target={@myself} action={~p"/downloads/qr_codes"}>
           <div class="w-full space-y-2">
             <.field field={@form[:count]} type="number" label="Number of Credentials" required />

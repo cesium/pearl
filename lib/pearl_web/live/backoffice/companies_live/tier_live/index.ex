@@ -8,7 +8,7 @@ defmodule PearlWeb.Backoffice.CompanyLive.TierLive.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <:actions>
           <.ensure_permissions user={@current_user} permissions={%{"companies" => ["edit"]}}>
             <.link navigate={~p"/dashboard/companies/tiers/new"}>

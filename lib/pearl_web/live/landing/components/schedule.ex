@@ -8,7 +8,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
   alias Pearl.TicketTypes
   alias Plug.Conn.Query
 
-  import PearlWeb.Components.{Modal, Button}
+  import PearlWeb.Components.{Markdown, Modal, Button}
 
   @impl true
   def mount(socket) do
@@ -245,9 +245,7 @@ defmodule PearlWeb.Landing.Components.Schedule do
             <h3 class="text-base md:text-lg font-bold text-dark mb-2">
               {gettext("Descrição")}
             </h3>
-            <div class="text-dark/75 w-full leading-relaxed">
-              {@selected_activity.description || gettext("Sem descrição disponível.")}
-            </div>
+            <.markdown content={@selected_activity.description} class="text-dark/75" />
           </div>
 
           <div class="mt-6 pt-4 border-t border-light-muted/60">

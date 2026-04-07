@@ -9,7 +9,11 @@ defmodule PearlWeb.Backoffice.ScheduleLive.ActivityLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Activities that happen troughout the event.")}>
+      <.page
+        title={@title}
+        subtitle={gettext("Activities that happen troughout the event.")}
+        stack_header_on_mobile
+      >
         <.simple_form
           for={@form}
           id="activity-form"

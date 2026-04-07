@@ -1,4 +1,4 @@
-<.page title={@product.name}>
+<.page title={@product.name} stack_header_on_mobile>
   <:actions>
     <.link patch={~p"/dashboard/store/products/#{@product}/show/edit"} phx-click={JS.push_focus()}>
       <.backoffice_button>Edit product</.backoffice_button>

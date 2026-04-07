@@ -12,6 +12,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Simulator.Index do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={gettext("Wheel")}
         subtitle={gettext("Spinning the wheel does not affect live data.")}
       >

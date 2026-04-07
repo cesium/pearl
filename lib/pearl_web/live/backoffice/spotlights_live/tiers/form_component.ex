@@ -11,7 +11,7 @@ defmodule PearlWeb.Backoffice.SpotlightLive.Tiers.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <.simple_form for={@form} id="tier-form" phx-target={@myself} phx-submit="save">
           <div class="w-full space-y-2">
             <.field

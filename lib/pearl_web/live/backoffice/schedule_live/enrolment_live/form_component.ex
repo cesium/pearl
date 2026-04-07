@@ -11,7 +11,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.EnrolmentLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={@activity.title}>
+      <.page title={@title} subtitle={@activity.title} stack_header_on_mobile>
         <div class="pt-4 flex flex-col gap-2 h-[30.5rem]">
           <.simple_form
             id="enrolments-form"

@@ -11,6 +11,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={@title}
         subtitle={
           gettext(

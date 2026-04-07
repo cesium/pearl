@@ -4,7 +4,12 @@ defmodule PearlWeb.Backoffice.ProfileSettingsLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <.page title="Profile Settings" subtitle="Manage your profile settings" size={:xl}>
+    <.page
+      title="Profile Settings"
+      subtitle="Manage your profile settings"
+      size={:xl}
+      stack_header_on_mobile
+    >
       <div class="flex flex-col sm:w-fit sm:mx-auto">
         <.live_component
           module={PearlWeb.UserAuth.Components.UserProfileSettings}

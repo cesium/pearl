@@ -11,7 +11,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.MemberLive.FormComponent 
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <.simple_form
           for={@form}
           id="member-form"

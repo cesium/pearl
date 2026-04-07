@@ -11,6 +11,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Slots.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={gettext("Slots Configuration")}
         subtitle={gettext("Configures slots minigame's internal settings.")}
       >

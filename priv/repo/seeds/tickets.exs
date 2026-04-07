@@ -11,19 +11,51 @@ defmodule Pearl.Repo.Seeds.Tickets do
     %{name: "Entry", description: "Entrada nos 4 dias do evento", icon: "fa-ticket-solid", color: "#D93044", active: true, priority: 0},
     %{name: "Meals", description: "Refeições durante todo o evento", icon: "fa-utensils-solid", color: "#F18F01", active: true, priority: 1},
     %{name: "Accommodation", description: "Estadia no Pavilhão", icon: "fa-bed-solid", color: "#2E86AB", active: true, priority: 2},
-
-    %{name: "Arraial Minhoto Entry", description: "Entrada no Arraial Minhoto", icon: "fa-ticket-solid", color: "#8B4513", active: true, priority: 3},
     %{name: "Rally pela Sé Entry", description: "Participação no Rally pela Sé", icon: "fa-ticket-solid", color: "#556B2F", active: true, priority: 4}
   ]
 
   @ticket_types [
-    %{name: "Passe Geral", description: "A nice ticket", price: 15, active: true, product_key: "b757d845-bbcd-4c10-ad6f-4effe3406a3c", priority: 0, perks: ["Entry"], type: :event},
-    %{name: "Passe Geral com Refeições", description: "A much nicer ticket", price: 25, active: true, product_key: "021743b2-6ff1-4666-b70c-977c303a5da1", priority: 1, perks: ["Entry", "Meals"], type: :event},
-    %{name: "Passe Geral com Refeições e Alojamento da Universidade do Minho",
-    description: "An awesome ticket", price: 35, active: true, product_key: "0ff1e663-481a-4e42-9a52-a4ac02b72437", priority: 2, perks: ["Entry", "Meals", "Accommodation"], type: :event},
-
-    %{name: "Bilhete Arraial Minhoto", description: "Acesso exclusivo ao Arraial Minhoto", price: 5, active: true, product_key: "a1b2c3d4-e5f6-4a1b-8c9d-0e1f2a3b4c5d", priority: 3, perks: ["Arraial Minhoto Entry"], type: :activity},
-    %{name: "Bilhete Rally pela Sé", description: "Acesso exclusivo ao Rally pela Sé", price: 3, active: true, product_key: "f1e2d3c4-b5a6-4f1e-8d9c-0b1a2f3e4d5c", priority: 4, perks: ["Rally pela Sé Entry"], type: :activity}
+    %{
+      name: "Passe Geral",
+      description: "A nice ticket",
+      price: 15,
+      active: true,
+      product_key: "b757d845-bbcd-4c10-ad6f-4effe3406a3c",
+      priority: 0,
+      perks: ["Entry"],
+      type: :event
+    },
+    %{
+      name: "Passe Geral com Refeições",
+      description: "A much nicer ticket",
+      price: 25,
+      active: true,
+      product_key: "021743b2-6ff1-4666-b70c-977c303a5da1",
+      priority: 1,
+      perks: ["Entry", "Meals"],
+      type: :event
+    },
+    %{
+      name: "Passe Geral com Refeições e Alojamento da Universidade do Minho",
+      description: "An awesome ticket",
+      price: 35,
+      active: true,
+      product_key: "0ff1e663-481a-4e42-9a52-a4ac02b72437",
+      priority: 2,
+      perks: ["Entry", "Meals", "Accommodation"],
+      type: :event
+    },
+    %{
+      name: "Bilhete Rally pela Sé",
+      description: "Acesso exclusivo ao Rally pela Sé",
+      price: 3,
+      active: true,
+      product_key: "f1e2d3c4-b5a6-4f1e-8d9c-0b1a2f3e4d5c",
+      priority: 4,
+      perks: ["Rally pela Sé Entry"],
+      type: :activity,
+      activity_title: "Rally de Tascas"
+    }
   ]
 
   def run do
@@ -60,8 +92,10 @@ defmodule Pearl.Repo.Seeds.Tickets do
     case Repo.all(TicketType) do
       [] ->
         Enum.each(@ticket_types, fn attrs ->
+          {activity_title, attrs} = Map.pop(attrs, :activity_title)
+
           attrs
-          |> assign_activity_id(activities)
+          |> assign_activity_id(activities, activity_title)
           |> insert_ticket_type()
         end)
 
@@ -92,21 +126,34 @@ defmodule Pearl.Repo.Seeds.Tickets do
     end
   end
 
-  defp assign_activity_id(%{type: :activity} = attrs, activities) do
+  defp assign_activity_id(%{type: :activity} = attrs, activities, activity_title) when not is_nil(activity_title) do
     case activities do
       [] ->
         Mix.raise("Cannot create activity ticket #{attrs.name}: no activities seeded.")
 
       _ ->
-        activity =
-          Enum.find(activities, &String.contains?(&1.title, attrs.name |> String.split() |> List.first() || "")) ||
-            List.first(activities)
+        case Enum.find(activities, &(&1.title == activity_title)) do
+          nil ->
+            Mix.raise("Cannot create activity ticket #{attrs.name}: no activity found with title \"#{activity_title}\".")
 
+          activity ->
+            Map.put(attrs, :activity_id, activity.id)
+        end
+    end
+  end
+
+  defp assign_activity_id(%{type: :activity} = attrs, activities, nil) do
+    case activities do
+      [] ->
+        Mix.raise("Cannot create activity ticket #{attrs.name}: no activities seeded.")
+
+      _ ->
+        activity = Enum.random(activities)
         Map.put(attrs, :activity_id, activity.id)
     end
   end
 
-  defp assign_activity_id(attrs, _activities), do: attrs
+  defp assign_activity_id(attrs, _activities, _activity_title), do: attrs
 
   defp seed_tickets do
     case Repo.all(Ticket) do
@@ -226,11 +273,6 @@ defmodule Pearl.Repo.Seeds.Tickets do
         })
       end)
     end)
-  end
-
-    defp insert_activity_ticket(other) do
-    Mix.shell().error("[BUG] insert_activity_ticket/1 called with unexpected input: #{inspect(other)}")
-    nil
   end
 
   defp insert_activity_ticket(attrs) do

@@ -103,12 +103,10 @@ defmodule PearlWeb.Landing.Components.Schedule do
       ) do
     user = socket.assigns.current_user
 
-    case has_paid_ticket?(user) do
-      true ->
+    if has_paid_ticket?(user) do
         {:noreply,
          redirect(socket, to: ~p"/checkout/activity/init?ticket_type_id=#{ticket_type_id}")}
-
-      false ->
+else
         {:noreply,
          socket
          |> put_flash(

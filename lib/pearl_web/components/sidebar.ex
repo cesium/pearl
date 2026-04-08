@@ -76,14 +76,14 @@ defmodule PearlWeb.Components.Sidebar do
     <!-- Static sidebar for desktop -->
     <div class="hidden lg:flex lg:shrink-0">
       <div class={"flex flex-col w-64 border-r #{@border} #{@background} pt-5"}>
-        <.link navigate={@logo_url} class={"flex items-center shrink-0 #{@logo_padding}"}>
-          <img class="hidden w-full h-full dark:block" src={@logo_images.light} />
-          <img class="w-full h-full dark:hidden" src={@logo_images.dark} />
+        <.link navigate={@logo_url} class={"flex items-center #{@logo_padding}"}>
+          <img class="hidden w-full h-[70%] dark:block" src={@logo_images.light} />
+          <img class="w-full h-[70%] dark:hidden" src={@logo_images.dark} />
         </.link>
         <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div class="flex flex-col justify-between flex-1 h-0 pb-4 overflow-y-auto scrollbar-hide">
           <!-- Navigation -->
-          <nav class="pr-4 mt-6">
+          <nav class="px-4 mt-6">
             <%= if @current_user do %>
               <.sidebar_nav_links
                 user={@current_user}

@@ -36,7 +36,7 @@ defmodule PearlWeb.Components.Modal do
       phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
-      class="relative z-50 hidden max-h-[80dvh]"
+      class="relative z-50 hidden"
       {@rest}
     >
       <div

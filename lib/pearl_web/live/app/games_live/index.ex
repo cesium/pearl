@@ -20,7 +20,7 @@ defmodule PearlWeb.App.GamesLive.Index do
       },
       %{
         name: "Scratch Card",
-        icon: "wheel.svg",
+        icon: "scratch_card.svg",
         path: "scratch_card",
         desc: "Scratch, scratch, scratch e revela a tua fortuna escondida"
       },
@@ -35,12 +35,6 @@ defmodule PearlWeb.App.GamesLive.Index do
         icon: "horse_race.svg",
         path: "horse_race",
         desc: "Aposta nos cavalos e testa a tua sorte nas corridas emocionantes"
-      },
-      %{
-        name: "Scratch Card",
-        icon: "scratch_card.svg",
-        path: "scratch_card",
-        desc: "Scratch, scratch, scratch e revela a tua fortuna escondida"
       }
     ]
 

@@ -536,5 +536,8 @@ defmodule PearlWeb.Router do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
+
+    get "/gato", PageController, :gato
+    get "/:palavra", PageController, :check_palavra
   end
 end

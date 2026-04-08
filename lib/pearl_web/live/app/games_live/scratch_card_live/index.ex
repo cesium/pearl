@@ -55,26 +55,21 @@ defmodule PearlWeb.App.GamesLive.ScratchCardLive.Index do
          )
          |> push_event("scratch-card", %{card_id: scratch_card.id})}
 
-      {:error, error} ->
+      {:error, _error} ->
         {:noreply,
          socket
          |> assign(:is_scratching?, false)
-         # Restore attendee tokens if the purchase fails (client side)
-         |> assign(
-           :attendee_tokens,
-           socket.assigns.attendee_tokens + socket.assigns.scratch_card_price
-         )
-         |> put_flash(:error, error)}
+         |> put_flash(:error, "Ocorreu um erro ao comprar a raspadinha!")}
     end
   end
 
   def handle_event("scratch-completed", %{"card_id" => card_id}, socket) do
     cond do
       is_nil(socket.assigns[:current_scratch_card]) ->
-        {:noreply, put_flash(socket, :error, "There are no scratch cards active")}
+        {:noreply, put_flash(socket, :error, "Não existem raspadinhas ativas")}
 
       socket.assigns.current_scratch_card.id != card_id ->
-        {:noreply, put_flash(socket, :error, "Scratch card id is invalid")}
+        {:noreply, put_flash(socket, :error, "O id da raspadinha é inválido")}
 
       true ->
         %{type: type, drop: drop} = socket.assigns.result

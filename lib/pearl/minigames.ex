@@ -1933,7 +1933,7 @@ defmodule Pearl.Minigames do
         {:ok, result} ->
           {:ok, result}
 
-        {:error, _} ->
+        {:error, _, _, _} ->
           {:error, "An error occurred while buying a scratch card"}
       end
     else

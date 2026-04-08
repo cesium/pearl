@@ -12,7 +12,11 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPaytable.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={gettext("Slots Paytable")} subtitle={gettext("Configures the slots paytable.")}>
+      <.page
+        title={gettext("Slots Paytable")}
+        subtitle={gettext("Configures the slots paytable.")}
+        stack_header_on_mobile
+      >
         <div class="pt-8">
           <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold">{gettext("Entries")}</h2>
@@ -32,8 +36,18 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPaytable.FormComponent do
                 >
                   <.field type="hidden" name="identifier" value={id} />
                   <div class="grid space-x-2 grid-cols-9 pl-1">
-                    <.field field={form[:multiplier]} type="number" wrapper_class="col-span-2" />
-                    <.field field={form[:probability]} type="number" wrapper_class="col-span-2" />
+                    <.field
+                      field={form[:multiplier]}
+                      id={"multiplier-#{id}"}
+                      type="number"
+                      wrapper_class="col-span-2"
+                    />
+                    <.field
+                      field={form[:probability]}
+                      id={"probability-#{id}"}
+                      type="number"
+                      wrapper_class="col-span-2"
+                    />
                     <.link
                       phx-click="delete-entry"
                       phx-value-id={id}

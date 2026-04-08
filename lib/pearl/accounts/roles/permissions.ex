@@ -18,6 +18,7 @@ defmodule Pearl.Accounts.Roles.Permissions do
         "perks_show",
         "perks_edit"
       ],
+      "meals" => ["show", "edit"],
       "referrals" => ["show", "edit"],
       "discount_codes" => ["show", "edit"],
       "enrolments" => ["show", "edit"],
@@ -30,7 +31,8 @@ defmodule Pearl.Accounts.Roles.Permissions do
       "schedule" => ["show", "edit"],
       "statistics" => ["show"],
       "mailer" => ["send"],
-      "scanner" => ["show"]
+      "scanner" => ["show"],
+      "attendee_lockers" => ["show", "edit", "config_lockers"]
     }
   end
 

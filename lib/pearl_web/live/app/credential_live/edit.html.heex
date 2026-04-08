@@ -1,24 +1,37 @@
-<.page title="Link Credential" size={:xl} title_class="font-terminal uppercase">
+<.page title="Link Credential" size={:xl} title_class="uppercase">
   <div
     id="qr-scanner"
     phx-hook="QrScanner"
     data-ask_perm="permission-button"
     data-open_on_mount
-    data-on_start="document.getElementById('scan-info').style.display = 'none'"
+    data-on_start="document.getElementById('scan-info').style.display = 'none'; (function(){ var el = document.getElementById('instructions'); if (el) el.style.display = 'block'; })()"
     data-on_success="scan"
     class="relative"
   >
   </div>
 
+  <div id="instructions" style="display:none" class="mt-4 text-center">
+    <p>
+      {gettext(
+        "Aponta a câmara do teu dispositivo ao código QR da tua credencial física para acederes à plataforma."
+      )}
+    </p>
+    <p class="mt-2">
+      {gettext(
+        "Se ainda não tens credencial, dirige-te à acreditação e fala com um dos nossos staff."
+      )}
+    </p>
+  </div>
+
   <div id="scan-info" class="flex flex-col items-center gap-8 text-center py-8">
     <p id="loadingMessage">
-      {gettext("Unable to access camera.")}
+      {gettext("Não foi possível aceder à câmara.")}
       {gettext(
-        "Make sure you allow the use of your camera on this browser and that it isn't being used elsewhere."
+        "Verifica se permitiste o acesso à câmara neste browser e se nenhuma outra aplicação a está a usar."
       )}
     </p>
     <.backoffice_button id="permission-button" type="button">
-      {gettext("Request Permission")}
+      {gettext("Pedir permissão")}
     </.backoffice_button>
   </div>
 </.page>

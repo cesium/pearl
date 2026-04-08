@@ -3,11 +3,8 @@ defmodule Pearl.Tickets.Perk do
   Perks for Ticket Types.
   """
 
-  use Ecto.Schema
-  import Ecto.Changeset
+  use Pearl.Schema
 
-  @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
   @required_fields ~w(name description icon color active priority)a
 
   @derive {Flop.Schema, sortable: [:priority], filterable: []}
@@ -19,6 +16,7 @@ defmodule Pearl.Tickets.Perk do
     field :color, :string
     field :active, :boolean
     field :priority, :integer
+    field :allows_meals, :boolean, default: false
 
     many_to_many :ticket_types, Pearl.Tickets.TicketType, join_through: "ticket_types_perks"
 
@@ -28,7 +26,7 @@ defmodule Pearl.Tickets.Perk do
   @doc false
   def changeset(perk, attrs) do
     perk
-    |> cast(attrs, @required_fields)
+    |> cast(attrs, @required_fields ++ [:allows_meals])
     |> validate_required(@required_fields)
   end
 end

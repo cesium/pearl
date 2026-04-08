@@ -11,7 +11,7 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.MemberLive.FormComponent 
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title}>
+      <.page title={@title} stack_header_on_mobile>
         <.simple_form
           for={@form}
           id="member-form"
@@ -80,7 +80,16 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.MemberLive.FormComponent 
 
   defp save_member(socket, :teams_members_edit, member_params) do
     case Teams.update_team_member(socket.assigns.member, member_params) do
-      {:ok, _member} ->
+      {:ok, member} ->
+        case consume_image_data(member, socket) do
+          {:ok, member} ->
+            {:noreply,
+             socket
+             |> assign(:member, member)
+             |> put_flash(:success, gettext("Membro criado com sucesso"))
+             |> push_patch(to: socket.assigns.patch)}
+        end
+
         {:noreply,
          socket
          |> put_flash(:success, gettext("Membro atualizado com sucesso"))
@@ -124,8 +133,14 @@ defmodule PearlWeb.Live.Backoffice.EventLive.TeamsLive.MemberLive.FormComponent 
       [{:ok, member}] ->
         {:ok, member}
 
-      _errors ->
+      [member] ->
         {:ok, member}
+
+      [] ->
+        {:ok, member}
+
+      errors ->
+        {:error, errors}
     end
   end
 end

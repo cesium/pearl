@@ -2,8 +2,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Simulator.Index do
   @moduledoc false
   use PearlWeb, :live_component
 
-  import PearlWeb.App.WheelLive.Components.Wheel
-  import PearlWeb.App.WheelLive.Components.ResultModal
+  import PearlWeb.App.GamesLive.WheelLive.Components.Wheel
+  import PearlWeb.App.GamesLive.WheelLive.Components.ResultModal
 
   alias Pearl.Minigames
 
@@ -12,6 +12,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Simulator.Index do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={gettext("Wheel")}
         subtitle={gettext("Spinning the wheel does not affect live data.")}
       >

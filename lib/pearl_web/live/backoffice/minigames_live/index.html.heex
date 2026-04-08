@@ -1,4 +1,4 @@
-<.page title="Minigames">
+<.page title="Minigames" stack_header_on_mobile>
   <div class="grid sm:grid-cols-3 py-8 gap-5 sm:gap-10">
     <.ensure_permissions user={@current_user} permissions={%{"minigames" => ["edit"]}}>
       <.link
@@ -38,6 +38,15 @@
         {gettext("Horse Race")}
         <img src={~p"/images/icons/horse_race.svg"} class="size-16 sm:size-24 dark:invert" />
       </.link>
+    </.ensure_permissions>
+
+    <.ensure_permissions user={@current_user} permissions={%{"minigames" => ["edit"]}}>
+      <.link
+        patch={~p"/dashboard/minigames/scratch_card"}
+        class="flex flex-col items-center w-full text-2xl gap-4 font-semibold py-8 rounded-2xl dark:bg-darkShade/10 dark:hover:bg-darkShade/20 bg-lightShade/30 hover:bg-lightShade/40 transition-colors"
+      >
+        {gettext("Scratch Card")}
+        <img src={~p"/images/icons/scratch_card.svg"} class="size-16 sm:size-24 dark:invert" />      </.link>
     </.ensure_permissions>
   </div>
 </.page>
@@ -169,8 +178,7 @@
 
 <.modal
   :if={@live_action in [:edit_horse_race]}
-  id="horse-race-config-modal"
-  wrapper_class="p-3"
+  id="horse-race-config-modal"  wrapper_class="p-3"
   show
   on_cancel={JS.patch(~p"/dashboard/minigames/")}
 >
@@ -178,5 +186,43 @@
     id="horse-race-configurator"
     module={PearlWeb.Backoffice.MinigamesLive.HorseRace.FormComponent}
     patch={~p"/dashboard/minigames/"}
+  />
+</.modal>
+<.modal
+  :if={@live_action in [:edit_scratch_card]}
+  id="scratch_card-config-modal"  wrapper_class="p-3"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/")}
+>
+  <.live_component
+    id="scratch-card-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.ScratchCard.FormComponent}
+    patch={~p"/dashboard/minigames/"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:edit_scratch_card_drops]}
+  id="scratch-card-drops-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/scratch_card/")}
+>
+  <.live_component
+    id="scratch-card-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent}
+    patch={~p"/dashboard/minigames/scratch_card/"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:edit_scratch_card_symbols]}
+  id="scratch-card-symbols-modal"
+  show
+  on_cancel={JS.patch(~p"/dashboard/minigames/scratch_card/")}
+>
+  <.live_component
+    id="scratch-card-configurator"
+    module={PearlWeb.Backoffice.MinigamesLive.ScratchCardSymbols.FormComponent}
+    patch={~p"/dashboard/minigames/scratch_card/"}
   />
 </.modal>

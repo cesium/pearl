@@ -5,9 +5,11 @@ defmodule PearlWeb.Router do
   import PearlWeb.UserTicket
   import PearlWeb.UserRoles
   import PearlWeb.EventRoles
+  import PearlWeb.Themes
 
   pipeline :browser do
     plug :accepts, ["html"]
+    plug :put_theme_color
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, html: {PearlWeb.Layouts, :root}
@@ -193,26 +195,33 @@ defmodule PearlWeb.Router do
 
         live "/leaderboard", LeaderboardLive.Index, :index
 
-        live "/games", GamesLive.Index, :index
+        scope "/games", GamesLive do
+          live "/", Index, :index
+          live "/wheel", WheelLive.Index, :index
+          live "/coin_flip", CoinFlipLive.Index, :index
 
-        live "/games/wheel", WheelLive.Index, :index
+          scope "/scratch_card", ScratchCardLive do
+            live "/", Index, :index
+            live "/paytable", Index, :show_paytable
+          end
 
-        live "/games/coin_flip", CoinFlipLive.Index, :index
-
-        live "/games/scratch_card", ScratchCardLive.Index, :index
+          scope "/slots", SlotsLive do
+            live "/", Index, :index
+            live "/paytable", Index, :show_paytable
+          end
+        end
 
         scope "/badges", BadgeLive do
           live "/", Index, :index
           live "/:id", Show, :show
         end
 
-        scope "/games/slots", SlotsLive do
+scope "/games/slots", SlotsLive do
           live "/", Index, :index
           live "/paytable", Index, :show_paytable
         end
 
         live "/games/horse_race", HorseRaceLive.Index, :index
-
         scope "/store", StoreLive do
           live "/", Index, :index
           live "/product/:id", Show, :show
@@ -461,10 +470,21 @@ defmodule PearlWeb.Router do
 
           live "/coin_flip", MinigamesLive.Index, :edit_coin_flip
 
-          scope "/horse_race" do
+scope "/horse_race" do
             live "/", MinigamesLive.Index, :edit_horse_race
             live "/simulation", MinigamesLive.HorseRace.Game, :game
           end
+scope "/scratch_card" do
+            live "/", MinigamesLive.Index, :edit_scratch_card
+            live "/drops", MinigamesLive.Index, :edit_scratch_card_drops
+            live "/symbols", MinigamesLive.Index, :edit_scratch_card_symbols
+          end
+        end
+
+        scope "/meals", EventMealLive do
+          live "/", Index, :index
+          live "/new", Index, :new
+          live "/:id/edit", Index, :edit
         end
 
         scope "/scanner", ScannerLive do
@@ -479,8 +499,22 @@ defmodule PearlWeb.Router do
             live "/:id", Show, :show
           end
 
+          scope "/meals", MealsLive do
+            live "/", Index, :index
+            live "/:id", Show, :show
+          end
+
           live "/enrolments/:id", EnrolmentLive.Index, :index
           live "/tickets", TicketsLive.Index, :index
+        end
+
+        scope "/attendee_lockers", LockersLive do
+          live "/", Index, :index
+          live "/config", Index, :config
+          live "/:attendee_id", Index, :show
+          live "/:attendee_id/history", Index, :history
+          live "/:attendee_id/:session_id", Index, :open_locker
+          live "/:attendee_id/:session_id/new_item", Index, :new_item
         end
 
         live "/profile_settings", ProfileSettingsLive, :edit

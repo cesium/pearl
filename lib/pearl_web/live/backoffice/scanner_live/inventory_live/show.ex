@@ -3,28 +3,23 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Show do
 
   alias Pearl.{Accounts, Inventory}
 
-  import PearlWeb.Components.{Tabs, Modal}
+  import PearlWeb.Components.{ScannerTabs, Modal}
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
       <div class="-translate-y-4 sm:translate-y-0">
-        <.tabs class="sm:hidden mb-4">
-          <.link patch={~p"/dashboard/scanner"} class="w-full">
-            <.tab class="gap-2">
-              <.icon name="hero-check-badge" />
-              {gettext("Badges")}
-            </.tab>
-          </.link>
-          <.link patch={~p"/dashboard/scanner/redeems"} class="w-full">
-            <.tab active class="gap-2">
-              <.icon name="hero-gift" />
-              {gettext("Redeems")}
-            </.tab>
-          </.link>
-        </.tabs>
-        <.page title={"#{@user.name}'s inventory"}>
+        <.scanner_tabs active={:redeems} current_user={@current_user} />
+        <.page title={"#{@user.name}'s inventory"} stack_header_on_mobile>
+          <:actions>
+            <.link patch={~p"/dashboard/scanner/redeems"}>
+              <.backoffice_button class="flex gap-2 items-center justify-center w-full sm:w-auto">
+                <.icon name="hero-qr-code" class="w-5 h-5" />
+                {gettext("Scan Again")}
+              </.backoffice_button>
+            </.link>
+          </:actions>
           <ul id="items-list" class="space-y-4 py-8" phx-update="stream">
             <li
               :for={{id, item} <- @streams.items}
@@ -32,7 +27,7 @@ defmodule PearlWeb.Backoffice.ScannerLive.InventoryLive.Show do
               class={"flex flex-row justify-between #{if item.redeemed_at do "opacity-50" end}"}
             >
               <div class="flex flex-row w-full">
-                <figure class="w-32 h-32 bg-dark/5 dark:bg-light/5 rounded-xl flex-shrink-0">
+                <figure class="w-32 h-32 bg-dark/5 dark:bg-light/5 rounded-xl shrink-0">
                   <%= if get_item_image(item.type, get_item_data(item)) do %>
                     <img class="w-full p-4" src={get_item_image(item.type, get_item_data(item))} />
                   <% end %>

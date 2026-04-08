@@ -8,7 +8,11 @@ defmodule PearlWeb.Backoffice.BadgeLive.TriggerLive.Index do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={@title} subtitle={gettext("Attendee actions can trigger badge redeems.")}>
+      <.page
+        title={@title}
+        subtitle={gettext("Attendee actions can trigger badge redeems.")}
+        stack_header_on_mobile
+      >
         <:actions>
           <.link navigate={~p"/dashboard/badges/#{@badge.id}/triggers/new"}>
             <.backoffice_button>New Trigger</.backoffice_button>

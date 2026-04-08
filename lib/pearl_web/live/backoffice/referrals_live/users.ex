@@ -27,7 +27,7 @@ defmodule PearlWeb.Backoffice.ReferralsLive.Users do
       </div>
 
       <div class="mt-6">
-        <%= if Enum.empty?(@referral.attendees) do %>
+        <%= if Enum.empty?(@paid_attendees) do %>
           <div class="text-center py-12">
             <.icon name="hero-users" class="mx-auto h-12 w-12 text-dark-shade" />
             <p class="mt-2 text-sm text-lightMuted">
@@ -37,7 +37,7 @@ defmodule PearlWeb.Backoffice.ReferralsLive.Users do
         <% else %>
           <div class="bg-white shadow overflow-hidden sm:rounded-md max-h-96 overflow-y-auto">
             <div class="divide-y divide-lightMuted/20">
-              <%= for attendee <- @referral.attendees do %>
+              <%= for attendee <- @paid_attendees do %>
                 <div class="px-6 py-4 hover:bg-lightMuted/10">
                   <div class="flex items-center justify-between">
                     <div class="flex-1 min-w-0">
@@ -82,7 +82,7 @@ defmodule PearlWeb.Backoffice.ReferralsLive.Users do
               Total attendees:
             </p>
             <span class="inline-flex items-center px-3 py-1 text-sm font-semibold text-primary">
-              {length(@referral.attendees)}
+              {length(@paid_attendees)}
             </span>
           </div>
         <% end %>
@@ -105,8 +105,17 @@ defmodule PearlWeb.Backoffice.ReferralsLive.Users do
   defp assign_attendees(socket) do
     referral =
       socket.assigns.referral
-      |> Pearl.Repo.preload(attendees: [:user])
+      |> Pearl.Repo.preload(attendees: [user: [:ticket]])
 
-    assign(socket, :referral, referral)
+    paid_attendees =
+      referral.attendees
+      |> Enum.filter(&paid_attendee?/1)
+
+    socket
+    |> assign(:referral, referral)
+    |> assign(:paid_attendees, paid_attendees)
   end
+
+  defp paid_attendee?(%{user: %{ticket: %{paid: true}}}), do: true
+  defp paid_attendee?(_), do: false
 end

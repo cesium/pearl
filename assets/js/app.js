@@ -18,7 +18,7 @@
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 
-import { Banner, CoinFlip, Confetti, Countdown, CredentialScene, PaytableModal, QrScanner, Redirect, ReelAnimation, Sorting, SpeakerScroll, Wheel, ZipUpload, TabsScroll, Ticker, HorseRace } from "./hooks";
+import { Banner, CoinFlip, Confetti, Countdown, CredentialScene, PaytableModal, QrScanner, Redirect, ReelAnimation, Sorting, SpeakerScroll, Wheel, ZipUpload, TabsScroll, Ticker, HorseRace, ScratchCard } from "./hooks";
 
 import {LiveSocket} from "phoenix_live_view"
 // Establish Phoenix Socket and LiveView configuration.
@@ -43,7 +43,7 @@ let Hooks = {
   TabsScroll: TabsScroll,
   Ticker: Ticker,
   HorseRace: HorseRace,
-  ...live_select
+  ScratchCard: ScratchCard,  ...live_select
 };
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")

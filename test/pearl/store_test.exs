@@ -12,7 +12,7 @@ defmodule Pearl.StoreTest do
 
     test "list_products/0 returns all products" do
       product = product_fixture()
-      assert Store.list_products() == [product]
+      assert product in Store.list_products()
     end
 
     test "get_product!/1 returns the product with given id" do

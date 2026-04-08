@@ -10,6 +10,7 @@ defmodule PearlWeb.Backoffice.BadgeLive.ConditionLive.Index do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title={@title}
         subtitle={gettext("Defined conditions allow this badge to be awarded automatically.")}
       >

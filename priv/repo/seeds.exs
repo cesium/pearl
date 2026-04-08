@@ -23,7 +23,9 @@ defmodule Pearl.Repo.Seeds do
       "slots.exs",
       "teams.exs",
       "tickets.exs",
-      "discount_codes.exs"
+      "discount_codes.exs",
+      "meals.exs",
+      "scratchcards.exs"
     ]
     |> Enum.each(fn file ->
       Code.require_file("#{@seeds_dir}/#{file}")

@@ -11,7 +11,11 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.page title={gettext("Slots Paytable")} subtitle={gettext("Configures the slots paytable.")}>
+      <.page
+        title={gettext("Slots Paytable")}
+        subtitle={gettext("Configures the slots paytable.")}
+        stack_header_on_mobile
+      >
         <div class="pt-8">
           <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold">{gettext("Entries")}</h2>
@@ -32,24 +36,28 @@ defmodule PearlWeb.Backoffice.MinigamesLive.SlotsPayline.FormComponent do
                   <.field type="hidden" name="identifier" value={id} />
                   <div class="grid space-x-2 grid-cols-9 pl-1">
                     <.field
+                      id={"position_0-#{id}"}
                       field={form[:position_0]}
                       wrapper_class="col-span-1"
                       type="select"
                       options={generate_position_options(@slots_reel_icons, 0)}
                     />
                     <.field
+                      id={"position_1-#{id}"}
                       field={form[:position_1]}
                       wrapper_class="col-span-1"
                       type="select"
                       options={generate_position_options(@slots_reel_icons, 1)}
                     />
                     <.field
+                      id={"position_2-#{id}"}
                       field={form[:position_2]}
                       wrapper_class="col-span-1"
                       type="select"
                       options={generate_position_options(@slots_reel_icons, 2)}
                     />
                     <.field
+                      id={"paytable-#{id}"}
                       field={form[:paytable_id]}
                       type="select"
                       wrapper_class="col-span-2"

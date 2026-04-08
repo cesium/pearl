@@ -10,6 +10,7 @@ defmodule PearlWeb.Backoffice.AttendeeLive.TokensLive.FormComponent do
     ~H"""
     <div>
       <.page
+        stack_header_on_mobile
         title="Tokens"
         subtitle={gettext("Token balance settings for %{name}.", name: assigns.attendee.user.name)}
       >

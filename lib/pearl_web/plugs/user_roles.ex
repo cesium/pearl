@@ -29,7 +29,7 @@ defmodule PearlWeb.UserRoles do
       |> put_flash(
         :help,
         gettext(
-          "You haven't assigned a credential to your account. You need one to participate in the event."
+          "Ainda não tens uma credencial associada à tua conta. Precisas de uma para participar no evento."
         )
       )
       |> redirect(to: ~p"/app/credential/link")
@@ -42,7 +42,7 @@ defmodule PearlWeb.UserRoles do
       conn
       |> put_flash(
         :tip,
-        gettext("You already have a credential assigned to your account.")
+        gettext("Já tens uma credencial associada à tua conta.")
       )
       |> redirect(to: ~p"/app")
       |> halt()

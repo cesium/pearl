@@ -29,7 +29,7 @@ defmodule PearlWeb.Components.Badge do
         src={Uploaders.Badge.url({@badge.image, @badge}, :original, signed: true)}
         alt={@badge.name}
         class={[
-          "p-2 #{@width} aspect-square drop-shadow-[0_0_25px_rgba(129,24,36,0.4)]",
+          "p-2 #{@width} aspect-square drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]",
           @hover_zoom &&
             "group-hover:scale-105 transition-transform duration-300 ease-in-out select-none"
         ]}
@@ -37,7 +37,7 @@ defmodule PearlWeb.Components.Badge do
       <img
         :if={!@badge.image}
         class={[
-          "p-2 #{@width} aspect-square drop-shadow-[0_0_25px_rgba(129,24,36,0.4)]",
+          "p-2 #{@width} aspect-square drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]",
           @hover_zoom &&
             "group-hover:scale-105 transition-transform duration-300 ease-in-out select-none"
         ]}

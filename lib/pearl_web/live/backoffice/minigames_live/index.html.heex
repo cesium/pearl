@@ -46,7 +46,8 @@
         class="flex flex-col items-center w-full text-2xl gap-4 font-semibold py-8 rounded-2xl dark:bg-darkShade/10 dark:hover:bg-darkShade/20 bg-lightShade/30 hover:bg-lightShade/40 transition-colors"
       >
         {gettext("Scratch Card")}
-        <img src={~p"/images/icons/scratch_card.svg"} class="size-16 sm:size-24 dark:invert" />      </.link>
+        <img src={~p"/images/icons/scratch_card.svg"} class="size-16 sm:size-24 dark:invert" />
+      </.link>
     </.ensure_permissions>
   </div>
 </.page>
@@ -178,7 +179,8 @@
 
 <.modal
   :if={@live_action in [:edit_horse_race]}
-  id="horse-race-config-modal"  wrapper_class="p-3"
+  id="horse-race-config-modal"
+  wrapper_class="p-3"
   show
   on_cancel={JS.patch(~p"/dashboard/minigames/")}
 >
@@ -190,7 +192,8 @@
 </.modal>
 <.modal
   :if={@live_action in [:edit_scratch_card]}
-  id="scratch_card-config-modal"  wrapper_class="p-3"
+  id="scratch_card-config-modal"
+  wrapper_class="p-3"
   show
   on_cancel={JS.patch(~p"/dashboard/minigames/")}
 >

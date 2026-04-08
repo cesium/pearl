@@ -1756,7 +1756,8 @@ defmodule Pearl.Minigames do
       {:error, _} ->
         # If the price is not set, set it to 0 by default
         change_scratch_card_price(0)
-        0    end
+        0
+    end
   end
 
   @doc """
@@ -1820,7 +1821,8 @@ defmodule Pearl.Minigames do
       {:error, _} ->
         # If the active status is not set, set it to false by default
         change_scratch_card_active(true)
-        true    end
+        true
+    end
   end
 
   @doc """
@@ -1892,7 +1894,8 @@ defmodule Pearl.Minigames do
          (not is_nil(value.drop.badge) or not is_nil(value.drop.prize)) do
       Phoenix.PubSub.broadcast(@pubsub, "scratch_card_win", {"win", value})
     else
-      :ok    end
+      :ok
+    end
   end
 
   @doc """
@@ -2946,5 +2949,6 @@ defmodule Pearl.Minigames do
 
   """
   def change_scratch_card_symbol(%ScratchCardSymbol{} = scratch_card_symbol, attrs \\ %{}) do
-    ScratchCardSymbol.changeset(scratch_card_symbol, attrs)  end
+    ScratchCardSymbol.changeset(scratch_card_symbol, attrs)
+  end
 end

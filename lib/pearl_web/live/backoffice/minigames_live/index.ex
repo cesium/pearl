@@ -13,8 +13,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.Index do
             edit_slots_paytable: %{"minigames" => ["edit"]},
             edit_slots_payline: %{"minigames" => ["edit"]},
             edit_coin_flip: %{"minigames" => ["edit"]},
-edit_horse_race: %{"minigames" => ["edit"]},
-edit_scratch_card: %{"minigames" => ["edit"]},
+            edit_horse_race: %{"minigames" => ["edit"]},
+            edit_scratch_card: %{"minigames" => ["edit"]},
             edit_scratch_card_drops: %{"minigames" => ["edit"]},
             edit_scratch_card_symbols: %{"minigames" => ["edit"]}}
 

@@ -216,12 +216,13 @@ defmodule PearlWeb.Router do
           live "/:id", Show, :show
         end
 
-scope "/games/slots", SlotsLive do
+        scope "/games/slots", SlotsLive do
           live "/", Index, :index
           live "/paytable", Index, :show_paytable
         end
 
         live "/games/horse_race", HorseRaceLive.Index, :index
+
         scope "/store", StoreLive do
           live "/", Index, :index
           live "/product/:id", Show, :show
@@ -470,11 +471,12 @@ scope "/games/slots", SlotsLive do
 
           live "/coin_flip", MinigamesLive.Index, :edit_coin_flip
 
-scope "/horse_race" do
+          scope "/horse_race" do
             live "/", MinigamesLive.Index, :edit_horse_race
             live "/simulation", MinigamesLive.HorseRace.Game, :game
           end
-scope "/scratch_card" do
+
+          scope "/scratch_card" do
             live "/", MinigamesLive.Index, :edit_scratch_card
             live "/drops", MinigamesLive.Index, :edit_scratch_card_drops
             live "/symbols", MinigamesLive.Index, :edit_scratch_card_symbols

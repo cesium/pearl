@@ -76,11 +76,10 @@ defmodule PearlWeb.Landing.Components.Schedule do
          put_flash(socket, :tip, gettext("Apenas participantes se podem inscrever em atividades"))}
 
       {%{attendee: attendee}, :attendee} ->
-        case has_paid_ticket?(user) do
-          true ->
+        if has_paid_ticket?(user) do
             perform_enrolment(attendee.id, id, socket)
 
-          false ->
+          else
             {:noreply,
              put_flash(
                socket,

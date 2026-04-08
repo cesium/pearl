@@ -91,31 +91,16 @@ defmodule PearlWeb.Backoffice.BadgeLive.TriggerLive.Index do
     )
   end
 
-  defp event_text(event) do
-    case event do
-      :upload_cv_event ->
-        gettext("uploads their cv")
+  defp event_text(:upload_cv_event), do: gettext("uploads their cv")
+  defp event_text(:play_slots_event), do: gettext("plays the slots minigame")
+  defp event_text(:play_coin_flip_event), do: gettext("plays the coin flip minigame")
+  defp event_text(:play_wheel_event), do: gettext("plays the wheel minigame")
+  defp event_text(:play_horse_race_event), do: gettext("plays the horse race minigame")
+  defp event_text(:play_scratch_card_event), do: gettext("plays the scratch card minigame")
 
-      :play_slots_event ->
-        gettext("plays the slots minigame")
+  defp event_text(:redeem_spotlighted_badge_event),
+    do: gettext("redeems the badge of a company that is on spotlight")
 
-      :play_coin_flip_event ->
-        gettext("plays the coin flip minigame")
-
-      :play_wheel_event ->
-        gettext("plays the wheel minigame")
-
-      :play_horse_race_event ->
-        gettext("plays the horse race minigame")
-
-      :redeem_spotlighted_badge_event ->
-        gettext("redeems the badge of a company that is on spotlight")
-
-      :link_credential_event ->
-        gettext("links their credential")
-
-      _ ->
-        event
-    end
-  end
+  defp event_text(:link_credential_event), do: gettext("links their credential")
+  defp event_text(event), do: event
 end

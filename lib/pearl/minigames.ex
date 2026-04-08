@@ -1754,7 +1754,6 @@ defmodule Pearl.Minigames do
         price
 
       {:error, _} ->
-        # If the price is not set, set it to 0 by default
         change_scratch_card_price(0)
         0
     end
@@ -2602,7 +2601,7 @@ defmodule Pearl.Minigames do
         {:ok, result} ->
           {:ok, result}
 
-        {:error, _, _, _} ->
+        {:error, _} ->
           {:error, "An error occurred while buying a scratch card"}
       end
     else
@@ -2636,6 +2635,14 @@ defmodule Pearl.Minigames do
       {:ok, repo.preload(scratch_card, drop: [:prize, :badge])}
     end)
     |> Repo.transaction()
+    |> case do
+      {:ok, %{scratch_card_preloaded: scratch_card}} ->
+        Contest.enqueue_badge_trigger_execution_job(attendee, :play_scratch_card_event)
+        {:ok, scratch_card}
+
+      _ ->
+        {:error, :unknown}
+    end
   end
 
   defp broadcast_scratch_card_purchase_changes(params) do

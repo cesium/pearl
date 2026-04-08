@@ -2161,10 +2161,10 @@ defmodule Pearl.Minigames do
           {:ok, fresh_attendee}
         end
       end)
-      |> Multi.update(:deduct_tokens, fn %{validate_balance: attendee} ->
+      |> Multi.merge(fn %{validate_balance: attendee} ->
         new_balance = Decimal.sub(Decimal.new(attendee.tokens), total_bet)
         new_balance_int = new_balance |> Decimal.round(0, :floor) |> Decimal.to_integer()
-        Attendee.update_tokens_changeset(attendee, %{tokens: new_balance_int})
+        Contest.change_attendee_tokens_transaction(attendee, new_balance_int, :deduct_tokens)
       end)
       |> Multi.insert_all(:insert_bets, HorseRaceBet, fn _changes ->
         now = DateTime.utc_now() |> DateTime.truncate(:second)
@@ -2303,13 +2303,17 @@ defmodule Pearl.Minigames do
           processed_at: DateTime.utc_now() |> DateTime.truncate(:second)
         })
       )
-      |> Multi.run({:credit_winner, bet.id}, fn _repo, _changes ->
+      |> Multi.merge(fn _changes ->
         attendee = Repo.get!(Attendee, bet.attendee_id)
         new_balance = attendee.tokens + payout_int
 
-        attendee
-        |> Attendee.update_tokens_changeset(%{tokens: new_balance})
-        |> Repo.update()
+        Contest.change_attendee_tokens_transaction(
+          attendee,
+          new_balance,
+          {:attendee_state_tokens, bet.id},
+          {:previous_daily_tokens, bet.id},
+          {:new_daily_tokens, bet.id}
+        )
       end)
     end)
     |> Multi.run(:winners, fn _repo, changes ->

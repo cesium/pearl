@@ -14,3 +14,5 @@ export { TabsScroll } from "./tabs_scroll.js";
 export { Ticker } from "./ticker.js"
 export { SpeakerScroll } from './speaker_scroll.js';
 
+export { ScratchCard } from "./scratch_card.js";
+

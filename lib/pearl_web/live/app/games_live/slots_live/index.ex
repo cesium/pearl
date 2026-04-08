@@ -1,9 +1,9 @@
-defmodule PearlWeb.App.SlotsLive.Index do
+defmodule PearlWeb.App.GamesLive.SlotsLive.Index do
   use PearlWeb, :app_view
 
-  import PearlWeb.App.SlotsLive.Components.ResultModal
-  import PearlWeb.App.SlotsLive.Components.Machine
-  import PearlWeb.App.SlotsLive.Components.PaytableModal
+  import PearlWeb.App.GamesLive.SlotsLive.Components.ResultModal
+  import PearlWeb.App.GamesLive.SlotsLive.Components.Machine
+  import PearlWeb.App.GamesLive.SlotsLive.Components.PaytableModal
 
   alias Pearl.Minigames
 

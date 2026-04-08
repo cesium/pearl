@@ -1,7 +1,7 @@
-defmodule PearlWeb.App.CoinFlipLive.Index do
+defmodule PearlWeb.App.GamesLive.CoinFlipLive.Index do
   use PearlWeb, :app_view
 
-  import PearlWeb.App.CoinFlipLive.Components.Room
+  import PearlWeb.App.GamesLive.CoinFlipLive.Components.Room
 
   alias Pearl.Minigames
 

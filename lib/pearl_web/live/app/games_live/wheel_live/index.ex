@@ -1,10 +1,10 @@
-defmodule PearlWeb.App.WheelLive.Index do
+defmodule PearlWeb.App.GamesLive.WheelLive.Index do
   use PearlWeb, :app_view
 
-  import PearlWeb.App.WheelLive.Components.LatestWins
-  import PearlWeb.App.WheelLive.Components.Awards
-  import PearlWeb.App.WheelLive.Components.ResultModal
-  import PearlWeb.App.WheelLive.Components.Wheel
+  import PearlWeb.App.GamesLive.WheelLive.Components.LatestWins
+  import PearlWeb.App.GamesLive.WheelLive.Components.Awards
+  import PearlWeb.App.GamesLive.WheelLive.Components.ResultModal
+  import PearlWeb.App.GamesLive.WheelLive.Components.Wheel
 
   alias Pearl.{Contest, Minigames}
 

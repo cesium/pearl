@@ -1,4 +1,4 @@
-defmodule PearlWeb.App.SlotsLive.Components.PaytableModal do
+defmodule PearlWeb.App.GamesLive.SlotsLive.Components.PaytableModal do
   @moduledoc """
   Slots paytable modal component that shows winning combinations
   """

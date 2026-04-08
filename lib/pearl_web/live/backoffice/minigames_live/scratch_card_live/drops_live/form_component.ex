@@ -1,11 +1,10 @@
-defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
+defmodule PearlWeb.Backoffice.MinigamesLive.ScratchCardDrops.FormComponent do
   @moduledoc false
-  alias Pearl.Minigames.WheelDrop
+  alias Pearl.Minigames.ScratchCardDrop
   use PearlWeb, :live_component
 
   alias Pearl.Contest
   alias Pearl.Minigames
-  alias Pearl.Minigames.WheelDrop
 
   import PearlWeb.Components.Forms
 
@@ -14,36 +13,28 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
     ~H"""
     <div>
       <.page
-        stack_header_on_mobile
-        title={gettext("Lucky Wheel Drops Table")}
-        subtitle={gettext("Configures the drop loot table for the lucky wheel minigame.")}
+        title={gettext("Scratch Card Drops Table")}
+        subtitle={gettext("Configures the drop loot table for the scratch card minigame.")}
       >
-        <:actions>
-          <.link patch={~p"/dashboard/minigames/wheel/simulator"}>
-            <.backoffice_button>
-              <.icon name="hero-play" class="w-5 h-5" />
-            </.backoffice_button>
-          </.link>
-        </:actions>
         <div class="pt-8">
           <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold">{gettext("Drops")}</h2>
-            <.backoffice_button phx-click={JS.push("add-drop", target: @myself)}>
+            <.button phx-click={JS.push("add-drop", target: @myself)}>
               <.icon name="hero-plus" class="w-5 h-5" />
-            </.backoffice_button>
+            </.button>
           </div>
-          <ul class="h-[45vh] overflow-y-scroll scrollbar-hide mt-4 border-b-[1px] border-lightShade  dark:border-darkShade">
+          <ul class="h-[45vh] overflow-y-scroll scrollbar-hide mt-4 border-b border-lightShade  dark:border-darkShade">
             <%= for {id, type, _drop, form} <- @drops do %>
-              <li class="border-b-[1px] last:border-b-0 border-lightShade dark:border-darkShade">
+              <li class="border-b last:border-b-0 border-lightShade dark:border-darkShade">
                 <.simple_form
                   id={id}
                   for={form}
                   phx-change="validate"
                   phx-target={@myself}
-                  class="!mt-0"
+                  class="mt-0!"
                 >
                   <.field type="hidden" name="identifier" value={id} />
-                  <div class="grid space-x-2 grid-cols-9 pl-1">
+                  <div class="grid space-x-2 grid-cols-11 pl-1">
                     <%= if type == :nil do %>
                       <.field
                         wrapper_class="col-span-4"
@@ -65,7 +56,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
                         <.field
                           id={"prize-#{id}"}
                           field={form[:prize_id]}
-                          wrapper_class="col-span-4"
+                          wrapper_class="col-span-3"
                           type="select"
                           options={generate_options(@prizes)}
                         />
@@ -74,7 +65,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
                         <.field
                           id={"badge-#{id}"}
                           field={form[:badge_id]}
-                          wrapper_class="col-span-4"
+                          wrapper_class="col-span-3"
                           type="select"
                           options={generate_options(@badges)}
                         />
@@ -83,7 +74,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
                         <.field
                           field={form[:tokens]}
                           id={"tokens-#{id}"}
-                          wrapper_class="col-span-4"
+                          wrapper_class="col-span-3"
                           type="number"
                         />
                       <% end %>
@@ -91,7 +82,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
                         <.field
                           field={form[:entries]}
                           id={"entries-#{id}"}
-                          wrapper_class="col-span-4"
+                          wrapper_class="col-span-3"
                           type="number"
                         />
                       <% end %>
@@ -107,6 +98,14 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
                       type="number"
                       id={"probability-#{id}"}
                       wrapper_class="col-span-2"
+                    />
+                    <.field
+                      field={form[:scratch_card_symbol_id]}
+                      id={"symbol-#{id}"}
+                      label="Symbol"
+                      wrapper_class="col-span-2"
+                      type="select"
+                      options={generate_options(@symbols)}
                     />
                     <.link
                       phx-click={JS.push("delete-drop", value: %{id: id})}
@@ -135,9 +134,9 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
           </div>
         </div>
         <div class="w-full flex flex-row-reverse">
-          <.backoffice_button phx-click="save" phx-target={@myself} phx-disable-with="Saving...">
+          <.button phx-click="save" phx-target={@myself} phx-disable-with="Saving...">
             Save Configuration
-          </.backoffice_button>
+          </.button>
         </div>
       </.page>
     </div>
@@ -148,10 +147,10 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
   def mount(socket) do
     # Load the wheel drops
     drops =
-      Minigames.list_wheel_drops()
+      Minigames.list_scratch_card_drops()
       |> Enum.map(fn drop ->
         {Ecto.UUID.generate(), Minigames.get_drop_type(drop), drop,
-         to_form(Minigames.change_wheel_drop(drop))}
+         to_form(Minigames.change_scratch_card_drop(drop))}
       end)
 
     {:ok,
@@ -159,7 +158,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
      |> assign(drops: drops)
      |> assign(nothing_probability: calculate_nothing_probability(drops))
      |> assign(prizes: Minigames.list_prizes())
-     |> assign(badges: Contest.list_badges())}
+     |> assign(badges: Contest.list_badges())
+     |> assign(symbols: Minigames.list_scratch_card_symbols())}
   end
 
   @impl true
@@ -173,8 +173,8 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
        :drops,
        drops ++
          [
-           {Ecto.UUID.generate(), nil, %WheelDrop{},
-            to_form(Minigames.change_wheel_drop(%WheelDrop{}))}
+           {Ecto.UUID.generate(), nil, %ScratchCardDrop{},
+            to_form(Minigames.change_scratch_card_drop(%ScratchCardDrop{}))}
          ]
      )}
   end
@@ -187,7 +187,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
 
     # If the drop has an id, delete it from the database
     if drop.id != nil do
-      Minigames.delete_wheel_drop(drop)
+      Minigames.delete_scratch_card_drop(drop)
     end
 
     # Remove the drop from the list
@@ -199,7 +199,7 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
   def handle_event("validate", drop_params, socket) do
     drops = socket.assigns.drops
     drop = get_drop_data_by_id(drops, drop_params["identifier"])
-    changeset = Minigames.change_wheel_drop(drop, drop_params["wheel_drop"])
+    changeset = Minigames.change_scratch_card_drop(drop, drop_params["scratch_card_drop"])
 
     # Update the form with the new changeset and the drop type if it changed
     drops =
@@ -228,15 +228,15 @@ defmodule PearlWeb.Backoffice.MinigamesLive.WheelDrops.FormComponent do
       # For each drop, update or create it
       Enum.each(drops, fn {_, _, drop, form} ->
         if drop.id != nil do
-          Minigames.update_wheel_drop(drop, form.params)
+          Minigames.update_scratch_card_drop(drop, form.params)
         else
-          Minigames.create_wheel_drop(form.params)
+          Minigames.create_scratch_card_drop(form.params)
         end
       end)
 
       {:noreply,
        socket
-       |> put_flash(:success, gettext("Configuração da Wheel alterada com sucesso"))
+       |> put_flash(:info, "Scratch card configuration changed successfully")
        |> push_patch(to: socket.assigns.patch)}
     else
       {:noreply, socket}

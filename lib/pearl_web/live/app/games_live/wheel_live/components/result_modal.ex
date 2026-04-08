@@ -1,4 +1,4 @@
-defmodule PearlWeb.App.WheelLive.Components.ResultModal do
+defmodule PearlWeb.App.GamesLive.WheelLive.Components.ResultModal do
   @moduledoc """
   Lucky wheel drop result modal component.
   """

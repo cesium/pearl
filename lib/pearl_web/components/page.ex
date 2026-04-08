@@ -17,7 +17,6 @@ defmodule PearlWeb.Components.Page do
   attr :back_to_link_text, :string, default: "Back"
   attr :banner, :string, default: nil
   attr :child_class, :string, default: nil
-  attr :full_height, :boolean, default: false
   attr :stack_header_on_mobile, :boolean, default: false
 
   slot :actions, required: false, doc: "Slot for actions to be rendered in the page header."
@@ -25,7 +24,7 @@ defmodule PearlWeb.Components.Page do
 
   def page(assigns) do
     ~H"""
-    <div class={[@full_height && "h-full flex flex-col overflow-hidden"]}>
+    <div>
       <.header
         title_class={"#{size_class(@size)} #{@title_class}"}
         actions_layout={if @stack_header_on_mobile, do: :stack_mobile, else: :inline}
@@ -58,7 +57,6 @@ defmodule PearlWeb.Components.Page do
       </.header>
       <div class={[
         @child_class,
-        @full_height && "flex-1 min-h-0 overflow-hidden",
         content_padding_class(@stack_header_on_mobile)
       ]}>
         {render_slot(@inner_block)}

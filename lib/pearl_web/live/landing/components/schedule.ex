@@ -77,15 +77,14 @@ defmodule PearlWeb.Landing.Components.Schedule do
 
       {%{attendee: attendee}, :attendee} ->
         if has_paid_ticket?(user) do
-            perform_enrolment(attendee.id, id, socket)
-
-          else
-            {:noreply,
-             put_flash(
-               socket,
-               :error,
-               gettext("Precisas de um bilhete pago para te inscreveres nas atividades")
-             )}
+          perform_enrolment(attendee.id, id, socket)
+        else
+          {:noreply,
+           put_flash(
+             socket,
+             :error,
+             gettext("Precisas de um bilhete pago para te inscreveres nas atividades")
+           )}
         end
     end
   end
@@ -104,15 +103,15 @@ defmodule PearlWeb.Landing.Components.Schedule do
     user = socket.assigns.current_user
 
     if has_paid_ticket?(user) do
-        {:noreply,
-         redirect(socket, to: ~p"/checkout/activity/init?ticket_type_id=#{ticket_type_id}")}
-else
-        {:noreply,
-         socket
-         |> put_flash(
-           :error,
-           gettext("Precisas de um bilhete pago para comprar bilhetes de atividades")
-         )}
+      {:noreply,
+       redirect(socket, to: ~p"/checkout/activity/init?ticket_type_id=#{ticket_type_id}")}
+    else
+      {:noreply,
+       socket
+       |> put_flash(
+         :error,
+         gettext("Precisas de um bilhete pago para comprar bilhetes de atividades")
+       )}
     end
   end
 

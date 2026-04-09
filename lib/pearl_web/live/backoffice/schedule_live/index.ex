@@ -17,7 +17,7 @@ defmodule PearlWeb.Backoffice.ScheduleLive.Index do
   @impl true
   def handle_params(params, _url, socket) do
     case Activities.list_activities(
-           if socket.assigns.live_action != :speakers do
+           if socket.assigns.live_action not in [:speakers, :enrolments, :enrolments_new] do
              params
            else
              %{}

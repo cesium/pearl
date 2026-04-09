@@ -23,17 +23,17 @@
 }
 
 .side-a {
-  background-image: url('/images/coin-void.svg');
+  background-image: url('/images/coin-26.svg');
   z-index: 100;
 }
 
 .side-b {
-  background-image: url('/images/coin-dollar-sign.svg');
+  background-image: url('/images/coin-token-sign.svg');
   transform: rotateY(180deg); /* Rotate the back side */
 }
 
 .side-b-not-rotated {
-  background-image: url('/images/coin-dollar-sign.svg');
+  background-image: url('/images/coin-token-sign.svg');
 }
 
 .coin-main {

@@ -9,6 +9,7 @@ defmodule PearlWeb.Backoffice.LockersLive.Components.AssignLockerModal do
 
   attr :modal, :atom, required: true
   attr :configured_lockers, :boolean, required: true
+  attr :locker_search, :string, required: true
   attr :free_lockers, :list, required: true
 
   def assign_locker_modal(assigns) do
@@ -39,6 +40,15 @@ defmodule PearlWeb.Backoffice.LockersLive.Components.AssignLockerModal do
             <br /> {gettext("Please configure the ammount of max lockers first")}
           </p>
         <% else %>
+          <form phx-change="search-free-lockers" class="mb-4">
+            <.input
+              type="text"
+              name="locker_search"
+              value={@locker_search}
+              placeholder={gettext("Search by locker number")}
+            />
+          </form>
+
           <%= if @free_lockers != [] do %>
             <ul class="space-y-2">
               <li
@@ -54,7 +64,11 @@ defmodule PearlWeb.Backoffice.LockersLive.Components.AssignLockerModal do
             </ul>
           <% else %>
             <p class="text-sm text-lightMuted dark:text-darkMuted text-center">
-              {gettext("There are no available lockers at the moment.")}
+              <%= if @locker_search != "" do %>
+                {gettext("No lockers match that number.")}
+              <% else %>
+                {gettext("There are no available lockers at the moment.")}
+              <% end %>
             </p>
           <% end %>
         <% end %>

@@ -16,12 +16,15 @@ defmodule PearlWeb.Backoffice.ScheduleLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
+    activities_params =
+      if socket.assigns.live_action in [:speakers, :enrolments, :enrolments_new] do
+        %{}
+      else
+        params
+      end
+
     case Activities.list_activities(
-           if socket.assigns.live_action != :speakers do
-             params
-           else
-             %{}
-           end,
+           activities_params,
            preloads: [:category]
          ) do
       {:ok, {activities, meta}} ->

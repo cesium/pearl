@@ -59,15 +59,7 @@ defmodule PearlWeb.Config do
     end)
   end
 
-  def app_pages(attendee_eligible?, horse_race_active? \\ nil) do
-    # If horse_race_active? is not provided, fetch from database
-    _horse_race_active =
-      if horse_race_active? != nil do
-        horse_race_active?
-      else
-        Pearl.Minigames.horse_race_active?()
-      end
-
+  def app_pages(attendee_eligible?) do
     if Event.event_started?() do
       [
         %{

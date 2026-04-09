@@ -78,26 +78,10 @@ defmodule PearlWeb do
       use Phoenix.LiveView,
         layout: {PearlWeb.Layouts, :app}
 
-      on_mount {__MODULE__, :subscribe_to_horse_race_updates}
-
       import PearlWeb.Components.Avatar
       import PearlWeb.Components.Button
 
       unquote(html_helpers())
-
-      def on_mount(:subscribe_to_horse_race_updates, _params, _session, socket) do
-        if Phoenix.LiveView.connected?(socket) do
-          Pearl.Minigames.subscribe_to_horse_race_config_update("is_active")
-        end
-
-        {:cont, assign(socket, :horse_race_active?, Pearl.Minigames.horse_race_active?())}
-      end
-
-      def handle_info({:horse_race_config_updated, "is_active", value}, socket) do
-        {:noreply, assign(socket, :horse_race_active?, value)}
-      end
-
-      defoverridable handle_info: 2
     end
   end
 

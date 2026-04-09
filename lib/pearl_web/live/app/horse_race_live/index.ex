@@ -151,7 +151,6 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
       bet_amount =
         case Integer.parse(amount_str) do
           {value, _} when value >= 1 and value <= available -> value
-          {value, _} when value > available -> available
           _ -> 0
         end
 
@@ -204,6 +203,9 @@ defmodule PearlWeb.App.HorseRaceLive.Index do
 
       socket.assigns.active_bets != [] ->
         {:noreply, put_flash(socket, :error, "Já tens apostas ativas nesta corrida!")}
+
+      calculate_total_bets(socket.assigns.horse_bets) > trunc(socket.assigns.attendee_tokens) ->
+        {:noreply, put_flash(socket, :error, "Saldo insuficiente!")}
 
       is_nil(socket.assigns.current_race_id) ->
         {:noreply,

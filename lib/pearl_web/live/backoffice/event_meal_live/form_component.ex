@@ -28,7 +28,7 @@ defmodule PearlWeb.Backoffice.EventMealLive.FormComponent do
           field={@form[:meal_type]}
           type="select"
           label="Meal Type"
-          options={["Breakfast","Lunch", "Coffee Break", "Dinner"]}
+          options={["Breakfast", "Lunch", "Coffee Break", "Dinner"]}
           prompt="Select a meal type"
         />
         <.input field={@form[:description]} type="text" label="Description" />

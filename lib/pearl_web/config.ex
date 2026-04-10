@@ -144,7 +144,7 @@ defmodule PearlWeb.Config do
         title: "Meals",
         icon: "hero-cake",
         url: "/dashboard/meals",
-        scope: %{"meals" => ["show"]}
+        scope: %{"meals" => ["edit"]}
       },
       %{
         key: :staffs,
@@ -228,7 +228,7 @@ defmodule PearlWeb.Config do
         title: "Schedule",
         icon: "hero-calendar-days",
         url: "/dashboard/schedule/activities",
-        scope: %{"schedule" => ["edit"]}
+        scope: %{"schedule" => ["show"]}
       },
       %{
         key: :lockers,

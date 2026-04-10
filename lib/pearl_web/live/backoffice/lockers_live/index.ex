@@ -4,10 +4,9 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
   alias Pearl.Accounts
   alias Pearl.Lockers
 
-  import PearlWeb.Components.{Table, TableSearch, Button, Modal}
+  import PearlWeb.Components.{Table, TableSearch, Button, Modal, Tabs}
 
   import PearlWeb.Backoffice.LockersLive.Components.{
-    ScanModal,
     AttendeeModal,
     HistoryModal,
     AssignLockerModal,
@@ -35,6 +34,8 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
      |> assign(:active_lockers_by_attendee, %{})
      |> assign(:session_active, false)
      |> assign(:configured_lockers, false)
+     |> assign(:locker_search, "")
+     |> assign(:all_free_lockers, [])
      |> assign(:free_lockers, [])}
   end
 
@@ -226,12 +227,41 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
 
   def handle_event("assign-locker", _params, socket) do
     configured_lockers = Lockers.lockers_configured?()
-    free_lockers = if configured_lockers, do: Lockers.list_free_lockers(), else: []
+    locker_search = ""
+
+    all_free_lockers =
+      if configured_lockers do
+        Lockers.list_free_lockers()
+      else
+        []
+      end
 
     {:noreply,
      socket
      |> assign(:modal, :assign_locker)
      |> assign(:configured_lockers, configured_lockers)
+     |> assign(:locker_search, locker_search)
+     |> assign(:all_free_lockers, all_free_lockers)
+     |> assign(:free_lockers, all_free_lockers)}
+  end
+
+  def handle_event("search-free-lockers", %{"locker_search" => locker_search}, socket) do
+    search = locker_search |> to_string() |> String.trim()
+
+    free_lockers =
+      if search == "" do
+        socket.assigns.all_free_lockers
+      else
+        Enum.filter(socket.assigns.all_free_lockers, fn locker ->
+          locker.number
+          |> to_string()
+          |> String.contains?(search)
+        end)
+      end
+
+    {:noreply,
+     socket
+     |> assign(:locker_search, locker_search)
      |> assign(:free_lockers, free_lockers)}
   end
 

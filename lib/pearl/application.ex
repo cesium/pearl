@@ -19,6 +19,7 @@ defmodule Pearl.Application do
       PearlWeb.Presence,
       # Start the Oban queue
       {Oban, Application.fetch_env!(:pearl, Oban)},
+      Pearl.Minigames.HorseRace.Ticker,
       # Start Pearl web server
       PearlWeb.Endpoint
     ]

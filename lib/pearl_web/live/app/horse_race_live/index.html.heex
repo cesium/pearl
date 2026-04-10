@@ -1,0 +1,277 @@
+<.page
+  title={gettext("Horse Race")}
+  size={:xl}
+  title_class="uppercase"
+  back_to_link="/app/games"
+  back_to_link_text="Voltar Minigames"
+  back_to_link_class="text-light/50 hover:text-white mt-2 transition-colors duration-300"
+>
+  <%= if @race_result do %>
+    <.result_modal
+      id="horse-race-result"
+      show={true}
+      wrapper_class="px-6"
+      on_cancel={JS.push("clear_result")}
+      race_result={@race_result}
+    />
+  <% end %>
+
+  <:actions>
+    <span class="text-semibold text-xl flex place-items-center gap-2">
+      <.icon name="fa-sack-dollar-solid" />
+      {format_tokens(@attendee_tokens)}
+    </span>
+  </:actions>
+
+  <%= if @horse_race_active? do %>
+    <div class="flex flex-col gap-8 mt-6">
+      <div class="flex flex-col md:flex-row gap-6 items-start md:items-start md:justify-between">
+        <div class="w-full">
+          <div class="inline-flex items-center gap-2 pb-2 w-full border-b border-light/10 mb-6">
+            <.icon name="fa-flag-checkered-solid" class="size-4 text-primary" />
+            <h2 class="text-lg text-light/50 uppercase font-bold">
+              {gettext("Faz as tuas apostas")}
+            </h2>
+          </div>
+
+          <h2 class="sr-only">
+            {gettext("Faz as tuas apostas")}
+          </h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+            <%= for horse_num <- 1..@number_of_horses do %>
+              <% horse_bet = Map.get(@horse_bets, horse_num, 0) %>
+              <% has_bet = horse_bet > 0 %>
+              <div class={[
+                "w-full min-w-0 flex flex-col items-center p-5 md:p-6 border rounded-xl transition-colors duration-300 bg-light/5",
+                if(has_bet,
+                  do: "border-primary/70 bg-primary/10",
+                  else: "border-light/10 hover:border-primary/60"
+                )
+              ]}>
+                <span class="text-lg md:text-xl font-bold mb-3 uppercase tracking-wide">
+                  {gettext("Cavalo #%{number}", number: horse_num)}
+                </span>
+                <div
+                  class={[
+                    "horse-icon shrink-0",
+                    horse_variant_class(horse_num),
+                    if(@horse_race_running?, do: "horse-run", else: "horse-rest")
+                  ]}
+                  style="transform: scale(0.6); transform-origin: center;"
+                >
+                </div>
+                <form phx-change="update_horse_bet" class="w-full mb-2">
+                  <input type="hidden" name="horse" value={horse_num} />
+                  <div class="flex items-center w-full px-3 rounded-lg border border-light/10 bg-light/5">
+                    <.icon name="fa-sack-dollar-solid" class="size-3 shrink-0" />
+                    <input
+                      type="number"
+                      name="amount"
+                      value={if has_bet, do: horse_bet, else: ""}
+                      min="1"
+                      step="1"
+                      max={trunc(@available_tokens + horse_bet)}
+                      placeholder="Valor"
+                      inputmode="numeric"
+                      pattern="[0-9]*"
+                      oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                      disabled={@active_bets != [] || @horse_race_running?}
+                      class="w-full bg-transparent border-none focus:ring-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-sm md:text-base font-bold placeholder-white/40 disabled:opacity-40 pearl-number-input-without-bg horse-race-bet-input"
+                    />
+                  </div>
+                </form>
+                <%= if has_bet do %>
+                  <button
+                    phx-click="clear_horse_bet"
+                    phx-value-horse={horse_num}
+                    disabled={@horse_race_running?}
+                    class="w-full px-4 py-2 text-sm rounded-lg border border-light/10 bg-light/5 hover:border-red-500/40 hover:bg-red-500/10 text-red-300 transition-colors duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {gettext("Limpar")}
+                  </button>
+
+                  <p class="text-sm text-light/50 mt-3 text-center">
+                    {gettext("Retorno se ganhar")}:
+                    <span class="text-sm font-bold text-primary ml-2">
+                      {format_tokens(horse_bet * @multiplier)}
+                    </span>
+                  </p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-1 gap-3 w-full md:w-72 md:mt-15">
+          <%= if @active_bets == [] do %>
+            <div class="rounded-xl border border-light/10 bg-light/5 px-4 py-3">
+              <p class="text-xs uppercase tracking-wide text-light/50">
+                {gettext("Total apostado")}
+              </p>
+              <p class="text-2xl font-bold text-white mt-1">
+                {format_tokens(trunc(@total_bets))}
+              </p>
+            </div>
+          <% end %>
+          <div class="rounded-xl border border-light/10 bg-light/5 px-4 py-3">
+            <p class="text-xs uppercase tracking-wide text-light/50">{gettext("Disponível")}</p>
+            <p class="text-2xl font-bold text-primary mt-1">
+              {format_tokens(trunc(@available_tokens))}
+            </p>
+          </div>
+          <div class="rounded-xl border border-light/10 bg-light/5 px-4 py-3">
+            <p class="text-xs uppercase tracking-wide text-light/50">
+              {gettext("Multiplicador")}
+            </p>
+            <p class="text-2xl font-bold text-white mt-1">{@multiplier}x</p>
+          </div>
+        </div>
+      </div>
+
+      <%= if @active_bets != [] do %>
+        <div class="rounded-xl border border-light/10 bg-light/5 p-5">
+          <div class="inline-flex items-center gap-2 pb-2 w-full border-b border-light/10 mb-5">
+            <.icon name="fa-ticket-solid" class="size-4 text-primary" />
+            <h3 class="text-lg self-start text-light/50 uppercase font-bold">
+              {gettext("Apostas ativas")}
+            </h3>
+          </div>
+
+          <div class="w-full md:overflow-x-auto">
+            <div class="md:min-w-full">
+              <div class="hidden md:grid grid-cols-4 px-4 pb-3 text-xs uppercase tracking-wider text-light/35">
+                <p>{gettext("Cavalo")}</p>
+                <p>{gettext("Apostado")}</p>
+                <p class="text-right">{gettext("Retorno max.")}</p>
+                <p class="text-right">{gettext("Ganho liq.")}</p>
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <%= for bet <- @active_bets do %>
+                  <div class="grid grid-cols-2 md:grid-cols-4 items-center rounded-xl border border-light/10 bg-dark/30 min-h-14">
+                    <div class="h-full flex items-center px-4 rounded-l-xl py-2 md:py-0">
+                      <p class="text-xs uppercase tracking-wider text-light/35 mr-2 md:hidden">
+                        {gettext("Cavalo")}
+                      </p>
+                      <p class="font-bold text-primary">#{bet.horse_number}</p>
+                    </div>
+
+                    <div class="px-3 py-2 flex items-center gap-2 text-light/90">
+                      <p class="text-xs uppercase tracking-wider text-light/35 md:hidden">
+                        {gettext("Apostado")}
+                      </p>
+                      <.icon name="fa-sack-dollar-solid" class="size-3 text-light/40" />
+                      <p class="font-semibold">{format_tokens(bet.bet_amount)}</p>
+                    </div>
+
+                    <div class="px-3 py-2 text-left md:text-right text-primary font-semibold">
+                      <p class="text-xs uppercase tracking-wider text-light/35 mb-1 md:hidden">
+                        {gettext("Retorno max.")}
+                      </p>
+                      {format_tokens(bet.bet_max_return)}
+                    </div>
+
+                    <div class={[
+                      "px-3 py-2 text-left md:text-right font-bold",
+                      if(bet.bet_net_cmp == :lt, do: "text-red-400", else: "text-emerald-400")
+                    ]}>
+                      <p class="text-xs uppercase tracking-wider text-light/35 mb-1 md:hidden">
+                        {gettext("Ganho liq.")}
+                      </p>
+                      <%= if bet.bet_net_cmp == :gt do %>
+                        +
+                      <% end %>
+                      {format_tokens(bet.bet_net_gain)}
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 rounded-2xl border border-light/10 bg-dark/30 divide-y md:divide-y-0 md:divide-x divide-light/10 grid grid-cols-1 md:grid-cols-3">
+            <div class="px-4 py-3 md:px-6 md:py-4">
+              <p class="text-xs uppercase tracking-wide text-light/35">
+                {gettext("Total apostado")}
+              </p>
+              <p class="text-3xl font-bold text-white mt-1">
+                {format_tokens(@total_active_bets)}
+              </p>
+            </div>
+            <div class="px-4 py-3 md:px-6 md:py-4">
+              <p class="text-xs uppercase tracking-wide text-light/35">
+                {gettext("Máximo retorno")}
+              </p>
+              <p class="text-3xl font-bold text-primary mt-1">{format_tokens(@max_return)}</p>
+            </div>
+            <div class="px-4 py-3 md:px-6 md:py-4">
+              <p class="text-xs uppercase tracking-wide text-light/35">
+                {gettext("Ganho líquido")}
+              </p>
+              <p class="text-3xl font-bold text-emerald-400 mt-1">
+                <%= if Decimal.compare(@net_gain, Decimal.new(0)) == :gt do %>
+                  +
+                <% end %>
+                {format_tokens(@net_gain)}
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-4 rounded-xl border border-light/10 bg-dark/20 px-4 py-3">
+            <p class="text-xs uppercase tracking-wide text-light/35 mb-2">
+              {gettext("Como funciona")}
+            </p>
+            <p class="text-sm text-light/60 leading-relaxed">
+              {gettext(
+                "O máximo retorno mostra quanto recebes se o teu cavalo ganhar. Apenas a aposta vencedora é paga. O ganho líquido é calculado como máximo retorno menos total apostado."
+              )}
+            </p>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="flex gap-4 flex-col sm:flex-row">
+        <button
+          phx-click="clear_all_bets"
+          disabled={map_size(@horse_bets) == 0 || @active_bets != [] || @horse_race_running?}
+          class="px-6 py-3 border cursor-pointer tracking-wider hover:border-primary/60 transition-all duration-300 border-light/10 bg-light/5 rounded-xl font-bold disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          {gettext("Limpar tudo")}
+        </button>
+
+        <.action_button
+          title={gettext("Confirmar apostas")}
+          subtitle={gettext("%{amount} tokens", amount: format_tokens(trunc(@total_bets)))}
+          class="w-full md:max-w-80 gap-0! mx-0 border! bg-light/5 border-light/10! h-fit! py-2!"
+          subtitle_class="text-xs text-light/50"
+          title_class="text-lg"
+          phx-click="confirm_bets"
+          disabled={
+            map_size(@horse_bets) == 0 ||
+              @active_bets != [] ||
+              @horse_race_running? ||
+              @total_bets > trunc(@attendee_tokens)
+          }
+        />
+      </div>
+    </div>
+  <% else %>
+    <div class="flex flex-col items-center justify-center gap-6 py-20 text-center">
+      <.icon name="fa-horse-head-solid" alt="Cavalo" class="size-24 text-light" />
+      <div>
+        <h2 class="text-3xl font-bold uppercase">
+          {gettext("A corrida de cavalos não está a decorrer")}
+        </h2>
+        <p class="text-light/50 mt-2">
+          {gettext("A corrida de cavalos não está disponível neste momento. Volta mais tarde.")}
+        </p>
+      </div>
+      <.link
+        navigate={~p"/app/games"}
+        class="px-6 py-3 border border-light/10 bg-light/5 rounded-xl font-bold hover:border-primary/60 transition-colors duration-300"
+      >
+        {gettext("Voltar aos jogos")}
+      </.link>
+    </div>
+  <% end %>
+</.page>

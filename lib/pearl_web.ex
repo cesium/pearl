@@ -17,7 +17,7 @@ defmodule PearlWeb do
   those modules here.
   """
 
-  def static_paths, do: ~w(assets docs fonts images models favicon.ico robots.txt 30anos.html)
+  def static_paths, do: ~w(assets docs fonts images models favicon.ico robots.txt)
 
   def router do
     quote do
@@ -91,6 +91,15 @@ defmodule PearlWeb do
         layout: {PearlWeb.Layouts, :sponsor}
 
       import PearlWeb.Components.Button
+
+      unquote(html_helpers())
+    end
+  end
+
+  def bare_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {PearlWeb.Layouts, :bare}
 
       unquote(html_helpers())
     end

@@ -35,7 +35,7 @@ defmodule PearlWeb.App.GamesLive.ScratchCardLive.Index do
   @impl true
   def handle_event("buy-card", _params, socket) do
     case Minigames.buy_scratch_card(socket.assigns.current_user.attendee) do
-      {:ok, %{scratch_card_preloaded: scratch_card}} ->
+      {:ok, scratch_card} ->
         result =
           if scratch_card.drop do
             %{type: Minigames.get_drop_type(scratch_card.drop), drop: scratch_card.drop}

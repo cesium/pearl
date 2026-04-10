@@ -42,7 +42,7 @@ defmodule PearlWeb.Components.ScannerTabs do
       <.ensure_permissions
         :if={@current_user}
         user={@current_user}
-        permissions={%{"meals" => ["edit"]}}
+        permissions={%{"meals" => ["show"]}}
       >
         <.link patch={~p"/dashboard/scanner/meals"} class="w-full">
           <.tab class="gap-2" active={@active == :meals}>

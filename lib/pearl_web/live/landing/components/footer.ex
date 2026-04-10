@@ -127,6 +127,11 @@ defmodule PearlWeb.Landing.Components.Footer do
         title: "Survival Guide",
         url: "/docs/survival-guide.pdf",
         enabled: Event.get_feature_flag!("survival_guide_enabled")
+      },
+      %{
+        title: "Formulário de Feedback",
+        url: "https://cesium.link/f/feedback-enei-26",
+        enabled: true
       }
     ]
     |> Enum.filter(fn x -> x.enabled end)

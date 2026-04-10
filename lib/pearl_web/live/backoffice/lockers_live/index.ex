@@ -7,7 +7,6 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
   import PearlWeb.Components.{Table, TableSearch, Button, Modal, Tabs}
 
   import PearlWeb.Backoffice.LockersLive.Components.{
-    ScanModal,
     AttendeeModal,
     HistoryModal,
     AssignLockerModal,

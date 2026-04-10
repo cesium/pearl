@@ -12,14 +12,8 @@
         </.link>
       </.ensure_permissions>
 
-      <.backoffice_button phx-click="scan-modal">
-        <span class="flex flex-row items-center gap-2">
-          <.icon name="hero-qr-code" class="w-5 h-5" />
-          <span class="hidden sm:block">{gettext("Scan Search")}</span>
-        </span>
-      </.backoffice_button>
-
       <.table_search
+        :if={@live_action == :index}
         id="attendees-lockers-table-name-search"
         params={@params}
         field={:name}
@@ -29,7 +23,23 @@
     </div>
   </:actions>
 
-  <div class="py-4">
+  <.tabs class="">
+    <.link patch={~p"/dashboard/attendee_lockers"} class="w-full">
+      <.tab class="gap-2 justify-center" active={@live_action == :index}>
+        <.icon name="hero-list-bullet" class="w-5 h-5" />
+        <span class="hidden sm:block">{gettext("Attendees List")}</span>
+      </.tab>
+    </.link>
+
+    <.link patch={~p"/dashboard/attendee_lockers/scan"} class="w-full">
+      <.tab class="gap-2 justify-center" active={@live_action == :scan}>
+        <.icon name="hero-qr-code" class="w-5 h-5" />
+        <span class="hidden sm:block">{gettext("Scan Search")}</span>
+      </.tab>
+    </.link>
+  </.tabs>
+
+  <div :if={@live_action == :index} class="py-4">
     <.table id="attendees-lockers-table" items={@streams.attendees} meta={@meta} params={@params}>
       <:col :let={{_id, user}} sortable field={:name} label="Name">
         <div class="flex gap-4 flex-center items-center">
@@ -66,9 +76,32 @@
       </:action>
     </.table>
   </div>
-</.page>
 
-<.scan_modal modal={@modal} />
+  <div :if={@live_action == :scan} class="py-4">
+    <div
+      id="qr-scanner"
+      phx-hook="QrScanner"
+      data-ask_perm="permission-button"
+      data-open_on_mount
+      data-on_start="document.getElementById('scan-info').style.display = 'none'"
+      data-on_success="scan"
+      class="relative"
+    >
+    </div>
+
+    <div id="scan-info" class="flex flex-col items-center gap-8 text-center py-8">
+      <p id="loadingMessage">
+        {gettext("Unable to access camera.")}
+        {gettext(
+          "Make sure you allow the use of your camera on this browser and that it isn't being used elsewhere."
+        )}
+      </p>
+      <.backoffice_button id="permission-button" type="button">
+        {gettext("Request Permission")}
+      </.backoffice_button>
+    </div>
+  </div>
+</.page>
 
 <.attendee_modal
   live_action={@live_action}

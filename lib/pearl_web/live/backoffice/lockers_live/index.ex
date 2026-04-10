@@ -4,7 +4,7 @@ defmodule PearlWeb.Backoffice.LockersLive.Index do
   alias Pearl.Accounts
   alias Pearl.Lockers
 
-  import PearlWeb.Components.{Table, TableSearch, Button, Modal}
+  import PearlWeb.Components.{Table, TableSearch, Button, Modal, Tabs}
 
   import PearlWeb.Backoffice.LockersLive.Components.{
     ScanModal,

@@ -508,6 +508,7 @@ defmodule PearlWeb.Router do
         scope "/attendee_lockers", LockersLive do
           live "/", Index, :index
           live "/config", Index, :config
+          live "/scan", Index, :scan
           live "/:attendee_id", Index, :show
           live "/:attendee_id/history", Index, :history
           live "/:attendee_id/:session_id", Index, :open_locker

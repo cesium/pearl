@@ -21,7 +21,7 @@ defmodule Mix.Tasks.FirstComeFirstServed do
       |> where([br, a, b], b.name == "Acreditação")
       |> order_by([br, a, b], br.inserted_at)
       |> where([br, a, b], not a.ineligible)
-      |> limit(50)
+      |> limit(100)
       |> preload(attendee: [:user])
       |> Repo.all()
       |> Enum.map(fn br -> br.attendee end)

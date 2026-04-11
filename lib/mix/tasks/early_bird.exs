@@ -22,9 +22,8 @@ defmodule Mix.Tasks.EarlyBird do
       Attendee
       |> join(:inner, [a], u in assoc(a, :user))
       |> join(:inner, [a, u], t in assoc(u, :ticket))
-      |> join(:inner, [a, u, t], tt in assoc(t, :ticket_type))
       |> distinct([a, _u, _t, _tt], a.id)
-      |> where([_a, _u, t, tt], t.paid and tt.id in ^ticket_type_ids)
+      |> where([_a, _u, t, tt], t.paid and t.ticket_type_id in ^ticket_type_ids)
       |> preload([_a, u, _t, _tt], user: u)
       |> Repo.all()
 

@@ -12,8 +12,14 @@ defmodule PearlWeb.PageController do
   end
 
   def gato(conn, _params) do
+    cat_html_path =
+      :pearl
+      |> :code.priv_dir()
+      |> to_string()
+      |> Path.join("static/cat.html")
+
     conn
     |> put_resp_content_type("text/html")
-    |> send_file(200, "priv/static/cat.html")
+    |> send_file(200, cat_html_path)
   end
 end

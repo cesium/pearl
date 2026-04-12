@@ -321,4 +321,35 @@ defmodule Pearl.Release do
       end
     end
   end
+
+  def give_pitches do
+    handles = [
+      "tomaslferreira",
+      "lucasfariapinto",
+      "filipe",
+      "ivsop",
+      "pedrocarvalho",
+      "rui",
+      "diogo_rodrigues"
+    ]
+
+    attendees =
+      Attendee
+      |> join(:inner, [a], u in assoc(a, :user))
+      |> where([_a, u], u.handle in ^handles)
+      |> preload([_a, u], user: u)
+      |> Repo.all()
+
+    badge = Repo.one(from b in Badge, where: b.name == "Yapper")
+    redeem_day = ~D[2026-04-11]
+
+    for attendee <- attendees do
+      IO.inspect("Processing #{attendee.user.name}")
+
+      case Contest.redeem_badge(badge, attendee, nil, redeem_day) do
+        {:ok, _} -> IO.inspect("Badge redeemed for #{attendee.user.name}")
+        {:error, _} -> IO.inspect("Badge redeem failed for #{attendee.user.name}")
+      end
+    end
+  end
 end

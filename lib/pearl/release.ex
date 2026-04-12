@@ -225,6 +225,43 @@ defmodule Pearl.Release do
     end
   end
 
+  def give_ctf_day3 do
+    handles = [
+      "alxmra",
+      "joaobarreira05",
+      "gsarabanda",
+      "esteves",
+      "gui_rodriguesss08",
+      "limwa",
+      "carlinhossss04",
+      "filipa_mont",
+      "lumafepe",
+      "tabo",
+      "Killian",
+      "digazz",
+      "rneves05"
+    ]
+
+    attendees =
+      Attendee
+      |> join(:inner, [a], u in assoc(a, :user))
+      |> where([_a, u], u.handle in ^handles)
+      |> preload([_a, u], user: u)
+      |> Repo.all()
+
+    badge = Repo.one(from b in Badge, where: b.name == "CTF - Dia 3")
+    redeem_day = ~D[2026-04-12]
+
+    for attendee <- attendees do
+      IO.inspect("Processing #{attendee.user.name}")
+
+      case Contest.redeem_badge(badge, attendee, nil, redeem_day) do
+        {:ok, _} -> IO.inspect("Badge redeemed for #{attendee.user.name}")
+        {:error, _} -> IO.inspect("Badge redeem failed for #{attendee.user.name}")
+      end
+    end
+  end
+
   def give_prog_contest_day1 do
     handles = [
       "esteves",
@@ -244,6 +281,36 @@ defmodule Pearl.Release do
 
     badge = Repo.one(from b in Badge, where: b.name == "Concurso de Programação - Desafio 1")
     redeem_day = ~D[2026-04-10]
+
+    for attendee <- attendees do
+      IO.inspect("Processing #{attendee.user.name}")
+
+      case Contest.redeem_badge(badge, attendee, nil, redeem_day) do
+        {:ok, _} -> IO.inspect("Badge redeemed for #{attendee.user.name}")
+        {:error, _} -> IO.inspect("Badge redeem failed for #{attendee.user.name}")
+      end
+    end
+  end
+
+  def give_prog_contest_day2 do
+    handles = [
+      "esteves",
+      "lumafepe",
+      "diogomacedo2005",
+      "limwa",
+      "vcnt",
+      "filipa_mont"
+    ]
+
+    attendees =
+      Attendee
+      |> join(:inner, [a], u in assoc(a, :user))
+      |> where([_a, u], u.handle in ^handles)
+      |> preload([_a, u], user: u)
+      |> Repo.all()
+
+    badge = Repo.one(from b in Badge, where: b.name == "Concurso de Programação - Desafio 2")
+    redeem_day = ~D[2026-04-11]
 
     for attendee <- attendees do
       IO.inspect("Processing #{attendee.user.name}")

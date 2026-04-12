@@ -843,10 +843,9 @@ defmodule Pearl.Contest do
         tokens,
         attendee_update_tokens_operation_name \\ :attendee_update_tokens,
         daily_tokens_fetch_operation_name \\ :daily_tokens_fetch,
-        daily_tokens_update_operation_name \\ :daily_tokens_update
+        daily_tokens_update_operation_name \\ :daily_tokens_update,
+        day \\ Date.utc_today()
       ) do
-    today = Date.utc_today()
-
     Multi.new()
     |> Multi.update(
       attendee_update_tokens_operation_name,
@@ -854,9 +853,8 @@ defmodule Pearl.Contest do
     )
     |> Multi.run(daily_tokens_fetch_operation_name, fn repo, _changes ->
       {:ok,
-       repo.one(
-         from dt in DailyTokens, where: dt.attendee_id == ^attendee.id and dt.date == ^today
-       ) || %DailyTokens{date: today, attendee_id: attendee.id}}
+       repo.one(from dt in DailyTokens, where: dt.attendee_id == ^attendee.id and dt.date == ^day) ||
+         %DailyTokens{date: day, attendee_id: attendee.id}}
     end)
     |> Multi.insert_or_update(daily_tokens_update_operation_name, fn changes ->
       DailyTokens.changeset(Map.get(changes, daily_tokens_fetch_operation_name), %{tokens: tokens})
@@ -1006,10 +1004,13 @@ defmodule Pearl.Contest do
       iex> redeem_badge(badge, attendee, staff)
       {:ok, %Attendee{}}
 
+      iex> redeem_badge(badge, attendee, nil, ~D[2026-04-10])
+      {:ok, %Attendee{}}
+
   """
-  def redeem_badge(badge, attendee, staff \\ nil) do
+  def redeem_badge(badge, attendee, staff \\ nil, day \\ Date.utc_today()) do
     result =
-      redeem_badge_transaction(badge, attendee, staff)
+      redeem_badge_transaction(badge, attendee, staff, day)
       # Run the transaction
       |> Repo.transaction()
 
@@ -1039,16 +1040,32 @@ defmodule Pearl.Contest do
       %Ecto.Multi{}
 
   """
-  def redeem_badge_transaction(badge, attendee, staff \\ nil) do
+  def redeem_badge_transaction(badge, attendee) do
+    redeem_badge_transaction(badge, attendee, nil, Date.utc_today())
+  end
+
+  def redeem_badge_transaction(badge, attendee, staff) do
+    redeem_badge_transaction(badge, attendee, staff, Date.utc_today())
+  end
+
+  def redeem_badge_transaction(badge, attendee, staff, day) do
+    day = normalize_redeem_day(day)
+    redeem_timestamp = redeem_timestamp_for_day(day)
+
     Multi.new()
     # Insert the badge redeem
     |> Multi.insert(
       :redeem,
-      BadgeRedeem.changeset(%BadgeRedeem{}, %{
-        badge_id: badge.id,
-        attendee_id: attendee.id,
-        redeemed_by_id: if(staff, do: staff.id, else: nil)
-      })
+      BadgeRedeem.changeset(
+        %BadgeRedeem{},
+        %{
+          badge_id: badge.id,
+          attendee_id: attendee.id,
+          redeemed_by_id: if(staff, do: staff.id, else: nil)
+        }
+      )
+      |> Ecto.Changeset.put_change(:inserted_at, redeem_timestamp)
+      |> Ecto.Changeset.put_change(:updated_at, redeem_timestamp)
     )
     # Verify if badge is associated with a company and it is on spotlight (if true multiply tokens).
     |> Multi.run(:badge_tokens, fn _repo, _changes ->
@@ -1069,7 +1086,8 @@ defmodule Pearl.Contest do
         attendee.tokens + tokens,
         :redeem_attendee_update_tokens,
         :redeem_daily_tokens_fetch,
-        :redeem_daily_tokens_update
+        :redeem_daily_tokens_update,
+        day
       )
     end)
     # Update final draw entries
@@ -1077,6 +1095,13 @@ defmodule Pearl.Contest do
       :attendee_update_entries,
       Attendee.changeset(attendee, %{entries: attendee.entries + badge.entries})
     )
+  end
+
+  defp normalize_redeem_day(%Date{} = day), do: day
+  defp normalize_redeem_day(%DateTime{} = day), do: DateTime.to_date(day)
+
+  defp redeem_timestamp_for_day(day) do
+    DateTime.new!(day, ~T[10:00:00], "Etc/UTC")
   end
 
   @doc """

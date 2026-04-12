@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.CTF_DAY1 do
+defmodule Mix.Tasks.CTF_DAY2 do
   @moduledoc """
   """
   use Mix.Task
@@ -15,29 +15,37 @@ defmodule Mix.Tasks.CTF_DAY1 do
     Mix.Task.run("app.start")
 
     handles = [
-      "vcnt",
-      "shieda",
-      "alxmra",
-      "rafael_torrinhas",
-      "gsarabanda",
-      "sleepyy",
-      "digazz",
-      "rneves05",
-      "ixsb",
-      "esteves",
       "carlinhossss04",
-      "pergih",
-      "pdf",
       "gui_rodriguesss08",
+      "esteves",
+      "joaobarreira05",
+      "pdf",
+      "alxmra",
+      "jess",
+      "killian",
       "limwa",
-      "lipe",
       "pintotomas10",
-      "loren_silva",
-      "inesmatos21",
-      "patriciabastos",
-      "rafa",
-      "edinh0z",
-      "erturto"
+      "lipe",
+      "bacelar",
+      "gsarabanda",
+      "americosousa",
+      "luiscarvalho23",
+      "diogomacedo2005",
+      "filipa_mont",
+      "fcosq",
+      "tomaslferreira",
+      "2004bdlc",
+      "lucasfariapinto",
+      "catiaeira",
+      "lumafepe",
+      "joao_nogueira",
+      "coutoo",
+      "trator",
+      "biokiller134",
+      "digazz",
+      "rush",
+      "rneves05",
+      "gabriel_faria"
     ]
 
     attendees =
@@ -47,8 +55,8 @@ defmodule Mix.Tasks.CTF_DAY1 do
       |> preload([_a, u], user: u)
       |> Repo.all()
 
-    badge = Repo.one(from b in Badge, where: b.name == "CTF - Dia 1")
-    redeem_day = ~D[2026-04-10]
+    badge = Repo.one(from b in Badge, where: b.name == "CTF - Dia 2")
+    redeem_day = ~D[2026-04-11]
 
     for attendee <- attendees do
       Mix.shell().info("Processing #{attendee.user.name}")
@@ -61,4 +69,4 @@ defmodule Mix.Tasks.CTF_DAY1 do
   end
 end
 
-Mix.Tasks.CTF_DAY1.run([])
+Mix.Tasks.CTF_DAY2.run([])

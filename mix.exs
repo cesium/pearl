@@ -5,7 +5,7 @@ defmodule Pearl.MixProject do
     [
       app: :pearl,
       version: "0.1.0",
-      elixir: "~> 1.19.1",
+      elixir: "~> 1.19",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       listeners: [Phoenix.CodeReloader],

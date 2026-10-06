@@ -7,13 +7,13 @@
 # This file is based on these images:
 #
 #   - https://hub.docker.com/r/hexpm/elixir/tags - for the build image
-#   - https://hub.docker.com/_/debian/tags?name=trixie-20260610-slim - for the release image
+#   - https://hub.docker.com/_/debian/tags?name=trixie-20261005-slim - for the release image
 #   - https://pkgs.org/ - resource for finding needed packages
-#   - Ex: docker.io/hexpm/elixir:1.19.1-erlang-28.1.1-debian-trixie-20260610-slim
+#   - Ex: docker.io/hexpm/elixir:1.19.6-erlang-28.1.1-debian-trixie-20261005-slim
 #
-ARG ELIXIR_VERSION=1.19.1
+ARG ELIXIR_VERSION=1.19.6
 ARG OTP_VERSION=28.1.1
-ARG DEBIAN_VERSION=trixie-20260610-slim
+ARG DEBIAN_VERSION=trixie-20261005-slim
 
 ARG BUILDER_IMAGE="docker.io/hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
 ARG RUNNER_IMAGE="docker.io/debian:${DEBIAN_VERSION}"
@@ -90,8 +90,6 @@ ENV MIX_ENV="prod"
 
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/pearl ./
-
-COPY --chown=nobody:root .prod-ca-2021.crt /app/.prod-ca-2021.crt
 
 USER nobody
 

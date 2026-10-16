@@ -345,6 +345,18 @@ defmodule Pearl.Billing do
     |> broadcast_payment_order_update()
   end
 
+  def mark_payment_cancelled(order_id) do
+    payment = get_payment_by_order_id!(order_id)
+
+    case delete_payment(payment) do
+      {:ok, deleted_payment} ->
+        broadcast_payment_order_update({:ok, %{deleted_payment | status: :canceled}})
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
+  end
+
   def subscribe_to_payment_order_updates(order_id) do
     Phoenix.PubSub.subscribe(@pubsub, "payment_order:#{order_id}")
   end

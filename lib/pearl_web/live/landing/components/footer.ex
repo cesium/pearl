@@ -37,7 +37,11 @@ defmodule PearlWeb.Landing.Components.Footer do
               <ul class="space-y-2 md:space-y-2.5 text-white/50 text-xs md:text-sm">
                 <%= for link <- @landing_pages do %>
                   <li>
-                    <.link navigate={link.url} class="hover:text-white transition-colors">
+                    <.link
+                      href={if external?(link.url), do: link.url}
+                      navigate={if !external?(link.url), do: link.url}
+                      class="hover:text-white transition-colors"
+                    >
                       {link.title}
                     </.link>
                   </li>
@@ -52,7 +56,11 @@ defmodule PearlWeb.Landing.Components.Footer do
               <ul class="space-y-2 md:space-y-2.5 text-white/50 text-xs md:text-sm">
                 <%= for link <- @your_enei_links do %>
                   <li>
-                    <.link navigate={link.url} class="hover:text-white transition-colors">
+                    <.link
+                      href={if external?(link.url), do: link.url}
+                      navigate={if !external?(link.url), do: link.url}
+                      class="hover:text-white transition-colors"
+                    >
                       {link.title}
                     </.link>
                   </li>
@@ -143,4 +151,6 @@ defmodule PearlWeb.Landing.Components.Footer do
     ]
     |> Enum.filter(fn x -> x.enabled end)
   end
+
+  defp external?(url), do: String.starts_with?(url, ["http://", "https://"])
 end

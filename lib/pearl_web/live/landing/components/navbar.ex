@@ -41,7 +41,8 @@ defmodule PearlWeb.Landing.Components.Navbar do
               <div class="flex flex-row items-center h-8.5 mt-2 gap-5">
                 <%= for page <- @pages do %>
                   <.link
-                    navigate={page.url}
+                    href={if external?(page.url), do: page.url}
+                    navigate={if !external?(page.url), do: page.url}
                     class={[
                       "text-sm transition-colors duration-200 ease-in whitespace-nowrap",
                       if(@dark_mode,
@@ -187,7 +188,8 @@ defmodule PearlWeb.Landing.Components.Navbar do
           </.link>
           <%= for page <- @pages do %>
             <.link
-              navigate={page.url}
+              href={if external?(page.url), do: page.url}
+              navigate={if !external?(page.url), do: page.url}
               phx-click={hide_mobile_navbar()}
               class={[
                 "text-2xl font-semibold transition-colors duration-75 ease-in hover:text-primary",
@@ -312,4 +314,6 @@ defmodule PearlWeb.Landing.Components.Navbar do
   defp user_type?(user, type) do
     user && user.type == type
   end
+
+  defp external?(url), do: String.starts_with?(url, ["http://", "https://"])
 end
